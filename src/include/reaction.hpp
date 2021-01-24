@@ -359,9 +359,9 @@ float _alpha_ppim_pipip_thrown_mc = NAN;
 public:
 MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
 void SetMCElec();
-inline float weight() {
-        return _data->mc_weight();
-}
+// inline float weight() {
+//         return _data->mc_weight();
+// }
 inline float W_mc() {
         return _W_mc;
 }
