@@ -17,6 +17,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12> &data, float beam_energy) {
         //_x_mu = std::make_unique<TLorentzVector>();
         _pip = std::make_unique<TLorentzVector>();
         _pim = std::make_unique<TLorentzVector>();
+
         _other = std::make_unique<TLorentzVector>();
         _neutron = std::make_unique<TLorentzVector>();
         //  _photons = std::make_unique<TLorentzVector>();

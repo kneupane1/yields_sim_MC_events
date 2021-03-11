@@ -41,6 +41,8 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                 if (thread_id == 0 && current_event % 10000 == 0)
                         std::cerr << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
+
+                if (data->mc_npart() < 1) continue;
                 auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
                 for (int part = 1; part < data->mc_npart(); part++) {
@@ -55,13 +57,23 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                                 //   mc_event->SetMCOther(part);
                         }
                 }
-
-                auto dt = std::make_shared<Delta_T>(data);
-                auto cuts = std::make_shared<Cuts>(data, dt);
+// changed new
+                if (data->gpart() == 0) continue;
+                bool elec = true;
+                elec &= (data->charge(0) == NEGATIVE);
+                elec &= (data->pid(0) == 11);
+                if (!elec) continue;
+                auto cuts = std::make_shared<Cuts>(data);
                 if (!cuts->ElectronCuts()) continue;
+// changed new
+                // auto dt = std::make_shared<Delta_T>(data);
+                // auto cuts = std::make_shared<Cuts>(data, dt);
+                // if (!cuts->ElectronCuts()) continue;
 
                 // Make a reaction class from the data given
                 auto event = std::make_shared<Reaction>(data, beam_energy);
+                auto dt = std::make_shared<Delta_T>(data);
+
                 // For each particle in the event
                 for (int part = 1; part < data->gpart(); part++) {
                         dt->dt_calc(part);
@@ -78,9 +90,11 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                         }
                 }
 
-                event->boost();
+                //event->boost();
 
                 if (event->TwoPion_missingPim()) {
+                        // if(event->weight() > 0.5)
+                        //         std::cout << "mc_weight from clas12_mc " << event->weight()<< '\n';
                         total++;
                         csv_data output;
                         output.w = event->W();
@@ -97,7 +111,7 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                         // output.pip_theta = event->();
                         // output.pip_phi = event->Phi_star();
                         // output.mm2 = event->MM2();
-
+// rsync
                         _sync->write(output);
                 }
                 // if (event->TwoPion_exclusive()) {

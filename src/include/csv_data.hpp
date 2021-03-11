@@ -22,12 +22,14 @@ struct csv_data {
         // Static functions can be called without making a new struct
         static std::string header() {
                 // Make a string for the header of the csv file
-                return "w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
-                //return "w,q2,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,mm2_exclusive_at_zero,weight";
+                return "w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight_Pim";
+                //return "w,q2,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,mm2_exclusive_at_zero,weight_exclusive";
         }
 
         friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
                 os << std::setprecision(10);
+                std::cout << "weight :  " << data.mm2_mPim<< '\n';
+                std::cout << "weight :  " << data.weight_mPim<< '\n';
                 // os << data.electron_sector << ",";
                 os << data.w << ",";
                 os << data.q2 << ",";
