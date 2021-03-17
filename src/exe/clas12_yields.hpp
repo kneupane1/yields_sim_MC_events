@@ -20,7 +20,7 @@
 size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
         // Get the number of events in this thread
         size_t num_of_events = (int)_chain->GetEntries();
-        float beam_energy = NAN;
+        float beam_energy = rga_E0;
         if (getenv("BEAM_E") != NULL) beam_energy = atof(getenv("BEAM_E"));
 
         // Print some information for each thread
@@ -42,7 +42,6 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                         std::cerr << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
 
-                if (data->mc_npart() < 1) continue;
                 auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
                 for (int part = 1; part < data->mc_npart(); part++) {
@@ -57,23 +56,14 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                                 //   mc_event->SetMCOther(part);
                         }
                 }
-// changed new
-                if (data->gpart() == 0) continue;
-                bool elec = true;
-                elec &= (data->charge(0) == NEGATIVE);
-                elec &= (data->pid(0) == 11);
-                if (!elec) continue;
-                auto cuts = std::make_shared<Cuts>(data);
+
+
+                auto dt = std::make_shared<Delta_T>(data);
+                auto cuts = std::make_shared<Cuts>(data, dt);
                 if (!cuts->ElectronCuts()) continue;
-// changed new
-                // auto dt = std::make_shared<Delta_T>(data);
-                // auto cuts = std::make_shared<Cuts>(data, dt);
-                // if (!cuts->ElectronCuts()) continue;
 
                 // Make a reaction class from the data given
                 auto event = std::make_shared<Reaction>(data, beam_energy);
-                auto dt = std::make_shared<Delta_T>(data);
-
                 // For each particle in the event
                 for (int part = 1; part < data->gpart(); part++) {
                         dt->dt_calc(part);
@@ -90,46 +80,22 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                         }
                 }
 
-                //event->boost();
+                event->boost();
 
-                if (event->TwoPion_missingPim()) {
-                        // if(event->weight() > 0.5)
-                        //         std::cout << "mc_weight from clas12_mc " << event->weight()<< '\n';
+                if (event->SinglePip()) {
                         total++;
                         csv_data output;
+                        output.electron_sector = event->sec();
                         output.w = event->W();
                         output.q2 = event->Q2();
-                        output.pim_mom_mPim = event->pim_momentum();
-                        output.pim_theta_mPim = event->pim_theta_lab();
-                        output.pim_phi_mPim = event->pim_Phi_lab();
-                        output.mm2_mPim = event->MM2();
-                        output.weight_mPim = event->weight();
-                        //
-                        //
-                        // output.electron_sector = event->sec();
-
-                        // output.pip_theta = event->();
-                        // output.pip_phi = event->Phi_star();
+                        output.pip_theta = event->Theta_star();
+                        output.pip_phi = event->Phi_star();
                         // output.mm2 = event->MM2();
-// rsync
+                        output.mm2 = data->mc_weight();
+                        if(data->mc_weight() > 0.5)
+                                std::cout << "weight: " << data->mc_weight() <<'\n';
                         _sync->write(output);
                 }
-                // if (event->TwoPion_exclusive()) {
-                //         total++;
-                //         //std::cout << "WEIGHT " << event->weight()<<'\n';
-                //
-                //         csv_data output_exclusive;
-                //         output_exclusive.w = event->W();
-                //         output_exclusive.q2 = event->Q2();
-                //         output_exclusive.pim_mom_exclusive = event->pim_momentum();
-                //         output_exclusive.pim_theta_exclusive = event->pim_theta_lab();
-                //         output_exclusive.pim_phi_exclusive = event->pim_Phi_lab();
-                //         output_exclusive.mm2_exclusive = event->MM2();
-                //         output_exclusive.mm2_exclusive_at_zero = event->MM2_exclusive();
-                //         output_exclusive.weight_exclusive = event->weight();
-                //
-                //         _sync->write(output_exclusive);
-                // }
         }
         std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
         // Return the total number of events

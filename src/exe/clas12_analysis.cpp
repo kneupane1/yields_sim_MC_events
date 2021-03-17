@@ -24,23 +24,33 @@ int main(int argc, char** argv) {
     return 1;
   }
 
+  // Make your histograms object as a shared pointer that all the threads will have
+  auto hists = std::make_shared<Histogram>(outfilename);
+
+  auto run_files = [&hists](std::vector<std::string> inputs, int thread_id) {
+    // Called once for each thread
+    // Make a new chain to process for this thread
+    auto chain = std::make_shared<TChain>("clas12");
+    // Add every file to the chain
+    for (auto in : inputs) chain->Add(in.c_str());
+    // Run the function over each thread
+    return run<uconn_Cuts>(std::move(chain), hists, thread_id);
+  };
+
   // Make a set of threads (Futures are special threads which return a value)
   std::future<size_t> threads[NUM_THREADS];
 
   // Define events to be used to get Hz later
   size_t events = 0;
 
-  // Make your histograms object as a shared pointer that all the threads will have
-  auto hists = std::make_shared<Histogram>(outfilename);
-
   // Start timer
   auto start = std::chrono::high_resolution_clock::now();
   // For each thread
   for (size_t i = 0; i < NUM_THREADS; i++) {
-    // Set the thread to run a task A-Syncroisly
+    // Set the thread to run a task asyncroisly
     // The function we run is the first argument (run_files)
     // The functions areruments are all the remaining arguments
-    threads[i] = std::async(run_files, infilenames.at(i), hists, i);
+    threads[i] = std::async(run_files, infilenames.at(i), i);
   }
 
   // For each thread

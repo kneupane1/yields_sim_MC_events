@@ -33,6 +33,16 @@ int main(int argc, char** argv) {
   // Make your histograms object as a shared pointer that all the threads will have
   auto hists = std::make_shared<Histogram>(outfilename);
 
+  auto run_files = [&hists](std::vector<std::string> inputs, int thread_id) {
+    // Called once for each thread
+    // Make a new chain to process for this thread
+    auto chain = std::make_shared<TChain>("clas12");
+    // Add every file to the chain
+    for (auto in : inputs) chain->Add(in.c_str());
+    // Run the function over each thread
+    return run<Cuts>(std::move(chain), hists, thread_id);
+  };
+
   // Start timer
   auto start = std::chrono::high_resolution_clock::now();
   // For each thread
@@ -40,7 +50,7 @@ int main(int argc, char** argv) {
     // Set the thread to run a task A-Syncroisly
     // The function we run is the first argument (run_files)
     // The functions areruments are all the remaining arguments
-    threads[i] = std::async(run_files, infilenames.at(i), hists, i);
+    threads[i] = std::async(run_files, infilenames.at(i), i);
   }
 
   // For each thread

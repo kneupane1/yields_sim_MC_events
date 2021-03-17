@@ -12,188 +12,89 @@
 #include "TH1.h"
 #include "branches.hpp"
 #include "colors.hpp"
+#include "cuts.hpp"
 #include "histogram.hpp"
 #include "reaction.hpp"
 
-size_t run(std::shared_ptr<TChain> _chain, std::shared_ptr<Histogram> _hists, int thread_id);
-size_t run_files(std::vector<std::string> inputs, std::shared_ptr<Histogram> hists, int thread_id);
+template <class CutType>
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram>& _hists, int thread_id) {
+  // Get the number of events in this thread
+  size_t num_of_events = (int)_chain->GetEntries();
+  float beam_energy = 10.6041;
+  if (getenv("BEAM_E") != NULL) beam_energy = atof(getenv("BEAM_E"));
 
-size_t run_files(std::vector<std::string> inputs, std::shared_ptr<Histogram> hists, int thread_id) {
-        // Called once for each thread
-        // Make a new chain to process for this thread
-        auto chain = std::make_shared<TChain>("clas12");
-        // Add every file to the chain
-        for (auto in : inputs) chain->Add(in.c_str());
+  // Print some information for each thread
+  std::cout << "=============== " << RED << "Thread " << thread_id << DEF << " =============== " << BLUE
+            << num_of_events << " Events " << DEF << "===============\n";
 
-        // Run the function over each thread
-        return run(chain, hists, thread_id);
-}
+  // Make a data object which all the branches can be accessed from
+  auto data = std::make_shared<Branches12>(_chain, true);
 
-size_t run(std::shared_ptr<TChain> _chain, std::shared_ptr<Histogram> _hists, int thread_id) {
-        // Get the number of events in this thread
-        size_t num_of_events = (int)_chain->GetEntries();
-        float beam_energy = NAN;
-        if (getenv("CLAS12_E") != NULL) beam_energy = atof(getenv("CLAS12_E"));
+  // Total number of events "Processed"
+  size_t total = 0;
+  // For each event
+  for (size_t current_event = 0; current_event < num_of_events; current_event++) {
+    // Get current event
+    _chain->GetEntry(current_event);
 
-        // Print some information for each thread
-        std::cout << "=============== " << RED << "Thread " << thread_id << DEF << " =============== " << BLUE
-                  << num_of_events << " Events " << DEF << "===============\n";
+    // If we are the 0th thread print the progress of the thread every 1000 events
+    if (thread_id == 0 && current_event % 1000 == 0)
+      std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
-        // Make a data object which all the branches can be accessed from
-        auto data = std::make_shared<Branches12>(_chain, true);
+    if (data->mc_npart() < 1) continue;
 
-        // Total number of events "Processed"
-        size_t total = 0;
-        // For each event
-        for (size_t current_event = 0; current_event < num_of_events; current_event++) {
-                // Get current event
-                _chain->GetEntry(current_event);
-                // If we are the 0th thread print the progress of the thread every 1000 events
-                if (thread_id == 0 && current_event % 1000 == 0)
-                        std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
+    // If we pass electron cuts the event is processed
+    total++;
 
-                if (data->mc_npart() < 1) continue;
+    // Make a reaction class from the data given
+    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    for (int part = 1; part < data->mc_npart(); part++) {
+      // Check particle ID's and fill the reaction class
+      if (data->mc_pid(part) == PIP) {
+        mc_event->SetPip(part);
+      } else if (data->mc_pid(part) == PROTON) {
+        mc_event->SetProton(part);
+      } else if (data->mc_pid(part) == PIM) {
+        mc_event->SetPim(part);
+      } else {
+        mc_event->SetOther(part);
+      }
+    }
+    _hists->Fill_WvsQ2(mc_event);
 
-                // If we pass electron cuts the event is processed
-                total++;
-                int status_pim = -9999;
-                int status_pip = -9999;
-                int status_prot = -9999;
-                // Make a reaction class from the data given
-                auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // Assume mc event is regular reconstructed event
+    auto cuts = std::make_shared<Cuts>(data);
+    if (!cuts->ElectronCuts()) continue;
 
-                for (int part = 1; part < data->mc_npart(); part++) {
-                        // Check particle ID's and fill the reaction class
-                        if (data->mc_pid(part) == PIP) {
-                                mc_event->SetMCPip(part);
-                        } else if (data->mc_pid(part) == PROTON) {
-                                mc_event->SetMCProton(part);
-                        } else if (data->mc_pid(part) == PIM) {
-                                mc_event->SetMCPim(part);
-                                // } else {
-                                //   mc_event->SetMCOther(part);
-                        }
-                }
-                // _hists->Fill_WvsQ2_twoPi_thrown(mc_event);
-                // _hists->Fill_histSevenD_thrown_pim(mc_event);
-                // _hists->Fill_histSevenD_thrown_prot(mc_event);
-                // _hists->Fill_histSevenD_thrown_pip(mc_event);
+    _hists->Fill_EC(data);
 
-                if (data->gpart() == 0) continue;
-                bool elec = true;
-                elec &= (data->charge(0) == NEGATIVE);
-                elec &= (data->pid(0) == 11);
-                if (!elec) continue;
-                auto cuts = std::make_shared<Cuts>(data);
-                if (!cuts->ElectronCuts()) continue;
+    auto event = std::make_shared<Reaction>(data, beam_energy);
+    auto dt = std::make_shared<Delta_T>(data);
+    // For each particle in the event
+    for (int part = 1; part < data->gpart(); part++) {
+      dt->dt_calc(part);
+      _hists->Fill_MomVsBeta(data, part);
+      _hists->Fill_deltat_pi(data, dt, part);
+      _hists->Fill_deltat_prot(data, dt, part);
 
-                auto event = std::make_shared<Reaction>(data, beam_energy);
-                auto dt = std::make_shared<Delta_T>(data);
-                // For each particle in the event
-                for (int part = 1; part < data->gpart(); part++) {
-                        dt->dt_calc(part);
-                        //        dt->dt_calc_ctof(part);
-                        //  _hists->Fill_SF(data, part);
-                        _hists->Fill_MomVsBeta(data, part);
-                        _hists->Fill_deltat_pi(data, dt, part);
-                        _hists->Fill_deltat_prot(data, dt, part);
+      // Check particle ID's and fill the reaction class
+      if (abs(dt->dt_Pi()) < 0.5 && data->charge(part) == POSITIVE) {
+        event->SetPip(part);
+      } else if (abs(dt->dt_P()) < 0.5 && data->charge(part) == POSITIVE) {
+        event->SetProton(part);
+      } else if (abs(dt->dt_Pi()) < 0.5 && data->charge(part) == NEGATIVE) {
+        event->SetPim(part);
+      } else {
+        event->SetOther(part);
+      }
+    }
 
-                        // Check particle ID's and fill the reaction class
-                        // if ((abs(dt->dt_Pi()) < 0.5 || abs(dt->dt_ctof_Pi()) < 0.5) && data->charge(part) == POSITIVE) {
-                        //   event->SetPip(part);
-                        // } else if ((abs(dt->dt_P()) < 0.5 || abs(dt->dt_ctof_P()) < 0.5) && data->charge(part) == POSITIVE) {
-                        //   event->SetProton(part);
-                        // } else if ((abs(dt->dt_Pi()) < 0.5 || abs(dt->dt_ctof_Pi()) < 0.5) && data->charge(part) == NEGATIVE) {
-                        //   event->SetPim(part);
-                        // } else {
-                        //   event->SetOther(part);
-                        // }
+    // Check the reaction class what kind of even it is and fill the appropriate histograms
+    if (event->SinglePip()) _hists->Fill_WvsQ2_singlePip(event);
+    if (event->NeutronPip()) _hists->Fill_WvsQ2_Npip(event);
+  }
 
-                        if (cuts->IsProton(part)) {
-                                event->SetProton(part);
-                                status_prot = abs(data->status(part));
-
-                        } else if (cuts->IsPip(part)) {
-                                event->SetPip(part);
-                                status_pip = abs(data->status(part));
-
-                        } else if (cuts->IsPim(part)) {
-                                // if (event->MM_cut())
-                                event->SetPim(part);
-                                status_pim = abs(data->status(part));
-
-                                // } else if (cuts->IsmissingPim(part)) {
-                                //   event->SetmissingPim(part);
-                        } else {
-                                event->SetOther(part);
-                        }
-                }
-                // // if (event->TwoPion_missingPim()) {
-                // //   for (int part = 1; part < data->gpart(); part++) {
-                // //     if (event->MM_cut()) event->SetmissingPim(part);
-                // //   }
-                // // }
-                _hists->Fill_WvsQ2(event);
-                // _hists->Fill_pi0(event);
-                // _hists->Fill_theta_pim_measured(event);
-                // _hists->Fill_efficiency_check_CD_rec(event);
-                // _hists->Fill_efficiency_check_FD_rec(event);
-                //
-                //
-                // if(status_pim >=4000 && status_pim < 6000) {
-                //         _hists->Fill_efficiency_check_CD(event);
-                //         //_hists->Fill_efficiency_check_CD_thrown(mc_event, event);
-                // }
-                // else if(status_pim >=2000 && status_pim < 4000) {
-                //         _hists->Fill_efficiency_check_FD(event);
-                //         //_hists->Fill_efficiency_check_FD_thrown(mc_event, event);
-                // }
-                //
-                // if (event->TwoPion_missingProt())
-                //         _hists->Fill_efficiency_check_1d_hist_prot(event);
-                // if (event->TwoPion_missingPip())
-                //         _hists->Fill_efficiency_check_1d_hist_pip(event);
-                // if (event->TwoPion_missingPim())
-                //         _hists->Fill_efficiency_check_1d_hist_pim(event);
-                // // if(status_pip >=4000 && status_pip < 6000) {
-                // //         _hists->Fill_efficiency_check_missingPip_CD(event);
-                // //
-                // // }
-                // // else if(status_pip >=2000 && status_pip < 4000) {
-                // //         _hists->Fill_efficiency_check_missingPip_FD(event);
-                // // }
-                // //
-                // // if(status_prot >=4000 && status_prot < 6000) {
-                // //         _hists->Fill_efficiency_check_missingProt_CD(event);
-                // // }
-                // // else if(status_prot >=2000 && status_prot < 4000) {
-                // //         _hists->Fill_efficiency_check_missingProt_FD(event);
-                // // }
-                // // Check the reaction class what kind of even it is and fill the appropriate histograms
-
-                // if (event->TwoPion_exclusive()) {
-                //         _hists->Fill_eff_ckeck_exclusive(event);
-                // }
-                // _hists->Fill_eff_ckeck_mPim(event);
-                //
-                // if (event->TwoPion_missingPim()) {
-                //
-                //         //  if (event->MM_cut()) {
-                //         //_hists->Fill_hists4D_background(event);
-                //         //_hists->Fill_WvsQ2(event);
-                //         // _hists->Fill_x_mu(event);
-                //         _hists->Fill_WvsQ2_twoPi(event);
-                //         // _hists->Fill_histSevenD_pim(event);
-                //         // _hists->Fill_histSevenD_pip(event);
-                //         // _hists->Fill_histSevenD_prot(event);
-                //         // //  }
-                // }
-                //
-                // //  if (event->SinglePip()) _hists->Fill_WvsQ2_singlePi(event);
-                // // if (event->NeutronPip()) _hists->Fill_WvsQ2_Npip(event);
-        }
-
-        // Return the total number of events
-        return num_of_events;
+  // Return the total number of events
+  return num_of_events;
 }
 #endif
