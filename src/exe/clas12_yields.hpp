@@ -20,7 +20,7 @@
 size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
         // Get the number of events in this thread
         size_t num_of_events = (int)_chain->GetEntries();
-        float beam_energy = rga_E0;
+        float beam_energy = 10.6041;
         if (getenv("BEAM_E") != NULL) beam_energy = atof(getenv("BEAM_E"));
 
         // Print some information for each thread
@@ -38,11 +38,20 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                 _chain->GetEntry(current_event);
 
                 // If we are the 0th thread print the progress of the thread every 1000 events
-                if (thread_id == 0 && current_event % 10000 == 0)
-                        std::cerr << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
+                if (thread_id == 0 && current_event % 1000 == 0)
+                        std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
+                std::cout << "mc_npart " << data->mc_npart()<<'\n';
 
+                // if (data->mc_npart() > 1) { //continue;
 
+                // If we pass electron cuts the event is processed
+                total++;
+
+                // Make a reaction class from the data given
                 auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+
+                std::cout << "mc_npart after " << data->mc_npart()<<'\n';
+                // if (data->mc_npart() > 1) {         //continue;
 
                 for (int part = 1; part < data->mc_npart(); part++) {
                         // Check particle ID's and fill the reaction class
@@ -96,6 +105,8 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
                                 std::cout << "weight: " << data->mc_weight() <<'\n';
                         _sync->write(output);
                 }
+
+                // }
         }
         std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
         // Return the total number of events

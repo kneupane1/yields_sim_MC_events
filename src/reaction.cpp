@@ -170,7 +170,7 @@ MCReaction::MCReaction(const std::shared_ptr<Branches12> &data,
                 _data->mc_branches();
         _beam = std::make_unique<TLorentzVector>();
         _beam_energy = beam_enrgy;
-        _weight_mc = _data->mc_weight();
+        // _weight_mc = _data->mc_weight();
         _beam->SetPxPyPzE(0.0, 0.0,
                           sqrt(_beam_energy * _beam_energy - MASS_E * MASS_E),
                           _beam_energy);
