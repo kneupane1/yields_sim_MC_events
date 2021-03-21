@@ -90,8 +90,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram>& _hi
                 }
 
                 // Check the reaction class what kind of even it is and fill the appropriate histograms
-                if (event->SinglePip()) _hists->Fill_WvsQ2_singlePip(event);
-                if (event->NeutronPip()) _hists->Fill_WvsQ2_Npip(event);
+                // if (event->SinglePip()) _hists->Fill_WvsQ2_singlePip(event);
+                // if (event->NeutronPip()) _hists->Fill_WvsQ2_Npip(event);
         }
 
         // Return the total number of events

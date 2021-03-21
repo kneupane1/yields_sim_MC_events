@@ -66,6 +66,7 @@ Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
 ~Reaction();
 inline float weight() {
         return _data->mc_weight();
+        //return 1.0;
 }
 
 inline bool mc() {
@@ -76,7 +77,12 @@ void SetPip(int i);
 void SetPim(int i);
 void SetOther(int i);
 void SetNeutron(int i);
-void boost();
+//missingPim
+float pim_theta_lab();
+float pim_Phi_lab();
+float pim_momentum();
+
+// void boost();
 inline float Theta_star() {
         return _theta_star;
 }
@@ -106,23 +112,36 @@ inline int det() {
         return abs(_data->status(0) / 1000);
 }
 
-inline bool TwoPion() {
-        return ((_numPip == 1 && _numPim == 1) && (_hasE && !_hasP && _hasPip && _hasPim && !_hasNeutron && !_hasOther));
+inline bool TwoPion_missingPim() {
+        bool _channelTwoPi = true;
+        _channelTwoPi &= ((_numProt == 1 && _numPip == 1 /*&&  _numPim == 1*/) &&
+                          (_hasE && _hasP && _hasPip
+                           /*&&!_hasPim && !_hasNeutron
+                              &&!_hasOther*/));
+        return _channelTwoPi;
 }
-inline bool ProtonPim() {
-        return ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && !_hasPip && _hasPim && !_hasNeutron && !_hasOther));
-}
-inline bool SinglePip() {
-        return ((_numPip == 1) && (_hasE && !_hasP && _hasPip && !_hasPim));
-}
-inline bool SingleP() {
-        return ((_numProt == 1) && (_hasE && _hasP && !_hasPip && !_hasPim && !_hasNeutron && !_hasOther));
-}
+inline bool TwoPion_exclusive() {
+        bool _channelTwoPi_excl = true;
 
-inline bool NeutronPip() {
-        bool _channel = true;
-        _channel &= (Reaction::SinglePip() && Reaction::MM() >= 0.85 && Reaction::MM() <= 1.0);
-        return _channel;
+        return ((_numProt == 1 && _numPip == 1  && _numPim == 1) &&
+                (_hasE && _hasP &&
+                 _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
+        return _channelTwoPi_excl;
+
+}
+inline bool TwoPion_missingPip() {
+        bool _channelTwoPi_mpip = true;
+
+        _channelTwoPi_mpip &=((_numProt == 1 && _numPim == 1) &&
+                              (_hasE && _hasP &&
+                               _hasPim /*&&!_hasPip && !_hasNeutron && !_hasOther*/));
+        return _channelTwoPi_mpip;
+}
+inline bool TwoPion_missingProt() {
+        bool _channelTwoPi_mprot = true;
+        _channelTwoPi_mprot &= ((_numPip == 1 && _numPim == 1) &&
+                                (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
+        return _channelTwoPi_mprot;
 }
 
 const TLorentzVector &e_mu() {

@@ -865,7 +865,6 @@ int Branches12::mc_helicity() {
 }
 float Branches12::mc_weight() {
         return _mc_weight;
-        std::cout << "mc_wei:  " <<_mc_weight<< '\n';
 }
 int Branches12::mc_npart() {
         return _mc_npart;

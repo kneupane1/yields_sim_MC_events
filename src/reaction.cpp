@@ -75,78 +75,144 @@ void Reaction::SetOther(int i) {
 
 void Reaction::CalcMissMass() {
         auto mm = std::make_unique<TLorentzVector>();
+        // auto mm_mpip = std::make_unique<TLorentzVector>();
+        // auto mm_mprot = std::make_unique<TLorentzVector>();
+        // auto mm_excl = std::make_unique<TLorentzVector>();
+
         *mm += (*_gamma + *_target);
-        if (SinglePip() || NeutronPip()) {
-                *mm -= *_pip;
-                _MM = mm->M();
-                _MM2 = mm->M2();
-        } else if (TwoPion()) {
+
+        if (TwoPion_missingPim()) {
                 *mm -= *_prot;
                 *mm -= *_pip;
-                *mm -= *_pim;
+                //*mm -= *_pim;
                 _MM = mm->M();
                 _MM2 = mm->M2();
-        } else if (ProtonPim()) {
-                *mm -= *_prot;
-                *mm -= *_pim;
-                _MM = mm->M();
-                _MM2 = mm->M2();
-        } else if (SingleP()) {
-                *mm -= *_prot;
-                _MM = mm->M();
-                _MM2 = mm->M2();
+                // _x_mu_E = mm->E();
+                // _x_mu_P = mm->P();
+                // _x_mu_Px = mm->Px();
+                // _x_mu_Py = mm->Py();
+                // _x_mu_Pz = mm->Pz();
+                // _x_mu_theta = mm->Theta() * RAD2DEG;
+                // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
+                // _x_mu_m = mm->E() - mm->P();
+
         }
-}
-
-void Reaction::boost() {
-        // Angles gotten from picture in KPark thesis page 11
-        // May be wrong still, need to check
-
-        auto _com_ = *_target + (*_beam - *_elec);
-
-        auto com = std::make_shared<TLorentzVector>(_com_.X(), _com_.Y(), _com_.Z(), _com_.E());
-        auto elec_boosted = std::make_shared<TLorentzVector>(_elec->X(), _elec->Y(), _elec->Z(), _elec->E());
-        auto gamma_boosted = std::make_shared<TLorentzVector>(_gamma->X(), _gamma->Y(), _gamma->Z(), _gamma->E());
-
-        auto beam_boosted = std::make_shared<TLorentzVector>(_beam->X(), _beam->Y(), _beam->Z(), _beam->E());
-        auto pip_boosted = std::make_shared<TLorentzVector>(_pip->X(), _pip->Y(), _pip->Z(), _pip->E());
-
-        //! Calculate rotation: taken from Evan's phys-ana-omega on 08-05-13
-        // Copied and modified from Arjun's code
-
-        //  auto uz = _gamma->Vect().Unit();
-        // auto ux = _beam->Vect().Cross(_elec->Vect()).Unit();
-        // ROOT::Math::VectorUtil::Rotate(ux, uz);
-
-        TVector3 uz = gamma_boosted->Vect().Unit();
-        TVector3 ux = (beam_boosted->Vect().Cross(elec_boosted->Vect())).Unit();
-        ux.Rotate(-PI / 2, uz);
-        TRotation r3; // = new TRotation();
-        r3.SetZAxis(uz, ux).Invert();
-        //! _w and _q are in z-direction
-        TVector3 boost(-1 * com->BoostVector());
-        TLorentzRotation r4(r3); //*_boost);
-        r4 *= boost;        //*_3rot;
-
-        gamma_boosted->Transform(r4);
-        elec_boosted->Transform(r4);
-        beam_boosted->Transform(r4);
-        pip_boosted->Transform(r4);
-
-        auto _temp = physics::fourVec(pip_boosted->X(), pip_boosted->Y(), pip_boosted->Z(), pip_boosted->M());
-        _theta_e = elec_boosted->Theta();
-        _theta_star = _temp->Theta();
-        _phi_star = physics::phi_boosted(_temp);
+        // if (TwoPion_exclusive()) {
+        //         *mm -= *_prot;
+        //         *mm -= *_pip;
+        //         _MM = mm->M();
+        //         _MM2 = mm->M2();
+        //         _x_mu_E = mm->E();
+        //         _x_mu_P = mm->P();
+        //         _x_mu_Px = mm->Px();
+        //         _x_mu_Py = mm->Py();
+        //         _x_mu_Pz = mm->Pz();
+        //         _x_mu_theta = mm->Theta() * RAD2DEG;
+        //         _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
+        //         _x_mu_m = mm->E() - mm->P();
+        //
+        //         *mm_excl += (*_gamma + *_target);
+        //         *mm_excl -= *_prot;
+        //         *mm_excl -= *_pip;
+        //         *mm_excl -= *_pim;
+        //         _MM2_exclusive =mm_excl->M2();
+        //         _excl_Energy = mm_excl->E();
+        //
+        //         *mm_mpip += (*_gamma + *_target);
+        //         *mm_mpip -= *_prot;
+        //         *mm_mpip -= *_pim;
+        //         _MM2_mpip = mm_mpip->M2();
+        //
+        //         *mm_mprot += (*_gamma + *_target);
+        //         *mm_mprot -= *_pip;
+        //         *mm_mprot -= *_pim;
+        //         _MM2_mprot = mm_mprot->M2();
+        //
+        // }
+        // if (TwoPion_missingPip()) {
+        //         *mm_mpip += (*_gamma + *_target);
+        //         *mm_mpip -= *_prot;
+        //         //*mm_mpip -= *_pip;
+        //         *mm_mpip -= *_pim;
+        //         // _MM2_mpip = mm_mpip->M2();
+        // }
+        // if (TwoPion_missingProt()) {
+        //         *mm_mprot += (*_gamma + *_target);
+        //         *mm_mprot -= *_pip;
+        //         *mm_mprot -= *_pim;
+        //         // _MM2_mprot = mm_mprot->M2();
+        //
+        //         // } else if (SingleP()) {
+        //         //   *mm -= *_prot;
+        //         //   _MM = mm->M();
+        //         //   _MM2 = mm->M2();
+        // }
 }
 
 float Reaction::MM() {
-        if (_MM != _MM) CalcMissMass();
+        if (_MM != _MM)
+                CalcMissMass();
         return _MM;
 }
 float Reaction::MM2() {
-        if (_MM2 != _MM2) CalcMissMass();
+        if (_MM2 != _MM2)
+                CalcMissMass();
         return _MM2;
 }
+// float Reaction::MM2_exclusive() {
+//         if (_MM2_exclusive != _MM2_exclusive)
+//                 CalcMissMass();
+//         return _MM2_exclusive;
+// }
+// float Reaction::MM2_mpip() {
+//         if (_MM2_mpip != _MM2_mpip)
+//                 CalcMissMass();
+//         return _MM2_mpip;
+// }
+// float Reaction::MM2_mprot() {
+//         if (_MM2_mprot != _MM2_mprot)
+//                 CalcMissMass();
+//         return _MM2_mprot;
+// }
+// float Reaction::Energy_excl() {
+//         if (_excl_Energy != _excl_Energy)
+//                 CalcMissMass();
+//         //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
+//         //  if (_x_mu_E > 0)
+//         return _excl_Energy;
+//         // else
+//         // return NAN;
+// }
+float Reaction::pim_momentum() {
+        if (TwoPion_missingPim()) {
+                auto missingpim_ = std::make_unique<TLorentzVector>();
+                *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+                return missingpim_->P();
+        } else
+                return NAN;
+}
+float Reaction::pim_theta_lab() {
+        if (TwoPion_missingPim()) {
+                auto missingpim_ = std::make_unique<TLorentzVector>();
+                *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+                return missingpim_->Theta() * 180.0 / PI;
+        } else
+                return NAN;
+}
+float Reaction::pim_Phi_lab() { /////////////////////////////////////work here
+        auto missingpim_ = std::make_unique<TLorentzVector>();
+        *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+        if (TwoPion_missingPim()) {
+                if (missingpim_->Phi() > 0)
+                        return missingpim_->Phi() * 180 / PI;
+                else if (missingpim_->Phi() < 0)
+                        return (missingpim_->Phi() + 2 * PI) * 180 / PI;
+                else
+                        return NAN;
+        } else
+                return NAN;
+}
+
 
 std::string Reaction::CsvHeader() {
         return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n";

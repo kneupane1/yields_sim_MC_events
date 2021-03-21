@@ -17,10 +17,23 @@
 #include "reaction.hpp"
 #include "syncfile.hpp"
 
-size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
+template <class CutType>
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
         // Get the number of events in this thread
         size_t num_of_events = (int)_chain->GetEntries();
+
         float beam_energy = 10.6041;
+        if (std::is_same<CutType, rga_Cuts>::value) {
+                beam_energy = 10.6041;
+        } else if (std::is_same<CutType, uconn_Cuts>::value) {
+                beam_energy = 10.6041;
+                // } else if (std::is_same<CutType, rgf_Cuts>::value) {
+                //         beam_energy = rgf_E0;
+                // }
+                // else if (std::is_same<CutType, rgk_Cuts>::value) {
+                //         beam_energy = rgk_E0;
+        }
+
         if (getenv("BEAM_E") != NULL) beam_energy = atof(getenv("BEAM_E"));
 
         // Print some information for each thread
@@ -69,7 +82,8 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
 
 
                         auto dt = std::make_shared<Delta_T>(data);
-                        auto cuts = std::make_shared<Cuts>(data, dt);
+                        // auto cuts = std::make_shared<Cuts>(data, dt);
+                        auto cuts = std::make_shared<uconn_Cuts>(data);
                         if (!cuts->ElectronCuts()) continue;
 
                         // Make a reaction class from the data given
@@ -80,33 +94,32 @@ size_t run(const std::shared_ptr<TChain>& _chain, const std::shared_ptr<SyncFile
 
                                 // Check particle ID's and fill the reaction class
                                 if (cuts->IsPip(part)) {
+                                        // if (cuts->HadronsCuts(part)) {
                                         event->SetPip(part);
+                                        // }
                                 } else if (cuts->IsProton(part)) {
                                         event->SetProton(part);
                                 } else if (cuts->IsPim(part)) {
+                                        // if (cuts->HadronsCuts(part)) {
                                         event->SetPim(part);
+                                        // }
                                 } else {
                                         event->SetOther(part);
                                 }
                         }
 
-                        event->boost();
-
-                        if (event->SinglePip()) {
+                        // if (event->TwoPion_missingPim()) {
+                        if (event->TwoPion_exclusive()) {
                                 total++;
                                 csv_data output;
                                 output.electron_sector = event->sec();
                                 output.w = event->W();
-                                // output.q2 = event->Q2();
-                                // output.pip_theta = event->Theta_star();
-                                // output.pip_phi = event->Phi_star();
-                                // // output.mm2 = event->MM2();
-                                // output.mm2 = data->mc_weight();
-                                output.q2 =  data->mc_npart();
-                                output.pip_theta =  data->mc_event();
-                                output.pip_phi =  data->mc_helicity();
-                                // output.mm2 = event->MM2();
-                                output.mm2 = event->weight();
+                                output.q2 = event->Q2();
+                                output.pim_mom_mPim = event->pim_momentum();
+                                output.pim_theta_mPim = event->pim_theta_lab();
+                                output.pim_phi_mPim = event->pim_Phi_lab();
+                                output.mm2_mPim = event->MM2();
+                                output.weight_mPim = event->weight();
 
                                 if(event->weight() > 0.5)
                                         std::cout << "weight: " << event->weight() <<'\n';
