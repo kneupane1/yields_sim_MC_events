@@ -64,6 +64,9 @@ Reaction(){
 };
 Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
 ~Reaction();
+inline float weight() {
+        return _data->mc_weight();
+}
 
 inline bool mc() {
         return _mc;
