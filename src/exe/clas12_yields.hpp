@@ -55,16 +55,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                         std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
                 // std::cout << "mc_npart " << data->mc_npart()<<'\n';
 
-                // if (data->mc_npart() > 1) { //continue;
+                if (data->mc_npart() > 1) { //continue;
 
-                // If we pass electron cuts the event is processed
-                total++;
+                        // If we pass electron cuts the event is processed
+                        total++;
 
-                // Make a reaction class from the data given
-                auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+                        // Make a reaction class from the data given
+                        auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-                // std::cout << "mc_npart after " << data->mc_npart()<<'\n';
-                if (data->mc_npart() > 1) {         //continue;
+                        // std::cout << "mc_npart after " << data->mc_npart()<<'\n';
+                        // if (data->mc_npart() > 1) {         //continue;
 
                         for (int part = 1; part < data->mc_npart(); part++) {
                                 // Check particle ID's and fill the reaction class
