@@ -27,6 +27,19 @@ std::unique_ptr<TLorentzVector> _pip;
 std::unique_ptr<TLorentzVector> _pim;
 std::unique_ptr<TLorentzVector> _other;
 std::unique_ptr<TLorentzVector> _neutron;
+std::unique_ptr<TLorentzVector> _boosted_gamma;
+std::unique_ptr<TLorentzVector> _boosted_prot;
+std::unique_ptr<TLorentzVector> _boosted_pip;
+std::unique_ptr<TLorentzVector> _boosted_pim;
+
+TVector3 _prot_Vect3;
+TVector3 _pip_Vect3;
+TVector3 _pim_Vect3;
+
+// std::unique_ptr<TLorentzVector> _missingPim;
+std::unique_ptr<TLorentzVector> _boosted_pim_measured;
+
+bool _is_boosted = false;
 
 bool _mc = false;
 
@@ -49,6 +62,7 @@ short _sector = -1;
 
 float _MM = NAN;
 float _MM2 = NAN;
+float _MM2_exclusive = NAN;
 
 float _W = NAN;
 float _Q2 = NAN;
@@ -81,8 +95,12 @@ void SetNeutron(int i);
 float pim_theta_lab();
 float pim_Phi_lab();
 float pim_momentum();
+float pim_theta_lab_measured();
+float pim_Phi_lab_measured();
+float pim_momentum_measured();
 
-// void boost();
+void boost();
+
 inline float Theta_star() {
         return _theta_star;
 }
@@ -96,6 +114,7 @@ inline float Theta_E() {
 void CalcMissMass();
 float MM();
 float MM2();
+float MM2_exclusive();
 virtual std::string CsvHeader();
 virtual std::string ReacToCsv();
 
@@ -105,6 +124,8 @@ inline float W() {
 inline float Q2() {
         return _Q2;
 }
+float_t scalar_triple_product();
+
 inline short sec() {
         return _data->dc_sec(0);
 }

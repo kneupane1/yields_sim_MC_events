@@ -115,12 +115,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                                 output.electron_sector = event->sec();
                                 output.w = event->W();
                                 output.q2 = event->Q2();
-                                output.pim_mom_mPim = event->pim_momentum();
-                                output.pim_theta_mPim = event->pim_theta_lab();
-                                output.pim_phi_mPim = event->pim_Phi_lab();
-                                output.mm2_mPim = event->MM2();
-                                output.weight_mPim = event->weight();
+                                output.scalar_product = event->scalar_triple_product();
+                                /*output.pim_mom_mPim = event->pim_momentum();
+                                   output.pim_theta_mPim = event->pim_theta_lab();
+                                   output.pim_phi_mPim = event->pim_Phi_lab();
+                                   output.mm2_mPim = event->MM2();
+                                   output.weight_mPim = event->weight();*/
 
+                                output.pim_mom_exclusive = event->pim_momentum_measured();
+                                output.pim_theta_exclusive = event->pim_theta_lab_measured();
+                                output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+                                output.mm2_exclusive = event->MM2();
+                                output.mm2_exclusive_at_zero = event->MM2_exclusive();
+                                output.weight_exclusive = event->weight();
                                 if(event->weight() > 0.5)
                                         std::cout << "weight: " << event->weight() <<'\n';
                                 _sync->write(output);
