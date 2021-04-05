@@ -79,8 +79,8 @@ Reaction(){
 Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
 ~Reaction();
 inline float weight() {
-        return _data->mc_weight();
-        //return 1.0;
+        //return _data->mc_weight();
+        return 1.0;
 }
 
 inline bool mc() {
@@ -92,12 +92,21 @@ void SetPim(int i);
 void SetOther(int i);
 void SetNeutron(int i);
 //missingPim
-float pim_theta_lab();
-float pim_Phi_lab();
-float pim_momentum();
-float pim_theta_lab_measured();
-float pim_Phi_lab_measured();
-float pim_momentum_measured();
+// float pim_theta_lab();
+// float pim_Phi_lab();
+// float pim_momentum();
+// float pim_theta_lab_measured();
+// float pim_Phi_lab_measured();
+// float pim_momentum_measured();
+
+float pim_theta_cm();
+float pim_Phi_cm();
+float pim_momentm_cm();
+float pim_theta_cm_measured();
+float pim_Phi_cm_measured();
+float pim_momentm_cm_measured();
+
+
 
 void boost();
 

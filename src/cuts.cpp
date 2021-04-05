@@ -143,7 +143,7 @@ bool Cuts::IsPip(int i) {
         bool _pip = true;
         // _pip &= (_data->charge(i) == POSITIVE);
         _pip &= (_data->pid(i) == PIP);
-        // _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.3);
+        _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.3);
         //// _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
         // _pip &= (_data->p(i) > 0.2);
         _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
@@ -176,7 +176,7 @@ bool Cuts::IsPim(int i) {
         bool _pim = true;
         // _pim &= (_data->charge(i) == NEGATIVE);
         _pim &= (_data->pid(i) == PIM);
-        // _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
+        _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
         _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
         //
         // _pim &= (_data->p(i) > 0.2);
@@ -226,7 +226,7 @@ bool uconn_Cuts::ElectronCuts() {
 }
 bool uconn_Cuts::HadronsCuts(int i) {
         bool cut = true;
-        cut &= DC_fiducial_cut_theta_phi(i);
+        // cut &= DC_fiducial_cut_theta_phi(i);
         cut &= Hadron_Delta_vz_cut(i);
         cut &= Hadron_Chi2pid_cut(i);
         return cut;
