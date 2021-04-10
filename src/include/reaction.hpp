@@ -92,12 +92,12 @@ void SetPim(int i);
 void SetOther(int i);
 void SetNeutron(int i);
 //missingPim
-// float pim_theta_lab();
-// float pim_Phi_lab();
-// float pim_momentum();
-// float pim_theta_lab_measured();
-// float pim_Phi_lab_measured();
-// float pim_momentum_measured();
+float pim_theta_lab();
+float pim_Phi_lab();
+float pim_momentum();
+float pim_theta_lab_measured();
+float pim_Phi_lab_measured();
+float pim_momentum_measured();
 
 float pim_theta_cm();
 float pim_Phi_cm();
