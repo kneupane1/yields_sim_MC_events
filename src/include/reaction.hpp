@@ -79,7 +79,7 @@ Reaction(){
 Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
 ~Reaction();
 inline float weight() {
-        //return _data->mc_weight();
+        // return _data->mc_weight();
         return 1.0;
 }
 
@@ -101,10 +101,10 @@ float pim_momentum_measured();
 
 float pim_theta_cm();
 float pim_Phi_cm();
-float pim_momentm_cm();
+float pim_momentum_cm();
 float pim_theta_cm_measured();
 float pim_Phi_cm_measured();
-float pim_momentm_cm_measured();
+float pim_momentum_cm_measured();
 
 
 

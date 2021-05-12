@@ -64,26 +64,26 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 int statusPip = -9999;
                 int statusProt = -9999;
 
-                /*        // Make a reaction class from the data given
-                        auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+                // // Make a reaction class from the data given
+                // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+                //
+                // // std::cout << "mc_npart after " << data->mc_npart()<<'\n';
+                // if (data->mc_npart() < 1) continue;
+                //
+                // for (int part = 1; part < data->mc_npart(); part++) {
+                //         // Check particle ID's and fill the reaction class
+                //
+                //         if (data->mc_pid(part) == PIP) {
+                //                 mc_event->SetMCPip(part);
+                //         } else if (data->mc_pid(part) == PROTON) {
+                //                 mc_event->SetMCProton(part);
+                //         } else if (data->mc_pid(part) == PIM) {
+                //                 mc_event->SetMCPim(part);
+                //                 // } else {
+                //                 //   mc_event->SetMCOther(part);
+                //         }
+                // }
 
-                        // std::cout << "mc_npart after " << data->mc_npart()<<'\n';
-                        if (data->mc_npart() < 1) continue;
-
-                        for (int part = 1; part < data->mc_npart(); part++) {
-                                // Check particle ID's and fill the reaction class
-
-                                if (data->mc_pid(part) == PIP) {
-                                        mc_event->SetMCPip(part);
-                                } else if (data->mc_pid(part) == PROTON) {
-                                        mc_event->SetMCProton(part);
-                                } else if (data->mc_pid(part) == PIM) {
-                                        mc_event->SetMCPim(part);
-                                        // } else {
-                                        //   mc_event->SetMCOther(part);
-                                }
-                        }
-                 */
 
                 auto dt = std::make_shared<Delta_T>(data);
                 auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -134,10 +134,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                         // output.pim_phi_mPim = event->pim_Phi_lab();
                         // output.mm2_mPim = event->MM2();
                         // output.weight_mPim = event->weight();
+                        // output.pim_mom_mPim_cm = event->pim_momentum_cm();
+                        // output.pim_theta_mPim_cm = event->pim_theta_cm();
+                        // output.pim_phi_mPim_cm = event->pim_Phi_cm();
 
 
                         output.scalar_product = event->scalar_triple_product();
-                        output.pim_mom_exclusive = event->pim_momentm_measured();
+                        output.pim_mom_exclusive = event->pim_momentum_measured();
                         output.pim_theta_exclusive = event->pim_theta_lab_measured();
                         output.pim_phi_exclusive = event->pim_Phi_lab_measured();
                         output.mm2_exclusive = event->MM2();
@@ -145,6 +148,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                         output.weight_exclusive = event->weight();
                         // if(event->weight() > 0.5)
                         //         std::cout << "weight: " << event->weight() <<'\n';
+                        // output.pim_mom_exclusive_cm = event->pim_momentum_cm_measured();
+                        output.pim_theta_exclusive_cm = event->pim_theta_cm_measured();
+                        output.pim_phi_exclusive_cm = event->pim_Phi_cm_measured();
                         _sync->write(output);
 
 
