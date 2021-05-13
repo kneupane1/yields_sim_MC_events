@@ -32,6 +32,12 @@ std::unique_ptr<TLorentzVector> _boosted_prot;
 std::unique_ptr<TLorentzVector> _boosted_pip;
 std::unique_ptr<TLorentzVector> _boosted_pim;
 
+
+std::unique_ptr<TLorentzVector> _rotated_prot;
+std::unique_ptr<TLorentzVector> _rotated_pip;
+std::unique_ptr<TLorentzVector> _rotated_pim;
+std::unique_ptr<TLorentzVector> _rotated_pim_measured;
+
 TVector3 _prot_Vect3;
 TVector3 _pip_Vect3;
 TVector3 _pim_Vect3;

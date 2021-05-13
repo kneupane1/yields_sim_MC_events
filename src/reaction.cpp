@@ -266,6 +266,12 @@ void Reaction::boost() {
         _boosted_gamma = std::make_unique<TLorentzVector>(*_gamma);
         _boosted_pim_measured = std::make_unique<TLorentzVector>(*_pim);
 
+        _rotated_prot = std::make_unique<TLorentzVector>(*_prot);
+        _rotated_pip = std::make_unique<TLorentzVector>(*_pip);
+        _rotated_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_prot -
+                                                        *_pip); //(*_pim);
+        _rotated_pim_measured = std::make_unique<TLorentzVector>(*_pim);
+
         TRotation rot;
         _boosted_gamma->Transform(rot);
         float_t beta_1 =
@@ -274,16 +280,25 @@ void Reaction::boost() {
         TVector3 ux = ((_beam->Vect()).Cross(_elec->Vect())).Unit(); // unit vector along e cross e'
         ux.Rotate(3. * PI / 2, uz); // rotating ux by 3pi/2 with uz as axis of roration
         rot.SetZAxis(uz, ux).Invert(); // setting TRotation rot
+
         _boosted_prot->Transform(rot);
-        // _boosted_prot->Boost(0, 0, -beta_1);
+        _rotated_prot->Transform(rot);
+        _boosted_prot->Boost(0, 0, -beta_1);
+
         _boosted_pip->Transform(rot);
-        // _boosted_pip->Boost(0, 0, -beta_1);
+        _rotated_pip->Transform(rot);
+        _boosted_pip->Boost(0, 0, -beta_1);
+
+
         _boosted_pim->Transform(rot);
-        // _boosted_pim->Boost(0, 0, -beta_1);
-        // _boosted_gamma->Boost(0, 0, -beta_1);
+        _rotated_pim->Transform(rot);
+        _boosted_pim->Boost(0, 0, -beta_1);
+
+        _boosted_gamma->Boost(0, 0, -beta_1);
 
         _boosted_pim_measured->Transform(rot);
-        // _boosted_pim_measured->Boost(0, 0, -beta_1);
+        _rotated_pim_measured->Transform(rot);
+        _boosted_pim_measured->Boost(0, 0, -beta_1);
         // -beta ko value (0.5 to -0.5 huda
         // samma value aauchha nattra aaudyna)
 
@@ -315,7 +330,7 @@ float Reaction::pim_theta_cm() {
         if (!_is_boosted)
                 boost();
         if (TwoPion_missingPim())
-                return _boosted_pim->Theta() * 180.0 / PI;
+                return _rotated_pim->Theta() * 180.0 / PI;
         else
                 return NAN;
 }
@@ -324,10 +339,10 @@ float Reaction::pim_Phi_cm() {
         if (!_is_boosted)
                 boost();
         if (TwoPion_missingPim()) {
-                if (_boosted_pim->Phi() > 0)
-                        return _boosted_pim->Phi() * 180 / PI;
-                else if (_boosted_pim->Phi() < 0)
-                        return (_boosted_pim->Phi() + 2 * PI) * 180 / PI;
+                if (_rotated_pim->Phi() > 0)
+                        return _rotated_pim->Phi() * 180 / PI;
+                else if (_rotated_pim->Phi() < 0)
+                        return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
                 else
                         return NAN;
         } else
@@ -347,7 +362,7 @@ float Reaction::pim_theta_cm_measured() {
         if (!_is_boosted)
                 boost();
         if (TwoPion_exclusive())
-                return _boosted_pim_measured->Theta() * 180.0 / PI;
+                return _rotated_pim_measured->Theta() * 180.0 / PI;
         else
                 return NAN;
 }
@@ -356,10 +371,10 @@ float Reaction::pim_Phi_cm_measured() {
         if (!_is_boosted)
                 boost();
         if (TwoPion_exclusive()) {
-                if (_boosted_pim_measured->Phi() > 0)
-                        return _boosted_pim_measured->Phi() * 180 / PI;
-                else if (_boosted_pim_measured->Phi() < 0)
-                        return (_boosted_pim_measured->Phi() + 2 * PI) * 180 / PI;
+                if (_rotated_pim_measured->Phi() > 0)
+                        return _rotated_pim_measured->Phi() * 180 / PI;
+                else if (_rotated_pim_measured->Phi() < 0)
+                        return (_rotated_pim_measured->Phi() + 2 * PI) * 180 / PI;
                 else
                         return NAN;
         } else
