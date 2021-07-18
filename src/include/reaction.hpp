@@ -17,7 +17,7 @@ class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
 
-  double _beam_energy = 7.5;
+  double _beam_energy = 10.6;
   std::unique_ptr<TLorentzVector> _beam;
   std::unique_ptr<TLorentzVector> _elec;
   std::unique_ptr<TLorentzVector> _gamma;
@@ -175,7 +175,7 @@ class MCReaction : public Reaction {
   std::unique_ptr<TLorentzVector> _pim_mc;
   std::unique_ptr<TLorentzVector> _other_mc;
 
-  float _alpha_ppim_pipip_thrown_mc = NAN;
+  // float _alpha_ppim_pipip_thrown_mc = NAN;
 
  public:
   void SetMCProton(int i);

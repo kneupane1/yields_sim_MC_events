@@ -56,19 +56,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // std::cout << "mc_npart " << data->mc_npart()<<'\n';
 
     // if (data->mc_npart() > 1) { //continue;
+    if (data->mc_npart() < 1) continue;
 
     // If we pass electron cuts the event is processed
     total++;
 
-    int statusPim = -9999;
-    int statusPip = -9999;
-    int statusProt = -9999;
+    // int statusPim = -9999;
+    // int statusPip = -9999;
+    // int statusProt = -9999;
 
     // Make a reaction class from the data given
     auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
     // std::cout << "mc_npart after " << data->mc_npart()<<'\n';
-    if (data->mc_npart() < 1) continue;
 
     for (int part = 1; part < data->mc_npart(); part++) {
       // Check particle ID's and fill the reaction class
@@ -131,7 +131,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     output.pim_phi_mPim = event->pim_Phi_lab();
     output.mm2_mPim = event->MM2();
     output.weight_mPim = event->weight();
-    output.pim_mom_mPim_cm = event->pim_momentum_cm();
+    //     output.pim_mom_mPim_cm = event->pim_momentum_cm();
     output.pim_theta_mPim_cm = event->pim_theta_cm();
     output.pim_phi_mPim_cm = event->pim_Phi_cm();
 

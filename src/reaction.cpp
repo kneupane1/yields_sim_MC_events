@@ -76,7 +76,7 @@ void Reaction::CalcMissMass() {
   auto mm = std::make_unique<TLorentzVector>();
   // auto mm_mpip = std::make_unique<TLorentzVector>();
   // auto mm_mprot = std::make_unique<TLorentzVector>();
-  auto mm_excl = std::make_unique<TLorentzVector>();
+  // auto mm_excl = std::make_unique<TLorentzVector>();
 
   *mm += (*_gamma + *_target);
 
@@ -197,9 +197,9 @@ float Reaction::pim_theta_lab() {
     return NAN;
 }
 float Reaction::pim_Phi_lab() {  /////////////////////////////////////work here
-  auto missingpim_ = std::make_unique<TLorentzVector>();
-  *missingpim_ += *_gamma + *_target - *_prot - *_pip;
   if (TwoPion_missingPim()) {
+    auto missingpim_ = std::make_unique<TLorentzVector>();
+    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     if (missingpim_->Phi() > 0)
       return missingpim_->Phi() * 180 / PI;
     else if (missingpim_->Phi() < 0)
