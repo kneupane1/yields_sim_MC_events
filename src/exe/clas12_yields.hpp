@@ -41,7 +41,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
             << num_of_events << " Events " << DEF << "===============\n";
 
   // Make a data object which all the branches can be accessed from
-  auto data = std::make_shared<Branches12>(_chain);
+  auto data = std::make_shared<Branches12>(_chain, true);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -56,6 +56,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // std::cout << "mc_npart " << data->mc_npart()<<'\n';
 
     // if (data->mc_npart() > 1) { //continue;
+    if (data->mc_npart() < 1) continue;
 
     // If we pass electron cuts the event is processed
     total++;
@@ -68,7 +69,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
     // std::cout << "mc_npart after " << data->mc_npart()<<'\n';
-    if (data->mc_npart() < 1) continue;
+    // if (data->mc_npart() < 1) continue;
 
     for (int part = 1; part < data->mc_npart(); part++) {
       // Check particle ID's and fill the reaction class
