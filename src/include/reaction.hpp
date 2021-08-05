@@ -68,6 +68,9 @@ class Reaction {
   float _MM = NAN;
   float _MM2 = NAN;
   float _MM2_exclusive = NAN;
+  float _excl_Energy = NAN;
+  float _MM2_mPip = NAN;
+  float _MM2_mProt = NAN;
 
   float _W = NAN;
   float _Q2 = NAN;
@@ -83,8 +86,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    return _data->mc_weight();
-    // return 1.0;
+    // return _data->mc_weight();
+    return 1.0;
   }
 
   inline bool mc() { return _mc; }
@@ -118,6 +121,10 @@ class Reaction {
   float MM();
   float MM2();
   float MM2_exclusive();
+  float energy_excl();
+  float MM2_mPip();
+  float MM2_mProt();
+
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
 

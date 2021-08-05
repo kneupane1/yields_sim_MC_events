@@ -42,6 +42,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   auto data = std::make_shared<Branches12>(_chain, true);
+  // for exp data use it
+  // auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -55,7 +57,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
     // std::cout << "mc_npart " << data->mc_npart()<<'\n';
 
-    // if (data->mc_npart() > 1) { //continue;
+    // if (data->mc_npart() > 1) {  // continue;
     if (data->mc_npart() < 1) continue;
 
     // If we pass electron cuts the event is processed
@@ -116,38 +118,41 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       }
     }
 
-    if (event->TwoPion_missingPim()) {
-      //     if (event->TwoPion_exclusive()) {
+    // if (event->TwoPion_missingPim()) {
+    if (event->TwoPion_exclusive()) {
       // total++;
       csv_data output;
-      output.electron_sector = event->sec();
+      // output.electron_sector = event->sec();
       output.w = event->W();
       output.q2 = event->Q2();
       //       output.status_prot = statusProt;
       //       output.status_pip = statusPip;
       //       output.status_pim = statusPim;
 
-      output.pim_mom_mPim = event->pim_momentum();
-      output.pim_theta_mPim = event->pim_theta_lab();
-      output.pim_phi_mPim = event->pim_Phi_lab();
-      output.mm2_mPim = event->MM2();
-      output.weight_mPim = event->weight();
-      //     output.pim_mom_mPim_cm = event->pim_momentum_cm();
-      output.pim_theta_mPim_cm = event->pim_theta_cm();
-      output.pim_phi_mPim_cm = event->pim_Phi_cm();
+      /* output.pim_mom_mPim = event->pim_momentum();
+       output.pim_theta_mPim = event->pim_theta_lab();
+       output.pim_phi_mPim = event->pim_Phi_lab();
+       output.mm2_mPim = event->MM2();
+       output.weight_mPim = event->weight();
+       //     output.pim_mom_mPim_cm = event->pim_momentum_cm();
+       output.pim_theta_mPim_cm = event->pim_theta_cm();
+       output.pim_phi_mPim_cm = event->pim_Phi_cm();*/
 
-      /* output.scalar_product = event->scalar_triple_product();
-       output.pim_mom_exclusive = event->pim_momentum_measured();
-       output.pim_theta_exclusive = event->pim_theta_lab_measured();
-       output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-       output.mm2_exclusive = event->MM2();
-       // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-       output.weight_exclusive = event->weight();
-       // if(event->weight() > 0.5)
-       //         std::cout << "weight: " << event->weight() <<'\n';
-       // output.pim_mom_exclusive_cm = event->pim_momentum_cm_measured();
-       output.pim_theta_exclusive_cm = event->pim_theta_cm_measured();
-       output.pim_phi_exclusive_cm = event->pim_Phi_cm_measured();*/
+      output.scalar_product = event->scalar_triple_product();
+      output.pim_mom_exclusive = event->pim_momentum_measured();
+      output.pim_theta_exclusive = event->pim_theta_lab_measured();
+      output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+      output.mm2_exclusive = event->MM2();
+      output.energy_excl = event->Energy_excl();
+      output.mm2_mPip = event->MM2_mPip();
+      output.mm2_mProt = event->MM2_mProt();
+      // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      output.weight_exclusive = event->weight();
+      // if(event->weight() > 0.5)
+      //         std::cout << "weight: " << event->weight() <<'\n';
+      // output.pim_mom_exclusive_cm = event->pim_momentum_cm_measured();
+      //  output.pim_theta_exclusive_cm = event->pim_theta_cm_measured();
+      //  output.pim_phi_exclusive_cm = event->pim_Phi_cm_measured();
       _sync->write(output);
     }
   }
