@@ -161,7 +161,7 @@ float Reaction::MM2() {
 //         return _MM2_exclusive;
 // }
 float Reaction::MM2_mPip() {
-  if (_MM2_mPip != _MM2_mpip) CalcMissMass();
+  if (_MM2_mPip != _MM2_mPip) CalcMissMass();
   return _MM2_mPip;
 }
 float Reaction::MM2_mProt() {

@@ -121,7 +121,7 @@ class Reaction {
   float MM();
   float MM2();
   float MM2_exclusive();
-  float energy_excl();
+  float Energy_excl();
   float MM2_mPip();
   float MM2_mProt();
 
