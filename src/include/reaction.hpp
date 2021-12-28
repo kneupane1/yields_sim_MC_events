@@ -96,13 +96,14 @@ class Reaction {
   void SetPim(int i);
   void SetOther(int i);
   void SetNeutron(int i);
+
   // missingPim
+  float pim_momentum();
   float pim_theta_lab();
   float pim_Phi_lab();
-  float pim_momentum();
+  float pim_momentum_measured();
   float pim_theta_lab_measured();
   float pim_Phi_lab_measured();
-  float pim_momentum_measured();
 
   float pim_theta_cm();
   float pim_Phi_cm();
@@ -110,6 +111,22 @@ class Reaction {
   float pim_theta_cm_measured();
   float pim_Phi_cm_measured();
   float pim_momentum_cm_measured();
+
+  // missingPip
+  float pip_momentum();
+  float pip_theta_lab();
+  float pip_Phi_lab();
+  float pip_momentum_measured();
+  float pip_theta_lab_measured();
+  float pip_Phi_lab_measured();
+
+  // missingProt
+  float prot_momentum();
+  float prot_theta_lab();
+  float prot_Phi_lab();
+  float prot_momentum_measured();
+  float prot_theta_lab_measured();
+  float prot_Phi_lab_measured();
 
   void boost();
 
