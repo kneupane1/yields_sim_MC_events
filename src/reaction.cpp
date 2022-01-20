@@ -56,6 +56,60 @@ void Reaction::SetPim(int i) {
   _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
 }
 
+// float Reaction::rec_pim_px() {
+//   return _beam->Px() - _elec->Px() + _target->Px() - _pip->Px() - _prot->Px() - _pim->Px();
+// }
+// float Reaction::rec_pim_py() {
+//   return _beam->Py() - _elec->Py() + _target->Py() - _pip->Py() - _prot->Py() - _pim->Py();
+// }
+// float Reaction::rec_pim_pz() {
+//   return _beam->Pz() - _elec->Pz() + _target->Pz() - _pip->Pz() - _prot->Pz() - _pim->Pz();
+// }
+// float Reaction::rec_pim_E() { return _beam->E() - _elec->E() + _target->E() - _pip->E() - _prot->E() - _pim->E(); }
+// float Reaction::rec_pim_P() {
+//   return sqrt(abs(pow((_beam->Px() - _elec->Px() + _target->Px() - _pip->Px() - _prot->Px() - _pim->Px()), 2) +
+//                   pow((_beam->Py() - _elec->Py() + _target->Py() - _pip->Py() - _prot->Py() - _pim->Py()), 2) +
+//                   pow((_beam->Pz() - _elec->Pz() + _target->Pz() - _pip->Pz() - _prot->Pz() - _pim->Pz()), 2)));
+// }
+
+// float Reaction::rec_pim_mm2() {
+//   return abs(pow(_beam->Px() - _elec->Px() + _target->Px() - _pip->Px() - _prot->Px() - _pim->Px(), 2) +
+//              pow(_beam->Py() - _elec->Py() + _target->Py() - _pip->Py() - _prot->Py() - _pim->Py(), 2) +
+//              pow(_beam->Pz() - _elec->Pz() + _target->Pz() - _pip->Pz() - _prot->Pz() - _pim->Pz(), 2) -
+//              pow(_beam->E() - _elec->E() + _target->E() - _pip->E() - _prot->E() - _pim->E(), 2));
+// }
+
+// float Reaction::beam_px() { return _beam->Px(); }
+// float Reaction::beam_py() { return _beam->Py(); }
+// float Reaction::beam_pz() { return _beam->Pz(); }
+// float Reaction::beam_E() { return _beam->E(); }
+
+// float Reaction::elec_px() { return _elec->Px(); }
+// float Reaction::elec_py() { return _elec->Py(); }
+// float Reaction::elec_pz() { return _elec->Pz(); }
+// float Reaction::elec_E() { return _elec->E(); }
+
+// float Reaction::target_px() { return _target->Px(); }
+// float Reaction::target_py() { return _target->Py(); }
+// float Reaction::target_pz() { return _target->Pz(); }
+// float Reaction::target_E() { return _target->E(); }
+
+// float Reaction::pim_px() { return _pim->Px(); }
+// float Reaction::pim_py() { return _pim->Py(); }
+// float Reaction::pim_pz() { return _pim->Pz(); }
+// float Reaction::pim_E() { return _pim->E(); }
+// float Reaction::pim_P() { return _pim->P(); }
+
+// float Reaction::pip_px() { return _pip->Px(); }
+// float Reaction::pip_py() { return _pip->Py(); }
+// float Reaction::pip_pz() { return _pip->Pz(); }
+// float Reaction::pip_E() { return _pip->E(); }
+
+// float Reaction::prot_px() { return _prot->Px(); }
+// float Reaction::prot_py() { return _prot->Py(); }
+// float Reaction::prot_pz() { return _prot->Pz(); }
+// float Reaction::prot_E() { return _prot->E(); }
+
 void Reaction::SetNeutron(int i) {
   _numNeutral++;
   _hasNeutron = true;
@@ -80,27 +134,41 @@ void Reaction::CalcMissMass() {
 
   *mm += (*_gamma + *_target);
 
-  if (TwoPion_missingPim()) {
+  // if (TwoPion_missingPim()) {
+  //   *mm -= *_prot;
+  //   *mm -= *_pip;
+  //   *mm -= *_pim;
+  //   _MM = mm->E();  /// just for test printing energy
+  //   _MM2 = mm->M2();
+
+  // _rec_pim_mom = mm->P();
+  // _rec_pim_mom = mm->Theta() * 180 / PI;
+
+  // // std::cout << " rec_pim_mom " << mm->P() << std::endl;
+  // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
+
+  // if (mm->Phi() >= 0)
+  //   _rec_pim_phi = (mm->Phi() * 180 / PI);
+  // else if (mm->Phi() < 0)
+  //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+
+  // _x_mu_E = mm->E();
+  // _x_mu_P = mm->P();
+  // _x_mu_Px = mm->Px();
+  // _x_mu_Py = mm->Py();
+  // _x_mu_Pz = mm->Pz();
+  // _x_mu_theta = mm->Theta() * RAD2DEG;
+  // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
+  // _x_mu_m = mm->E() - mm->P();
+  //   //
+  // }
+  if (TwoPion_exclusive()) {
     *mm -= *_prot;
     *mm -= *_pip;
-    //*mm -= *_pim;
+    *mm -= *_pim;
     _MM = mm->M();
     _MM2 = mm->M2();
-  //   //         // _x_mu_E = mm->E();
-  //   //         // _x_mu_P = mm->P();
-  //   //         // _x_mu_Px = mm->Px();
-  //   //         // _x_mu_Py = mm->Py();
-  //   //         // _x_mu_Pz = mm->Pz();
-  //   //         // _x_mu_theta = mm->Theta() * RAD2DEG;
-  //   //         // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
-  //   //         // _x_mu_m = mm->E() - mm->P();
-  //   //
-  }
-  // if (TwoPion_exclusive()) {
-    // *mm -= *_prot;
-    // *mm -= *_pip;
-    // _MM = mm->M();
-    // _MM2 = mm->M2();
+
     // _x_mu_E = mm->E();
     // _x_mu_P = mm->P();
     // _x_mu_Px = mm->Px();
@@ -109,14 +177,38 @@ void Reaction::CalcMissMass() {
     // _x_mu_theta = mm->Theta() * RAD2DEG;
     // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
     // _x_mu_m = mm->E() - mm->P();
-    //
-    // *mm_excl += (*_gamma + *_target);
-    // *mm_excl -= *_prot;
-    // *mm_excl -= *_pip;
-    // *mm_excl -= *_pim;
-    // _MM2_exclusive =mm_excl->M2();
-    // _excl_Energy = mm_excl->E();
-    
+
+    *mm_excl += (*_gamma + *_target);
+    *mm_excl -= *_prot;
+    *mm_excl -= *_pip;
+    *mm_excl -= *_pim;
+    _MM2_exclusive = mm_excl->M2();
+    _excl_Energy = mm_excl->E();
+
+    if (mm->Phi() >= 0)
+      _x_mu_phi = (mm->Phi() * 180 / PI);
+    else if (mm->Phi() < 0)
+      _x_mu_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+
+    if (_elec->Phi() >= 0)
+      _elec_phi = (_elec->Phi() * 180 / PI);
+    else if (_elec->Phi() < 0)
+      _elec_phi = ((_elec->Phi() + 2 * PI) * 180 / PI);
+
+    if (_beam->Phi() >= 0)
+      _beam_phi = (_beam->Phi() * 180 / PI);
+    else if (_beam->Phi() < 0)
+      _beam_phi = ((_beam->Phi() + 2 * PI) * 180 / PI);
+
+    _diff_elec_x_mu_theta = (_elec->Theta() * 180 / PI) - (mm->Theta() * 180 / PI);
+    _diff_elec_x_mu_phi = (_elec_phi - _x_mu_phi);
+
+    _diff_beam_x_mu_theta = (mm->Theta() * 180 / PI);
+    _diff_beam_x_mu_phi = (_beam_phi - _x_mu_phi);
+
+    // std::cout << " beam_theta " << _diff_beam_x_mu_theta << std::endl;
+    // std::cout << " rec_pim_energy " << mm->E() << std::endl;
+
     // for mPip peak with exclusive events
     // *mm_mpip += (*_gamma + *_target);
     // *mm_mpip -= *_prot;
@@ -128,35 +220,53 @@ void Reaction::CalcMissMass() {
     // *mm_mprot -= *_pip;
     // *mm_mprot -= *_pim;
     // _MM2_mProt = mm_mprot->M2();
-  // }
+  }
   if (TwoPion_missingPip()) {
-          *mm_mpip += (*_gamma + *_target);
-          *mm_mpip -= *_prot;
-          *mm_mpip -= *_pim;
-          _MM2_mpip = mm_mpip->M2();
+    *mm_mpip += (*_gamma + *_target);
+    *mm_mpip -= *_prot;
+    *mm_mpip -= *_pim;
+    _MM2_mPip = mm_mpip->M2();
   }
   if (TwoPion_missingProt()) {
-          *mm_mprot += (*_gamma + *_target);
-          *mm_mprot -= *_pip;
-          *mm_mprot -= *_pim;
-          _MM2_mprot = mm_mprot->M2();
-  
+    *mm_mprot += (*_gamma + *_target);
+    *mm_mprot -= *_pip;
+    *mm_mprot -= *_pim;
+    _MM2_mProt = mm_mprot->M2();
   }
 }
+float Reaction::Diff_elec_x_mu_theta() {
+  if (_diff_elec_x_mu_theta != _diff_elec_x_mu_theta) CalcMissMass();
+  return _diff_elec_x_mu_theta;
+}
 
-// float Reaction::MM() {
-//   if (_MM != _MM) CalcMissMass();
-//   return _MM;
-// }
+float Reaction::Diff_elec_x_mu_phi() {
+  if (_diff_elec_x_mu_phi != _diff_elec_x_mu_phi) CalcMissMass();
+  return _diff_elec_x_mu_phi;
+}
+
+float Reaction::Diff_beam_x_mu_theta() {
+  if (_diff_beam_x_mu_theta != _diff_beam_x_mu_theta) CalcMissMass();
+  return _diff_beam_x_mu_theta;
+}
+
+float Reaction::Diff_beam_x_mu_phi() {
+  if (_diff_beam_x_mu_phi != _diff_beam_x_mu_phi) CalcMissMass();
+  return _diff_beam_x_mu_phi;
+}
+
+
+float Reaction::MM() {
+  if (_MM != _MM) CalcMissMass();
+  return _MM;
+}
 float Reaction::MM2() {
   if (_MM2 != _MM2) CalcMissMass();
   return _MM2;
 }
-// float Reaction::MM2_exclusive() {
-//         if (_MM2_exclusive != _MM2_exclusive)
-//                 CalcMissMass();
-//         return _MM2_exclusive;
-// }
+float Reaction::MM2_exclusive() {
+  if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
+  return _MM2_exclusive;
+}
 float Reaction::MM2_mPip() {
   if (_MM2_mPip != _MM2_mPip) CalcMissMass();
   return _MM2_mPip;
@@ -165,42 +275,54 @@ float Reaction::MM2_mPip() {
 //   if (_MM2_mProt != _MM2_mProt) CalcMissMass();
 //   return _MM2_mProt;
 // }
-// float Reaction::Energy_excl() {
-//   if (_excl_Energy != _excl_Energy) CalcMissMass();
-//   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
-//   //  if (_x_mu_E > 0)
-//   return _excl_Energy;
-//   // else
-//   // return NAN;
-// }
+float Reaction::Energy_excl() {
+  if (_excl_Energy != _excl_Energy) CalcMissMass();
+  //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
+  //  if (_x_mu_E > 0)
+  return _excl_Energy;
+  // else
+  // return NAN;
+}
 float Reaction::pim_momentum() {
-  if (TwoPion_missingPim()) {
-    auto missingpim_ = std::make_unique<TLorentzVector>();
-    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    return missingpim_->P();
-  } else
-    return NAN;
+  if (_MM != _MM) CalcMissMass();
+
+  if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
+
+  // if (TwoPion_missingPim()) {
+  // auto missingpim_ = std::make_unique<TLorentzVector>();
+  // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+  // return missingpim_->P();
+  return _rec_pim_mom;
+
+  // } else
+  //   return NAN;
 }
 float Reaction::pim_theta_lab() {
-  if (TwoPion_missingPim()) {
-    auto missingpim_ = std::make_unique<TLorentzVector>();
-    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    return missingpim_->Theta() * 180.0 / PI;
-  } else
-    return NAN;
+  if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
+
+  // if (TwoPion_missingPim()) {
+  // auto missingpim_ = std::make_unique<TLorentzVector>();
+  // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+  // return missingpim_->Theta() * 180.0 / PI;
+  return _rec_pim_theta;
+  // } else
+  //   return NAN;
 }
-float Reaction::pim_Phi_lab() {  
-  if (TwoPion_missingPim()) {
-    auto missingpim_ = std::make_unique<TLorentzVector>();
-    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    if (missingpim_->Phi() > 0)
-      return missingpim_->Phi() * 180 / PI;
-    else if (missingpim_->Phi() < 0)
-      return (missingpim_->Phi() + 2 * PI) * 180 / PI;
-    else
-      return NAN;
-  } else
-    return NAN;
+float Reaction::pim_Phi_lab() {
+  if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
+
+  // if (TwoPion_missingPim()) {
+  // auto missingpim_ = std::make_unique<TLorentzVector>();
+  // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+  // if (missingpim_->Phi() > 0)
+  //   return missingpim_->Phi() * 180 / PI;
+  // else if (missingpim_->Phi() < 0)
+  //   return (missingpim_->Phi() + 2 * PI) * 180 / PI;
+  // else
+  //   return NAN;
+  return _rec_pim_phi;
+  // } else
+  //   return NAN;
 }
 float Reaction::pim_momentum_measured() {
   if (TwoPion_exclusive())
@@ -209,8 +331,7 @@ float Reaction::pim_momentum_measured() {
     return NAN;
 }
 
-float Reaction::pim_theta_lab_measured() {  
-
+float Reaction::pim_theta_lab_measured() {
   if (TwoPion_exclusive())
     return _pim->Theta() * 180.0 / PI;
   else
@@ -218,8 +339,7 @@ float Reaction::pim_theta_lab_measured() {
 }
 
 float Reaction::pim_Phi_lab_measured() {
-  if (TwoPion_exclusive()){
-
+  if (TwoPion_exclusive()) {
     if (_pim->Phi() > 0)
       return _pim->Phi() * 180 / PI;
     else if (_pim->Phi() < 0)
@@ -274,15 +394,15 @@ float Reaction::pip_theta_lab_measured() {
 }
 
 float Reaction::pip_Phi_lab_measured() {
-  if (TwoPion_exclusive()){
+  if (TwoPion_exclusive()) {
     if (_pip->Phi() > 0)
       return _pip->Phi() * 180 / PI;
     else if (_pip->Phi() < 0)
       return (_pip->Phi() + 2 * PI) * 180 / PI;
     else
       return NAN;
-}
-else return NAN;
+  } else
+    return NAN;
 }
 
 ////////////////mProt

@@ -29,6 +29,7 @@ struct csv_data {
   float pip_mom_exclusive;
   float pip_theta_exclusive;
   float pip_phi_exclusive;
+  float energy_x_mu;
 
   float prot_mom_mProt;
   float prot_theta_mProt;
@@ -39,14 +40,20 @@ struct csv_data {
   float prot_theta_exclusive;
   float prot_phi_exclusive;
 
+  float diff_ex_theta;
+  float diff_ex_phi;
+  float diff_bx_theta;
+  float diff_bx_phi;
+
   // Static functions can be called without making a new struct
   static std::string header() {
-    // Make a string for the header of the csv file mPim case 
-    // return "electron_sector,w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
-    // return "w,q2,stp,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,weight";
+    // Make a string for the header of the csv file mPim case
+    // return "w,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    // return "w,,stp,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,weight";
+    return "w,stp,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,mm2_exclusive_at_zero,energy_x_mu,diff_ex_theta,diff_ex_phi,diff_bx_theta,diff_bx_phi,weight";
 
-//mPip case
-    return "w,pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
+    // mPip case
+    // return "w,pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
     // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
 
     // // mProt case
@@ -59,31 +66,41 @@ struct csv_data {
     os << data.w << ",";
 
     //mPim
-    /*    os << data.pim_mom_mPim << ",";
+   /*     os << data.pim_mom_mPim << ",";
         os << data.pim_theta_mPim << ",";
         os << data.pim_phi_mPim << ",";
         os << data.mm2_mPim << ",";
         os << std::setprecision(5);
         os << data.weight_mPim << ",";
-        */
+        
 
-    /*
+    */
         os << data.scalar_product << ",";
         os << data.pim_mom_exclusive << ",";
         os << data.pim_theta_exclusive << ",";
         os << data.pim_phi_exclusive << ",";
         os << data.mm2_exclusive << ",";
-            os << std::setprecision(5);
+
+        os << data.mm2_exclusive_at_zero << ",";
+        os << data.energy_x_mu << ",";
+
+        os << data.diff_ex_theta << ",";
+        os << data.diff_ex_phi << ",";
+        os << data.diff_bx_theta << ",";
+        os << data.diff_bx_phi << ",";
+
+        os << std::setprecision(5);
         os << data.weight_exclusive << ",";
-      */
+      
 
     // mPip
-    os << data.pip_mom_mPip << ",";
+  /*  os << data.pip_mom_mPip << ",";
     os << data.pip_theta_mPip << ",";
     os << data.pip_phi_mPip << ",";
     os << data.mm2_mPip << ",";
     os << std::setprecision(5);
     os << data.weight_mPip << ",";
+    */
 
   /*  os << data.scalar_product << ",";
     os << data.pip_mom_exclusive << ",";

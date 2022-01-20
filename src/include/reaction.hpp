@@ -79,6 +79,19 @@ class Reaction {
   float _theta_star = NAN;
   float _phi_star = NAN;
 
+  float _rec_pim_mom = NAN;
+  float _rec_pim_theta = NAN;
+  float _rec_pim_phi = NAN;
+
+  float _elec_phi = NAN;
+  float _x_mu_phi = NAN;
+  float _diff_elec_x_mu_theta = NAN;
+  float _diff_elec_x_mu_phi = NAN;
+
+  float _beam_phi = NAN;
+  float _diff_beam_x_mu_theta = NAN;
+  float _diff_beam_x_mu_phi = NAN;
+
   void SetElec();
 
  public:
@@ -86,8 +99,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    // return _data->mc_weight();
-    return 1.0;
+    return _data->mc_weight();
+    // return 1.0;
   }
 
   inline bool mc() { return _mc; }
@@ -96,6 +109,50 @@ class Reaction {
   void SetPim(int i);
   void SetOther(int i);
   void SetNeutron(int i);
+
+  float rec_pim_px();
+  float rec_pim_py();
+  float rec_pim_pz();
+  float rec_pim_E();
+  float rec_pim_P();
+  float rec_pim_mm2();
+
+  float Diff_elec_x_mu_theta();
+  float Diff_elec_x_mu_phi();
+
+  float Diff_beam_x_mu_theta();
+  float Diff_beam_x_mu_phi();
+
+  float pim_px();
+  float pim_py();
+  float pim_pz();
+  float pim_E();
+  float pim_P();
+
+  float pip_px();
+  float pip_py();
+  float pip_pz();
+  float pip_E();
+
+  float prot_px();
+  float prot_py();
+  float prot_pz();
+  float prot_E();
+
+  float elec_px();
+  float elec_py();
+  float elec_pz();
+  float elec_E();
+
+  float beam_px();
+  float beam_py();
+  float beam_pz();
+  float beam_E();
+
+  float target_px();
+  float target_py();
+  float target_pz();
+  float target_E();
 
   // missingPim
   float pim_momentum();
@@ -154,17 +211,23 @@ class Reaction {
 
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 && _numPip == 1 /*&&  _numPim == 1*/) &&
-                          (_hasE && _hasP && _hasPip
-                           /*&&!_hasPim && !_hasNeutron
-                              &&!_hasOther*/));
+    _channelTwoPi &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) && (_hasE && _hasP && _hasPip && _hasPim));
     return _channelTwoPi;
   }
+
+  // inline bool TwoPion_missingPim() {
+  //   bool _channelTwoPi = true;
+  //   _channelTwoPi &=  ((_numProt == 1 && _numPip == 1 /*&&  _numPim == 1*/) &&
+  //                         (_hasE && _hasP && _hasPip
+  //                          /*&&!_hasPim && !_hasNeutron
+  //                             &&!_hasOther*/));
+  //   return _channelTwoPi;
+  // }
   inline bool TwoPion_exclusive() {
     bool _channelTwoPi_excl = true;
 
-    return ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
-            (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
+    _channelTwoPi_excl &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
+                           (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
     return _channelTwoPi_excl;
   }
   inline bool TwoPion_missingPip() {

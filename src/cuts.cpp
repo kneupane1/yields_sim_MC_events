@@ -198,7 +198,7 @@ bool uconn_Cuts::ElectronCuts() {
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
   // cut &= DC_fiducial_cut_theta_phi(i);
-  cut &= Hadron_Delta_vz_cut(i);
+  // cut &= Hadron_Delta_vz_cut(i);
   // cut &= Hadron_Chi2pid_cut(i);
   return cut;
 }
