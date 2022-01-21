@@ -127,9 +127,9 @@ void Reaction::SetOther(int i) {
 }
 
 void Reaction::CalcMissMass() {
-  auto mm = std::make_unique<TLorentzVector>();
-  auto mm_mpip = std::make_unique<TLorentzVector>();
-  auto mm_mprot = std::make_unique<TLorentzVector>();
+  // auto mm = std::make_unique<TLorentzVector>();
+  // auto mm_mpip = std::make_unique<TLorentzVector>();
+  // auto mm_mprot = std::make_unique<TLorentzVector>();
   auto mm_excl = std::make_unique<TLorentzVector>();
 
   // *mm += (*_gamma + *_target);
@@ -226,19 +226,19 @@ void Reaction::CalcMissMass() {
     // *mm_mprot -= *_pim;
     // _MM2_mProt = mm_mprot->M2();
   }
-//   if (TwoPion_missingPip()) {
-//     *mm_mpip += (*_gamma + *_target);
-//     *mm_mpip -= *_prot;
-//     *mm_mpip -= *_pim;
-//     _MM2_mPip = mm_mpip->M2();
-//   }
-//   if (TwoPion_missingProt()) {
-//     *mm_mprot += (*_gamma + *_target);
-//     *mm_mprot -= *_pip;
-//     *mm_mprot -= *_pim;
-//     _MM2_mProt = mm_mprot->M2();
-//   }
-// }
+  //   if (TwoPion_missingPip()) {
+  //     *mm_mpip += (*_gamma + *_target);
+  //     *mm_mpip -= *_prot;
+  //     *mm_mpip -= *_pim;
+  //     _MM2_mPip = mm_mpip->M2();
+  //   }
+  //   if (TwoPion_missingProt()) {
+  //     *mm_mprot += (*_gamma + *_target);
+  //     *mm_mprot -= *_pip;
+  //     *mm_mprot -= *_pim;
+  //     _MM2_mProt = mm_mprot->M2();
+  //   }
+}
 float Reaction::Diff_elec_x_mu_theta() {
   if (_diff_elec_x_mu_theta != _diff_elec_x_mu_theta) CalcMissMass();
   return _diff_elec_x_mu_theta;
