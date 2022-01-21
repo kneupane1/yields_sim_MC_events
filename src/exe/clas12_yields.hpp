@@ -63,9 +63,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // If we pass electron cuts the event is processed
         total++;
 
-        int statusPim = -9999;
-        int statusPip = -9999;
-        int statusProt = -9999;
+        // int statusPim = -9999;
+        // int statusPip = -9999;
+        // int statusProt = -9999;
 
         // Make a reaction class from the data given
         auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
@@ -86,46 +86,46 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           }
         }
     
-    auto dt = std::make_shared<Delta_T>(data);
-    auto cuts = std::make_shared<uconn_Cuts>(data);
-    // auto cuts = std::make_shared<rga_Cuts>(data);
-    if (!cuts->ElectronCuts()) continue;
+    // auto dt = std::make_shared<Delta_T>(data);
+    // auto cuts = std::make_shared<uconn_Cuts>(data);
+    // // auto cuts = std::make_shared<rga_Cuts>(data);
+    // if (!cuts->ElectronCuts()) continue;
 
-    // Make a reaction class from the data given
-    auto event = std::make_shared<Reaction>(data, beam_energy);
-    // For each particle in the event
-    for (int part = 1; part < data->gpart(); part++) {
-      dt->dt_calc(part);
+    // // Make a reaction class from the data given
+    // auto event = std::make_shared<Reaction>(data, beam_energy);
+    // // For each particle in the event
+    // for (int part = 1; part < data->gpart(); part++) {
+    //   dt->dt_calc(part);
 
-      // Check particle ID's and fill the reaction class
-      if (cuts->IsProton(part)) {
-        event->SetProton(part);
-        // statusProt = abs(data->status(part));
-        // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
-        // data->pz(part)
-        //           << "_prot E : " << MASS_P << std::endl;
+    //   // Check particle ID's and fill the reaction class
+    //   if (cuts->IsProton(part)) {
+    //     event->SetProton(part);
+    //     // statusProt = abs(data->status(part));
+    //     // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
+    //     // data->pz(part)
+    //     //           << "_prot E : " << MASS_P << std::endl;
 
-      } else if (cuts->IsPip(part)) {
-        if (cuts->HadronsCuts(part)) {
-          event->SetPip(part);
-          //   statusPip = abs(data->status(part));
-        }
-      } else if (cuts->IsPim(part)) {
-        if (cuts->HadronsCuts(part)) {
-          event->SetPim(part);
-          //   statusPim = abs(data->status(part));
-        }
-      } else {
-        event->SetOther(part);
-      }
-    }
+    //   } else if (cuts->IsPip(part)) {
+    //     if (cuts->HadronsCuts(part)) {
+    //       event->SetPip(part);
+    //       //   statusPip = abs(data->status(part));
+    //     }
+    //   } else if (cuts->IsPim(part)) {
+    //     if (cuts->HadronsCuts(part)) {
+    //       event->SetPim(part);
+    //       //   statusPim = abs(data->status(part));
+    //     }
+    //   } else {
+    //     event->SetOther(part);
+    //   }
+    // }
 
     // if (event->TwoPion_missingPim()) {
     // if (event->TwoPion_missingPip()) {
     // if (event->TwoPion_missingProt()) {
-    if (event->TwoPion_exclusive()) {
-      if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.0 && event->Q2() < 12.0 &&
-          abs(event->MM2_exclusive()) < 0.03) {
+    // if (event->TwoPion_exclusive()) {
+    //   if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.0 && event->Q2() < 12.0 &&
+    //       abs(event->MM2_exclusive()) < 0.03) {
         // total++;
         csv_data output;
         // output.electron_sector = event->sec();
@@ -248,8 +248,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
         _sync->write(output);
-      }
-    }
+    //   }
+    // }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // Return the total number of events
