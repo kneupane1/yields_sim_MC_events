@@ -127,7 +127,7 @@ void Reaction::SetOther(int i) {
 }
 
 void Reaction::CalcMissMass() {
-  // auto mm = std::make_unique<TLorentzVector>();
+  auto mm = std::make_unique<TLorentzVector>();
   // auto mm_mpip = std::make_unique<TLorentzVector>();
   // auto mm_mprot = std::make_unique<TLorentzVector>();
   auto mm_excl = std::make_unique<TLorentzVector>();
@@ -175,12 +175,12 @@ void Reaction::CalcMissMass() {
     // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
     // _x_mu_m = mm->E() - mm->P();
 
-    *mm_excl += (*_gamma + *_target);
-    *mm_excl -= *_prot;
-    *mm_excl -= *_pip;
-    *mm_excl -= *_pim;
-    _MM2_exclusive = mm_excl->M2();
-    _excl_Energy = mm_excl->E();
+    // *mm_excl += (*_gamma + *_target);
+    // *mm_excl -= *_prot;
+    // *mm_excl -= *_pip;
+    // *mm_excl -= *_pim;
+    _MM2_exclusive = mm->M2();
+    _excl_Energy = mm->E();
 
     _rec_pim_mom = mm->P();
     _rec_pim_theta = mm->Theta() * 180 / PI;
