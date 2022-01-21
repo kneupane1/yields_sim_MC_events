@@ -129,7 +129,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // total++;
         csv_data output;
         // output.electron_sector = event->sec();
-        output.w = event->W();
+        // output.w = event->W();
+        output.w = mc_event->W();
+
         // output.q2 = event->Q2();
 
         // mPim
@@ -141,7 +143,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                   output.weight_mPim = event->weight();
         */
 
-        output.scalar_product = event->scalar_triple_product();
+      /*  output.scalar_product = event->scalar_triple_product();
         output.pim_mom_exclusive = event->pim_momentum_measured();
         output.pim_theta_exclusive = event->pim_theta_lab_measured();
         output.pim_phi_exclusive = event->pim_Phi_lab_measured();
@@ -155,6 +157,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.diff_bx_phi = event->Diff_beam_x_mu_phi();
 
         output.weight_exclusive = event->weight();
+*/
+        output.x_mu_mom_exclusive = mc_event->x_mu_momentum_mc();
+        output.x_mu_theta_exclusive = mc_event->x_mu_thheta_lab_mc();
+        output.x_mu_phi_exclusive = mc_event->x_mu_Phi_lab_mc();
+        output.mm2_exclusive_at_zero = mc_event->MM2_exclusive_mc();
+        output.energy_x_mu = mc_event->Energy_excl_mc();
+
+        output.diff_ex_theta = mc_event->Diff_elec_x_mu_theta_mc();
+        output.diff_ex_phi = mc_event->Diff_elec_x_mu_phi_mc();
+        output.diff_bx_theta = mc_event->Diff_beam_x_mu_theta_mc();
+        output.diff_bx_phi = mc_event->Diff_beam_x_mu_phi_mc();
+
+        output.weight_exclusive = mc_event->weight();
 
         // mPip
 

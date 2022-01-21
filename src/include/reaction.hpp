@@ -262,7 +262,20 @@ class MCReaction : public Reaction {
   std::unique_ptr<TLorentzVector> _pim_mc;
   std::unique_ptr<TLorentzVector> _other_mc;
 
-  // float _alpha_ppim_pipip_thrown_mc = NAN;
+  float _MM2_exclusive_mc = NAN;
+  float _excl_Energy_mc = NAN;
+
+  float _rec_x_mu_mom_mc = NAN;
+  float _rec_x_mu_theta_mc = NAN;
+  float _x_mu_phi_mc = NAN;
+
+  float _beam_phi_mc = NAN;
+  float _elec_phi_mc = NAN;
+  float _diff_elec_x_mu_theta_mc = NAN;
+  float _diff_elec_x_mu_phi_mc = NAN;
+
+  float _diff_beam_x_mu_theta_mc = NAN;
+  float _diff_beam_x_mu_phi_mc = NAN;
 
  public:
   void SetMCProton(int i);
@@ -275,6 +288,18 @@ class MCReaction : public Reaction {
   inline float weight() { return _data->mc_weight(); }
   inline float W() { return _W_mc; }
   inline float Q2() { return _Q2_mc; }
+  void CalcMissMass_mc();
+
+  float Diff_elec_x_mu_theta_mc();
+  float Diff_elec_x_mu_phi_mc();
+  float Diff_beam_x_mu_theta_mc();
+  float Diff_beam_x_mu_phi_mc();
+  float MM2_exclusive_mc();
+  float Energy_excl_mc();
+  float x_mu_momentum_mc();
+  float x_mu_theta_lab_mc();
+  float x_mu_Phi_lab_mc();
+
   std::string CsvHeader();
   std::string ReacToCsv();
 };

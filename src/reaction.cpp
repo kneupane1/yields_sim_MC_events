@@ -142,10 +142,7 @@ void Reaction::CalcMissMass() {
   //   _MM2 = mm->M2();
 
   // _rec_pim_mom = mm->P();
-  // _rec_pim_mom = mm->Theta() * 180 / PI;
-
-  // // std::cout << " rec_pim_mom " << mm->P() << std::endl;
-  // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
+  // _rec_pim_theta = mm->Theta() * 180 / PI;
 
   // if (mm->Phi() >= 0)
   //   _rec_pim_phi = (mm->Phi() * 180 / PI);
@@ -184,6 +181,17 @@ void Reaction::CalcMissMass() {
     *mm_excl -= *_pim;
     _MM2_exclusive = mm_excl->M2();
     _excl_Energy = mm_excl->E();
+
+    _rec_pim_mom = mm->P();
+    _rec_pim_theta = mm->Theta() * 180 / PI;
+
+    if (mm->Phi() >= 0)
+      _rec_pim_phi = (mm->Phi() * 180 / PI);
+    else if (mm->Phi() < 0)
+      _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+
+
+
 
     if (mm->Phi() >= 0)
       _x_mu_phi = (mm->Phi() * 180 / PI);
@@ -632,20 +640,97 @@ void MCReaction::SetMCPim(int i) { _pim_mc->SetXYZM(_data->mc_px(i), _data->mc_p
 //   _other_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i),
 //   mass[_data->pid(i)]);
 // }
+void MCReaction::CalcMissMass_mc() {
+  auto mm_excl_mc = std::make_unique<TLorentzVector>();
 
-std::string MCReaction::CsvHeader() {
-  return "e_rec_p,e_rec_theta,e_rec_phi,e_sec,e_thrown_p,e_thrown_theta,e_thrown_phi\n";
-}
-std::string MCReaction::ReacToCsv() {
-  // e_rec_p,e_rec_theta,e_rec_phi,e_sec,e_thrown_p,e_thrown_theta,e_thrown_phi
-  std::string out = "";
-  out += std::to_string(_elec->P()) + ",";
-  out += std::to_string(_elec->Theta()) + ",";
-  out += std::to_string(_elec->Phi()) + ",";
-  out += std::to_string(_sector) + ",";
-  out += std::to_string(_elec_mc->P()) + ",";
-  out += std::to_string(_elec_mc->Theta()) + ",";
-  out += std::to_string(_elec_mc->Phi()) + "\n";
+  *mm_excl_mc += (*_gamma_mc + *_target_mc);
+  *mm_excl_mc -= *_prot_mc;
+  *mm_excl_mc -= *_pip_mc;
+  *mm_excl_mc -= *_pim_mc;
+  _MM2_exclusive_mc = mm_excl_mc->M2();
+  _excl_Energy_mc = mm_excl_mc->E();
 
-  return out;
+  _rec_x_mu_mom_mc = mm_excl_mc->P();
+  _rec_x_mu_theta_mc = mm_excl_mc->Theta() * 180 / PI;
+
+  if (mm_excl_mc->Phi() >= 0)
+    _x_mu_phi_mc = (mm_excl_mc->Phi() * 180 / PI);
+  else if (mm_excl_mc->Phi() < 0)
+    _x_mu_phi_mc = ((mm_excl_mc->Phi() + 2 * PI) * 180 / PI);
+
+  if (_elec_excl_mc->Phi() >= 0)
+    _elec_phi_mc = (_elec_mc->Phi() * 180 / PI);
+  else if (_elec_mc->Phi() < 0)
+    _elec_phi_mc = ((_elec_mc->Phi() + 2 * PI) * 180 / PI);
+
+  if (_beam->Phi() >= 0)
+    _beam_phi_mc = (_beam->Phi() * 180 / PI);
+  else if (_beam->Phi() < 0)
+    _beam_phi_mc = ((_beam->Phi() + 2 * PI) * 180 / PI);
+
+  _diff_elec_x_mu_theta_mc = (_elec_mc->Theta() * 180 / PI) - (mm_excl_mc->Theta() * 180 / PI);
+  _diff_elec_x_mu_phi_mc = (_elec_phi_mc - _x_mu_phi_mc);
+
+  _diff_beam_x_mu_theta_mc = (mm_excl_mc->Theta() * 180 / PI);
+  _diff_beam_x_mu_phi_mc = (_beam_phi_mc - _x_mu_phi_mc);
 }
+
+float MCReaction::Diff_elec_x_mu_theta_mc() {
+  if (_diff_elec_x_mu_theta_mc != _diff_elec_x_mu_theta_mc) CalcMissMass();
+  return _diff_elec_x_mu_theta_mc;
+}
+
+float MCReaction::Diff_elec_x_mu_phi_mc() {
+  if (_diff_elec_x_mu_phi_mc != _diff_elec_x_mu_phi_mc) CalcMissMass();
+  return _diff_elec_x_mu_phi_mc;
+}
+
+float MCReaction::Diff_beam_x_mu_theta_mc() {
+  if (_diff_beam_x_mu_theta_mc != _diff_beam_x_mu_theta_mc) CalcMissMass();
+  return _diff_beam_x_mu_theta_mc;
+}
+
+float MCReaction::Diff_beam_x_mu_phi_mc() {
+  if (_diff_beam_x_mu_phi_mc != _diff_beam_x_mu_phi_mc) CalcMissMass();
+  return _diff_beam_x_mu_phi_mc;
+}
+
+float MCReaction::MM2_exclusive_mc() {
+  if (_MM2_exclusive_mc != _MM2_exclusive_mc) CalcMissMass();
+  return _MM2_exclusive_mc;
+}
+float Reaction::Energy_excl_mc() {
+  if (_excl_Energy_mc != _excl_Energy_mc) CalcMissMass();
+  return _excl_Energy_mc;
+}
+float Reaction::x_mu_momentum_mc() {
+  if (_rec_x_mu_mom _mc!= _rec_x_mu_mom_mc) CalcMissMass();
+  return _rec_x_mu_mom_mc;
+
+}
+float Reaction::x_mu_theta_lab_mc() {
+  if (_rec_x_mu_theta_mc != _rec_x_mu_theta_mc) CalcMissMass();
+  return _rec_x_mu_theta_mc;
+
+}
+float Reaction::x_mu_Phi_lab_mc() {
+  if ( _x_mu_phi_mc !=  _x_mu_phi_mc) CalcMissMass();
+  return  _x_mu_phi_mc;
+}
+
+  std::string MCReaction::CsvHeader() {
+    return "e_rec_p,e_rec_theta,e_rec_phi,e_sec,e_thrown_p,e_thrown_theta,e_thrown_phi\n";
+  }
+  std::string MCReaction::ReacToCsv() {
+    // e_rec_p,e_rec_theta,e_rec_phi,e_sec,e_thrown_p,e_thrown_theta,e_thrown_phi
+    std::string out = "";
+    out += std::to_string(_elec->P()) + ",";
+    out += std::to_string(_elec->Theta()) + ",";
+    out += std::to_string(_elec->Phi()) + ",";
+    out += std::to_string(_sector) + ",";
+    out += std::to_string(_elec_mc->P()) + ",";
+    out += std::to_string(_elec_mc->Theta()) + ",";
+    out += std::to_string(_elec_mc->Phi()) + "\n";
+
+    return out;
+  }
