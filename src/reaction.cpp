@@ -672,43 +672,43 @@ void MCReaction::CalcMissMass_mc() {
 }
 
 float MCReaction::Diff_elec_x_mu_theta_mc() {
-  if (_diff_elec_x_mu_theta_mc != _diff_elec_x_mu_theta_mc) CalcMissMass();
+  if (_diff_elec_x_mu_theta_mc != _diff_elec_x_mu_theta_mc) CalcMissMass_mc();
   return _diff_elec_x_mu_theta_mc;
 }
 
 float MCReaction::Diff_elec_x_mu_phi_mc() {
-  if (_diff_elec_x_mu_phi_mc != _diff_elec_x_mu_phi_mc) CalcMissMass();
+  if (_diff_elec_x_mu_phi_mc != _diff_elec_x_mu_phi_mc) CalcMissMass_mc();
   return _diff_elec_x_mu_phi_mc;
 }
 
 float MCReaction::Diff_beam_x_mu_theta_mc() {
-  if (_diff_beam_x_mu_theta_mc != _diff_beam_x_mu_theta_mc) CalcMissMass();
+  if (_diff_beam_x_mu_theta_mc != _diff_beam_x_mu_theta_mc) CalcMissMass_mc();
   return _diff_beam_x_mu_theta_mc;
 }
 
 float MCReaction::Diff_beam_x_mu_phi_mc() {
-  if (_diff_beam_x_mu_phi_mc != _diff_beam_x_mu_phi_mc) CalcMissMass();
+  if (_diff_beam_x_mu_phi_mc != _diff_beam_x_mu_phi_mc) CalcMissMass_mc();
   return _diff_beam_x_mu_phi_mc;
 }
 
 float MCReaction::MM2_exclusive_mc() {
-  if (_MM2_exclusive_mc != _MM2_exclusive_mc) CalcMissMass();
+  if (_MM2_exclusive_mc != _MM2_exclusive_mc) CalcMissMass_mc();
   return _MM2_exclusive_mc;
 }
 float MCReaction::Energy_excl_mc() {
-  if (_excl_Energy_mc != _excl_Energy_mc) CalcMissMass();
+  if (_excl_Energy_mc != _excl_Energy_mc) CalcMissMass_mc();
   return _excl_Energy_mc;
 }
 float MCReaction::x_mu_momentum_mc() {
-  if (_rec_x_mu_mom_mc != _rec_x_mu_mom_mc) CalcMissMass();
+  if (_rec_x_mu_mom_mc != _rec_x_mu_mom_mc) CalcMissMass_mc();
   return _rec_x_mu_mom_mc;
 }
 float MCReaction::x_mu_theta_lab_mc() {
-  if (_rec_x_mu_theta_mc != _rec_x_mu_theta_mc) CalcMissMass();
+  if (_rec_x_mu_theta_mc != _rec_x_mu_theta_mc) CalcMissMass_mc();
   return _rec_x_mu_theta_mc;
 }
 float MCReaction::x_mu_Phi_lab_mc() {
-  if (_x_mu_phi_mc != _x_mu_phi_mc) CalcMissMass();
+  if (_x_mu_phi_mc != _x_mu_phi_mc) CalcMissMass_mc();
   return _x_mu_phi_mc;
 }
 

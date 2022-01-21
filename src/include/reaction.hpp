@@ -286,8 +286,8 @@ class MCReaction : public Reaction {
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   void SetMCElec();
   inline float weight() { return _data->mc_weight(); }
-  inline float W() { return _W_mc; }
-  inline float Q2() { return _Q2_mc; }
+  inline float W_mc() { return _W_mc; }
+  inline float Q2_mc() { return _Q2_mc; }
   void CalcMissMass_mc();
 
   float Diff_elec_x_mu_theta_mc();

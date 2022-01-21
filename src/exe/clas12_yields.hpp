@@ -85,7 +85,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
             //   mc_event->SetMCOther(part);
           }
         }
-    
+
     // auto dt = std::make_shared<Delta_T>(data);
     // auto cuts = std::make_shared<uconn_Cuts>(data);
     // // auto cuts = std::make_shared<rga_Cuts>(data);
@@ -130,7 +130,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         csv_data output;
         // output.electron_sector = event->sec();
         // output.w = event->W();
-        output.w = mc_event->W();
+        output.w = mc_event->W_mc();
 
         // output.q2 = event->Q2();
 
