@@ -159,7 +159,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.weight_exclusive = event->weight();
 */
         output.x_mu_mom_exclusive = mc_event->x_mu_momentum_mc();
-        output.x_mu_theta_exclusive = mc_event->x_mu_thheta_lab_mc();
+        output.x_mu_theta_exclusive = mc_event->x_mu_theta_lab_mc();
         output.x_mu_phi_exclusive = mc_event->x_mu_Phi_lab_mc();
         output.mm2_exclusive_at_zero = mc_event->MM2_exclusive_mc();
         output.energy_x_mu = mc_event->Energy_excl_mc();
