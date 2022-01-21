@@ -700,7 +700,7 @@ float MCReaction::Energy_excl_mc() {
   return _excl_Energy_mc;
 }
 float MCReaction::x_mu_momentum_mc() {
-  if (_rec_x_mu_mom _mc != _rec_x_mu_mom_mc) CalcMissMass();
+  if (_rec_x_mu_mom_mc != _rec_x_mu_mom_mc) CalcMissMass();
   return _rec_x_mu_mom_mc;
 }
 float MCReaction::x_mu_theta_lab_mc() {
