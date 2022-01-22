@@ -132,7 +132,7 @@ void Reaction::CalcMissMass() {
   // auto mm_mprot = std::make_unique<TLorentzVector>();
   auto mm_excl = std::make_unique<TLorentzVector>();
 
-  // *mm += (*_gamma + *_target);
+  *mm += (*_gamma + *_target);
 
   // if (TwoPion_missingPim()) {
   //   *mm -= *_prot;
