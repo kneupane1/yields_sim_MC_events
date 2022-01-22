@@ -58,32 +58,32 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     if (thread_id == 0 && current_event % 1000 == 0)
       std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
-  /*  if (data->mc_npart() < 1) continue;
+    int statusPim = -9999;
+    int statusPip = -9999;
+    int statusProt = -9999;
 
-    // If we pass electron cuts the event is processed
-    total++;
+    /*  if (data->mc_npart() < 1) continue;
 
-    // int statusPim = -9999;
-    // int statusPip = -9999;
-    // int statusProt = -9999;
+      // If we pass electron cuts the event is processed
+      total++;
 
-    // Make a reaction class from the data given
-    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+      // Make a reaction class from the data given
+      auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-    for (int part = 1; part < data->mc_npart(); part++) {
-      // Check particle ID's and fill the reaction class
+      for (int part = 1; part < data->mc_npart(); part++) {
+        // Check particle ID's and fill the reaction class
 
-      if (data->mc_pid(part) == PIP) {
-        mc_event->SetMCPip(part);
-      } else if (data->mc_pid(part) == PROTON) {
-        mc_event->SetMCProton(part);
-      } else if (data->mc_pid(part) == PIM) {
-        mc_event->SetMCPim(part);
-        // } else {
-        //   mc_event->SetMCOther(part);
+        if (data->mc_pid(part) == PIP) {
+          mc_event->SetMCPip(part);
+        } else if (data->mc_pid(part) == PROTON) {
+          mc_event->SetMCProton(part);
+        } else if (data->mc_pid(part) == PIM) {
+          mc_event->SetMCPim(part);
+          // } else {
+          //   mc_event->SetMCOther(part);
+        }
       }
-    }
-*/
+  */
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
@@ -98,7 +98,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // Check particle ID's and fill the reaction class
       if (cuts->IsProton(part)) {
         event->SetProton(part);
-        // statusProt = abs(data->status(part));
+        statusProt = abs(data->status(part));
         // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
         // data->pz(part)
         //           << "_prot E : " << MASS_P << std::endl;
@@ -106,12 +106,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       } else if (cuts->IsPip(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetPip(part);
-          //   statusPip = abs(data->status(part));
+            statusPip = abs(data->status(part));
         }
       } else if (cuts->IsPim(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetPim(part);
-          //   statusPim = abs(data->status(part));
+            statusPim = abs(data->status(part));
         }
       } else {
         event->SetOther(part);
@@ -163,7 +163,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.diff_rec_mes_pim_theta = (event->pim_theta_lab_measured() - event->pim_theta_lab());
         output.diff_rec_mes_pim_phi = (event->pim_Phi_lab() - event->pim_Phi_lab_measured());
 
-
+        output.status_Pim = statusPim;
+        output.status_Pip = statusPip;
+        output.status_Prot = statusProt;
 
         // output.diff_ex_theta = event->Diff_elec_x_mu_theta();
         // output.diff_ex_phi = event->Diff_elec_x_mu_phi();

@@ -92,6 +92,10 @@ class Reaction {
   float _diff_beam_x_mu_theta = NAN;
   float _diff_beam_x_mu_phi = NAN;
 
+  float _prot_status = NAN;
+  float _pip_status = NAN;
+  float _pim_status = NAN;
+
   void SetElec();
 
  public:
@@ -109,6 +113,13 @@ class Reaction {
   void SetPim(int i);
   void SetOther(int i);
   void SetNeutron(int i);
+
+  bool ctof_prot();
+  bool ftof_prot();
+  bool ctof_pip();
+  bool ftof_pip();
+  bool ctof_pim();
+  bool ftof_pim();
 
   float rec_pim_px();
   float rec_pim_py();

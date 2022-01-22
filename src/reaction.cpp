@@ -42,19 +42,53 @@ void Reaction::SetProton(int i) {
   _numPos++;
   _hasP = true;
   _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+  // _prot_status = abs(_data->status(i));
 }
+// bool Reaction::ctof_prot() {
+//   bool _prot_ctof = true;
+//   _prot_ctof &= (4000 <= _prot_status && _prot_status < 6000);
+//   return _prot_ctof;
+// }
+// bool Reaction::ftof_prot() {
+//   bool _prot_ftof = true;
+//   _prot_ftof &= (2000 <= _prot_status && _prot_status < 4000);
+//   return _prot_ftof;
+// }
 void Reaction::SetPip(int i) {
   _numPip++;
   _numPos++;
   _hasPip = true;
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // _pip_status = abs(_data->status(i));
 }
+// bool Reaction::ctof_pip() {
+//   bool _pip_ctof = true;
+//   _pip_ctof &= (4000 <= _pip_status && _pip_status < 6000);
+//   return _pip_ctof;
+// }
+// bool Reaction::ftof_pip() {
+//   bool _pip_ftof = true;
+//   _pip_ftof &= (2000 <= _pip_status && _pip_status < 4000);
+//   return _pip_ftof;
+// }
+
 void Reaction::SetPim(int i) {
   _numPim++;
   _numNeg++;
   _hasPim = true;
   _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // _pim_status = abs(_data->status(i));
 }
+// bool Reaction::ctof_pim() {
+//   bool _pim_ctof = true;
+//   _pim_ctof &= (4000 <= _pim_status && _pim_status < 6000);
+//   return _pim_ctof;
+// }
+// bool Reaction::ftof_pim() {
+//   bool _pim_ftof = true;
+//   _pim_ftof &= (2000 <= _pim_status && _pim_status < 4000);
+//   return _pim_ftof;
+// }
 
 // float Reaction::rec_pim_px() {
 //   return _beam->Px() - _elec->Px() + _target->Px() - _pip->Px() - _prot->Px() - _pim->Px();
