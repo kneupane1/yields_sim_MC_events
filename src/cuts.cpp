@@ -198,8 +198,8 @@ bool uconn_Cuts::ElectronCuts() {
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
   // cut &= DC_fiducial_cut_theta_phi(i);
-  // cut &= Hadron_Delta_vz_cut(i);
-  // cut &= Hadron_Chi2pid_cut(i);
+  cut &= Hadron_Delta_vz_cut(i);
+  cut &= Hadron_Chi2pid_cut(i);
   return cut;
 }
 //
@@ -223,6 +223,7 @@ bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
   double edep_tight = 0.06, edep_medium = 0.07, edep_loose = 0.09;
   return (_data->ec_pcal_energy(0) > edep_medium);
 }
+
 
 bool uconn_Cuts::EC_sampling_fraction_cut() {
   double ecal_e_sampl_mu[3][6] = {{0.2531, 0.2550, 0.2514, 0.2494, 0.2528, 0.2521},

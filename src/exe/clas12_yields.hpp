@@ -143,6 +143,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
 
         // for rec pim
+        output.elec_mom = event->elec_mom();
+        output.corr_elec_mom = event->Corr_elec_mom();
+
         output.pim_mom_mPim = event->pim_momentum();
         output.pim_theta_mPim = event->pim_theta_lab();
         output.pim_phi_mPim = event->pim_Phi_lab();
@@ -163,16 +166,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.diff_rec_mes_pim_theta = (event->pim_theta_lab_measured() - event->pim_theta_lab());
         output.diff_rec_mes_pim_phi = (event->pim_Phi_lab() - event->pim_Phi_lab_measured());
 
+        output.diff_ex_theta = event->Diff_elec_x_mu_theta();
+        output.diff_ex_phi = event->Diff_elec_x_mu_phi();
+        output.diff_bx_theta = event->Diff_beam_x_mu_theta();
+        output.diff_bx_phi = event->Diff_beam_x_mu_phi();
+
         output.status_Pim = statusPim;
         output.status_Pip = statusPip;
         output.status_Prot = statusProt;
 
-        // output.diff_ex_theta = event->Diff_elec_x_mu_theta();
-        // output.diff_ex_phi = event->Diff_elec_x_mu_phi();
-        // output.diff_bx_theta = event->Diff_beam_x_mu_theta();
-        // output.diff_bx_phi = event->Diff_beam_x_mu_phi();
 
         output.weight_exclusive = event->weight();
+
+
 
         // for generated case
         // output.w = mc_event->W_mc();

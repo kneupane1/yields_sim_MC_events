@@ -32,6 +32,8 @@ class Reaction {
   std::unique_ptr<TLorentzVector> _boosted_pip;
   std::unique_ptr<TLorentzVector> _boosted_pim;
 
+  std::unique_ptr<TLorentzVector> _mom_corr_elec;
+
   std::unique_ptr<TLorentzVector> _rotated_prot;
   std::unique_ptr<TLorentzVector> _rotated_pip;
   std::unique_ptr<TLorentzVector> _rotated_pim;
@@ -98,6 +100,30 @@ class Reaction {
 
   void SetElec();
 
+  // momentum corrections
+
+  double xx[54] = {
+      0.0263375, 0.0158871,  0.0130852,  -0.00366006, 0.00694866,  0.0197195, 0.00767067, 0.00480921,  -0.0175756,
+      0.0252757, 0.0156601,  0.00984872, 0.00244435,  0.00681414,  0.0294068, 0.0059881,  0.00286992,  0.0179319,
+      0.0171495, 0.00359637, -0.0046115, 0.00314739,  0.0136338,   0.0768753, 0.00675454, -0.0118234,  -0.0288654,
+      0.0189465, 0.0131816,  0.0262004,  0.00375165,  0.00907457,  0.0486894, 0.00806305, 0.0006999,   0.00527513,
+      0.0116485, 0.0105681,  0.0149848,  0.000318094, -0.00480124, 0.0395545, 0.00824216, -0.00070659, -0.0057075,
+      0.0213057, 0.0112999,  0.0100216,  0.000653685, 0.0093174,   0.0822385, 0.00808384, 0.000898799, -0.0172692,
+  };
+  double pars[6][3][3];
+  int ipar = 0;
+
+  double _elec_mom_corrected = NAN;
+  double _elec_mom = NAN;
+
+  double _cx = NAN;
+  double _cy = NAN;
+  double _cz = NAN;
+
+  double _px_prime_elec = NAN;
+  double _py_prime_elec = NAN;
+  double _pz_prime_elec = NAN;
+
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -106,6 +132,12 @@ class Reaction {
     // return _data->mc_weight();
     return 1.0;
   }
+
+
+// momentum correction 
+  double dpp(float px, float py, float pz, int sec, int ivec);
+  double Corr_elec_mom();
+  double elec_mom();
 
   inline bool mc() { return _mc; }
   void SetProton(int i);
@@ -222,18 +254,10 @@ class Reaction {
 
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) && (_hasE && _hasP && _hasPip && _hasPim));
+    _channelTwoPi &= ((_numProt == 1 && _numPip == 1 ) && (_hasE && _hasP && _hasPip));
     return _channelTwoPi;
   }
 
-  // inline bool TwoPion_missingPim() {
-  //   bool _channelTwoPi = true;
-  //   _channelTwoPi &=  ((_numProt == 1 && _numPip == 1 /*&&  _numPim == 1*/) &&
-  //                         (_hasE && _hasP && _hasPip
-  //                          /*&&!_hasPim && !_hasNeutron
-  //                             &&!_hasOther*/));
-  //   return _channelTwoPi;
-  // }
   inline bool TwoPion_exclusive() {
     bool _channelTwoPi_excl = true;
 
@@ -311,8 +335,8 @@ class MCReaction : public Reaction {
   float x_mu_theta_lab_mc();
   float x_mu_Phi_lab_mc();
 
-  std::string CsvHeader();
-  std::string ReacToCsv();
-};
+    std::string CsvHeader();
+    std::string ReacToCsv();
+  };
 
 #endif
