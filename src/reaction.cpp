@@ -329,7 +329,7 @@ void Reaction::CalcMissMass() {
     else if (mm->Phi() < 0)
       _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
 
-    ////////// for x_mu - elec/beam theta phi
+    //////// for x_mu - elec/beam theta phi
     if (mm_excl->Phi() >= 0)
       _x_mu_phi = (mm_excl->Phi() * 180 / PI);
     else if (mm_excl->Phi() < 0)
