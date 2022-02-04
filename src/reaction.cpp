@@ -41,6 +41,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
 
 Reaction::~Reaction() {}
 
+
 double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
   double pp = sqrt(px * px + py * py + pz * pz);
 
@@ -109,7 +110,7 @@ double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  *_gamma += *_beam - *_elec;  // becareful you are commenting this only to include the momentum correction
+  // *_gamma += *_beam - *_elec;  // becareful you are commenting this only to include the momentum correction
 
   // Can calculate W and Q2 here
   _W = physics::W_calc(*_beam, *_elec);
@@ -129,8 +130,9 @@ void Reaction::SetElec() {
   _pz_prime_elec = _cz * _elec_mom_corrected;
 
   _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec, _pz_prime_elec, MASS_E);
-  // *_gamma += *_beam - *_mom_corr_elec;
+  *_gamma += *_beam - *_mom_corr_elec;
 
+  _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
 }
 
 
@@ -364,18 +366,18 @@ void Reaction::CalcMissMass() {
     *mm_mprot -= *_pim;
     _MM2_mProt = mm_mprot->M2();
   }
-  //   if (TwoPion_missingPip()) {
-  //     *mm_mpip += (*_gamma + *_target);
-  //     *mm_mpip -= *_prot;
-  //     *mm_mpip -= *_pim;
-  //     _MM2_mPip = mm_mpip->M2();
-  //   }
-  //   if (TwoPion_missingProt()) {
-  //     *mm_mprot += (*_gamma + *_target);
-  //     *mm_mprot -= *_pip;
-  //     *mm_mprot -= *_pim;
-  //     _MM2_mProt = mm_mprot->M2();
-  //   }
+    // if (TwoPion_missingPip()) {
+    //   *mm_mpip += (*_gamma + *_target);
+    //   *mm_mpip -= *_prot;
+    //   *mm_mpip -= *_pim;
+    //   _MM2_mPip = mm_mpip->M2();
+    // }
+    // if (TwoPion_missingProt()) {
+    //   *mm_mprot += (*_gamma + *_target);
+    //   *mm_mprot -= *_pip;
+    //   *mm_mprot -= *_pim;
+    //   _MM2_mProt = mm_mprot->M2();
+    // }
 }
 float Reaction::Diff_elec_x_mu_theta() {
   if (_diff_elec_x_mu_theta != _diff_elec_x_mu_theta) CalcMissMass();

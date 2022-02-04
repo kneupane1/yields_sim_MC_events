@@ -77,6 +77,8 @@ class Reaction {
   float _W = NAN;
   float _Q2 = NAN;
 
+  float _W_after = NAN;
+
   float _theta_e = NAN;
   float _theta_star = NAN;
   float _phi_star = NAN;
@@ -247,6 +249,9 @@ class Reaction {
 
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }
+
+  inline float W_after() { return _W_after; }
+
   float_t scalar_triple_product();
 
   inline short sec() { return _data->dc_sec(0); }
