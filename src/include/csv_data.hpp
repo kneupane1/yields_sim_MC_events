@@ -72,7 +72,7 @@ struct csv_data {
     // "w,x_mu_mom_exclusive,x_mu_theta_exclusive,x_mu_phi_exclusive,mm2_exclusive_at_zero,energy_x_mu,diff_ex_theta,diff_ex_phi,diff_bx_theta,diff_bx_phi,weight";
 
     // for mom thete phi rec- mes check
-    return "sec_ele,w_after,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,status_Pim,status_Pip,status_Prot,weight";
+    return "sec_ele,w,w_after,q2,status_Prot,weight";
 
     // mPip case
     // return "w,pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
@@ -86,49 +86,50 @@ struct csv_data {
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     os << std::setprecision(3);
     os << data.electron_sector<< ",";
-    // os << data.w << ",";
+    os << data.w << ",";
     os << data.w_after << ",";
+    os << data.q2 << ",";
 
-    // mPim
-    /*     os << data.pim_mom_mPim << ",";
-         os << data.pim_theta_mPim << ",";
-         os << data.pim_phi_mPim << ",";
-         os << data.mm2_mPim << ",";
-         os << std::setprecision(5);
-         os << data.weight_mPim << ",";
+    // // mPim
+    // /*     os << data.pim_mom_mPim << ",";
+    //      os << data.pim_theta_mPim << ",";
+    //      os << data.pim_phi_mPim << ",";
+    //      os << data.mm2_mPim << ",";
+    //      os << std::setprecision(5);
+    //      os << data.weight_mPim << ",";
 
 
-     */
-    // os << data.elec_mom << ",";
-    // os << data.corr_elec_mom << ",";
+    //  */
+    // // os << data.elec_mom << ",";
+    // // os << data.corr_elec_mom << ",";
 
-    os << data.pim_mom_mPim << ",";
-    os << data.pim_theta_mPim << ",";
-    os << data.pim_phi_mPim << ",";
-    os << data.mm2_mPim << ",";
+    // os << data.pim_mom_mPim << ",";
+    // os << data.pim_theta_mPim << ",";
+    // os << data.pim_phi_mPim << ",";
+    // os << data.mm2_mPim << ",";
 
-    // os << data.scalar_product << ",";
-    // os << data.pim_mom_exclusive << ",";
-    // os << data.pim_theta_exclusive << ",";
-    // os << data.pim_phi_exclusive << ",";
-    // // os << data.mm2_exclusive << ",";
+    // // os << data.scalar_product << ",";
+    // // os << data.pim_mom_exclusive << ",";
+    // // os << data.pim_theta_exclusive << ",";
+    // // os << data.pim_phi_exclusive << ",";
+    // // // os << data.mm2_exclusive << ",";
 
-    // os << data.mm2_exclusive_at_zero << ",";
-    // os << data.energy_x_mu << ",";
-    // os << data.mm2_mPip << ",";
-    // os << data.mm2_mProt << ",";
+    // // os << data.mm2_exclusive_at_zero << ",";
+    // // os << data.energy_x_mu << ",";
+    // // os << data.mm2_mPip << ",";
+    // // os << data.mm2_mProt << ",";
 
-    // os << data.diff_rec_mes_pim_mom << ",";
-    // os << data.diff_rec_mes_pim_theta << ",";
-    // os << data.diff_rec_mes_pim_phi << ",";
+    // // os << data.diff_rec_mes_pim_mom << ",";
+    // // os << data.diff_rec_mes_pim_theta << ",";
+    // // os << data.diff_rec_mes_pim_phi << ",";
 
-    // // os << data.diff_ex_theta << ",";
-    // // os << data.diff_ex_phi << ",";
-    // // os << data.diff_bx_theta << ",";
-    // // os << data.diff_bx_phi << ",";
+    // // // os << data.diff_ex_theta << ",";
+    // // // os << data.diff_ex_phi << ",";
+    // // // os << data.diff_bx_theta << ",";
+    // // // os << data.diff_bx_phi << ",";
 
-    os << data.status_Pim << ",";
-    os << data.status_Pip << ",";
+    // os << data.status_Pim << ",";
+    // os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
     os << std::setprecision(5);
