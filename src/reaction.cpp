@@ -123,13 +123,18 @@ void Reaction::SetElec() {
   // mom correction
   _elec_mom = _elec->P();
   // double fe = dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-  _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  _px_prime_elec = _cx * _elec_mom_corrected;
-  _py_prime_elec = _cy * _elec_mom_corrected;
-  _pz_prime_elec = _cz * _elec_mom_corrected;
+  // _px_prime_elec = _cx * _elec_mom_corrected;
+  // _py_prime_elec = _cy * _elec_mom_corrected;
+  // _pz_prime_elec = _cz * _elec_mom_corrected;
 
-  _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec, _pz_prime_elec, MASS_E);
+  // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec, _pz_prime_elec, MASS_E);
+  _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+
+  _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+                             _data->pz(0) * _elec_mom_corrected, _elec_mom*_elec_mom_corrected);
+
   *_gamma += *_beam - *_mom_corr_elec;
 
   _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
@@ -281,7 +286,7 @@ void Reaction::CalcMissMass() {
 
   *mm += (*_gamma + *_target);
 
-  if (TwoPion_missingPim()) {
+  // if (TwoPion_missingPim()) {
   //   *mm -= *_prot;
   //   *mm -= *_pip;
   //   *mm -= *_pim;
@@ -306,20 +311,20 @@ void Reaction::CalcMissMass() {
   // _x_mu_m = mm->E() - mm->P();
   //   //
   // }
-  // if (TwoPion_exclusive()) {
+  if (TwoPion_exclusive()) {
     *mm -= *_prot;
     *mm -= *_pip;
     // *mm -= *_pim;
     _MM = mm->M();
     _MM2 = mm->M2();
 
-    // *mm_excl += (*_gamma + *_target);
-    // *mm_excl -= *_prot;
-    // *mm_excl -= *_pip;
-    // *mm_excl -= *_pim;
+    *mm_excl += (*_gamma + *_target);
+    *mm_excl -= *_prot;
+    *mm_excl -= *_pip;
+    *mm_excl -= *_pim;
 
-    // _MM2_exclusive = mm_excl->M2();
-    // _excl_Energy = mm_excl->E();
+    _MM2_exclusive = mm_excl->M2();
+    _excl_Energy = mm_excl->E();
 
     _rec_pim_mom = mm->P();
     _rec_pim_theta = mm->Theta() * 180 / PI;
@@ -354,17 +359,17 @@ void Reaction::CalcMissMass() {
     // // std::cout << " beam_theta " << _diff_beam_x_mu_theta << std::endl;
     // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
 
-    // // for mPip peak with exclusive events
-    // *mm_mpip += (*_gamma + *_target);
-    // *mm_mpip -= *_prot;
-    // *mm_mpip -= *_pim;
-    // _MM2_mPip = mm_mpip->M2();
+    // for mPip peak with exclusive events
+    *mm_mpip += (*_gamma + *_target);
+    *mm_mpip -= *_prot;
+    *mm_mpip -= *_pim;
+    _MM2_mPip = mm_mpip->M2();
 
-    // // for mProt peak with exclusive events
-    // *mm_mprot += (*_gamma + *_target);
-    // *mm_mprot -= *_pip;
-    // *mm_mprot -= *_pim;
-    // _MM2_mProt = mm_mprot->M2();
+    // for mProt peak with exclusive events
+    *mm_mprot += (*_gamma + *_target);
+    *mm_mprot -= *_pip;
+    *mm_mprot -= *_pim;
+    _MM2_mProt = mm_mprot->M2();
   }
     // if (TwoPion_missingPip()) {
     //   *mm_mpip += (*_gamma + *_target);
@@ -407,26 +412,26 @@ float Reaction::MM2() {
   if (_MM2 != _MM2) CalcMissMass();
   return _MM2;
 }
-// float Reaction::MM2_exclusive() {
-//   if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
-//   return _MM2_exclusive;
-// }
-// float Reaction::MM2_mPip() {
-//   if (_MM2_mPip != _MM2_mPip) CalcMissMass();
-//   return _MM2_mPip;
-// }
-// float Reaction::MM2_mProt() {
-//   if (_MM2_mProt != _MM2_mProt) CalcMissMass();
-//   return _MM2_mProt;
-// }
-// float Reaction::Energy_excl() {
-//   if (_excl_Energy != _excl_Energy) CalcMissMass();
-//   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
-//   //  if (_x_mu_E > 0)
-//   return _excl_Energy;
-//   // else
-//   // return NAN;
-// }
+float Reaction::MM2_exclusive() {
+  if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
+  return _MM2_exclusive;
+}
+float Reaction::MM2_mPip() {
+  if (_MM2_mPip != _MM2_mPip) CalcMissMass();
+  return _MM2_mPip;
+}
+float Reaction::MM2_mProt() {
+  if (_MM2_mProt != _MM2_mProt) CalcMissMass();
+  return _MM2_mProt;
+}
+float Reaction::Energy_excl() {
+  if (_excl_Energy != _excl_Energy) CalcMissMass();
+  //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
+  //  if (_x_mu_E > 0)
+  return _excl_Energy;
+  // else
+  // return NAN;
+}
 float Reaction::pim_momentum() {
   if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 

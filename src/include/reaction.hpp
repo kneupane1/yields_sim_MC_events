@@ -257,17 +257,12 @@ class Reaction {
   inline short sec() { return _data->dc_sec(0); }
   inline int det() { return abs(_data->status(0) / 1000); }
 
+
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 ) && (_hasE && _hasP));
+    _channelTwoPi &= ((_numProt == 1 && _numPip == 1 ) && (_hasE && _hasP && _hasPip));
     return _channelTwoPi;
   }
-
-  // inline bool TwoPion_missingPim() {
-  //   bool _channelTwoPi = true;
-  //   _channelTwoPi &= ((_numProt == 1 && _numPip == 1 ) && (_hasE && _hasP && _hasPip));
-  //   return _channelTwoPi;
-  // }
 
   inline bool TwoPion_exclusive() {
     bool _channelTwoPi_excl = true;
