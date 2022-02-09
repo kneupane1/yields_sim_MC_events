@@ -793,18 +793,24 @@ float MCReaction::pim_phi_mc_gen() {
     return (_pim_mc->Phi() * 180 / PI);
   else if (_pim_mc->Phi() < 0)
    return ((_pim_mc->Phi() + 2 * PI) * 180 / PI);
+  else
+    return NAN;
    }
    float MCReaction::pip_phi_mc_gen() {
      if (_pip_mc->Phi() >= 0)
        return (_pip_mc->Phi() * 180 / PI);
      else if (_pip_mc->Phi() < 0)
        return ((_pip_mc->Phi() + 2 * PI) * 180 / PI);
+     else
+       return NAN;
    }
    float MCReaction::prot_phi_mc_gen() {
      if (_prot_mc->Phi() >= 0)
        return (_prot_mc->Phi() * 180 / PI);
      else if (_prot_mc->Phi() < 0)
        return ((_prot_mc->Phi() + 2 * PI) * 180 / PI);
+    else 
+      return NAN;
    }  
    
    // void MCReaction::CalcMissMass_mc() {
