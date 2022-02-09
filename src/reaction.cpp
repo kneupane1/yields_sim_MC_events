@@ -116,9 +116,9 @@ void Reaction::SetElec() {
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-  _cx = _data->px(0)/_elec->P();
-  _cy = _data->py(0) / _elec->P();
-  _cz = _data->pz(0) / _elec->P();
+  // _cx = _data->px(0)/_elec->P();
+  // _cy = _data->py(0) / _elec->P();
+  // _cz = _data->pz(0) / _elec->P();
 
   // mom correction
   _elec_mom = _elec->P();
@@ -289,8 +289,8 @@ void Reaction::CalcMissMass() {
   // if (TwoPion_missingPim()) {
   //   *mm -= *_prot;
   //   *mm -= *_pip;
-  //   *mm -= *_pim;
-  //   _MM = mm->E();  /// just for test printing energy
+  //   // *mm -= *_pim;
+  //   // _MM = mm->M();  
   //   _MM2 = mm->M2();
 
   // _rec_pim_mom = mm->P();
@@ -301,20 +301,20 @@ void Reaction::CalcMissMass() {
   // else if (mm->Phi() < 0)
   //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
 
-  // _x_mu_E = mm->E();
-  // _x_mu_P = mm->P();
-  // _x_mu_Px = mm->Px();
-  // _x_mu_Py = mm->Py();
-  // _x_mu_Pz = mm->Pz();
-  // _x_mu_theta = mm->Theta() * RAD2DEG;
-  // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
-  // _x_mu_m = mm->E() - mm->P();
-  //   //
-  // }
+  // // _x_mu_E = mm->E();
+  // // _x_mu_P = mm->P();
+  // // _x_mu_Px = mm->Px();
+  // // _x_mu_Py = mm->Py();
+  // // _x_mu_Pz = mm->Pz();
+  // // _x_mu_theta = mm->Theta() * RAD2DEG;
+  // // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
+  // // _x_mu_m = mm->E() - mm->P();
+  // //   //
+  // // }
   if (TwoPion_exclusive()) {
     *mm -= *_prot;
-    *mm -= *_pip;
-    // *mm -= *_pim;
+    // *mm -= *_pip;
+    *mm -= *_pim;
     _MM = mm->M();
     _MM2 = mm->M2();
 
@@ -323,41 +323,41 @@ void Reaction::CalcMissMass() {
     *mm_excl -= *_pip;
     *mm_excl -= *_pim;
 
-    _MM2_exclusive = mm_excl->M2();
-    _excl_Energy = mm_excl->E();
+    // _MM2_exclusive = mm_excl->M2();
+    // _excl_Energy = mm_excl->E();
 
-    _rec_pim_mom = mm->P();
-    _rec_pim_theta = mm->Theta() * 180 / PI;
+    // _rec_pim_mom = mm->P();
+    // _rec_pim_theta = mm->Theta() * 180 / PI;
 
-    if (mm->Phi() >= 0)
-      _rec_pim_phi = (mm->Phi() * 180 / PI);
-    else if (mm->Phi() < 0)
-      _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+  //   if (mm->Phi() >= 0)
+  //     _rec_pim_phi = (mm->Phi() * 180 / PI);
+  //   else if (mm->Phi() < 0)
+  //     _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
 
-    // //////// for x_mu - elec/beam theta phi
-    // if (mm_excl->Phi() >= 0)
-    //   _x_mu_phi = (mm_excl->Phi() * 180 / PI);
-    // else if (mm_excl->Phi() < 0)
-    //   _x_mu_phi = ((mm_excl->Phi() + 2 * PI) * 180 / PI);
+  //   // //////// for x_mu - elec/beam theta phi
+  //   // if (mm_excl->Phi() >= 0)
+  //   //   _x_mu_phi = (mm_excl->Phi() * 180 / PI);
+  //   // else if (mm_excl->Phi() < 0)
+  //   //   _x_mu_phi = ((mm_excl->Phi() + 2 * PI) * 180 / PI);
 
-    // if (_elec->Phi() >= 0)
-    //   _elec_phi = (_elec->Phi() * 180 / PI);
-    // else if (_elec->Phi() < 0)
-    //   _elec_phi = ((_elec->Phi() + 2 * PI) * 180 / PI);
+  //   // if (_elec->Phi() >= 0)
+  //   //   _elec_phi = (_elec->Phi() * 180 / PI);
+  //   // else if (_elec->Phi() < 0)
+  //   //   _elec_phi = ((_elec->Phi() + 2 * PI) * 180 / PI);
 
-    // if (_beam->Phi() >= 0)
-    //   _beam_phi = (_beam->Phi() * 180 / PI);
-    // else if (_beam->Phi() < 0)
-    //   _beam_phi = ((_beam->Phi() + 2 * PI) * 180 / PI);
+  //   // if (_beam->Phi() >= 0)
+  //   //   _beam_phi = (_beam->Phi() * 180 / PI);
+  //   // else if (_beam->Phi() < 0)
+  //   //   _beam_phi = ((_beam->Phi() + 2 * PI) * 180 / PI);
 
-    // _diff_elec_x_mu_theta = (_elec->Theta() * 180 / PI);  // - (mm_excl->Theta() * 180 / PI);
-    // _diff_elec_x_mu_phi = (_elec_phi - _x_mu_phi);
+  //   // _diff_elec_x_mu_theta = (_elec->Theta() * 180 / PI);  // - (mm_excl->Theta() * 180 / PI);
+  //   // _diff_elec_x_mu_phi = (_elec_phi - _x_mu_phi);
 
-    // _diff_beam_x_mu_theta = (_beam->Theta() * 180 / PI);  //-(mm_excl->Theta() * 180 / PI);
-    // _diff_beam_x_mu_phi = (_beam_phi - _x_mu_phi);
+  //   // _diff_beam_x_mu_theta = (_beam->Theta() * 180 / PI);  //-(mm_excl->Theta() * 180 / PI);
+  //   // _diff_beam_x_mu_phi = (_beam_phi - _x_mu_phi);
 
-    // // std::cout << " beam_theta " << _diff_beam_x_mu_theta << std::endl;
-    // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
+  //   // // std::cout << " beam_theta " << _diff_beam_x_mu_theta << std::endl;
+  //   // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
 
     // for mPip peak with exclusive events
     *mm_mpip += (*_gamma + *_target);
@@ -412,26 +412,26 @@ float Reaction::MM2() {
   if (_MM2 != _MM2) CalcMissMass();
   return _MM2;
 }
-float Reaction::MM2_exclusive() {
-  if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
-  return _MM2_exclusive;
-}
-float Reaction::MM2_mPip() {
-  if (_MM2_mPip != _MM2_mPip) CalcMissMass();
-  return _MM2_mPip;
-}
-float Reaction::MM2_mProt() {
-  if (_MM2_mProt != _MM2_mProt) CalcMissMass();
-  return _MM2_mProt;
-}
-float Reaction::Energy_excl() {
-  if (_excl_Energy != _excl_Energy) CalcMissMass();
-  //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
-  //  if (_x_mu_E > 0)
-  return _excl_Energy;
-  // else
-  // return NAN;
-}
+// float Reaction::MM2_exclusive() {
+//   if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
+//   return _MM2_exclusive;
+// }
+// float Reaction::MM2_mPip() {
+//   if (_MM2_mPip != _MM2_mPip) CalcMissMass();
+//   return _MM2_mPip;
+// }
+// float Reaction::MM2_mProt() {
+//   if (_MM2_mProt != _MM2_mProt) CalcMissMass();
+//   return _MM2_mProt;
+// }
+// float Reaction::Energy_excl() {
+//   if (_excl_Energy != _excl_Energy) CalcMissMass();
+//   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
+//   //  if (_x_mu_E > 0)
+//   return _excl_Energy;
+//   // else
+//   // return NAN;
+// }
 float Reaction::pim_momentum() {
   if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
