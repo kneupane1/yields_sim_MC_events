@@ -110,7 +110,7 @@ double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  // *_gamma += *_beam - *_elec;  // becareful you are commenting this only to include the momentum correction
+  *_gamma += *_beam - *_elec;  // becareful you are commenting this only to include the momentum correction
 
   // Can calculate W and Q2 here
   _W = physics::W_calc(*_beam, *_elec);
@@ -130,30 +130,30 @@ void Reaction::SetElec() {
   // _pz_prime_elec = _cz * _elec_mom_corrected;
 
   // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec, _pz_prime_elec, MASS_E);
-  _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-                             _data->pz(0) * _elec_mom_corrected, _elec_mom*_elec_mom_corrected);
+  // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+  //                            _data->pz(0) * _elec_mom_corrected, _elec_mom*_elec_mom_corrected);
 
-  *_gamma += *_beam - *_mom_corr_elec;
+  // *_gamma += *_beam - *_mom_corr_elec;
 
-  _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+  // _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
 }
 
 
-double Reaction::Corr_elec_mom() {
-  if (_elec_mom_corrected != _elec_mom_corrected) SetElec();
-  // std::cout << " emec mom corrected " << _elec_mom_corrected << std::endl;
+// double Reaction::Corr_elec_mom() {
+//   if (_elec_mom_corrected != _elec_mom_corrected) SetElec();
+//   // std::cout << " emec mom corrected " << _elec_mom_corrected << std::endl;
 
-  return _elec_mom_corrected;
-}
+//   return _elec_mom_corrected;
+// }
 
-double Reaction::elec_mom() {
-  if (_elec_mom != _elec_mom) SetElec();
-  // std::cout << " emec mom " << _elec_mom << std::endl;
+// double Reaction::elec_mom() {
+//   if (_elec_mom != _elec_mom) SetElec();
+//   // std::cout << " emec mom " << _elec_mom << std::endl;
 
-  return _elec_mom;
-}
+//   return _elec_mom;
+// }
 
 void Reaction::SetProton(int i) {
   _numProt++;
