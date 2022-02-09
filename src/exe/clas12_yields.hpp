@@ -158,8 +158,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.prot_theta_exclusive = event->prot_theta_lab_measured();
         output.prot_phi_exclusive = event->prot_Phi_lab_measured();
         // // output.mm2_exclusive = event->MM2();
-        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        // output.energy_x_mu = event->Energy_excl();
+        output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        output.energy_x_mu = event->Energy_excl();
         // output.mm2_mPip = event->MM2_mPip();
         // output.mm2_mProt = event->MM2_mProt();
 

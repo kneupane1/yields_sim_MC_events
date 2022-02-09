@@ -81,7 +81,7 @@ struct csv_data {
 
     // for mom thee phi rec- mes check
     return "sec_ele,w,prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,prot_mom_exclusive,prot_theta_"
-           "exclusive,prot_phi_exclusive,diff_rec_mes_prot_mom,diff_rec_mes_prot_"
+           "exclusive,prot_phi_exclusive,mm2_exclusive_at_zero,energy_x_mu,diff_rec_mes_prot_mom,diff_rec_mes_prot_"
            "theta,diff_rec_mes_prot_phi,status_Pim,status_Pip,"
            "status_Prot,weight";
 
@@ -123,8 +123,8 @@ struct csv_data {
     os << data.prot_phi_exclusive << ",";
     // os << data.mm2_exclusive << ",";
 
-    // os << data.mm2_exclusive_at_zero << ",";
-    // os << data.energy_x_mu << ",";
+    os << data.mm2_exclusive_at_zero << ",";
+    os << data.energy_x_mu << ",";
     // os << data.mm2_mPip << ",";
     // os << data.mm2_mProt << ",";
 
