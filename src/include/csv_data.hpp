@@ -36,6 +36,7 @@ struct csv_data {
   float prot_phi_mProt;
   float mm2_mProt;
   float weight_mProt;
+
   float prot_mom_exclusive;
   float prot_theta_exclusive;
   float prot_phi_exclusive;
@@ -79,9 +80,9 @@ struct csv_data {
     // "w,x_mu_mom_exclusive,x_mu_theta_exclusive,x_mu_phi_exclusive,mm2_exclusive_at_zero,energy_x_mu,diff_ex_theta,diff_ex_phi,diff_bx_theta,diff_bx_phi,weight";
 
     // for mom thee phi rec- mes check
-    return "sec_ele,w,pip_mom_mPip,pim_theta_mPip,pip_phi_mPip,mm2_mPip,pip_mom_exclusive,pip_theta_"
-           "exclusive,pip_phi_exclusive,diff_rec_mes_pip_mom,diff_rec_mes_pip_"
-           "theta,diff_rec_mes_pip_phi,status_Pim,status_Pip,"
+    return "sec_ele,w,prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,prot_mom_exclusive,prot_theta_"
+           "exclusive,prot_phi_exclusive,diff_rec_mes_prot_mom,diff_rec_mes_prot_"
+           "theta,diff_rec_mes_prot_phi,status_Pim,status_Pip,"
            "status_Prot,weight";
 
     // mPip case
@@ -111,15 +112,15 @@ struct csv_data {
     // // os << data.elec_mom << ",";
     // // os << data.corr_elec_mom << ",";
 
-    os << data.pip_mom_mPip << ",";
-    os << data.pip_theta_mPip << ",";
-    os << data.pip_phi_mPip << ",";
-    os << data.mm2_mPip << ",";
+    os << data.prot_mom_mProt << ",";
+    os << data.prot_theta_mProt << ",";
+    os << data.prot_phi_mProt << ",";
+    os << data.mm2_mProt << ",";
 
     // os << data.scalar_product << ",";
-    os << data.pip_mom_exclusive << ",";
-    os << data.pip_theta_exclusive << ",";
-    os << data.pip_phi_exclusive << ",";
+    os << data.prot_mom_exclusive << ",";
+    os << data.prot_theta_exclusive << ",";
+    os << data.prot_phi_exclusive << ",";
     // os << data.mm2_exclusive << ",";
 
     // os << data.mm2_exclusive_at_zero << ",";
@@ -127,9 +128,9 @@ struct csv_data {
     // os << data.mm2_mPip << ",";
     // os << data.mm2_mProt << ",";
 
-    os << data.diff_rec_mes_pip_mom << ",";
-    os << data.diff_rec_mes_pip_theta << ",";
-    os << data.diff_rec_mes_pip_phi << ",";
+    os << data.diff_rec_mes_prot_mom << ",";
+    os << data.diff_rec_mes_prot_theta << ",";
+    os << data.diff_rec_mes_prot_phi << ",";
 
     // os << data.diff_ex_theta << ",";
     // os << data.diff_ex_phi << ",";

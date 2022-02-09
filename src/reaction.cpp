@@ -312,8 +312,8 @@ void Reaction::CalcMissMass() {
   // //   //
   // // }
   if (TwoPion_exclusive()) {
-    *mm -= *_prot;
-    // *mm -= *_pip;
+    // *mm -= *_prot;
+    *mm -= *_pip;
     *mm -= *_pim;
     _MM = mm->M();
     _MM2 = mm->M2();

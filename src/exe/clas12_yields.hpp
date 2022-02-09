@@ -147,25 +147,25 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.elec_mom = event->elec_mom();
         // output.corr_elec_mom = event->Corr_elec_mom();
 
-        output.pip_mom_mPip = event->pip_momentum();
-        output.pip_theta_mPip = event->pip_theta_lab();
-        output.pip_phi_mPip = event->pip_Phi_lab();
-        output.mm2_mPip = event->MM2();
+        output.prot_mom_mProt = event->prot_momentum();
+        output.prot_theta_mProt = event->prot_theta_lab();
+        output.prot_phi_mProt = event->prot_Phi_lab();
+        output.mm2_mProt = event->MM2();
 
         // // // for mes pim
         // output.scalar_product = event->scalar_triple_product();
-        output.pip_mom_exclusive = event->pip_momentum_measured();
-        output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        output.prot_mom_exclusive = event->prot_momentum_measured();
+        output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
         // // output.mm2_exclusive = event->MM2();
         // output.mm2_exclusive_at_zero = event->MM2_exclusive();
         // output.energy_x_mu = event->Energy_excl();
         // output.mm2_mPip = event->MM2_mPip();
         // output.mm2_mProt = event->MM2_mProt();
 
-        output.diff_rec_mes_pip_mom = (event->pip_momentum() - event->pip_momentum_measured());
-        output.diff_rec_mes_pip_theta = (event->pip_theta_lab_measured() - event->pip_theta_lab());
-        output.diff_rec_mes_pip_phi = (event->pip_Phi_lab() - event->pip_Phi_lab_measured());
+        output.diff_rec_mes_prot_mom = (event->prot_momentum() - event->prot_momentum_measured());
+        output.diff_rec_mes_prot_theta = (event->prot_theta_lab_measured() - event->prot_theta_lab());
+        output.diff_rec_mes_prot_phi = (event->prot_Phi_lab() - event->prot_Phi_lab_measured());
 
         // output.diff_ex_theta = event->Diff_elec_x_mu_theta();
         // output.diff_ex_phi = event->Diff_elec_x_mu_phi();
