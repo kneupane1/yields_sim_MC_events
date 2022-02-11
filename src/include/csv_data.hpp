@@ -89,8 +89,7 @@ struct csv_data {
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     return "sec_ele,w,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,gen_pim_mom,gen_pim_"
-           "theta,gen_pim_phi,status_Pim,status_Pip,"
-           "status_Prot,weight";
+           "theta,gen_pim_phi,weight";
     // return "w,,stp,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,weight";
     // return
     // "w,stp,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,mm2_exclusive_at_zero,energy_x_mu,diff_ex_theta,diff_ex_phi,diff_bx_theta,diff_bx_phi,weight";
@@ -155,11 +154,11 @@ struct csv_data {
     // // os << data.diff_bx_theta << ",";
     // // os << data.diff_bx_phi << ",";
 
-    os << data.status_Pim << ",";
-    os << data.status_Pip << ",";
-    os << data.status_Prot << ",";
+    // os << data.status_Pim << ",";
+    // os << data.status_Pip << ",";
+    // os << data.status_Prot << ",";
 
-    // os << std::setprecision(10);
+    // // os << std::setprecision(10);
     os << data.weight_exclusive << ",";
 
     // os << data.x_mu_mom_exclusive << ",";
