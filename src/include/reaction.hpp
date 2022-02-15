@@ -131,8 +131,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    return _data->mc_weight();
-    // return 1.0;
+    // return _data->mc_weight();
+    return 1.0;
   }
 
 
