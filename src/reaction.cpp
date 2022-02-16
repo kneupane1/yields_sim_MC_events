@@ -114,7 +114,7 @@ void Reaction::SetElec() {
 
   // Can calculate W and Q2 here
   // _W = physics::W_calc(*_beam, *_elec);
-  _Q2 = physics::Q2_calc(*_beam, *_elec);
+  // _Q2 = physics::Q2_calc(*_beam, *_elec);
 
   // _cx = _data->px(0)/_elec->P();
   // _cy = _data->py(0) / _elec->P();
@@ -138,6 +138,7 @@ void Reaction::SetElec() {
   *_gamma += *_beam - *_mom_corr_elec;
 
   _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 }
 
 
