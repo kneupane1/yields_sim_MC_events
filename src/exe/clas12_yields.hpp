@@ -177,7 +177,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.status_Prot = statusProt;
 
 
-        // output.weight_exclusive = event->weight();
+        output.weight_exclusive = event->weight();
 
 
 
@@ -194,7 +194,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.diff_bx_theta = mc_event->Diff_beam_x_mu_theta_mc();
         // output.diff_bx_phi = mc_event->Diff_beam_x_mu_phi_mc();
 
-        output.weight_exclusive = mc_event->weight();
+        // output.weight_exclusive = mc_event->weight();
 
         // mPip
 
