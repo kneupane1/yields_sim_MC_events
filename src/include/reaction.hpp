@@ -33,6 +33,15 @@ class Reaction {
   std::unique_ptr<TLorentzVector> _boosted_pim;
 
   std::unique_ptr<TLorentzVector> _mom_corr_elec;
+  std::unique_ptr<TLorentzVector> _mom_corr_pim_th;
+  std::unique_ptr<TLorentzVector> _mom_corr_pim_ph;
+  std::unique_ptr<TLorentzVector> _mom_corr_pim;
+  std::unique_ptr<TLorentzVector> _mom_corr_pip_th;
+  std::unique_ptr<TLorentzVector> _mom_corr_pip_ph;
+  std::unique_ptr<TLorentzVector> _mom_corr_pip;
+  std::unique_ptr<TLorentzVector> _mom_corr_prot_th;
+  std::unique_ptr<TLorentzVector> _mom_corr_prot_ph;
+  std::unique_ptr<TLorentzVector> _mom_corr_prot;
 
   std::unique_ptr<TLorentzVector> _rotated_prot;
   std::unique_ptr<TLorentzVector> _rotated_pip;
@@ -126,6 +135,131 @@ class Reaction {
   double _py_prime_elec = NAN;
   double _pz_prime_elec = NAN;
 
+// for pim mom corrections 
+
+  double _px_prime_pim_th = NAN;
+  double _py_prime_pim_th = NAN;
+  double _pz_prime_pim_th = NAN;
+  double _E_prime_pim_th = NAN;
+
+  double _px_prime_pim_ph = NAN;
+  double _py_prime_pim_ph = NAN;
+  double _pz_prime_pim_ph = NAN;
+
+  double _px_prime_pim_mom = NAN;
+  double _py_prime_pim_mom = NAN;
+  double _pz_prime_pim_mom = NAN;
+
+  static const int Pim_mom_bins = 10;
+  float alpha_pim_mom_corr = 0.5;
+  double _pim_mom = NAN;
+  double _pim_mom_prime = NAN;
+
+  float min_pim_mom_values[Pim_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
+  float max_pim_mom_values[Pim_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
+  double pim_mom_corr[Pim_mom_bins] = {-0.004, -0.004, -0.004, -0.012, -0.025, -0.035, -0.035, -0.03, -0.03, -0.03};
+
+
+  static const int Pim_theta_bins = 10;
+  float alpha_pim_theta_corr = 0.5;
+  double _pim_theta = NAN;
+  double _pim_theta_prime = NAN;
+
+  float min_pim_theta_values[Pim_theta_bins] = {0, 19.5, 24, 28, 33, 38, 45, 52, 60, 75};
+  float max_pim_theta_values[Pim_theta_bins] = {19.5, 24, 28, 33, 38, 45, 52, 60, 75, 180};
+  double pim_theta_corr[Pim_theta_bins] = {0.25, 0.25, 0.25, 0.3, -0.1, 1.05, 0.75, 0.2, 0.3, -1.5};
+
+  static const int Pim_phi_bins = 11;
+  float alpha_pim_phi_corr = 0.5;
+  double _pim_phi = NAN;
+  double _pim_phi_prime = NAN;
+  float min_pim_phi_values[Pim_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
+  float max_pim_phi_values[Pim_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
+  double pim_phi_corr[Pim_phi_bins] = {0.5, 0.1, 0.1, 0.3, -0.1, -0.3, -0.3, -0.1, -0.1, -0.1, 0.3};
+
+  // Now for pip mom corrections
+
+  double _px_prime_pip_th = NAN;
+  double _py_prime_pip_th = NAN;
+  double _pz_prime_pip_th = NAN;
+  double _E_prime_pip_th = NAN;
+
+  double _px_prime_pip_ph = NAN;
+  double _py_prime_pip_ph = NAN;
+  double _pz_prime_pip_ph = NAN;
+
+  double _px_prime_pip_mom = NAN;
+  double _py_prime_pip_mom = NAN;
+  double _pz_prime_pip_mom = NAN;
+
+  static const int Pip_mom_bins = 10;
+  float alpha_pip_mom_corr = 0.5;
+  double _pip_mom = NAN;
+  double _pip_mom_prime = NAN;
+
+  float min_pip_mom_values[Pip_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
+  float max_pip_mom_values[Pip_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
+  double pip_mom_corr[Pip_mom_bins] = { -0.003, -0.009, -0.021, -0.021, -0.036, -0.028, -0.028, -0.025, -0.025, -0.025,};
+
+  static const int Pip_theta_bins = 10;
+  float alpha_pip_theta_corr = 0.5;
+  double _pip_theta = NAN;
+  double _pip_theta_prime = NAN;
+
+  float min_pip_theta_values[Pip_theta_bins] = {0, 19.5, 24, 28, 33, 38, 45, 52, 60, 75};
+  float max_pip_theta_values[Pip_theta_bins] = {19.5, 24, 28, 33, 38, 45, 52, 60, 75, 180};
+  double pip_theta_corr[Pip_theta_bins] = { 0.225, 0.225, 0.075, 0.15, -0.15, 1.4, 0.2, -0.75, -2, -6};
+  
+
+  static const int Pip_phi_bins = 11;
+  float alpha_pip_phi_corr = 0.5;
+  double _pip_phi = NAN;
+  double _pip_phi_prime = NAN;
+  float min_pip_phi_values[Pip_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
+  float max_pip_phi_values[Pip_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
+  double pip_phi_corr[Pip_phi_bins] = {0.9, 0.7, 0.5, 0.3, 0.1, -0.1, -0.1, 0.1, 0.3, 0.3, 0.7};
+
+  // Now for prot mom corrections
+
+  double _px_prime_prot_th = NAN;
+  double _py_prime_prot_th = NAN;
+  double _pz_prime_prot_th = NAN;
+  double _E_prime_prot_th = NAN;
+
+  double _px_prime_prot_ph = NAN;
+  double _py_prime_prot_ph = NAN;
+  double _pz_prime_prot_ph = NAN;
+
+  double _px_prime_prot_mom = NAN;
+  double _py_prime_prot_mom = NAN;
+  double _pz_prime_prot_mom = NAN;
+
+  static const int Prot_mom_bins = 8;
+  float alpha_prot_mom_corr = 0.5;
+  double _prot_mom = NAN;
+  double _prot_mom_prime = NAN;
+
+  float min_prot_mom_values[Prot_mom_bins] = {0, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
+  float max_prot_mom_values[Prot_mom_bins] = { 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5,10};
+  double prot_mom_corr[Prot_mom_bins] = {-0.021, -0.021, -0.025, -0.025, -0.025, -0.03, -0.03, -0.042};
+
+  static const int Prot_theta_bins = 10;
+  float alpha_prot_theta_corr = 0.5;
+  double _prot_theta = NAN;
+  double _prot_theta_prime = NAN;
+
+  float min_prot_theta_values[Prot_theta_bins] = {0, 10, 15, 19.5, 24, 28, 33, 38};
+  float max_prot_theta_values[Prot_theta_bins] = {10, 15, 19.5, 24, 28, 33, 38, 180};
+  double prot_theta_corr[Prot_theta_bins] = { 0.375, 0.225, 0.225, 0.225, 0.225, 0.15, -0.45, -0.15};
+
+  static const int Prot_phi_bins = 11;
+  float alpha_prot_phi_corr = 0.5;
+  double _prot_phi = NAN;
+  double _prot_phi_prime = NAN;
+  float min_prot_phi_values[Prot_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
+  float max_prot_phi_values[Prot_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
+  double prot_phi_corr[Prot_phi_bins] = {0.9, 0.7, 0.5, 0.5, 0.1, -0.1, -0.3, 0.1, 0.1, 0.3, 0.7};
+
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -135,8 +269,7 @@ class Reaction {
     return 1.0;
   }
 
-
-// momentum correction 
+  // momentum correction
   double dpp(float px, float py, float pz, int sec, int ivec);
   double Corr_elec_mom();
   double elec_mom();
@@ -199,6 +332,19 @@ class Reaction {
   float target_pz();
   float target_E();
 
+  float pim_momentum_corrected();
+  float pim_theta_corrected();
+  float pim_Phi_corrected();
+
+
+  float pip_momentum_corrected();
+  float pip_theta_corrected();
+  float pip_Phi_corrected();
+
+  float prot_momentum_corrected();
+  float prot_theta_corrected();
+  float prot_Phi_corrected();
+
   // missingPim
   float pim_momentum();
   float pim_theta_lab();
@@ -206,6 +352,7 @@ class Reaction {
   float pim_momentum_measured();
   float pim_theta_lab_measured();
   float pim_Phi_lab_measured();
+
 
   float pim_theta_cm();
   float pim_Phi_cm();
@@ -257,10 +404,9 @@ class Reaction {
   inline short sec() { return _data->dc_sec(0); }
   inline int det() { return abs(_data->status(0) / 1000); }
 
-
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 && _numPip == 1 ) && (_hasE && _hasP && _hasPip));
+    _channelTwoPi &= ((_numProt == 1 && _numPip == 1) && (_hasE && _hasP && _hasPip));
     return _channelTwoPi;
   }
 
@@ -354,8 +500,8 @@ class MCReaction : public Reaction {
   float x_mu_theta_lab_mc();
   float x_mu_Phi_lab_mc();
 
-    std::string CsvHeader();
-    std::string ReacToCsv();
-  };
+  std::string CsvHeader();
+  std::string ReacToCsv();
+};
 
 #endif
