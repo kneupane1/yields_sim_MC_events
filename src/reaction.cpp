@@ -650,8 +650,8 @@ float Reaction::pim_theta_lab() {
 
     return missingpim_->Theta() * 180.0 / PI;
     return _rec_pim_theta;
-    // } else
-    //   return NAN;
+    } else
+      return NAN;
   }
 float Reaction::pim_Phi_lab() {
   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
