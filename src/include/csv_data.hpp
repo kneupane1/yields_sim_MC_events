@@ -132,7 +132,7 @@ struct csv_data {
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
-    os << std::setprecision(5);
+    os << std::setprecision(7);
     os << data.electron_sector << ",";
     os << data.w << ",";
     // os << data.q2 << ",";

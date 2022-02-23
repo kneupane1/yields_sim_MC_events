@@ -158,7 +158,7 @@ class Reaction {
   float min_pim_mom_values[Pim_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
   float max_pim_mom_values[Pim_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
   double pim_mom_corr[Pim_mom_bins] = {-0.004, -0.004, -0.004, -0.012, -0.025, -0.035, -0.035, -0.03, -0.03, -0.03};
-
+  double pim_mom_corr_sim[Pim_mom_bins] = { -0.002, -0.006, -0.002, -0.002, -0.0025, -0.0075, -0.0125, -0.015, -0.015, -0.015};
 
   static const int Pim_theta_bins = 10;
   float alpha_pim_theta_corr = 0.5;
@@ -168,6 +168,7 @@ class Reaction {
   float min_pim_theta_values[Pim_theta_bins] = {0, 19.5, 24, 28, 33, 38, 45, 52, 60, 75};
   float max_pim_theta_values[Pim_theta_bins] = {19.5, 24, 28, 33, 38, 45, 52, 60, 75, 180};
   double pim_theta_corr[Pim_theta_bins] = {0.25, 0.25, 0.25, 0.3, -0.1, 1.05, 0.75, 0.2, 0.3, -1.5};
+  double pim_theta_corr_sim[Pim_theta_bins] = {0.075, 0.125, 0.175, 0.25, 0.25, 0.375, 0.225, 0.3, 0.45, 0.75,};
 
   static const int Pim_phi_bins = 11;
   float alpha_pim_phi_corr = 0.5;
@@ -176,6 +177,7 @@ class Reaction {
   float min_pim_phi_values[Pim_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
   float max_pim_phi_values[Pim_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
   double pim_phi_corr[Pim_phi_bins] = {0.5, 0.1, 0.1, 0.3, -0.1, -0.3, -0.3, -0.1, -0.1, -0.1, 0.3};
+  double pim_phi_corr_sim[Pim_phi_bins] = { -0.1, -0.1, -0.1, -0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1};
 
   // Now for pip mom corrections
 
@@ -200,6 +202,10 @@ class Reaction {
   float min_pip_mom_values[Pip_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
   float max_pip_mom_values[Pip_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
   double pip_mom_corr[Pip_mom_bins] = { -0.003, -0.009, -0.021, -0.021, -0.036, -0.028, -0.028, -0.025, -0.025, -0.025,};
+  double pip_mom_corr_sim[Pip_mom_bins] = {
+      -0.003, -0.003, -0.003, -0.009, -0.012, -0.012, -0.012, -0.015, -0.015, -0.015
+
+  };
 
   static const int Pip_theta_bins = 10;
   float alpha_pip_theta_corr = 0.5;
@@ -209,7 +215,9 @@ class Reaction {
   float min_pip_theta_values[Pip_theta_bins] = {0, 19.5, 24, 28, 33, 38, 45, 52, 60, 75};
   float max_pip_theta_values[Pip_theta_bins] = {19.5, 24, 28, 33, 38, 45, 52, 60, 75, 180};
   double pip_theta_corr[Pip_theta_bins] = { 0.225, 0.225, 0.075, 0.15, -0.15, 1.4, 0.2, -0.75, -2, -6};
-  
+  double pip_theta_corr_sim[Pip_theta_bins] = {
+      0.1875, 0.1875, 0.1875, 0.375, 0.225, 0.3, 0.3, 0.375, 0.6, 0.2
+  };
 
   static const int Pip_phi_bins = 11;
   float alpha_pip_phi_corr = 0.5;
@@ -218,6 +226,9 @@ class Reaction {
   float min_pip_phi_values[Pip_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
   float max_pip_phi_values[Pip_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
   double pip_phi_corr[Pip_phi_bins] = {0.9, 0.7, 0.5, 0.3, 0.1, -0.1, -0.1, 0.1, 0.3, 0.3, 0.7};
+  double pip_phi_corr_sim[Pip_phi_bins] = {
+      0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, 0.1, 0.1, -0.1, -0.1
+  };
 
   // Now for prot mom corrections
 
@@ -242,6 +253,9 @@ class Reaction {
   float min_prot_mom_values[Prot_mom_bins] = {0, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
   float max_prot_mom_values[Prot_mom_bins] = { 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5,10};
   double prot_mom_corr[Prot_mom_bins] = {-0.021, -0.021, -0.025, -0.025, -0.025, -0.03, -0.03, -0.042};
+  double prot_mom_corr_sim[Prot_mom_bins] = {
+      -0.0135, -0.0135, -0.0125, -0.0125, -0.0125, -0.009, -0.009, -0.009,
+  };
 
   static const int Prot_theta_bins = 10;
   float alpha_prot_theta_corr = 0.5;
@@ -251,6 +265,9 @@ class Reaction {
   float min_prot_theta_values[Prot_theta_bins] = {0, 10, 15, 19.5, 24, 28, 33, 38};
   float max_prot_theta_values[Prot_theta_bins] = {10, 15, 19.5, 24, 28, 33, 38, 180};
   double prot_theta_corr[Prot_theta_bins] = { 0.375, 0.225, 0.225, 0.225, 0.225, 0.15, -0.45, -0.15};
+  double prot_theta_corr_sim[Prot_theta_bins] = {
+      0.1125, 0.1125, 0.1125, 0.1125, 0.1125, 0.225, 0.075, 0.075,
+  };
 
   static const int Prot_phi_bins = 11;
   float alpha_prot_phi_corr = 0.5;
@@ -259,6 +276,9 @@ class Reaction {
   float min_prot_phi_values[Prot_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
   float max_prot_phi_values[Prot_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
   double prot_phi_corr[Prot_phi_bins] = {0.9, 0.7, 0.5, 0.5, 0.1, -0.1, -0.3, 0.1, 0.1, 0.3, 0.7};
+  double prot_phi_corr_sim[Prot_phi_bins] = {
+      -0.1, -0.1, -0.1, 0.1, 0.1, -0.1, 0.1, 0.1, 0.1, 0.1, -0.1,
+  };
 
  public:
   Reaction(){};
