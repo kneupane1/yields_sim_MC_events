@@ -1075,22 +1075,22 @@ void MCReaction::SetMCPim(int i) { _pim_mc->SetXYZM(_data->mc_px(i), _data->mc_p
 // // }
 
 float MCReaction::pim_mom_mc_gen() {
-  if (Reaction::TwoPion_exclusive())
+  // if (Reaction::TwoPion_exclusive())
     return _pim_mc->P();
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 float MCReaction::pip_mom_mc_gen() {
-  if (Reaction::TwoPion_exclusive())
+  // if (Reaction::TwoPion_exclusive())
     return _pip_mc->P();
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 float MCReaction::prot_mom_mc_gen() {
-  if (Reaction::TwoPion_exclusive())
+  // if (Reaction::TwoPion_exclusive())
     return _prot_mc->P();
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float MCReaction::pim_theta_mc_gen() {
