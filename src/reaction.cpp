@@ -552,16 +552,16 @@ void Reaction::CalcMissMass() {
     // // //   // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
 
     // //   // for mPip peak with exclusive events
-    //   *mm_mpip += (*_gamma + *_target);
-    //   *mm_mpip -= *_prot;
-    //   *mm_mpip -= *_pim;
-    //   _MM2_mPip = mm_mpip->M2();
+      *mm_mpip += (*_gamma + *_target);
+      *mm_mpip -= *_prot;
+      *mm_mpip -= *_pim;
+      _MM2_mPip = mm_mpip->M2();
 
-    // // //   // for mProt peak with exclusive events
-    //   *mm_mprot += (*_gamma + *_target);
-    //   *mm_mprot -= *_pip;
-    //   *mm_mprot -= *_pim;
-    //   _MM2_mProt = mm_mprot->M2();
+    // //   // for mProt peak with exclusive events
+      *mm_mprot += (*_gamma + *_target);
+      *mm_mprot -= *_pip;
+      *mm_mprot -= *_pim;
+      _MM2_mProt = mm_mprot->M2();
   }
   // if (TwoPion_missingPip()) {
   //   *mm_mpip += (*_gamma + *_target);
@@ -608,14 +608,14 @@ float Reaction::MM2_exclusive() {
   if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
   return _MM2_exclusive;
 }
-// // float Reaction::MM2_mPip() {
-// //   if (_MM2_mPip != _MM2_mPip) CalcMissMass();
-// //   return _MM2_mPip;
-// // }
-// // float Reaction::MM2_mProt() {
-// //   if (_MM2_mProt != _MM2_mProt) CalcMissMass();
-// //   return _MM2_mProt;
-// // }
+float Reaction::MM2_mPip() {
+  if (_MM2_mPip != _MM2_mPip) CalcMissMass();
+  return _MM2_mPip;
+}
+float Reaction::MM2_mProt() {
+  if (_MM2_mProt != _MM2_mProt) CalcMissMass();
+  return _MM2_mProt;
+}
 float Reaction::Energy_excl() {
   if (_excl_Energy != _excl_Energy) CalcMissMass();
   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';

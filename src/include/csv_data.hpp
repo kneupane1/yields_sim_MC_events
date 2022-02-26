@@ -109,7 +109,9 @@ struct csv_data {
     //        "prot_phi_mProt,prot_phi_mes,prot_phi_corr,mm2_exclusive_at_zero,energy_x_mu,weight";
 
     return "w,prot_mom_gen,pip_mom_gen,pim_mom_gen,prot_mom_mes,prot_theta_mes,pip_mom_mes,pip_theta_mes,pim_mom_mes,"
-           "pim_theta_mes,energy_x_mu,status_Pim,status_Pip,status_Prot,mm2_exclusive_at_zero,weight";
+           "pim_theta_mes,mm2_mPim,,mm2_mPip,mm2_mProt,energy_x_mu,status_Pim,status_Pip,status_Prot,mm2_exclusive_at_"
+           "zero,"
+           "weight";
     // return
     // "w,stp,pim_mom_exclusive,pim_theta_exclusive,pim_phi_exclusive,mm2_exclusive,mm2_exclusive_at_zero,energy_x_mu,diff_ex_theta,diff_ex_phi,diff_bx_theta,diff_bx_phi,weight";
     // return
@@ -149,6 +151,9 @@ struct csv_data {
     os << data.pim_mom_exclusive << ",";
     os << data.pim_theta_exclusive << ",";
 
+    os << data.mm2_mPim << ",";
+    os << data.mm2_mPip << ",";
+    os << data.mm2_mProt << ",";
     os << data.mm2_exclusive_at_zero << ",";
     os << data.energy_x_mu << ",";
 
