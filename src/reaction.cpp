@@ -27,6 +27,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _mom_corr_prot = std::make_unique<TLorentzVector>();
   _mom_corr_prot_th = std::make_unique<TLorentzVector>();
   _mom_corr_prot_ph = std::make_unique<TLorentzVector>();
+  _Energy_loss_uncorr_prot = std::make_unique<TLorentzVector>();
 
   this->SetElec();
 
@@ -166,33 +167,55 @@ void Reaction::SetProton(int i) {
   _numProt++;
   _numPos++;
   _hasP = true;
-  _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
-  //   // _prot_status = abs(_data->status(i));
-  //   _prot_mom = _prot->P();
-  //   _prot_theta = _prot->Theta() * 180 / PI;
+  // _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+  _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+    // _prot_status = abs(_data->status(i));
+  _prot_mom_uncorr = _Energy_loss_uncorr_prot->P();
+  _prot_theta = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
+  // std::cout << "prot ststus " << _data->status(i) << "   prot theta " << _prot_theta << " prot  mom   "
+  //           << _prot_mom_uncorr<< std::endl;
+  if (abs(_data->status(i)) < 4000) {
+    if (_prot_theta <= 27) {
+      _E_corr_val_prot =
+          -0.00080818 * pow(_prot_mom_uncorr, 3) + 0.0065052 * pow(_prot_mom_uncorr, 2) - 0.01627781 * (_prot_mom_uncorr) + 0.01570824;
+    } else {
+      _E_corr_val_prot =
+          -0.00210277 * pow(_prot_mom_uncorr, 3) + 0.01708906 * pow(_prot_mom_uncorr, 2) - 0.04449655 * (_prot_mom_uncorr) + 0.04412178;
+    }
+}
+else if (abs(_data->status(i)) >= 4000) {
+  _E_corr_val_prot = 0.01066629 * pow(_prot_mom_uncorr, 2) - 0.05379991 * (_prot_mom_uncorr) + 0.02531185;
+}
 
-  //   if (_prot->Phi() > 0)
-  //     _prot_phi = _prot->Phi() * 180 / PI;
-  //   else if (_prot->Phi() < 0)
-  //     _prot_phi = (_prot->Phi() + 2 * PI) * 180 / PI;
+  _prot_mom = _prot_mom_uncorr + _E_corr_val_prot;
 
-  //   for (size_t t = 0; t < Prot_theta_bins; t++) {
-  //     double theta_min = min_prot_theta_values[t];
-  //     double theta_max = max_prot_theta_values[t];
-  //     if (_prot_theta > theta_min && _prot_theta < theta_max) {
-  //       //for experimental dsta
-  //       _prot_theta_prime = _prot_theta - prot_theta_corr[t] * alpha_prot_theta_corr;
-  // // //for simulation data
-  // //       _prot_theta_prime = _prot_theta - prot_theta_corr_sim[t] * alpha_prot_theta_corr;
+  _px_prime_prot_E = _data->px(i) * ((_prot_mom) / (_prot_mom_uncorr));
+  _py_prime_prot_E = _data->py(i) * ((_prot_mom) / (_prot_mom_uncorr));
+  _pz_prime_prot_E = _data->pz(i) * ((_prot_mom) / (_prot_mom_uncorr));
+  _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
-  //       _px_prime_prot_th = _data->px(i) * (sin(DEG2RAD * _prot_theta_prime) / sin(DEG2RAD * _prot_theta));
-  //       _py_prime_prot_th = _data->py(i) * (sin(DEG2RAD * _prot_theta_prime) / sin(DEG2RAD * _prot_theta));
-  //       _pz_prime_prot_th = _data->pz(i) * (cos(DEG2RAD * _prot_theta_prime) / cos(DEG2RAD * _prot_theta));
-  //       _E_prime_prot_th = sqrt(abs(_px_prime_prot_th * _px_prime_prot_th + _py_prime_prot_th * _py_prime_prot_th +
-  //                                  _pz_prime_prot_th * _pz_prime_prot_th));
-  //       _mom_corr_prot_th->SetPxPyPzE(_px_prime_prot_th, _py_prime_prot_th, _pz_prime_prot_th, _E_prime_prot_th);
-  //     }
+  // if (_prot->Phi() > 0)
+  //   _prot_phi = _prot->Phi() * 180 / PI;
+  // else if (_prot->Phi() < 0)
+  //   _prot_phi = (_prot->Phi() + 2 * PI) * 180 / PI;
+
+  // for (size_t t = 0; t < Prot_theta_bins; t++) {
+  //   double theta_min = min_prot_theta_values[t];
+  //   double theta_max = max_prot_theta_values[t];
+  //   if (_prot_theta > theta_min && _prot_theta < theta_max) {
+  //     // for experimental dsta
+  //     _prot_theta_prime = _prot_theta - prot_theta_corr[t] * alpha_prot_theta_corr;
+  //     // //for simulation data
+  //     //       _prot_theta_prime = _prot_theta - prot_theta_corr_sim[t] * alpha_prot_theta_corr;
+
+  //     _px_prime_prot_th = _data->px(i) * (sin(DEG2RAD * _prot_theta_prime) / sin(DEG2RAD * _prot_theta));
+  //     _py_prime_prot_th = _data->py(i) * (sin(DEG2RAD * _prot_theta_prime) / sin(DEG2RAD * _prot_theta));
+  //     _pz_prime_prot_th = _data->pz(i) * (cos(DEG2RAD * _prot_theta_prime) / cos(DEG2RAD * _prot_theta));
+  //     _E_prime_prot_th = sqrt(abs(_px_prime_prot_th * _px_prime_prot_th + _py_prime_prot_th * _py_prime_prot_th +
+  //                                 _pz_prime_prot_th * _pz_prime_prot_th));
+  //     _mom_corr_prot_th->SetPxPyPzE(_px_prime_prot_th, _py_prime_prot_th, _pz_prime_prot_th, _E_prime_prot_th);
   //   }
+  // }
 
   //   for (size_t p = 0; p < Prot_phi_bins; p++) {
   //     double phi_min = min_prot_phi_values[p];
@@ -552,16 +575,16 @@ void Reaction::CalcMissMass() {
     // // //   // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
 
     // //   // for mPip peak with exclusive events
-      *mm_mpip += (*_gamma + *_target);
-      *mm_mpip -= *_prot;
-      *mm_mpip -= *_pim;
-      _MM2_mPip = mm_mpip->M2();
+    *mm_mpip += (*_gamma + *_target);
+    *mm_mpip -= *_prot;
+    *mm_mpip -= *_pim;
+    _MM2_mPip = mm_mpip->M2();
 
     // //   // for mProt peak with exclusive events
-      *mm_mprot += (*_gamma + *_target);
-      *mm_mprot -= *_pip;
-      *mm_mprot -= *_pim;
-      _MM2_mProt = mm_mprot->M2();
+    *mm_mprot += (*_gamma + *_target);
+    *mm_mprot -= *_pip;
+    *mm_mprot -= *_pim;
+    _MM2_mProt = mm_mprot->M2();
   }
   // if (TwoPion_missingPip()) {
   //   *mm_mpip += (*_gamma + *_target);
@@ -1076,19 +1099,19 @@ void MCReaction::SetMCPim(int i) { _pim_mc->SetXYZM(_data->mc_px(i), _data->mc_p
 
 float MCReaction::pim_mom_mc_gen() {
   // if (Reaction::TwoPion_exclusive())
-    return _pim_mc->P();
+  return _pim_mc->P();
   // else
   //   return NAN;
 }
 float MCReaction::pip_mom_mc_gen() {
   // if (Reaction::TwoPion_exclusive())
-    return _pip_mc->P();
+  return _pip_mc->P();
   // else
   //   return NAN;
 }
 float MCReaction::prot_mom_mc_gen() {
   // if (Reaction::TwoPion_exclusive())
-    return _prot_mc->P();
+  return _prot_mc->P();
   // else
   //   return NAN;
 }
