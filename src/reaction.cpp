@@ -178,11 +178,11 @@ void Reaction::SetProton(int i) {
     if (_prot_theta <= 27) {
       _E_corr_val_prot = -0.00078846 * pow(_prot_mom_uncorr, 5) + 0.0093734 * pow(_prot_mom_uncorr, 4) -
                          0.04277868 * pow(_prot_mom_uncorr, 3) + 0.09421284 * pow(_prot_mom_uncorr, 2) -
-                         0.10095842 * pow_prot_mom_uncorr + 0.04567203;
+                         0.10095842 * (_prot_mom_uncorr) + 0.04567203;
     } else {
       _E_corr_val_prot = -0.0023389 * pow(_prot_mom_uncorr, 5) + 0.02838603 * pow(_prot_mom_uncorr, 4) -
                          0.13214962 * pow(_prot_mom_uncorr, 3) + 0.29609571 * pow(_prot_mom_uncorr, 2) -
-                         0.32307424 * _prot_mom_uncorr + 0.14742569;
+                         0.32307424 * (_prot_mom_uncorr) + 0.14742569;
     }
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_prot = 0.01066629 * pow(_prot_mom_uncorr, 2) - 0.05379991 * (_prot_mom_uncorr) + 0.02531185;
