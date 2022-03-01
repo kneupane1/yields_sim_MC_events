@@ -28,6 +28,8 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _mom_corr_prot_th = std::make_unique<TLorentzVector>();
   _mom_corr_prot_ph = std::make_unique<TLorentzVector>();
   _Energy_loss_uncorr_prot = std::make_unique<TLorentzVector>();
+  _Energy_loss_uncorr_pip = std::make_unique<TLorentzVector>();
+  _Energy_loss_uncorr_pim = std::make_unique<TLorentzVector>();
 
   this->SetElec();
 
@@ -266,34 +268,58 @@ void Reaction::SetPip(int i) {
   _numPip++;
   _numPos++;
   _hasPip = true;
-  _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
   //   // _pip_status = abs(_data->status(i));
+  _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
+  _pip_theta = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
+  // std::cout << "pip ststus " << _data->status(i) << "   pip theta " << _pip_theta << " pip  mom   "
+  //           << _pip_mom_uncorr<< std::endl;
+  if (abs(_data->status(i)) < 4000) {
+    if (_pip_theta <= 27) {
+      _E_corr_val_pip = 9.21970527e-05 * pow(_pip_mom_uncorr, 3) - 3.70500143e-04 * pow(_pip_mom_uncorr, 2) +
+                        2.78880101e-04 * (_pip_mom_uncorr) + 2.66040566e-03;
+    } else {
+      _E_corr_val_pip = -0.00010482 * pow(_pip_mom_uncorr, 3) + 0.00080463 * pow(_pip_mom_uncorr, 2) -
+                        0.0022871 * (_pip_mom_uncorr) + 0.00831496;
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    _E_corr_val_pip = -0.00317701 * pow(_pip_mom_uncorr, 3) + 0.02278591 * pow(_pip_mom_uncorr, 2) -
+                      0.05563187 * (_pip_mom_uncorr) + 0.01079597;
+  }
+
+  _pip_mom = _pip_mom_uncorr + _E_corr_val_pip;
+
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom) / (_pip_mom_uncorr));
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom) / (_pip_mom_uncorr));
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom) / (_pip_mom_uncorr));
+  _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
   //   _pip_mom = _pip->P();
   //   _pip_theta = _pip->Theta() * 180 / PI;
 
-  //   if (_pip->Phi() > 0)
-  //     _pip_phi = _pip->Phi() * 180 / PI;
-  //   else if (_pip->Phi() < 0)
-  //     _pip_phi = (_pip->Phi() + 2 * PI) * 180 / PI;
+    // if (_pip->Phi() > 0)
+    //   _pip_phi = _pip->Phi() * 180 / PI;
+    // else if (_pip->Phi() < 0)
+    //   _pip_phi = (_pip->Phi() + 2 * PI) * 180 / PI;
 
-  //   for (size_t t = 0; t < Pip_theta_bins; t++) {
-  //     double theta_min = min_pip_theta_values[t];
-  //     double theta_max = max_pip_theta_values[t];
-  //     if (_pip_theta > theta_min && _pip_theta < theta_max) {
-  //       // For experimental data
-  //       _pip_theta_prime = _pip_theta - pip_theta_corr[t] * alpha_pip_theta_corr;
-  //       // // For simulation data
-  //       // _pip_theta_prime = _pip_theta - pip_theta_corr_sim[t] * alpha_pip_theta_corr;
+    // for (size_t t = 0; t < Pip_theta_bins; t++) {
+    //   double theta_min = min_pip_theta_values[t];
+    //   double theta_max = max_pip_theta_values[t];
+    //   if (_pip_theta > theta_min && _pip_theta < theta_max) {
+    //     // For experimental data
+    //     _pip_theta_prime = _pip_theta - pip_theta_corr[t] * alpha_pip_theta_corr;
+    //     // // For simulation data
+    //     // _pip_theta_prime = _pip_theta - pip_theta_corr_sim[t] * alpha_pip_theta_corr;
 
-  //       _px_prime_pip_th = _data->px(i) * (sin(DEG2RAD * _pip_theta_prime) / sin(DEG2RAD * _pip_theta));
-  //       _py_prime_pip_th = _data->py(i) * (sin(DEG2RAD * _pip_theta_prime) / sin(DEG2RAD * _pip_theta));
-  //       _pz_prime_pip_th = _data->pz(i) * (cos(DEG2RAD * _pip_theta_prime) / cos(DEG2RAD * _pip_theta));
-  //       _E_prime_pip_th = sqrt(abs(_px_prime_pip_th * _px_prime_pip_th + _py_prime_pip_th * _py_prime_pip_th +
-  //                                  _pz_prime_pip_th * _pz_prime_pip_th));
-  //       _mom_corr_pip_th->SetPxPyPzE(_px_prime_pip_th, _py_prime_pip_th, _pz_prime_pip_th, _E_prime_pip_th);
-  //     }
-  //   }
+    //     _px_prime_pip_th = _data->px(i) * (sin(DEG2RAD * _pip_theta_prime) / sin(DEG2RAD * _pip_theta));
+    //     _py_prime_pip_th = _data->py(i) * (sin(DEG2RAD * _pip_theta_prime) / sin(DEG2RAD * _pip_theta));
+    //     _pz_prime_pip_th = _data->pz(i) * (cos(DEG2RAD * _pip_theta_prime) / cos(DEG2RAD * _pip_theta));
+    //     _E_prime_pip_th = sqrt(abs(_px_prime_pip_th * _px_prime_pip_th + _py_prime_pip_th * _py_prime_pip_th +
+    //                                _pz_prime_pip_th * _pz_prime_pip_th));
+    //     _mom_corr_pip_th->SetPxPyPzE(_px_prime_pip_th, _py_prime_pip_th, _pz_prime_pip_th, _E_prime_pip_th);
+    //   }
+    // }
 
   //   for (size_t p = 0; p < Pip_phi_bins; p++) {
   //     double phi_min = min_pip_phi_values[p];
@@ -344,8 +370,33 @@ void Reaction::SetPim(int i) {
   _numPim++;
   _numNeg++;
   _hasPim = true;
-  _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   // // _pim_status = abs(_data->status(i));
+  _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
+  _pim_theta = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
+  // std::cout << "pim ststus " << _data->status(i) << "   pim theta " << _pim_theta << " pim  mom   "
+  //           << _pim_mom_uncorr<< std::endl;
+  if (abs(_data->status(i)) < 4000) {
+    if (_pim_theta <= 27) {
+      _E_corr_val_pim = -0.00035275 * pow(_pim_mom_uncorr, 3) + 0.00291237 * pow(_pim_mom_uncorr, 2) -
+                        0.00681058 * (_pim_mom_uncorr) + 0.00736721;
+    } else {
+      _E_corr_val_pim = 0.00019358 * pow(_pim_mom_uncorr, 3) - 0.00103456 * pow(_pim_mom_uncorr, 2) +
+                        0.00024772 * (_pim_mom_uncorr) + 0.00735159;
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    _E_corr_val_pim = 0.00150418 * pow(_pim_mom_uncorr, 3) + 0.004563 * pow(_pim_mom_uncorr, 2) -
+                      0.04861814 * (_pim_mom_uncorr) + 0.01485638;
+  }
+
+  _pim_mom = _pim_mom_uncorr + _E_corr_val_pim;
+
+  _px_prime_pim_E = _data->px(i) * ((_pim_mom) / (_pim_mom_uncorr));
+  _py_prime_pim_E = _data->py(i) * ((_pim_mom) / (_pim_mom_uncorr));
+  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom) / (_pim_mom_uncorr));
+  _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+
   // _pim_mom = _pim->P();
   // _pim_theta = _pim->Theta() * 180 / PI;
 
@@ -648,54 +699,54 @@ float Reaction::Energy_excl() {
   // else
   // return NAN;
 }
-// float Reaction::pim_momentum() {
-//   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
+float Reaction::pim_momentum() {
+  // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-//   // if (TwoPion_missingPim()) {
-//   if (TwoPion_exclusive()) {
-//     auto missingpim_ = std::make_unique<TLorentzVector>();
-//     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-//     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+  // if (TwoPion_missingPim()) {
+  if (TwoPion_exclusive()) {
+    auto missingpim_ = std::make_unique<TLorentzVector>();
+    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
-//     return missingpim_->P();
-//     // return _rec_pim_mom;
+    return missingpim_->P();
+    // return _rec_pim_mom;
 
-//   } else
-//     return NAN;
-// }
-// float Reaction::pim_theta_lab() {
-//   // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
+  } else
+    return NAN;
+}
+float Reaction::pim_theta_lab() {
+  // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
 
-//   // if (TwoPion_missingPim()) {
-//   if (TwoPion_exclusive()) {
-//     auto missingpim_ = std::make_unique<TLorentzVector>();
-//     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-//     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+  // if (TwoPion_missingPim()) {
+  if (TwoPion_exclusive()) {
+    auto missingpim_ = std::make_unique<TLorentzVector>();
+    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
-//     return missingpim_->Theta() * 180.0 / PI;
-//     return _rec_pim_theta;
-//     } else
-//       return NAN;
-//   }
-// float Reaction::pim_Phi_lab() {
-//   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
+    return missingpim_->Theta() * 180.0 / PI;
+    // return _rec_pim_theta;
+    } else
+      return NAN;
+  }
+float Reaction::pim_Phi_lab() {
+  // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
 
-//   // if (TwoPion_missingPim()) {
-//   if (TwoPion_exclusive()) {
-//     auto missingpim_ = std::make_unique<TLorentzVector>();
-//     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-//     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+  // if (TwoPion_missingPim()) {
+  if (TwoPion_exclusive()) {
+    auto missingpim_ = std::make_unique<TLorentzVector>();
+    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
-//     if (missingpim_->Phi() > 0)
-//       return missingpim_->Phi() * 180 / PI;
-//     else if (missingpim_->Phi() < 0)
-//       return (missingpim_->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//     return _rec_pim_phi;
-//   } else
-//     return NAN;
-// }
+    if (missingpim_->Phi() > 0)
+      return missingpim_->Phi() * 180 / PI;
+    else if (missingpim_->Phi() < 0)
+      return (missingpim_->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+    // return _rec_pim_phi;
+  } else
+    return NAN;
+}
 float Reaction::pim_momentum_measured() {
   if (TwoPion_exclusive())
     return _pim->P();
@@ -747,43 +798,43 @@ float Reaction::pim_Phi_lab_measured() {
 //     return NAN;
 // }
 ////////////////mPip
-// float Reaction::pip_momentum() {
-//   // if (TwoPion_missingPip()) {
-//     if (TwoPion_exclusive()) {
-//       auto missingpip_ = std::make_unique<TLorentzVector>();
-//       // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-//       *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+float Reaction::pip_momentum() {
+  // if (TwoPion_missingPip()) {
+    if (TwoPion_exclusive()) {
+      auto missingpip_ = std::make_unique<TLorentzVector>();
+      *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+      // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
 
-//       return missingpip_->P();
-//     } else
-//       return NAN;
-// }
-// float Reaction::pip_theta_lab() {
-//   // if (TwoPion_missingPip()) {
-//     if (TwoPion_exclusive()) {
-//       auto missingpip_ = std::make_unique<TLorentzVector>();
-//       // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-//       *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
-//       return missingpip_->Theta() * 180.0 / PI;
-//     } else
-//       return NAN;
-// }
-// float Reaction::pip_Phi_lab() {
-//   // if (TwoPion_missingPip()) {
-//     if (TwoPion_exclusive()) {
-//       auto missingpip_ = std::make_unique<TLorentzVector>();
-//       // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-//       *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+      return missingpip_->P();
+    } else
+      return NAN;
+}
+float Reaction::pip_theta_lab() {
+  // if (TwoPion_missingPip()) {
+    if (TwoPion_exclusive()) {
+      auto missingpip_ = std::make_unique<TLorentzVector>();
+      *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+      // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+      return missingpip_->Theta() * 180.0 / PI;
+    } else
+      return NAN;
+}
+float Reaction::pip_Phi_lab() {
+  // if (TwoPion_missingPip()) {
+    if (TwoPion_exclusive()) {
+      auto missingpip_ = std::make_unique<TLorentzVector>();
+      *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+      // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
 
-//       if (missingpip_->Phi() > 0)
-//         return missingpip_->Phi() * 180 / PI;
-//       else if (missingpip_->Phi() < 0)
-//         return (missingpip_->Phi() + 2 * PI) * 180 / PI;
-//       else
-//         return NAN;
-//     } else
-//       return NAN;
-// }
+      if (missingpip_->Phi() > 0)
+        return missingpip_->Phi() * 180 / PI;
+      else if (missingpip_->Phi() < 0)
+        return (missingpip_->Phi() + 2 * PI) * 180 / PI;
+      else
+        return NAN;
+    } else
+      return NAN;
+}
 float Reaction::pip_momentum_measured() {
   if (TwoPion_exclusive())
     return _pip->P();
@@ -836,45 +887,45 @@ float Reaction::pip_Phi_lab_measured() {
 // }
 
 ////////////////mProt
-// float Reaction::prot_momentum() {
-//   // if (TwoPion_missingProt()) {
-//     if (TwoPion_exclusive()) {
-//     auto missingprot_ = std::make_unique<TLorentzVector>();
-//     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-//     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+float Reaction::prot_momentum() {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
+    auto missingprot_ = std::make_unique<TLorentzVector>();
+    *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
-//     return missingprot_->P();
-//   } else
-//     return NAN;
-// }
-// float Reaction::prot_theta_lab() {
-//   // if (TwoPion_missingProt()) {
-//     if (TwoPion_exclusive()) {
-//     auto missingprot_ = std::make_unique<TLorentzVector>();
-//     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-//     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+    return missingprot_->P();
+  } else
+    return NAN;
+}
+float Reaction::prot_theta_lab() {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
+    auto missingprot_ = std::make_unique<TLorentzVector>();
+    *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
-//     return missingprot_->Theta() * 180.0 / PI;
-//   } else
-//     return NAN;
-// }
-// float Reaction::prot_Phi_lab() {
-//   // if (TwoPion_missingProt()) {
-//     if (TwoPion_exclusive()) {
+    return missingprot_->Theta() * 180.0 / PI;
+  } else
+    return NAN;
+}
+float Reaction::prot_Phi_lab() {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
 
-//     auto missingprot_ = std::make_unique<TLorentzVector>();
-//     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-//     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+    auto missingprot_ = std::make_unique<TLorentzVector>();
+    *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
-//     if (missingprot_->Phi() > 0)
-//       return missingprot_->Phi() * 180 / PI;
-//     else if (missingprot_->Phi() < 0)
-//       return (missingprot_->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
+    if (missingprot_->Phi() > 0)
+      return missingprot_->Phi() * 180 / PI;
+    else if (missingprot_->Phi() < 0)
+      return (missingprot_->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 float Reaction::prot_momentum_measured() {
   if (TwoPion_exclusive())
     return _prot->P();

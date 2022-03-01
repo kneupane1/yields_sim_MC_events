@@ -42,6 +42,8 @@ class Reaction {
   std::unique_ptr<TLorentzVector> _mom_corr_prot_th;
   std::unique_ptr<TLorentzVector> _mom_corr_prot_ph;
   std::unique_ptr<TLorentzVector> _mom_corr_prot;
+  std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_pim;
+  std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_pip;
   std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_prot;
 
   std::unique_ptr<TLorentzVector> _rotated_prot;
@@ -151,11 +153,16 @@ class Reaction {
   double _py_prime_pim_mom = NAN;
   double _pz_prime_pim_mom = NAN;
 
+  double _px_prime_pim_E = NAN;
+  double _py_prime_pim_E = NAN;
+  double _pz_prime_pim_E = NAN;
 
   static const int Pim_mom_bins = 10;
   float alpha_pim_mom_corr = 0.5;
   double _pim_mom = NAN;
   double _pim_mom_prime = NAN;
+  double _pim_mom_uncorr = NAN;
+  float _E_corr_val_pim = NAN;
 
   float min_pim_mom_values[Pim_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
   float max_pim_mom_values[Pim_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
@@ -196,10 +203,16 @@ class Reaction {
   double _py_prime_pip_mom = NAN;
   double _pz_prime_pip_mom = NAN;
 
+  double _px_prime_pip_E = NAN;
+  double _py_prime_pip_E = NAN;
+  double _pz_prime_pip_E = NAN;
+
   static const int Pip_mom_bins = 10;
   float alpha_pip_mom_corr = 0.5;
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
+  double _pip_mom_uncorr = NAN;
+  float _E_corr_val_pip = NAN;
 
   float min_pip_mom_values[Pip_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
   float max_pip_mom_values[Pip_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
@@ -254,9 +267,9 @@ class Reaction {
 
   static const int Prot_mom_bins = 8;
   float alpha_prot_mom_corr = 0.5;
+  double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
   double _prot_mom_uncorr = NAN;
-  double _prot_mom_prime = NAN;
   float _E_corr_val_prot = NAN;
 
       float min_prot_mom_values[Prot_mom_bins] = {0, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
