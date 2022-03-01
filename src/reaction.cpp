@@ -169,23 +169,24 @@ void Reaction::SetProton(int i) {
   _hasP = true;
   // _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
   _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
-    // _prot_status = abs(_data->status(i));
+  // _prot_status = abs(_data->status(i));
   _prot_mom_uncorr = _Energy_loss_uncorr_prot->P();
   _prot_theta = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
   // std::cout << "prot ststus " << _data->status(i) << "   prot theta " << _prot_theta << " prot  mom   "
   //           << _prot_mom_uncorr<< std::endl;
   if (abs(_data->status(i)) < 4000) {
     if (_prot_theta <= 27) {
-      _E_corr_val_prot =
-          -0.00080818 * pow(_prot_mom_uncorr, 3) + 0.0065052 * pow(_prot_mom_uncorr, 2) - 0.01627781 * (_prot_mom_uncorr) + 0.01570824;
+      _E_corr_val_prot = -0.00078846 * pow(_prot_mom_uncorr, 5) + 0.0093734 * pow(_prot_mom_uncorr, 4) -
+                         0.04277868 * pow(_prot_mom_uncorr, 3) + 0.09421284 * pow(_prot_mom_uncorr, 2) -
+                         0.10095842 * pow_prot_mom_uncorr + 0.04567203;
     } else {
-      _E_corr_val_prot =
-          -0.00210277 * pow(_prot_mom_uncorr, 3) + 0.01708906 * pow(_prot_mom_uncorr, 2) - 0.04449655 * (_prot_mom_uncorr) + 0.04412178;
+      _E_corr_val_prot = -0.0023389 * pow(_prot_mom_uncorr, 5) + 0.02838603 * pow(_prot_mom_uncorr, 4) -
+                         0.13214962 * pow(_prot_mom_uncorr, 3) + 0.29609571 * pow(_prot_mom_uncorr, 2) -
+                         0.32307424 * _prot_mom_uncorr + 0.14742569;
     }
-}
-else if (abs(_data->status(i)) >= 4000) {
-  _E_corr_val_prot = 0.01066629 * pow(_prot_mom_uncorr, 2) - 0.05379991 * (_prot_mom_uncorr) + 0.02531185;
-}
+  } else if (abs(_data->status(i)) >= 4000) {
+    _E_corr_val_prot = 0.01066629 * pow(_prot_mom_uncorr, 2) - 0.05379991 * (_prot_mom_uncorr) + 0.02531185;
+  }
 
   _prot_mom = _prot_mom_uncorr + _E_corr_val_prot;
 
