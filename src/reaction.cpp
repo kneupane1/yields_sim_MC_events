@@ -52,66 +52,66 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
 
 Reaction::~Reaction() {}
 
-// double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
-//   double pp = sqrt(px * px + py * py + pz * pz);
+double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
+  double pp = sqrt(px * px + py * py + pz * pz);
 
-//   double a = pars[sec - 1][ivec][0], b = pars[sec - 1][ivec][1], c = pars[sec - 1][ivec][2];
+  double a = pars[sec - 1][ivec][0], b = pars[sec - 1][ivec][1], c = pars[sec - 1][ivec][2];
 
-//   double dp = a * pp * pp + b * pp + c;  // pol2 corr func
+  double dp = a * pp * pp + b * pp + c;  // pol2 corr func
 
-//   // electron pol1 corr func for each sec and each phi bins
-//   if (ivec == 0) {
-//     if (sec == 1) {
-//       dp = 0.45 * b * (pp - 9) + 0.1 * c;
+  // electron pol1 corr func for each sec and each phi bins
+  if (ivec == 0) {
+    if (sec == 1) {
+      dp = 0.45 * b * (pp - 9) + 0.1 * c;
 
-//       // ep 3 phi bins
-//       // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
-//       // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
-//       // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
-//     }
-//     if (sec == 2) {
-//       dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
+      // ep 3 phi bins
+      // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
+      // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
+      // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
+    }
+    if (sec == 2) {
+      dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
 
-//       // ep 3 phi bins
-//       // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
-//       // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
-//       // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
-//     }
-//     if (sec == 3) {
-//       dp = 3. * b * (pp - 5.4) - 0.5 * c;
+      // ep 3 phi bins
+      // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
+      // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
+      // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
+    }
+    if (sec == 3) {
+      dp = 3. * b * (pp - 5.4) - 0.5 * c;
 
-//       // ep 3 phi bins
-//       // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
-//       // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
-//       // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
-//     }
-//     if (sec == 4) {
-//       dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
+      // ep 3 phi bins
+      // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
+      // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
+      // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
+    }
+    if (sec == 4) {
+      dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
 
-//       // ep 3 phi bins
-//       // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
-//       // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
-//       // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
-//     }
-//     if (sec == 5) {
-//       dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
+      // ep 3 phi bins
+      // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
+      // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
+      // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
+    }
+    if (sec == 5) {
+      dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
 
-//       // ep 3 phi bins
-//       // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
-//       // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
-//       // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
-//     }
-//     if (sec == 6) {
-//       dp = 0.5 * b * (pp - 7) - 0.6 * c;
+      // ep 3 phi bins
+      // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
+      // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
+      // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
+    }
+    if (sec == 6) {
+      dp = 0.5 * b * (pp - 7) - 0.6 * c;
 
-//       // ep 3 phi bins
-//       // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
-//       // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
-//       // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
-//     }
-//   }
-//   return dp / pp;
-// };
+      // ep 3 phi bins
+      // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
+      // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
+      // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
+    }
+  }
+  return dp / pp;
+};
 
 // double fe = dpp(ex, ey, ez, esec, 0) + 1;
 // double fpip = dpp(pipx,pipy,pipz,pipsec,1) + 1;
@@ -120,35 +120,35 @@ Reaction::~Reaction() {}
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // Can calculate W and Q2 here
-  _W = physics::W_calc(*_beam, *_elec);
-  _Q2 = physics::Q2_calc(*_beam, *_elec);
+  // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // _W = physics::W_calc(*_beam, *_elec);
+  // _Q2 = physics::Q2_calc(*_beam, *_elec);
 
+//One way of  calculating mom - corrected four vectors
   // // _cx = _data->px(0)/_elec->P();
   // // _cy = _data->py(0) / _elec->P();
   // // _cz = _data->pz(0) / _elec->P();
+  // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  // // mom correction
-  // _elec_mom = _elec->P();
-  // // double fe = dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-  // // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  // _px_prime_elec = _cx * _elec_mom_corrected;
+  // _py_prime_elec = _cy * _elec_mom_corrected;
+  // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec,
+  // _pz_prime_elec, MASS_E);
 
-  // // _px_prime_elec = _cx * _elec_mom_corrected;
-  // // _py_prime_elec = _cy * _elec_mom_corrected;
-  // // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec,
-  // // _pz_prime_elec, MASS_E);
+  // mom correction another way
+  _elec_mom = _elec->P();
 
-  // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+  _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+                             _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-  // *_gamma += *_beam - *_mom_corr_elec;
+  *_gamma += *_beam - *_mom_corr_elec;
 
-  // _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+  _W = physics::W_calc(*_beam, *_mom_corr_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 }
 
 // double Reaction::Corr_elec_mom() {
