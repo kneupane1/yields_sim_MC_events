@@ -109,8 +109,12 @@ struct csv_data {
     //        "prot_phi_mProt,prot_phi_mes,prot_phi_corr,mm2_exclusive_at_zero,energy_x_mu,weight";
 
     return "w,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
-           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_mes,pip_phi_"
-           "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
+           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+           "prot_mom_corr,prot_theta_corr,prot_phi_corr,pip_mom_mes,pip_theta_mes,pip_phi_"
+           "mes,pip_mom_corr,pip_theta_corr,pip_phi_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,pim_"
+           "theta_corr,pim_phi_corr,mm2_mPim,mm2_mPip,"
+           "mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
+           "status_Pim,"
            "status_Pip,status_Prot,weight";
 
     // // // for mom thee phi rec- mes check
@@ -158,14 +162,23 @@ struct csv_data {
     os << data.prot_mom_exclusive << ",";
     os << data.prot_theta_exclusive << ",";
     os << data.prot_phi_exclusive << ",";
+    os << data.prot_mom_corr << ",";
+    os << data.prot_theta_corr << ",";
+    os << data.prot_phi_corr << ",";
 
     os << data.pip_mom_exclusive << ",";
     os << data.pip_theta_exclusive << ",";
     os << data.pip_phi_exclusive << ",";
+    os << data.pip_mom_corr << ",";
+    os << data.pip_theta_corr << ",";
+    os << data.pip_phi_corr << ",";
 
     os << data.pim_mom_exclusive << ",";
     os << data.pim_theta_exclusive << ",";
     os << data.pim_phi_exclusive << ",";
+    os << data.pim_mom_corr << ",";
+    os << data.pim_theta_corr << ",";
+    os << data.pim_phi_corr << ",";
 
     os << data.mm2_mPim << ",";
     os << data.mm2_mPip << ",";
