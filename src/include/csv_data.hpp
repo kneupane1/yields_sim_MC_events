@@ -101,7 +101,7 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
     // return
     // "sec_ele,w,pim_mom_mPim,pim_mom_mes,pim_mom_corr,pim_theta_mPim,pim_theta_mes,pim_theta_corr,pim_phi_mPim,"
@@ -120,12 +120,13 @@ struct csv_data {
     //        "status_Pip,status_Prot,weight";
 
     // Simulations
-    // return "w,prot_mom_gen,pip_mom_gen,pim_mom_gen,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
-    //        "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_mes,pip_phi_"
-    //        "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,"
-    //        "mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
-    //        "status_Pim,"ß
-    //        "status_Pip,status_Prot,weight";
+    return "stp,prot_mom_gen,pip_mom_gen,pim_mom_gen,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
+           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+           "pip_mom_mes,pip_theta_mes,pip_phi_"
+           "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,"
+           "mm2_mProt,"
+           "status_Pim,"
+           "status_Pip,status_Prot,weight";
 
     // // // for mom thee phi rec- mes check
     // return "sec_ele,w,prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,stp,prot_mom_exclusive,prot_theta_"
@@ -147,73 +148,75 @@ struct csv_data {
     // // os << data.electron_sector << ",";
     // os << data.w << ",";
     // // os << data.q2 << ",";
+    os << data.scalar_product << ",";
+    // // Generated
+    os << std::setprecision(3);
 
-    // // // Generated
-    // os << data.gen_prot_mom << ",";
-    // os << data.gen_pip_mom << ",";
-    // os << data.gen_pim_mom << ",";
+    os << data.gen_prot_mom << ",";
+    os << data.gen_pip_mom << ",";
+    os << data.gen_pim_mom << ",";
 
     // Missing
 
-    // os << data.prot_mom_mProt << ",";
-    // os << std::setprecision(3);
+    os << data.prot_mom_mProt << ",";
+    os << std::setprecision(1);
 
-    // os << data.prot_theta_mProt << ",";
-    // os << data.prot_phi_mProt << ",";
-    // os << std::setprecision(5);
+    os << data.prot_theta_mProt << ",";
+    os << data.prot_phi_mProt << ",";
+    os << std::setprecision(3);
 
-    // os << data.pip_mom_mPip << ",";
-    // os << std::setprecision(3);
+    os << data.pip_mom_mPip << ",";
+    os << std::setprecision(1);
 
-    // os << data.pip_theta_mPip << ",";
-    // os << data.pip_phi_mPip << ",";
+    os << data.pip_theta_mPip << ",";
+    os << data.pip_phi_mPip << ",";
+    os << std::setprecision(3);
 
-    // os << data.pim_mom_mPim << ",";
-    // os << std::setprecision(3);
+    os << data.pim_mom_mPim << ",";
+    os << std::setprecision(1);
 
-    // os << data.pim_theta_mPim << ",";
-    // os << data.pim_phi_mPim << ",";
-    // os << std::setprecision(10);
+    os << data.pim_theta_mPim << ",";
+    os << data.pim_phi_mPim << ",";
 
-    // os << data.mm2_mPim << ",";
+    // measured
+    os << std::setprecision(3);
 
-    // // measured
-    // os << data.prot_mom_exclusive << ",";
-    // os << data.prot_theta_exclusive << ",";
-    // os << data.prot_phi_exclusive << ",";
-    // // os << data.prot_mom_corr << ",";
-    // // os << data.prot_theta_corr << ",";
-    // // os << data.prot_phi_corr << ",";
+    os << data.prot_mom_exclusive << ",";
+    os << data.prot_theta_exclusive << ",";
+    os << data.prot_phi_exclusive << ",";
+    // os << data.prot_mom_corr << ",";
+    // os << data.prot_theta_corr << ",";
+    // os << data.prot_phi_corr << ",";
 
-    // os << data.pip_mom_exclusive << ",";
-    // os << data.pip_theta_exclusive << ",";
-    // os << data.pip_phi_exclusive << ",";
-    // // os << data.pip_mom_corr << ",";
-    // // os << data.pip_theta_corr << ",";
-    // // os << data.pip_phi_corr << ",";
+    os << data.pip_mom_exclusive << ",";
+    os << data.pip_theta_exclusive << ",";
+    os << data.pip_phi_exclusive << ",";
+    // os << data.pip_mom_corr << ",";
+    // os << data.pip_theta_corr << ",";
+    // os << data.pip_phi_corr << ",";
 
-    // os << data.pim_mom_exclusive << ",";
-    // os << data.pim_theta_exclusive << ",";
-    // os << data.pim_phi_exclusive << ",";
-    // // os << data.pim_mom_corr << ",";
-    // // os << data.pim_theta_corr << ",";
-    // // os << data.pim_phi_corr << ",";
-    // os << std::setprecision(7);
+    os << data.pim_mom_exclusive << ",";
+    os << data.pim_theta_exclusive << ",";
+    os << data.pim_phi_exclusive << ",";
+    // os << data.pim_mom_corr << ",";
+    // os << data.pim_theta_corr << ",";
+    // os << data.pim_phi_corr << ",";
+    os << std::setprecision(7);
 
-    // os << data.mm2_mProt << ",";
-    // os << data.mm2_mPip << ",";
-    // os << data.mm2_mPim << ",";
+    os << data.mm2_mProt << ",";
+    os << data.mm2_mPip << ",";
+    os << data.mm2_mPim << ",";
 
     // os << data.mm2_exclusive_at_zero << ",";
     // os << data.energy_x_mu << ",";
-    // os << std::setprecision(3);
+    os << std::setprecision(1);
 
-    // os << data.status_Pim << ",";
-    // os << data.status_Pip << ",";
-    // os << data.status_Prot << ",";
+    os << data.status_Pim << ",";
+    os << data.status_Pip << ",";
+    os << data.status_Prot << ",";
 
-    // os << std::setprecision(10);
-    // os << data.weight_exclusive << ",";
+    os << std::setprecision(10);
+    os << data.weight_exclusive << ",";
 
     // os << data.pim_mom_mPim << ",";
     // os << data.pim_mom_exclusive << ",";
@@ -255,100 +258,100 @@ struct csv_data {
     // os << data.energy_x_mu << ",";
     // os << data.weight_exclusive << ",";
 
-    // // // // mPim
-         os << data.pim_mom_mPim << ",";
-     os << data.pim_theta_mPim << ",";
-     os << data.pim_phi_mPim << ",";
-     os << std::setprecision(10);
-     os << data.mm2_mPim << ",";
-     os << data.weight_mPim << ",";
+    // // // // // mPim
+    //      os << data.pim_mom_mPim << ",";
+    //  os << data.pim_theta_mPim << ",";
+    //  os << data.pim_phi_mPim << ",";
+    //  os << std::setprecision(10);
+    //  os << data.mm2_mPim << ",";
+    //  os << data.weight_mPim << ",";
 
-     // // // // // // //
-     // // // // // // // os << data.elec_mom << ",";
-     // // // // // // // os << data.corr_elec_mom << ",";
+    // // // // // // //
+    // // // // // // // os << data.elec_mom << ",";
+    // // // // // // // os << data.corr_elec_mom << ",";
 
-     // // os << data.prot_mom_mProt << ",";
-     // // os << data.prot_theta_mProt << ",";
-     // // os << data.prot_phi_mProt << ",";
-     // // os << data.mm2_mProt << ",";
+    // // os << data.prot_mom_mProt << ",";
+    // // os << data.prot_theta_mProt << ",";
+    // // os << data.prot_phi_mProt << ",";
+    // // os << data.mm2_mProt << ",";
 
-     // os << data.scalar_product << ",";
-     // os << data.pim_mom_exclusive << ",";
-     // os << data.pim_theta_exclusive << ",";
-     // os << data.pim_phi_exclusive << ",";
-     // os << data.mm2_exclusive << ",";
+    // os << data.scalar_product << ",";
+    // os << data.pim_mom_exclusive << ",";
+    // os << data.pim_theta_exclusive << ",";
+    // os << data.pim_phi_exclusive << ",";
+    // os << data.mm2_exclusive << ",";
 
-     // os << data.mm2_exclusive_at_zero << ",";
-     // os << data.energy_x_mu << ",";
-     // // // os << data.mm2_mPip << ",";
-     // // // os << data.mm2_mProt << ",";
+    // os << data.mm2_exclusive_at_zero << ",";
+    // os << data.energy_x_mu << ",";
+    // // // os << data.mm2_mPip << ",";
+    // // // os << data.mm2_mProt << ",";
 
-     // // os << data.gen_prot_mom << ",";
-     // // os << data.gen_prot_theta << ",";
-     // // os << data.gen_prot_phi << ",";
+    // // os << data.gen_prot_mom << ",";
+    // // os << data.gen_prot_theta << ",";
+    // // os << data.gen_prot_phi << ",";
 
-     // // // os << data.diff_ex_theta << ",";
-     // // // os << data.diff_ex_phi << ",";
-     // // // os << data.diff_bx_theta << ",";
-     // // // os << data.diff_bx_phi << ",";
+    // // // os << data.diff_ex_theta << ",";
+    // // // os << data.diff_ex_phi << ",";
+    // // // os << data.diff_bx_theta << ",";
+    // // // os << data.diff_bx_phi << ",";
 
-     // // os << data.status_Pim << ",";
-     // // os << data.status_Pip << ",";
-     // // os << data.status_Prot << ",";
+    // // os << data.status_Pim << ",";
+    // // os << data.status_Pip << ",";
+    // // os << data.status_Prot << ",";
 
-     // // // // os << std::setprecision(10);
-     // // os << data.weight_exclusive << ",";
+    // // // // os << std::setprecision(10);
+    // // os << data.weight_exclusive << ",";
 
-     // // os << data.x_mu_mom_exclusive << ",";
-     // // os << data.x_mu_theta_exclusive << ",";
-     // // os << data.x_mu_phi_exclusive << ",";
-     // // // os << data.mm2_exclusive << ",";
+    // // os << data.x_mu_mom_exclusive << ",";
+    // // os << data.x_mu_theta_exclusive << ",";
+    // // os << data.x_mu_phi_exclusive << ",";
+    // // // os << data.mm2_exclusive << ",";
 
-     // // os << data.mm2_exclusive_at_zero << ",";
-     // // os << data.energy_x_mu << ",";
+    // // os << data.mm2_exclusive_at_zero << ",";
+    // // os << data.energy_x_mu << ",";
 
-     // // os << data.diff_ex_theta << ",";
-     // // os << data.diff_ex_phi << ",";
-     // // os << data.diff_bx_theta << ",";
-     // // os << data.diff_bx_phi << ",";
+    // // os << data.diff_ex_theta << ",";
+    // // os << data.diff_ex_phi << ",";
+    // // os << data.diff_bx_theta << ",";
+    // // os << data.diff_bx_phi << ",";
 
-     // // os << std::setprecision(10);
-     // os << data.weight_exclusive<<",";
+    // // os << std::setprecision(10);
+    // os << data.weight_exclusive<<",";
 
-     // mPip
-     /*  os << data.pip_mom_mPip << ",";
-       os << data.pip_theta_mPip << ",";
-       os << data.pip_phi_mPip << ",";
-       os << data.mm2_mPip << ",";
-       os << std::setprecision(10);
-       os << data.weight_mPip << ",";
-       */
+    // mPip
+    /*  os << data.pip_mom_mPip << ",";
+      os << data.pip_theta_mPip << ",";
+      os << data.pip_phi_mPip << ",";
+      os << data.mm2_mPip << ",";
+      os << std::setprecision(10);
+      os << data.weight_mPip << ",";
+      */
 
-     /*  os << data.scalar_product << ",";
-       os << data.pip_mom_exclusive << ",";
-       os << data.pip_theta_exclusive << ",";
-       os << data.pip_phi_exclusive << ",";
-       os << data.mm2_exclusive << ",";
-       os << std::setprecision(5);
-       os << data.weight_exclusive << ",";
-   */
-     // mProt
-     /* os << data.prot_mom_mProt << ",";
-      os << data.prot_theta_mProt << ",";
-      os << data.prot_phi_mProt << ",";
-      os << data.mm2_mProt << ",";
-          os << std::setprecision(10);
-      os << data.weight_mProt << ",";
- */
-     /*      os << data.scalar_product << ",";
-           os << data.prot_mom_exclusive << ",";
-           os << data.prot_theta_exclusive << ",";
-           os << data.prot_phi_exclusive << ",";
-           os << data.mm2_exclusive << ",";
-               os << std::setprecision(10);
-           os << data.weight_exclusive << ",";
-   */
-     return os;
+    /*  os << data.scalar_product << ",";
+      os << data.pip_mom_exclusive << ",";
+      os << data.pip_theta_exclusive << ",";
+      os << data.pip_phi_exclusive << ",";
+      os << data.mm2_exclusive << ",";
+      os << std::setprecision(5);
+      os << data.weight_exclusive << ",";
+  */
+    // mProt
+    /* os << data.prot_mom_mProt << ",";
+     os << data.prot_theta_mProt << ",";
+     os << data.prot_phi_mProt << ",";
+     os << data.mm2_mProt << ",";
+         os << std::setprecision(10);
+     os << data.weight_mProt << ",";
+*/
+    /*      os << data.scalar_product << ",";
+          os << data.prot_mom_exclusive << ",";
+          os << data.prot_theta_exclusive << ",";
+          os << data.prot_phi_exclusive << ",";
+          os << data.mm2_exclusive << ",";
+              os << std::setprecision(10);
+          os << data.weight_exclusive << ",";
+  */
+    return os;
   }
 };
 

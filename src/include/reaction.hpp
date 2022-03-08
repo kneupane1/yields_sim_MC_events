@@ -160,6 +160,7 @@ class Reaction {
   static const int Pim_mom_bins = 11;
   float alpha_pim_mom_corr = 0.5;
   double _pim_mom = NAN;
+  double _pim_mom_tmt = NAN;
   double _pim_mom_prime = NAN;
   double _pim_mom_uncorr = NAN;
   float _E_corr_val_pim = NAN;
@@ -222,6 +223,7 @@ class Reaction {
   static const int Pip_mom_bins = 10;
   float alpha_pip_mom_corr = 0.5;
   double _pip_mom = NAN;
+  double _pip_mom_tmt = NAN;
   double _pip_mom_prime = NAN;
   double _pip_mom_uncorr = NAN;
   float _E_corr_val_pip = NAN;
