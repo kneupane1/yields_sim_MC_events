@@ -30,6 +30,8 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _Energy_loss_uncorr_prot = std::make_unique<TLorentzVector>();
   _Energy_loss_uncorr_pip = std::make_unique<TLorentzVector>();
   _Energy_loss_uncorr_pim = std::make_unique<TLorentzVector>();
+  _pim_tmt = std::make_unique<TLorentzVector>();
+  _pip_tmt = std::make_unique<TLorentzVector>();
 
   this->SetElec();
 
@@ -292,22 +294,29 @@ void Reaction::SetPip(int i) {
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
   }
 
-  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip;
+  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip; // first iteration
 
-  // first iteration
+  _px_prime_pip_E_tmt = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _pz_prime_pip_E_tmt = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+
+  _pip_tmt->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
+
+  _pip_mom_tmt2 = _pip_tmt->P();  // for second iteration
 
   // let's do second iteration for cd pip
   if (abs(_data->status(i)) < 4000) {
-    _pip_mom = _pip_mom_tmt;
+    _E_corr_val_pip2 = 0.0;
   } else if (abs(_data->status(i)) >= 4000) {
-    _pip_mom = _pip_mom_tmt - 0.00125164 * pow(_pip_mom_tmt, 5) + 0.01272027 * pow(_pip_mom_tmt, 4) -
-               0.04457356 * pow(_pip_mom_tmt, 3) + 0.06272048 * pow(_pip_mom_tmt, 2) -
-               0.03798534 * (_pip_mom_tmt)-0.00716495;
+    _E_corr_val_pip2 = -0.00125164 * pow(_pip_mom_tmt2, 5) + 0.01272027 * pow(_pip_mom_tmt2, 4) -
+                       0.04457356 * pow(_pip_mom_tmt2, 3) + 0.06272048 * pow(_pip_mom_tmt2, 2) -
+                       0.03798534 * (_pip_mom_tmt2)-0.00716495;
   }
+  _pip_mom = _pip_mom_tmt2 + _E_corr_val_pip2;
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom) / (_pip_mom_tmt2));
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom) / (_pip_mom_tmt2));
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom) / (_pip_mom_tmt2));
 
-  _px_prime_pip_E = _data->px(i) * ((_pip_mom) / (_pip_mom_uncorr));
-  _py_prime_pip_E = _data->py(i) * ((_pip_mom) / (_pip_mom_uncorr));
-  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom) / (_pip_mom_uncorr));
   _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
   // //   _pip_mom = _pip->P();
@@ -404,24 +413,33 @@ void Reaction::SetPim(int i) {
     _E_corr_val_pim = 0.02153442 * pow(_pim_mom_uncorr, 5) - 0.13271424 * pow(_pim_mom_uncorr, 4) +
                       0.27140262 * pow(_pim_mom_uncorr, 3) - 0.23266059 * pow(_pim_mom_uncorr, 2) +
                       0.04031421 * (_pim_mom_uncorr)-0.0036634;
-
   }
+  // _pim_mom = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
 
-  _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
+  _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim;  // first iteration
 
-// let's do second iteration for cd pim 
+  _px_prime_pim_E_tmt = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+
+  _pim_tmt->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
+
+  _pim_mom_tmt2 = _pim_tmt->P();  // for second iteration
+
+  // std::cout << " diff  " << _pim_tmt->P() - _pim_mom_tmt << std::endl;
+  // let's do second iteration for cd pim
   if (abs(_data->status(i)) < 4000) {
-    _pim_mom = _pim_mom_tmt;
+    _E_corr_val_pim2 = 0.0;
   } else if (abs(_data->status(i)) >= 4000) {
-    _pim_mom = _pim_mom_tmt + 0.07604229 * pow(_pim_mom_tmt, 7) - 0.69056865 * pow(_pim_mom_tmt, 6) +
-               2.42244641 * pow(_pim_mom_tmt, 5) - 4.26630462 * pow(_pim_mom_tmt, 4) +
-               4.07033382 * pow(_pim_mom_tmt, 3) - 2.09075715 * pow(_pim_mom_tmt, 2) +
-               0.52748137 * (_pim_mom_tmt)-0.04274812;
+    _E_corr_val_pim2 = 0.07604229 * pow(_pim_mom_tmt2, 7) - 0.69056865 * pow(_pim_mom_tmt2, 6) +
+                       2.42244641 * pow(_pim_mom_tmt2, 5) - 4.26630462 * pow(_pim_mom_tmt2, 4) +
+                       4.07033382 * pow(_pim_mom_tmt2, 3) - 2.09075715 * pow(_pim_mom_tmt2, 2) +
+                       0.52748137 * (_pim_mom_tmt2)-0.04274812;
   }
-
-  _px_prime_pim_E = _data->px(i) * ((_pim_mom) / (_pim_mom_uncorr));
-  _py_prime_pim_E = _data->py(i) * ((_pim_mom) / (_pim_mom_uncorr));
-  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom) / (_pim_mom_uncorr));
+  _pim_mom = _pim_mom_tmt2 + _E_corr_val_pim2;
+  _px_prime_pim_E = _data->px(i) * ((_pim_mom) / (_pim_mom_tmt2));
+  _py_prime_pim_E = _data->py(i) * ((_pim_mom) / (_pim_mom_tmt2));
+  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom) / (_pim_mom_tmt2));
 
   _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
@@ -731,7 +749,7 @@ float Reaction::pim_momentum() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
   // if (TwoPion_missingPim()) {
-    if (TwoPion_exclusive()) {
+  if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -746,7 +764,7 @@ float Reaction::pim_theta_lab() {
   // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
 
   // if (TwoPion_missingPim()) {
-    if (TwoPion_exclusive()) {
+  if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -760,7 +778,7 @@ float Reaction::pim_Phi_lab() {
   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
 
   // if (TwoPion_missingPim()) {
-    if (TwoPion_exclusive()) {
+  if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
