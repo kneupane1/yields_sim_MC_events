@@ -159,21 +159,21 @@ struct csv_data {
     // Missing
 
     os << data.prot_mom_mProt << ",";
-    os << std::setprecision(3);
+    // os << std::setprecision(3);
 
     os << data.prot_theta_mProt << ",";
     os << data.prot_phi_mProt << ",";
     os << std::setprecision(5);
 
     os << data.pip_mom_mPip << ",";
-    os << std::setprecision(3);
+    // os << std::setprecision(3);
 
     os << data.pip_theta_mPip << ",";
     os << data.pip_phi_mPip << ",";
-    os << std::setprecision(7);
+    // os << std::setprecision(7);
 
     os << data.pim_mom_mPim << ",";
-    os << std::setprecision(3);
+    // os << std::setprecision(5);
 
     os << data.pim_theta_mPim << ",";
     os << data.pim_phi_mPim << ",";
