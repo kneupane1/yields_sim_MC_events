@@ -300,24 +300,27 @@ void Reaction::SetPip(int i) {
   _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
   _pz_prime_pip_E_tmt = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
-  _pip_tmt->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
+  _pip->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
 
-  _pip_mom_tmt2 = _pip_tmt->P();  // for second iteration
+  // second iterationS
+  // _pip_tmt->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
 
-  // let's do second iteration for cd pip
-  if (abs(_data->status(i)) < 4000) {
-    _E_corr_val_pip2 = 0.0;
-  } else if (abs(_data->status(i)) >= 4000) {
-    _E_corr_val_pip2 = -0.00125164 * pow(_pip_mom_tmt2, 5) + 0.01272027 * pow(_pip_mom_tmt2, 4) -
-                       0.04457356 * pow(_pip_mom_tmt2, 3) + 0.06272048 * pow(_pip_mom_tmt2, 2) -
-                       0.03798534 * (_pip_mom_tmt2)-0.00716495;
-  }
-  _pip_mom = _pip_mom_tmt2 + _E_corr_val_pip2;
-  _px_prime_pip_E = _data->px(i) * ((_pip_mom) / (_pip_mom_tmt2));
-  _py_prime_pip_E = _data->py(i) * ((_pip_mom) / (_pip_mom_tmt2));
-  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom) / (_pip_mom_tmt2));
+  // _pip_mom_tmt2 = _pip_tmt->P();  // for second iteration
 
-  _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+  // // let's do second iteration for cd pip
+  // if (abs(_data->status(i)) < 4000) {
+  //   _E_corr_val_pip2 = 0.0;
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _E_corr_val_pip2 = -0.00125164 * pow(_pip_mom_tmt2, 5) + 0.01272027 * pow(_pip_mom_tmt2, 4) -
+  //                      0.04457356 * pow(_pip_mom_tmt2, 3) + 0.06272048 * pow(_pip_mom_tmt2, 2) -
+  //                      0.03798534 * (_pip_mom_tmt2)-0.00716495;
+  // }
+  // _pip_mom = _pip_mom_tmt2 + _E_corr_val_pip2;
+  // _px_prime_pip_E = _data->px(i) * ((_pip_mom) / (_pip_mom_tmt2));
+  // _py_prime_pip_E = _data->py(i) * ((_pip_mom) / (_pip_mom_tmt2));
+  // _pz_prime_pip_E = _data->pz(i) * ((_pip_mom) / (_pip_mom_tmt2));
+
+  // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
   // //   _pip_mom = _pip->P();
   // //   _pip_theta = _pip->Theta() * 180 / PI;
@@ -422,26 +425,27 @@ void Reaction::SetPim(int i) {
   _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
   _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
-  _pim_tmt->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
+  _pim->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
+  // _pim_tmt->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
 
-  _pim_mom_tmt2 = _pim_tmt->P();  // for second iteration
+  // _pim_mom_tmt2 = _pim_tmt->P();  // for second iteration
 
-  // std::cout << " diff  " << _pim_tmt->P() - _pim_mom_tmt << std::endl;
-  // let's do second iteration for cd pim
-  if (abs(_data->status(i)) < 4000) {
-    _E_corr_val_pim2 = 0.0;
-  } else if (abs(_data->status(i)) >= 4000) {
-    _E_corr_val_pim2 = 0.07604229 * pow(_pim_mom_tmt2, 7) - 0.69056865 * pow(_pim_mom_tmt2, 6) +
-                       2.42244641 * pow(_pim_mom_tmt2, 5) - 4.26630462 * pow(_pim_mom_tmt2, 4) +
-                       4.07033382 * pow(_pim_mom_tmt2, 3) - 2.09075715 * pow(_pim_mom_tmt2, 2) +
-                       0.52748137 * (_pim_mom_tmt2)-0.04274812;
-  }
-  _pim_mom = _pim_mom_tmt2 + _E_corr_val_pim2;
-  _px_prime_pim_E = _data->px(i) * ((_pim_mom) / (_pim_mom_tmt2));
-  _py_prime_pim_E = _data->py(i) * ((_pim_mom) / (_pim_mom_tmt2));
-  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom) / (_pim_mom_tmt2));
+  // // std::cout << " diff  " << _pim_tmt->P() - _pim_mom_tmt << std::endl;
+  // // let's do second iteration for cd pim
+  // if (abs(_data->status(i)) < 4000) {
+  //   _E_corr_val_pim2 = 0.0;
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _E_corr_val_pim2 = 0.07604229 * pow(_pim_mom_tmt2, 7) - 0.69056865 * pow(_pim_mom_tmt2, 6) +
+  //                      2.42244641 * pow(_pim_mom_tmt2, 5) - 4.26630462 * pow(_pim_mom_tmt2, 4) +
+  //                      4.07033382 * pow(_pim_mom_tmt2, 3) - 2.09075715 * pow(_pim_mom_tmt2, 2) +
+  //                      0.52748137 * (_pim_mom_tmt2)-0.04274812;
+  // }
+  // _pim_mom = _pim_mom_tmt2 + _E_corr_val_pim2;
+  // _px_prime_pim_E = _data->px(i) * ((_pim_mom) / (_pim_mom_tmt2));
+  // _py_prime_pim_E = _data->py(i) * ((_pim_mom) / (_pim_mom_tmt2));
+  // _pz_prime_pim_E = _data->pz(i) * ((_pim_mom) / (_pim_mom_tmt2));
 
-  _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+  // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
   // // _pim_mom = _pim->P();
   // // _pim_theta = _pim->Theta() * 180 / PI;
