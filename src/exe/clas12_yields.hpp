@@ -122,8 +122,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingPip()) {
     //   if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
-      if (event->W() > 0.0 && event->W() < 3.0 && event->Q2() > 1.0 && event->Q2() < 12.0 &&
-          abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
+      if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+      //&&
+          //abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
         //&&
         // abs(event->MM2_exclusive()) < 0.03) {
         // total++;
