@@ -281,9 +281,13 @@ void Reaction::SetPip(int i) {
     if (_pip_theta <= 27) {
       _E_corr_val_pip = 9.21970527e-05 * pow(_pip_mom_uncorr, 3) - 3.70500143e-04 * pow(_pip_mom_uncorr, 2) +
                         2.78880101e-04 * (_pip_mom_uncorr) + 2.66040566e-03;
+      _E_corr_val_pip_th = 0.00000000;
+
     } else {
       _E_corr_val_pip = -0.00010482 * pow(_pip_mom_uncorr, 3) + 0.00080463 * pow(_pip_mom_uncorr, 2) -
                         0.0022871 * (_pip_mom_uncorr) + 0.00831496;
+
+      _E_corr_val_pip_th = 0.00000000;
     }
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
@@ -412,9 +416,13 @@ void Reaction::SetPim(int i) {
     if (_pim_theta <= 27) {
       _E_corr_val_pim = -0.00035275 * pow(_pim_mom_uncorr, 3) + 0.00291237 * pow(_pim_mom_uncorr, 2) -
                         0.00681058 * (_pim_mom_uncorr) + 0.00736721;
+      _E_corr_val_pim_th = 0.00000000;
+
     } else {
       _E_corr_val_pim = 0.00019358 * pow(_pim_mom_uncorr, 3) - 0.00103456 * pow(_pim_mom_uncorr, 2) +
                         0.00024772 * (_pim_mom_uncorr) + 0.00735159;
+
+      _E_corr_val_pim_th =0.00000000;
     }
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
@@ -438,6 +446,10 @@ void Reaction::SetPim(int i) {
   _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
   _pim->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
+
+    // std::cout << "pim mom tmt " << _pim_mom_tmt << "   pim mom final " << _pim->P() << " diff "
+    //           << _pim_mom_tmt - _pim->P() << std::endl;
+
   // _pim_tmt->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
 
   // _pim_mom_tmt2 = _pim_tmt->P();  // for second iteration
