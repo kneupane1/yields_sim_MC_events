@@ -281,22 +281,17 @@ void Reaction::SetPip(int i) {
     if (_pip_theta <= 27) {
       _E_corr_val_pip = 9.21970527e-05 * pow(_pip_mom_uncorr, 3) - 3.70500143e-04 * pow(_pip_mom_uncorr, 2) +
                         2.78880101e-04 * (_pip_mom_uncorr) + 2.66040566e-03;
-      _E_corr_val_pip_th = 0.00000000;
 
     } else {
       _E_corr_val_pip = -0.00010482 * pow(_pip_mom_uncorr, 3) + 0.00080463 * pow(_pip_mom_uncorr, 2) -
                         0.0022871 * (_pip_mom_uncorr) + 0.00831496;
 
-      _E_corr_val_pip_th = 0.00000000;
     }
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
                       0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
                       0.11467851 * (_pip_mom_uncorr) + 0.01917004;
 
-    _E_corr_val_pip_th = -7.08389160e-11 * pow(_pip_mom_uncorr, 5) + 3.75704402e-08 * pow(_pip_mom_uncorr, 4) -
-                      7.26740433e-06 * pow(_pip_mom_uncorr, 3) + 6.45415606e-04 * pow(_pip_mom_uncorr, 2) -
-                      2.60057363e-02 * (_pip_mom_uncorr) + 3.78387868e-01;
 
     // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
@@ -314,7 +309,7 @@ void Reaction::SetPip(int i) {
                          7.26740433e-06 * pow(_pip_theta, 3) + 6.45415606e-04 * pow(_pip_theta, 2) -
                          2.60057363e-02 * (_pip_theta) + 3.78387868e-01;
   }
-  _pip_mom_tmt2 = _pip_mom_tmt + _E_corr_val_pip_th;  // first iteration
+  _pip_mom_tmt2 = _pip_mom_tmt + _E_corr_val_pip_th;  // theta iteration
 
   _px_prime_pip_E_tmt = _data->px(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
   _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
