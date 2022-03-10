@@ -171,6 +171,7 @@ class Reaction {
   double _pim_mom_prime = NAN;
   double _pim_mom_uncorr = NAN;
   float _E_corr_val_pim = NAN;
+  float _E_corr_val_pim_th = NAN;
   float _E_corr_val_pim2 = NAN;
 
   float min_pim_mom_values[Pim_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.8, 2.3, 2.9};
@@ -240,6 +241,7 @@ class Reaction {
   double _pip_mom_prime = NAN;
   double _pip_mom_uncorr = NAN;
   float _E_corr_val_pip = NAN;
+  float _E_corr_val_pip_th = NAN;
   float _E_corr_val_pip2 = NAN;
 
   float min_pip_mom_values[Pip_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
