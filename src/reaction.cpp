@@ -302,11 +302,23 @@ void Reaction::SetPip(int i) {
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
   }
 
-  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip + _E_corr_val_pip_th;  // first iteration
+  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip ;  // first iteration
 
-  _px_prime_pip_E_tmt = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
-  _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
-  _pz_prime_pip_E_tmt = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  if (abs(_data->status(i)) < 4000) {
+    
+      _E_corr_val_pip_th = 0.00000000;
+    
+  } else if (abs(_data->status(i)) >= 4000) {
+
+    _E_corr_val_pip_th = -7.08389160e-11 * pow(_pip_theta, 5) + 3.75704402e-08 * pow(_pip_theta, 4) -
+                         7.26740433e-06 * pow(_pip_theta, 3) + 6.45415606e-04 * pow(_pip_theta, 2) -
+                         2.60057363e-02 * (_pip_theta) + 3.78387868e-01;
+  }
+  _pip_mom_tmt2 = _pip_mom_tmt + _E_corr_val_pip_th;  // first iteration
+
+  _px_prime_pip_E_tmt = _data->px(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
+  _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
+  _pz_prime_pip_E_tmt = _data->pz(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
 
   _pip->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
 
@@ -416,13 +428,11 @@ void Reaction::SetPim(int i) {
     if (_pim_theta <= 27) {
       _E_corr_val_pim = -0.00035275 * pow(_pim_mom_uncorr, 3) + 0.00291237 * pow(_pim_mom_uncorr, 2) -
                         0.00681058 * (_pim_mom_uncorr) + 0.00736721;
-      _E_corr_val_pim_th = 0.00000000;
 
     } else {
       _E_corr_val_pim = 0.00019358 * pow(_pim_mom_uncorr, 3) - 0.00103456 * pow(_pim_mom_uncorr, 2) +
                         0.00024772 * (_pim_mom_uncorr) + 0.00735159;
 
-      _E_corr_val_pim_th =0.00000000;
     }
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
@@ -431,24 +441,32 @@ void Reaction::SetPim(int i) {
                       (0.23266059) * pow(_pim_mom_uncorr, 2) +
                       (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
 
-    _E_corr_val_pim_th = (- 2.07141609e-10) * pow(_pim_mom_uncorr, 5) -
-                      (- 8.81758359e-08) * pow(_pim_mom_uncorr, 4) +
-                      (- 1.46534798e-05) * pow(_pim_mom_uncorr, 3) -
-                      (- 1.17681655e-03) * pow(_pim_mom_uncorr, 2) +
-                      (- 4.50634123e-02) * (_pim_mom_uncorr) + 6.54748237e-01;
   }
   // _pim_mom = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
 
-  _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim + _E_corr_val_pim_th;  // first iteration
+  _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim;  // first iteration
 
-  _px_prime_pim_E_tmt = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
-  _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
-  _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  if (abs(_data->status(i)) < 4000) {
+
+      _E_corr_val_pim_th = 0.00000000;
+    
+  } else if (abs(_data->status(i)) >= 4000) {
+    // -2.07141609e-10 8.81758359e-08 - 1.46534798e-05 1.17681655e-03 - 4.50634123e-02 6.54748237e-01;
+    _E_corr_val_pim_th = (-2.07141609e-10) * pow(_pim_theta, 5) + (8.81758359e-08) * pow(_pim_theta, 4) -
+                         (1.46534798e-05) * pow(_pim_theta, 3) + (1.17681655e-03) * pow(_pim_theta, 2) -
+                         (4.50634123e-02) * (_pim_theta) + 6.54748237e-01;
+  }
+  _pim_mom_tmt2 = _pim_mom_tmt + _E_corr_val_pim_th;
+
+  _px_prime_pim_E_tmt = _data->px(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
+  _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
+  _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
 
   _pim->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
 
-    // std::cout << "pim mom tmt " << _pim_mom_tmt << "   pim mom final " << _pim->P() << " diff "
-    //           << _pim_mom_tmt - _pim->P() << std::endl;
+  // std::cout << "_E_corr_val_pim " << _E_corr_val_pim << "  _E_corr_val_pim_th " << _E_corr_val_pim_th
+  //           << "   pim mom tmt  " << _pim_mom_tmt << "   pim mom tmt2  " << _pim_mom_tmt2 << " diff "
+  //           << _pim_mom_tmt - _pim_mom_tmt2 << std::endl;
 
   // _pim_tmt->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
 
