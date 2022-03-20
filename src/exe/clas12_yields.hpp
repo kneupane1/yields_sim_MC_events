@@ -136,7 +136,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.q2 = event->Q2();
         output.scalar_product = event->scalar_triple_product();
 
-        // // for energy loss corrections : gen
+        // for energy loss corrections : gen
         output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
         output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
         output.gen_pim_mom = (mc_event->pim_mom_mc_gen());

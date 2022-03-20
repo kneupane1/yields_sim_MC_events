@@ -54,66 +54,66 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
 
 Reaction::~Reaction() {}
 
-double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
-  double pp = sqrt(px * px + py * py + pz * pz);
+// double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
+//   double pp = sqrt(px * px + py * py + pz * pz);
 
-  double a = pars[sec - 1][ivec][0], b = pars[sec - 1][ivec][1], c = pars[sec - 1][ivec][2];
+//   double a = pars[sec - 1][ivec][0], b = pars[sec - 1][ivec][1], c = pars[sec - 1][ivec][2];
 
-  double dp = a * pp * pp + b * pp + c;  // pol2 corr func
+//   double dp = a * pp * pp + b * pp + c;  // pol2 corr func
 
-  // electron pol1 corr func for each sec and each phi bins
-  if (ivec == 0) {
-    if (sec == 1) {
-      dp = 0.45 * b * (pp - 9) + 0.1 * c;
+//   // electron pol1 corr func for each sec and each phi bins
+//   if (ivec == 0) {
+//     if (sec == 1) {
+//       dp = 0.45 * b * (pp - 9) + 0.1 * c;
 
-      // ep 3 phi bins
-      // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
-      // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
-      // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
-    }
-    if (sec == 2) {
-      dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
+//       // ep 3 phi bins
+//       // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
+//       // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
+//       // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
+//     }
+//     if (sec == 2) {
+//       dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
 
-      // ep 3 phi bins
-      // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
-      // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
-      // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
-    }
-    if (sec == 3) {
-      dp = 3. * b * (pp - 5.4) - 0.5 * c;
+//       // ep 3 phi bins
+//       // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
+//       // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
+//       // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
+//     }
+//     if (sec == 3) {
+//       dp = 3. * b * (pp - 5.4) - 0.5 * c;
 
-      // ep 3 phi bins
-      // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
-      // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
-      // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
-    }
-    if (sec == 4) {
-      dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
+//       // ep 3 phi bins
+//       // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
+//       // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
+//       // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
+//     }
+//     if (sec == 4) {
+//       dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
 
-      // ep 3 phi bins
-      // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
-      // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
-      // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
-    }
-    if (sec == 5) {
-      dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
+//       // ep 3 phi bins
+//       // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
+//       // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
+//       // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
+//     }
+//     if (sec == 5) {
+//       dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
 
-      // ep 3 phi bins
-      // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
-      // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
-      // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
-    }
-    if (sec == 6) {
-      dp = 0.5 * b * (pp - 7) - 0.6 * c;
+//       // ep 3 phi bins
+//       // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
+//       // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
+//       // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
+//     }
+//     if (sec == 6) {
+//       dp = 0.5 * b * (pp - 7) - 0.6 * c;
 
-      // ep 3 phi bins
-      // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
-      // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
-      // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
-    }
-  }
-  return dp / pp;
-};
+//       // ep 3 phi bins
+//       // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
+//       // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
+//       // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
+//     }
+//   }
+//   return dp / pp;
+// };
 
 // double fe = dpp(ex, ey, ez, esec, 0) + 1;
 // double fpip = dpp(pipx,pipy,pipz,pipsec,1) + 1;
@@ -139,7 +139,7 @@ void Reaction::SetElec() {
   //   // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec,
   //   // _pz_prime_elec, MASS_E);
 
-  //   // mom correction another way
+  // //   // mom correction another way
   //   _elec_mom = _elec->P();
 
   //   _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
@@ -297,28 +297,32 @@ void Reaction::SetPip(int i) {
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
   }
 
-  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip ;  // first iteration
+  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip;  // first iteration
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
-  if (abs(_data->status(i)) < 4000) {
+  _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+
+  // if (abs(_data->status(i)) < 4000) {
     
-      _E_corr_val_pip_th = 0.00000000;
+  //     _E_corr_val_pip_th = 0.00000000;
     
-  } else if (abs(_data->status(i)) >= 4000) {
+  // } else if (abs(_data->status(i)) >= 4000) {
 
-    _E_corr_val_pip_th = -7.08389160e-11 * pow(_pip_theta, 5) + 3.75704402e-08 * pow(_pip_theta, 4) -
-                         7.26740433e-06 * pow(_pip_theta, 3) + 6.45415606e-04 * pow(_pip_theta, 2) -
-                         2.60057363e-02 * (_pip_theta) + 3.78387868e-01;
-  }
-  _pip_mom_tmt2 = _pip_mom_tmt + _E_corr_val_pip_th;  // theta iteration
+  //   _E_corr_val_pip_th = -7.08389160e-11 * pow(_pip_theta, 5) + 3.75704402e-08 * pow(_pip_theta, 4) -
+  //                        7.26740433e-06 * pow(_pip_theta, 3) + 6.45415606e-04 * pow(_pip_theta, 2) -
+  //                        2.60057363e-02 * (_pip_theta) + 3.78387868e-01;
+  // }
+  // _pip_mom_tmt2 = _pip_mom_tmt + _E_corr_val_pip_th;  // theta iteration
 
-  _px_prime_pip_E_tmt = _data->px(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
-  _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
-  _pz_prime_pip_E_tmt = _data->pz(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
+  // _px_prime_pip_E_tmt = _data->px(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
+  // _py_prime_pip_E_tmt = _data->py(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
+  // _pz_prime_pip_E_tmt = _data->pz(i) * ((_pip_mom_tmt2) / (_pip_mom_uncorr));
 
-  _pip->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
+  // _pip->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
 
   // second iterationS
-  // _pip_tmt->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
 
   // _pip_mom_tmt2 = _pip_tmt->P();  // for second iteration
 
@@ -441,23 +445,29 @@ void Reaction::SetPim(int i) {
 
   _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim;  // first iteration
 
-  if (abs(_data->status(i)) < 4000) {
+  _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
-      _E_corr_val_pim_th = 0.00000000;
+  _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+
+  // if (abs(_data->status(i)) < 4000) {
+
+  //     _E_corr_val_pim_th = 0.00000000;
     
-  } else if (abs(_data->status(i)) >= 4000) {
-    // -2.07141609e-10 8.81758359e-08 - 1.46534798e-05 1.17681655e-03 - 4.50634123e-02 6.54748237e-01;
-    _E_corr_val_pim_th = (-2.07141609e-10) * pow(_pim_theta, 5) + (8.81758359e-08) * pow(_pim_theta, 4) -
-                         (1.46534798e-05) * pow(_pim_theta, 3) + (1.17681655e-03) * pow(_pim_theta, 2) -
-                         (4.50634123e-02) * (_pim_theta) + 6.54748237e-01;
-  }
-  _pim_mom_tmt2 = _pim_mom_tmt + _E_corr_val_pim_th;
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   // -2.07141609e-10 8.81758359e-08 - 1.46534798e-05 1.17681655e-03 - 4.50634123e-02 6.54748237e-01;
+  //   _E_corr_val_pim_th = (-2.07141609e-10) * pow(_pim_theta, 5) + (8.81758359e-08) * pow(_pim_theta, 4) -
+  //                        (1.46534798e-05) * pow(_pim_theta, 3) + (1.17681655e-03) * pow(_pim_theta, 2) -
+  //                        (4.50634123e-02) * (_pim_theta) + 6.54748237e-01;
+  // }
+  // _pim_mom_tmt2 = _pim_mom_tmt + _E_corr_val_pim_th;
 
-  _px_prime_pim_E_tmt = _data->px(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
-  _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
-  _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
+  // _px_prime_pim_E_tmt = _data->px(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
+  // _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
+  // _pz_prime_pim_E_tmt = _data->pz(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
 
-  _pim->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
+  // _pim->SetXYZM(_px_prime_pim_E_tmt, _py_prime_pim_E_tmt, _pz_prime_pim_E_tmt, MASS_PIM);
 
   // std::cout << "_E_corr_val_pim " << _E_corr_val_pim << "  _E_corr_val_pim_th " << _E_corr_val_pim_th
   //           << "   pim mom tmt  " << _pim_mom_tmt << "   pim mom tmt2  " << _pim_mom_tmt2 << " diff "
