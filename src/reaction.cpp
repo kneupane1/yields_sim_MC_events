@@ -54,66 +54,66 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
 
 Reaction::~Reaction() {}
 
-// double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
-//   double pp = sqrt(px * px + py * py + pz * pz);
+double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
+  double pp = sqrt(px * px + py * py + pz * pz);
 
-//   double a = pars[sec - 1][ivec][0], b = pars[sec - 1][ivec][1], c = pars[sec - 1][ivec][2];
+  double a = pars[sec - 1][ivec][0], b = pars[sec - 1][ivec][1], c = pars[sec - 1][ivec][2];
 
-//   double dp = a * pp * pp + b * pp + c;  // pol2 corr func
+  double dp = a * pp * pp + b * pp + c;  // pol2 corr func
 
-//   // electron pol1 corr func for each sec and each phi bins
-//   if (ivec == 0) {
-//     if (sec == 1) {
-//       dp = 0.45 * b * (pp - 9) + 0.1 * c;
+  // electron pol1 corr func for each sec and each phi bins
+  if (ivec == 0) {
+    if (sec == 1) {
+      dp = 0.45 * b * (pp - 9) + 0.1 * c;
 
-//       // ep 3 phi bins
-//       // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
-//       // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
-//       // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
-//     }
-//     if (sec == 2) {
-//       dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
+      // ep 3 phi bins
+      // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
+      // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
+      // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
+    }
+    if (sec == 2) {
+      dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
 
-//       // ep 3 phi bins
-//       // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
-//       // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
-//       // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
-//     }
-//     if (sec == 3) {
-//       dp = 3. * b * (pp - 5.4) - 0.5 * c;
+      // ep 3 phi bins
+      // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
+      // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
+      // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
+    }
+    if (sec == 3) {
+      dp = 3. * b * (pp - 5.4) - 0.5 * c;
 
-//       // ep 3 phi bins
-//       // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
-//       // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
-//       // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
-//     }
-//     if (sec == 4) {
-//       dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
+      // ep 3 phi bins
+      // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
+      // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
+      // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
+    }
+    if (sec == 4) {
+      dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
 
-//       // ep 3 phi bins
-//       // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
-//       // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
-//       // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
-//     }
-//     if (sec == 5) {
-//       dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
+      // ep 3 phi bins
+      // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
+      // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
+      // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
+    }
+    if (sec == 5) {
+      dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
 
-//       // ep 3 phi bins
-//       // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
-//       // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
-//       // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
-//     }
-//     if (sec == 6) {
-//       dp = 0.5 * b * (pp - 7) - 0.6 * c;
+      // ep 3 phi bins
+      // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
+      // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
+      // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
+    }
+    if (sec == 6) {
+      dp = 0.5 * b * (pp - 7) - 0.6 * c;
 
-//       // ep 3 phi bins
-//       // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
-//       // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
-//       // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
-//     }
-//   }
-//   return dp / pp;
-// };
+      // ep 3 phi bins
+      // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
+      // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
+      // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
+    }
+  }
+  return dp / pp;
+};
 
 // double fe = dpp(ex, ey, ez, esec, 0) + 1;
 // double fpip = dpp(pipx,pipy,pipz,pipsec,1) + 1;
@@ -122,35 +122,35 @@ Reaction::~Reaction() {}
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  _W = physics::W_calc(*_beam, *_elec);
-  _Q2 = physics::Q2_calc(*_beam, *_elec);
+  // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // _W = physics::W_calc(*_beam, *_elec);
+  // _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-  // //One way of  calculating mom - corrected four vectors
-  //   // // _cx = _data->px(0)/_elec->P();
-  //   // // _cy = _data->py(0) / _elec->P();
-  //   // // _cz = _data->pz(0) / _elec->P();
-  //   // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  // // //One way of  calculating mom - corrected four vectors
+  // //   // // _cx = _data->px(0)/_elec->P();
+  // //   // // _cy = _data->py(0) / _elec->P();
+  // //   // // _cz = _data->pz(0) / _elec->P();
+  // //   // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  //   // _px_prime_elec = _cx * _elec_mom_corrected;
-  //   // _py_prime_elec = _cy * _elec_mom_corrected;
-  //   // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec,
-  //   // _pz_prime_elec, MASS_E);
+  // //   // _px_prime_elec = _cx * _elec_mom_corrected;
+  // //   // _py_prime_elec = _cy * _elec_mom_corrected;
+  // //   // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec,
+  // //   // _pz_prime_elec, MASS_E);
 
   // //   // mom correction another way
-  //   _elec_mom = _elec->P();
+    _elec_mom = _elec->P();
 
-  //   _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+    _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  //   _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                              _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+    _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+                               _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-  //   *_gamma += *_beam - *_mom_corr_elec;
+    *_gamma += *_beam - *_mom_corr_elec;
 
-  //   _W = physics::W_calc(*_beam, *_mom_corr_elec);
-  //   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+    _W = physics::W_calc(*_beam, *_mom_corr_elec);
+    _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 }
 
 // double Reaction::Corr_elec_mom() {
@@ -322,7 +322,7 @@ void Reaction::SetPip(int i) {
 
   // _pip->SetXYZM(_px_prime_pip_E_tmt, _py_prime_pip_E_tmt, _pz_prime_pip_E_tmt, MASS_PIP);
 
-  // second iterationS
+  // second iterations
 
   // _pip_mom_tmt2 = _pip_tmt->P();  // for second iteration
 
@@ -417,7 +417,7 @@ void Reaction::SetPim(int i) {
   _numNeg++;
   _hasPim = true;
   // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  // // _pim_status = abs(_data->status(i));
+  // // // _pim_status = abs(_data->status(i));
   _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
   _pim_theta = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
@@ -457,11 +457,12 @@ void Reaction::SetPim(int i) {
     
   // } else if (abs(_data->status(i)) >= 4000) {
   //   // -2.07141609e-10 8.81758359e-08 - 1.46534798e-05 1.17681655e-03 - 4.50634123e-02 6.54748237e-01;
-  //   _E_corr_val_pim_th = (-2.07141609e-10) * pow(_pim_theta, 5) + (8.81758359e-08) * pow(_pim_theta, 4) -
-  //                        (1.46534798e-05) * pow(_pim_theta, 3) + (1.17681655e-03) * pow(_pim_theta, 2) -
-  //                        (4.50634123e-02) * (_pim_theta) + 6.54748237e-01;
+  //   _E_corr_val_pim_th = (-2.07141609e-10) * pow(_pim_theta, 5) + (8.81758359e-08) * pow(_pim_theta, 4) +
+  //                        (-1.46534798e-05) * pow(_pim_theta, 3) + (1.17681655e-03) * pow(_pim_theta, 2) +
+  //                        (-4.50634123e-02) * (_pim_theta) + 6.54748237e-01;
   // }
-  // _pim_mom_tmt2 = _pim_mom_tmt + _E_corr_val_pim_th;
+
+  //     _pim_mom_tmt2 = _pim_mom_tmt + _E_corr_val_pim_th;
 
   // _px_prime_pim_E_tmt = _data->px(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
   // _py_prime_pim_E_tmt = _data->py(i) * ((_pim_mom_tmt2) / (_pim_mom_uncorr));
@@ -650,20 +651,20 @@ void Reaction::CalcMissMass() {
 
   *mm += (*_gamma + *_target);
 
-  // if (TwoPion_missingPim()) {
-  //   *mm -= *_prot;
-  //   *mm -= *_pip;
-  //   // *mm -= *_pim;
-  //   _MM = mm->M();
-  //   _MM2 = mm->M2();
+  if (TwoPion_missingPim()) {
+    *mm -= *_prot;
+    *mm -= *_pip;
+    // *mm -= *_pim;
+    _MM = mm->M();
+    _MM2 = mm->M2();
 
-  //   // _rec_pim_mom = mm->P();
-  //   // _rec_pim_theta = mm->Theta() * 180 / PI;
+    // _rec_pim_mom = mm->P();
+    // _rec_pim_theta = mm->Theta() * 180 / PI;
 
-  //   // if (mm->Phi() >= 0)
-  //   //   _rec_pim_phi = (mm->Phi() * 180 / PI);
-  //   // else if (mm->Phi() < 0)
-  //   //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+    // if (mm->Phi() >= 0)
+    //   _rec_pim_phi = (mm->Phi() * 180 / PI);
+    // else if (mm->Phi() < 0)
+    //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
 
   //   // // // _x_mu_E = mm->E();
   //   // // // _x_mu_P = mm->P();
@@ -674,13 +675,13 @@ void Reaction::CalcMissMass() {
   //   // // // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
   //   // // // _x_mu_m = mm->E() - mm->P();
   //   // // //   //
-  // }
+  }
   if (TwoPion_exclusive()) {
-    *mm -= *_prot;
-    *mm -= *_pip;
-    // *mm -= *_pim;
-    _MM = mm->M();
-    _MM2 = mm->M2();
+    // *mm -= *_prot;
+    // *mm -= *_pip;
+    // // *mm -= *_pim;
+    // _MM = mm->M();
+    // _MM2 = mm->M2();
 
     *mm_excl += (*_gamma + *_target);
     *mm_excl -= *_prot;
@@ -799,8 +800,8 @@ float Reaction::Energy_excl() {
 float Reaction::pim_momentum() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-  // if (TwoPion_missingPim()) {
-  if (TwoPion_exclusive()) {
+  if (TwoPion_missingPim()) {
+  // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -814,8 +815,8 @@ float Reaction::pim_momentum() {
 float Reaction::pim_theta_lab() {
   // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
 
-  // if (TwoPion_missingPim()) {
-  if (TwoPion_exclusive()) {
+  if (TwoPion_missingPim()) {
+  // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -828,8 +829,8 @@ float Reaction::pim_theta_lab() {
 float Reaction::pim_Phi_lab() {
   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
 
-  // if (TwoPion_missingPim()) {
-  if (TwoPion_exclusive()) {
+  if (TwoPion_missingPim()) {
+  // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
