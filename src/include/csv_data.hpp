@@ -264,7 +264,6 @@ struct csv_data {
      os << data.pim_phi_mPim << ",";
      os << std::setprecision(10);
      os << data.mm2_mPim << ",";
-     os << std::setprecision(1);
      os << data.weight_mPim << ",";
 
     // // // // // // //

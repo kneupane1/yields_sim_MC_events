@@ -122,11 +122,11 @@ double Reaction::dpp(float px, float py, float pz, int sec, int ivec) {
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+  *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  // _W = physics::W_calc(*_beam, *_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_elec);
+  // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  _W = physics::W_calc(*_beam, *_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_elec);
 
   // // //One way of  calculating mom - corrected four vectors
   // //   // // _cx = _data->px(0)/_elec->P();
@@ -139,18 +139,18 @@ void Reaction::SetElec() {
   // //   // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec, _py_prime_elec,
   // //   // _pz_prime_elec, MASS_E);
 
-  // //   // mom correction another way
-    _elec_mom = _elec->P();
+  // // //   // mom correction another way
+  //   _elec_mom = _elec->P();
 
-    _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  //   _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-    _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-                               _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+  //   _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+  //                              _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-    *_gamma += *_beam - *_mom_corr_elec;
+  //   *_gamma += *_beam - *_mom_corr_elec;
 
-    _W = physics::W_calc(*_beam, *_mom_corr_elec);
-    _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+  //   _W = physics::W_calc(*_beam, *_mom_corr_elec);
+  //   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 }
 
 // double Reaction::Corr_elec_mom() {
