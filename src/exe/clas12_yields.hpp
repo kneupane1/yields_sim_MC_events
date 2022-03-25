@@ -42,9 +42,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  // auto data = std::make_shared<Branches12>(_chain, true);
+  auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  auto data = std::make_shared<Branches12>(_chain);
+  // auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -62,27 +62,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int statusPip = -9999;
     int statusProt = -9999;
 
-    // if (data->mc_npart() < 1) continue;
+    if (data->mc_npart() < 1) continue;
 
-    // // If we pass electron cuts the event is processed
-    // total++;
+    // If we pass electron cuts the event is processed
+    total++;
 
-    // // Make a reaction class from the data given
-    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // Make a reaction class from the data given
+    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-    // for (int part = 1; part < data->mc_npart(); part++) {
-    //   // Check particle ID's and fill the reaction class
+    for (int part = 1; part < data->mc_npart(); part++) {
+      // Check particle ID's and fill the reaction class
 
-    //   if (data->mc_pid(part) == PIP) {
-    //     mc_event->SetMCPip(part);
-    //   } else if (data->mc_pid(part) == PROTON) {
-    //     mc_event->SetMCProton(part);
-    //   } else if (data->mc_pid(part) == PIM) {
-    //     mc_event->SetMCPim(part);
-    //     // } else {
-    //     //   mc_event->SetMCOther(part);
-    //   }
-    // }
+      if (data->mc_pid(part) == PIP) {
+        mc_event->SetMCPip(part);
+      } else if (data->mc_pid(part) == PROTON) {
+        mc_event->SetMCProton(part);
+      } else if (data->mc_pid(part) == PIM) {
+        mc_event->SetMCPim(part);
+        // } else {
+        //   mc_event->SetMCOther(part);
+      }
+    }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -91,7 +91,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
-    event->SetMomCorrElec();
+    // event->SetMomCorrElec();
 
     // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -124,16 +124,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingPip()) {
     //   if (event->TwoPion_missingProt()) {
     // if (event->TwoPion_exclusive()) {
-      if (event->W() > 0 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+      if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5) {
       // //&&
       //     //abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       //   //&&
       //   // abs(event->MM2_exclusive()) < 0.03) {
       //   // total++;
         csv_data output;
-        output.electron_sector = event->sec();
-        output.w = event->W();
-        output.w_after = event->W_after();
+      //   // output.electron_sector = event->sec();
+        // output.w = event->W();
+      //   // // output.w = event->W_after();
 
       //   // // output.q2 = event->Q2();
       //   output.scalar_product = event->scalar_triple_product();
@@ -236,11 +236,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // // // // mPim
 
-        // output.pim_mom_mPim = event->pim_momentum();
-        // output.pim_theta_mPim = event->pim_theta_lab();
-        // output.pim_phi_mPim = event->pim_Phi_lab();
-        // output.mm2_mPim = event->MM2();
-        // output.weight_mPim = event->weight();
+        output.pim_mom_mPim = event->pim_momentum();
+        output.pim_theta_mPim = event->pim_theta_lab();
+        output.pim_phi_mPim = event->pim_Phi_lab();
+        output.mm2_mPim = event->MM2();
+        output.weight_mPim = event->weight();
 
         // // // // // for rec pim
         // // // // // output.elec_mom = event->elec_mom();
