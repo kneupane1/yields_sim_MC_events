@@ -124,7 +124,7 @@ void Reaction::SetElec() {
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
   *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
 
