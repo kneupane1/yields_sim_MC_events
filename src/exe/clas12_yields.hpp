@@ -88,10 +88,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     auto cuts = std::make_shared<uconn_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
     if (!cuts->ElectronCuts()) continue;
-    event->SetMomCorrElec();
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
+    event->SetMomCorrElec();
+
     // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
