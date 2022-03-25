@@ -101,7 +101,9 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    return "w,weight";
+
+    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
     // return
     // "sec_ele,w,pim_mom_mPim,pim_mom_mes,pim_mom_corr,pim_theta_mPim,pim_theta_mes,pim_theta_corr,pim_phi_mPim,"
@@ -146,7 +148,7 @@ struct csv_data {
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     os << std::setprecision(5);
     // // // os << data.electron_sector << ",";
-    // // os << data.w << ",";
+    os << data.w << ",";
     // // // os << data.q2 << ",";
     // os << data.scalar_product << ",";
     // // // Generated
@@ -258,12 +260,12 @@ struct csv_data {
     // os << data.energy_x_mu << ",";
     // os << data.weight_exclusive << ",";
 
-    // // // // // mPim
-         os << data.pim_mom_mPim << ",";
-     os << data.pim_theta_mPim << ",";
-     os << data.pim_phi_mPim << ",";
-     os << std::setprecision(10);
-     os << data.mm2_mPim << ",";
+    // // // // // // mPim
+    //      os << data.pim_mom_mPim << ",";
+    //  os << data.pim_theta_mPim << ",";
+    //  os << data.pim_phi_mPim << ",";
+    //  os << std::setprecision(10);
+    //  os << data.mm2_mPim << ",";
      os << data.weight_mPim << ",";
 
     // // // // // // //
