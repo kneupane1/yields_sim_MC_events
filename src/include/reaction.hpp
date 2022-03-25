@@ -471,7 +471,7 @@ class Reaction {
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }
 
-  // inline float W_after() { return _W_after; }
+  inline float W_after() { return _W_after; }
 
   float_t scalar_triple_product();
 

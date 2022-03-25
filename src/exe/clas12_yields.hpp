@@ -91,7 +91,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
-    // event->SetMomCorrElec();
+    event->SetMomCorrElec();
 
     // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -124,16 +124,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingPip()) {
     //   if (event->TwoPion_missingProt()) {
     // if (event->TwoPion_exclusive()) {
-      if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+      if (event->W() > 0 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5) {
       // //&&
       //     //abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       //   //&&
       //   // abs(event->MM2_exclusive()) < 0.03) {
       //   // total++;
         csv_data output;
-      //   // output.electron_sector = event->sec();
+        output.electron_sector = event->sec();
         output.w = event->W();
-      //   // // output.w = event->W_after();
+        output.w_after = event->W_after();
 
       //   // // output.q2 = event->Q2();
       //   output.scalar_product = event->scalar_triple_product();
@@ -240,7 +240,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pim_theta_mPim = event->pim_theta_lab();
         // output.pim_phi_mPim = event->pim_Phi_lab();
         // output.mm2_mPim = event->MM2();
-        output.weight_mPim = event->weight();
+        // output.weight_mPim = event->weight();
 
         // // // // // for rec pim
         // // // // // output.elec_mom = event->elec_mom();

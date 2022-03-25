@@ -7,6 +7,8 @@
 struct csv_data {
   short electron_sector;
   float w;
+  float w_after;
+
   float q2;
   float scalar_product;
   float pim_mom_mPim;
@@ -101,7 +103,7 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "w,weight";
+    return "sec,w,,w_after,weight";
 
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
@@ -146,9 +148,11 @@ struct csv_data {
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
-    os << std::setprecision(5);
-    // // // os << data.electron_sector << ",";
+    os << std::setprecision(10);
+    os << data.electron_sector << ",";
     os << data.w << ",";
+    os << data.w_after << ",";
+
     // // // os << data.q2 << ",";
     // os << data.scalar_product << ",";
     // // // Generated
