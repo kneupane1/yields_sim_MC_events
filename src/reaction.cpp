@@ -303,10 +303,24 @@ void Reaction::SetPip(int i) {
 
     }
   } else if (abs(_data->status(i)) >= 4000) {
-    _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
-                      0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
-                      0.11467851 * (_pip_mom_uncorr) + 0.01917004;
+    // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
+    //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
+    //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
 
+    _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
+                       (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
+                          pow(_pip_mom_uncorr, 3) +
+
+                      (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
+                       3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
+                          pow(_pip_mom_uncorr, 2) +
+
+                      (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
+                       (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
+                          (_pip_mom_uncorr) +
+
+                      4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
+                      8.09261138e-03 * (_pip_theta)-2.05315604e-01;
 
     // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
@@ -449,13 +463,27 @@ void Reaction::SetPim(int i) {
 
     }
   } else if (abs(_data->status(i)) >= 4000) {
-    _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
-                      (0.13271424) * pow(_pim_mom_uncorr, 4) +
-                      (0.27140262) * pow(_pim_mom_uncorr, 3) -
-                      (0.23266059) * pow(_pim_mom_uncorr, 2) +
-                      (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
+    // _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
+    //                   (0.13271424) * pow(_pim_mom_uncorr, 4) +
+    //                   (0.27140262) * pow(_pim_mom_uncorr, 3) -
+    //                   (0.23266059) * pow(_pim_mom_uncorr, 2) +
+    //                   (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
 
+    _E_corr_val_pim = (-4.94426765e-07 * pow(_pim_theta, 3) + 9.85729368e-05 * pow(_pim_theta, 2) +
+                       (-5.85778699e-03) * (_pim_theta) + 1.17447168e-01) *
+                          pow(_pim_mom_uncorr, 3) +
+
+                      (1.75953956e-06 * pow(_pim_theta, 3) + (-3.63382515e-04) * pow(_pim_theta, 2) +
+                       2.21447425e-02 * (_pim_theta) + (-4.54844509e-01)) *
+                          pow(_pim_mom_uncorr, 2) +
+
+                      (-1.90446515e-06 * pow(_pim_theta, 3) + 4.08768480e-04 * pow(_pim_theta, 2) +
+                       (-2.65277055e-02) * (_pim_theta) + 5.57286393e-01) *(_pim_mom_uncorr) +
+
+                      2.05653097e-07 * pow(_pim_theta, 3) + (-5.44018546e-05) * pow(_pim_theta, 2)+ 4.61561853e-03 *(_pim_theta) -
+                      1.35303212e-01;
   }
+
   // _pim_mom = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
 
   _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim;  // first iteration
@@ -471,6 +499,7 @@ void Reaction::SetPim(int i) {
   //     _E_corr_val_pim_th = 0.00000000;
     
   // } else if (abs(_data->status(i)) >= 4000) {
+    
   //   // -2.07141609e-10 8.81758359e-08 - 1.46534798e-05 1.17681655e-03 - 4.50634123e-02 6.54748237e-01;
   //   _E_corr_val_pim_th = (-2.07141609e-10) * pow(_pim_theta, 5) + (8.81758359e-08) * pow(_pim_theta, 4) +
   //                        (-1.46534798e-05) * pow(_pim_theta, 3) + (1.17681655e-03) * pow(_pim_theta, 2) +
@@ -666,37 +695,37 @@ void Reaction::CalcMissMass() {
 
   *mm += (*_gamma + *_target);
 
-  if (TwoPion_missingPim()) {
+  // if (TwoPion_missingPim()) {
+  //   *mm -= *_prot;
+  //   *mm -= *_pip;
+  //   // *mm -= *_pim;
+  //   _MM = mm->M();
+  //   _MM2 = mm->M2();
+
+  //   // _rec_pim_mom = mm->P();
+  //   // _rec_pim_theta = mm->Theta() * 180 / PI;
+
+  //   // if (mm->Phi() >= 0)
+  //   //   _rec_pim_phi = (mm->Phi() * 180 / PI);
+  //   // else if (mm->Phi() < 0)
+  //   //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+
+  // //   // // // _x_mu_E = mm->E();
+  // //   // // // _x_mu_P = mm->P();
+  // //   // // // _x_mu_Px = mm->Px();
+  // //   // // // _x_mu_Py = mm->Py();
+  // //   // // // _x_mu_Pz = mm->Pz();
+  // //   // // // _x_mu_theta = mm->Theta() * RAD2DEG;
+  // //   // // // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
+  // //   // // // _x_mu_m = mm->E() - mm->P();
+  // //   // // //   //
+  // }
+  if (TwoPion_exclusive()) {
     *mm -= *_prot;
     *mm -= *_pip;
     // *mm -= *_pim;
     _MM = mm->M();
     _MM2 = mm->M2();
-
-    // _rec_pim_mom = mm->P();
-    // _rec_pim_theta = mm->Theta() * 180 / PI;
-
-    // if (mm->Phi() >= 0)
-    //   _rec_pim_phi = (mm->Phi() * 180 / PI);
-    // else if (mm->Phi() < 0)
-    //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
-
-  //   // // // _x_mu_E = mm->E();
-  //   // // // _x_mu_P = mm->P();
-  //   // // // _x_mu_Px = mm->Px();
-  //   // // // _x_mu_Py = mm->Py();
-  //   // // // _x_mu_Pz = mm->Pz();
-  //   // // // _x_mu_theta = mm->Theta() * RAD2DEG;
-  //   // // // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
-  //   // // // _x_mu_m = mm->E() - mm->P();
-  //   // // //   //
-  }
-  if (TwoPion_exclusive()) {
-    // *mm -= *_prot;
-    // *mm -= *_pip;
-    // // *mm -= *_pim;
-    // _MM = mm->M();
-    // _MM2 = mm->M2();
 
     *mm_excl += (*_gamma + *_target);
     *mm_excl -= *_prot;
