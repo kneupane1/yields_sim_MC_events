@@ -333,16 +333,17 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    return _data->mc_weight();
-    // return 1.0;
+    // return _data->mc_weight();
+    return 1.0;
   }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
   // 2. gamma, _w, _q2 and dpp function in electron four vector set up at reaction.cpp because of momentum corrections
   // for elec included only for exp data
-  // 3. clas12_yields: auto data = std::make_shared<Branches12>(_chain, true);  turn off true for data
-  // 4. from if (data->mc_npart() < 1) to all particle set up im mc events.
-  // 5. all mc bank related (generated) output parameters will not work in exp data
+  // 3. turn on the SetMomCorrElec() function on clas12_yields.hpp 
+  // 4. clas12_yields: auto data = std::make_shared<Branches12>(_chain, true);  turn off true for data
+  // 5. from if (data->mc_npart() < 1) to all particle set up im mc events.
+  // 6. all mc bank related (generated) output parameters will not work in exp data
 
   // momentum correction
   void SetMomCorrElec();

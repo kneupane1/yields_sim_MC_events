@@ -123,8 +123,8 @@ struct csv_data {
     //        "status_Pim,"
     //        "status_Pip,status_Prot,weight";
 
-    // Simulations
-    return "stp,prot_mom_gen,pip_mom_gen,pim_mom_gen,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
+    // Data/Simulations
+    return "stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,"
@@ -158,9 +158,9 @@ struct csv_data {
     // // Generated
     os << std::setprecision(5);
 
-    os << data.gen_prot_mom << ",";
-    os << data.gen_pip_mom << ",";
-    os << data.gen_pim_mom << ",";
+    // os << data.gen_prot_mom << ",";
+    // os << data.gen_pip_mom << ",";
+    // os << data.gen_pim_mom << ",";
 
     // Missing
 
@@ -221,7 +221,7 @@ struct csv_data {
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    os << std::setprecision(10);
+    os << std::setprecision(1);
     os << data.weight_exclusive << ",";
 
     // os << data.pim_mom_mPim << ",";
