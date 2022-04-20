@@ -195,75 +195,61 @@ void Reaction::SetProton(int i) {
   // std::cout << "prot ststus " << _data->status(i) << "   prot theta " << _prot_theta << " prot  mom   "
   //           << _prot_mom_uncorr<< std::endl;
   if (abs(_data->status(i)) < 4000) {
-    // if (_prot_theta <= 27) {
-  //   //   _E_corr_val_prot = -0.00078846 * pow(_prot_mom_uncorr, 5) + 0.0093734 * pow(_prot_mom_uncorr, 4) -
-  //   //                      0.04277868 * pow(_prot_mom_uncorr, 3) + 0.09421284 * pow(_prot_mom_uncorr, 2) -
-  //   //                      0.10095842 * (_prot_mom_uncorr) + 0.04567203;
-  //   // } else {
-  //   //   _E_corr_val_prot = -0.0023389 * pow(_prot_mom_uncorr, 5) + 0.02838603 * pow(_prot_mom_uncorr, 4) -
-  //   //                      0.13214962 * pow(_prot_mom_uncorr, 3) + 0.29609571 * pow(_prot_mom_uncorr, 2) -
-  //   //                      0.32307424 * (_prot_mom_uncorr) + 0.14742569;
-  //   // }
-  //   // a x ^ 2 bx c[-2.38530518e-07 1.04005173e-05 - 1.49765839e-04 - 1.41952603e-05]........................ a x ^
+    if (_prot_theta <= 27) {
+      _E_corr_val_prot = -0.00078846 * pow(_prot_mom_uncorr, 5) + 0.0093734 * pow(_prot_mom_uncorr, 4) -
+                         0.04277868 * pow(_prot_mom_uncorr, 3) + 0.09421284 * pow(_prot_mom_uncorr, 2) -
+                         0.10095842 * (_prot_mom_uncorr) + 0.04567203;
+    } else {
+      _E_corr_val_prot = -0.0023389 * pow(_prot_mom_uncorr, 5) + 0.02838603 * pow(_prot_mom_uncorr, 4) -
+                         0.13214962 * pow(_prot_mom_uncorr, 3) + 0.29609571 * pow(_prot_mom_uncorr, 2) -
+                         0.32307424 * (_prot_mom_uncorr) + 0.14742569;
+    }
 
-  //   //     2 bx c[1.57607943e-06 - 4.53383617e-05 3.07855716e-04 8.04420446e-03]........................ a x ^
+    // _E_corr_val_prot = (-2.38530518e-07 * pow(_prot_theta, 3) + 1.04005173e-05 * pow(_prot_theta, 2) +
+    //                     (-1.49765839e-04) * (_prot_theta) + (-1.41952603e-05)) *
+    //                        pow(_prot_mom_uncorr, 5) +
 
-  //   //     2 bx c[-1.67283666e-06 - 1.39877228e-04 5.19206096e-03 - 7.29631272e-02]........................ a x ^
+    //                    (1.57607943e-06 * pow(_prot_theta, 3) + (-4.53383617e-05) * pow(_prot_theta, 2) +
+    //                     3.07855716e-04 * (_prot_theta) + (8.04420446e-03)) *
+    //                        pow(_prot_mom_uncorr, 4) +
 
-  //   //     2 bx c[-7.85196782e-06 1.04094323e-03 - 2.55883006e-02 2.40630846e-01]........................ a x ^
+    //                    ((-1.67283666e-06) * pow(_prot_theta, 3) + (-1.39877228e-04) * pow(_prot_theta, 2) +
+    //                     5.19206096e-03 * (_prot_theta)-7.29631272e-02) *
+    //                        pow(_prot_mom_uncorr, 3) +
 
-  //   //     2 bx c[2.03637619e-05 - 1.88926745e-03 4.26626313e-02 - 3.46543011e-01]........................ a x ^
+    //                    (-7.85196782e-06 * pow(_prot_theta, 3) + 1.04094323e-03 * pow(_prot_theta, 2) +
+    //                     (-2.55883006e-02) * (_prot_theta) + 2.40630846e-01) *
+    //                        pow(_prot_mom_uncorr, 2) +
 
-  //   //     2 bx c[-1.37003888e-05 1.15294285e-03 - 2.53253135e-02 1.93782983e-01]........................;
+    //                    (2.03637619e-05 * pow(_prot_theta, 3) + (-1.88926745e-03) * pow(_prot_theta, 2) +
+    //                     4.26626313e-02 * (_prot_theta)-3.46543011e-01) *
+    //                        (_prot_mom_uncorr) +
 
-    _E_corr_val_prot = (-2.38530518e-07 * pow(_prot_theta, 3) + 1.04005173e-05 * pow(_prot_theta, 2) +
-                        (-1.49765839e-04) * (_prot_theta) + (-1.41952603e-05)) *
-                           pow(_prot_mom_uncorr, 5) +
-
-                       (1.57607943e-06 * pow(_prot_theta, 3) + (-4.53383617e-05) * pow(_prot_theta, 2) +
-                        3.07855716e-04 * (_prot_theta) + (8.04420446e-03)) *
-                           pow(_prot_mom_uncorr, 4) +
-
-                       ((-1.67283666e-06) * pow(_prot_theta, 3) + (-1.39877228e-04) * pow(_prot_theta, 2) +
-                        5.19206096e-03 * (_prot_theta)-7.29631272e-02) *
-                           pow(_prot_mom_uncorr, 3) +
-
-                       (-7.85196782e-06 * pow(_prot_theta, 3) + 1.04094323e-03 * pow(_prot_theta, 2) +
-                        (-2.55883006e-02) * (_prot_theta) + 2.40630846e-01) *
-                           pow(_prot_mom_uncorr, 2) +
-
-                       (2.03637619e-05 * pow(_prot_theta, 3) + (-1.88926745e-03) * pow(_prot_theta, 2) +
-                        4.26626313e-02 * (_prot_theta)-3.46543011e-01) *
-                           (_prot_mom_uncorr) +
-
-                       ((-1.37003888e-05) * pow(_prot_theta, 3) + (1.15294285e-03) * pow(_prot_theta, 2) +
-                        (-2.53253135e-02) * (_prot_theta) + 1.93782983e-01);
+    //                    ((-1.37003888e-05) * pow(_prot_theta, 3) + (1.15294285e-03) * pow(_prot_theta, 2) +
+    //                     (-2.53253135e-02) * (_prot_theta) + 1.93782983e-01);
 
   } else if (abs(_data->status(i)) >= 4000) {
 
-    //   _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
-    //   // a x ^ 2 bx c[-1.07797120e-04 1.44053070e-02 - 6.37337963e-01 9.33204328e+00]........................ a x ^
+      // _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
+      // a x ^ 2 bx c[-9.30990933e-05 1.23584235e-02 - 5.42538215e-01 7.87921215e+00]........................ a x ^
+      //     2 bx c[4.17955911e-04 - 5.53676478e-02 2.42642631e+00 - 3.51829220e+01]........................ a x ^
+      //     2 bx c[-5.58084320e-04 7.38670367e-02 - 3.23723227e+00 4.69456718e+01]........................ a x ^
+      //     2 bx c[2.40014720e-04 - 3.17071405e-02 1.38769727e+00 -2.01072704e+01]........................;
 
-    //   //     2 bx c[4.72893262e-04 - 6.30996839e-02 2.78830653e+00 - 4.07824513e+01]........................ a x ^
+      _E_corr_val_prot = ((-9.30990933e-05) * pow(_prot_theta, 3) + (1.23584235e-02) * pow(_prot_theta, 2) +
+                          (-5.42538215e-01) * (_prot_theta) + 7.87921215e+00) *
+                             pow(_prot_mom_uncorr, 3) +
 
-    //   //     2 bx c[-6.15628569e-04 8.21169370e-02 - 3.63029186e+00 5.31252587e+01]........................ a x ^
+                         (4.17955911e-04 * pow(_prot_theta, 3) + (-5.53676478e-02) * pow(_prot_theta, 2) +
+                          (2.42642631e+00) * (_prot_theta) + (-3.51829220e+01)) *
+                             pow(_prot_mom_uncorr, 2) +
 
-    //     2 bx c[2.56998933e-04 - 3.42017015e-02 1.50924308e+00 - 2.20555092e+01]........................;
+                         ((-5.58084320e-04) * pow(_prot_theta, 3) + (7.38670367e-02) * pow(_prot_theta, 2) +
+                          (-3.23723227e+00) * (_prot_theta) + 4.69456718e+01) *
+                             (_prot_mom_uncorr) +
 
-    _E_corr_val_prot = ((-1.07797120e-04) * pow(_prot_theta, 3) + (1.44053070e-02) * pow(_prot_theta, 2) +
-                        (-6.37337963e-01) * (_prot_theta) + 9.33204328e+00) *
-                           pow(_prot_mom_uncorr, 3) +
-
-                       (4.72893262e-04 * pow(_prot_theta, 3) + (-6.30996839e-02) * pow(_prot_theta, 2) +
-                        (2.78830653e+00) * (_prot_theta) + (-4.07824513e+01)) *
-                           pow(_prot_mom_uncorr, 2) +
-
-                       ((-6.15628569e-04) * pow(_prot_theta, 3) + (8.21169370e-02) * pow(_prot_theta, 2) +
-                        (-3.63029186e+00) * (_prot_theta) + 5.31252587e+01) *
-                           (_prot_mom_uncorr) +
-
-                       ((2.56998933e-04) * pow(_prot_theta, 3) + (-3.42017015e-02) * pow(_prot_theta, 2) +
-                        (1.50924308e+00 * (_prot_theta)) + (2.20555092e+01));
+                         ((2.40014720e-04) * pow(_prot_theta, 3) + (-3.17071405e-02) * pow(_prot_theta, 2) +
+                          (1.38769727e+00 * (_prot_theta)) + (-2.01072704e+01));
   }
 
   _prot_mom = _prot_mom_uncorr + _E_corr_val_prot;
@@ -364,21 +350,20 @@ void Reaction::SetPip(int i) {
     // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
     //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
     //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
+        _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
+                           (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
+                              pow(_pip_mom_uncorr, 3) +
 
-    _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
-                       (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
-                          pow(_pip_mom_uncorr, 3) +
+                          (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
+                           3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
+                              pow(_pip_mom_uncorr, 2) +
 
-                      (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
-                       3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
-                          pow(_pip_mom_uncorr, 2) +
+                          (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
+                           (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
+                              (_pip_mom_uncorr) +
 
-                      (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
-                       (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
-                          (_pip_mom_uncorr) +
-
-                      4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
-                      8.09261138e-03 * (_pip_theta)-2.05315604e-01;
+                          4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
+                          8.09261138e-03 * (_pip_theta)-2.05315604e-01;
 
     // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;

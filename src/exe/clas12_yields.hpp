@@ -119,14 +119,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         event->SetOther(part);
       }
     }
-
-    // if (event->TwoPion_missingPim()) {
-    // if (event->TwoPion_missingPip()) {
-    //   if (event->TwoPion_missingProt()) {
-    if (event->TwoPion_exclusive()) {
+        // if (event->TwoPion_missingPim()) {
+        // if (event->TwoPion_missingPip()) {
+        //   if (event->TwoPion_missingProt()) {
+        if (event->TwoPion_exclusive()) {
       if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-      // //&&
-      //     //abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
+      //&&
+          // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       //   //&&
       //   // abs(event->MM2_exclusive()) < 0.03) {
       //   // total++;
@@ -182,8 +181,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.mm2_mPip = event->MM2_mPip();
         output.mm2_mProt = event->MM2_mProt();
 
-        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        // output.energy_x_mu = event->Energy_excl();
+        output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        output.energy_x_mu = event->Energy_excl();
 
         output.status_Pim = statusPim;
         output.status_Pip = statusPip;
