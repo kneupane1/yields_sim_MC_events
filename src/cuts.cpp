@@ -123,14 +123,14 @@ bool Cuts::IsPip(int i) {
   //   _pip &= (_data->p(i) > 0.2);
   _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
-  // min/max mom cuts
-  if (abs(_data->status(i)) < 4000) {
-    _pip &= (_data->p(i) > 0.3);
-    _pip &= (_data->p(i) < 5.0);
-  } else if (abs(_data->status(i)) >= 4000) {
-    _pip &= (_data->p(i) > 0.0);
-    _pip &= (_data->p(i) < 3.0);
-  }
+  // // min/max mom cuts
+  // if (abs(_data->status(i)) < 4000) {
+  //   _pip &= (_data->p(i) > 0.3);
+  //   _pip &= (_data->p(i) < 5.0);
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _pip &= (_data->p(i) > 0.0);
+  //   _pip &= (_data->p(i) < 3.0);
+  // }
   ////_pip &= (abs(_data->chi2pid(i)) < 0.5);
 
   //_pip &= DC_fiducial_cut_theta_phi(i);
@@ -148,13 +148,13 @@ bool Cuts::IsProton(int i) {
   // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
   _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // min/max mom cuts
-  if (abs(_data->status(i)) < 4000) {
-    _proton &= (_data->p(i) > 0.4);
-    _proton &= (_data->p(i) < 5.0);
-  } else if (abs(_data->status(i)) >= 4000) {
-    _proton &= (_data->p(i) > 0.0);
-    _proton &= (_data->p(i) < 3.0);
-  }
+  // if (abs(_data->status(i)) < 4000) {
+  //   _proton &= (_data->p(i) > 0.4);
+  //   _proton &= (_data->p(i) < 5.0);
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _proton &= (_data->p(i) > 0.0);
+  //   _proton &= (_data->p(i) < 3.0);
+  // }
     //   _proton &= (_data->p(i) > 0.2);
   // //_proton &= (abs(_data->chi2pid(i)) < 0.5);
   return _proton;
@@ -167,13 +167,13 @@ bool Cuts::IsPim(int i) {
   _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
   _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // min/max mom cuts
-  if (abs(_data->status(i)) < 4000){ 
-    _pim &= (_data->p(i) > 0.4);
-    _pim &= (_data->p(i) < 5.0);
-  } else if (abs(_data->status(i)) >= 4000) {
-    _pim &= (_data->p(i) > 0.0);
-    _pim &= (_data->p(i) < 3.0);
-  }
+  // if (abs(_data->status(i)) < 4000){ 
+  //   _pim &= (_data->p(i) > 0.4);
+  //   _pim &= (_data->p(i) < 5.0);
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _pim &= (_data->p(i) > 0.0);
+  //   _pim &= (_data->p(i) < 3.0);
+  // }
 
     // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
 
