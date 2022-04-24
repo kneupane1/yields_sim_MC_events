@@ -333,7 +333,7 @@ void Reaction::SetProton(int i) {
 //   _py_prime_prot_mom = _prot->Py() * ((_prot_mom_prime) / (_prot_mom));
 //   _pz_prime_prot_mom = _prot->Pz() * ((_prot_mom_prime) / (_prot_mom));
 //   _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
-// }
+}
 // bool Reaction::ctof_prot() {
 //   bool _prot_ctof = true;
 //   _prot_ctof &= (4000 <= _prot_status && _prot_status < 6000);
@@ -519,7 +519,7 @@ void Reaction::SetPip(int i) {
 //   _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
 //   _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
 //   _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
-// }
+}
 
 // bool Reaction::ctof_pip() {
 //   bool _pip_ctof = true;
@@ -723,7 +723,7 @@ void Reaction::SetPim(int i) {
 //   _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
 //   _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
 //   _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);
-// }
+}
 // bool Reaction::ctof_pim() {
 //   bool _pim_ctof = true;
 //   _pim_ctof &= (4000 <= _pim_status && _pim_status < 6000);
