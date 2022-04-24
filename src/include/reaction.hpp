@@ -163,7 +163,6 @@ class Reaction {
   double _py_prime_pim_E_tmt = NAN;
   double _pz_prime_pim_E_tmt = NAN;
 
-  static const int Pim_mom_bins = 11;
   float alpha_pim_mom_corr = 0.5;
   double _pim_mom = NAN;
   double _pim_mom_tmt = NAN;
@@ -174,14 +173,34 @@ class Reaction {
   float _E_corr_val_pim_th = NAN;
   float _E_corr_val_pim2 = NAN;
 
-  float min_pim_mom_values[Pim_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.8, 2.3, 2.9};
-  float max_pim_mom_values[Pim_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.8, 2.3, 2.9, 10};
-  double pim_mom_corr[Pim_mom_bins] = {
-      0.004, -0.012, -0.012, -0.02, -0.022, -0.022, -0.025, -0.025, -0.018, -0.018, -0.006,
+  static const int Pim_mom_bins_FD = 22;
+  static const int Pim_mom_bins_CD = 21;
+
+  float min_pim_mom_values_CD[Pim_mom_bins_CD] = {0,  0.2,  0.25, 0.3,  0.35, 0.4,  0.45, 0.5, 0.55, 0.6, 0.65,
+                                                  0.7, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.4, 1.55, 1.75};
+  float max_pim_mom_values_CD[Pim_mom_bins_CD] = {0.2,  0.25, 0.3,  0.35, 0.4,  0.45, 0.5, 0.55, 0.6,  0.65, 0.7,
+                                                  0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.4, 1.55, 1.75, 3.0};
+  float pim_mom_corr_CD[Pim_mom_bins_CD] = {
+      0.039,  0.009,   -0.003,  -0.009,  -0.0048, -0.0144, -0.0144, -0.0144, -0.0144, -0.024, -0.024,
+      -0.024, -0.0336, -0.0336, -0.0432, -0.0432, -0.049,  -0.063,  -0.072,  -0.088,  -0.07,
   };
-  double pim_mom_corr_sim[Pim_mom_bins] = {
-      -0.002, -0.006, -0.006, -0.006, -0.0066, -0.0066, -0.0075, -0.0075, -0.003, -0.003, -0.003,
-  };
+
+  float min_pim_mom_values_FD[Pim_mom_bins_FD] = {0.4,  0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45, 1.55,
+                                                  1.65, 1.75, 1.85, 1.95, 2.05, 2.15, 2.3,  2.45, 2.65, 2.9,  3.4};
+  float max_pim_mom_values_FD[Pim_mom_bins_FD] = {0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45, 1.55, 1.65,
+                                                  1.75, 1.85, 1.95, 2.05, 2.15, 2.3,  2.45, 2.65, 2.9,  3.4,  5.0};
+  double pim_mom_corr_FD[2][Pim_mom_bins_FD] = {
+      {
+          0.051, -0.0144, -0.0336, -0.0432, -0.0432, -0.0336, -0.035, -0.035, -0.035, -0.04, -0.04,
+          -0.04, -0.024,  -0.03,   -0.03,   -0.03,   -0.03,   -0.03,  -0.03,  -0.01,  -0.01, -0.01,
+      },
+      {
+          0.021,  -0.0048, -0.024, -0.0144, -0.0144, -0.024, -0.021, -0.021, -0.021, -0.024, -0.024,
+          -0.024, -0.024,  -0.03,  -0.03,   -0.03,   -0.03,  -0.03,  -0.03,  -0.03,  -0.01,  -0.01,
+      }}; // first is for theta < 27 and second is for theta > 27 degrees, last bin for > 27 is adjusted to second last bin
+
+  // double pim_mom_corr_sim_FD[Pim_mom_bins_FD][2] = {
+  // };
 
   static const int Pim_theta_bins = 10;
   float alpha_pim_theta_corr = 0.5;
@@ -233,7 +252,6 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  static const int Pip_mom_bins = 10;
   float alpha_pip_mom_corr = 0.5;
   double _pip_mom = NAN;
   double _pip_mom_tmt = NAN;
@@ -244,14 +262,37 @@ class Reaction {
   float _E_corr_val_pip_th = NAN;
   float _E_corr_val_pip2 = NAN;
 
-  float min_pip_mom_values[Pip_mom_bins] = {0, 0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
-  float max_pip_mom_values[Pip_mom_bins] = {0.36, 0.5, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
-  double pip_mom_corr[Pip_mom_bins] = {
-      -0.003, -0.009, -0.021, -0.021, -0.035, -0.021, -0.015, -0.015, -0.015, -0.015,
-  };
-  // double pip_mom_corr_sim[Pip_mom_bins] = {-0.003, -0.003, -0.003, -0.009, -0.012, -0.012,
-  //                                          -0.012, -0.015, -0.015, -0.015
+  static const int Pip_mom_bins_FD = 26;
+  static const int Pip_mom_bins_CD = 21;
 
+  float min_pip_mom_values_CD[Pip_mom_bins_CD] = {0,   0.2,  0.25, 0.3,  0.35, 0.4,  0.45, 0.5, 0.55, 0.6, 0.65,
+                                                  0.7, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.4, 1.55, 1.75};
+  float max_pip_mom_values_CD[Pip_mom_bins_CD] = {0.2,  0.25, 0.3,  0.35, 0.4,  0.45, 0.5, 0.55, 0.6,  0.65, 0.7,
+                                                  0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.4, 1.55, 1.75, 3.0};
+  float pip_mom_corr_CD[Pip_mom_bins_CD] = {
+      0.057,   0.009,   -0.003,  -0.009,  -0.0144, -0.024, -0.0336, -0.0336, -0.0432, -0.0528, -0.0528,
+      -0.0624, -0.0816, -0.0816, -0.1008, -0.1104, -0.119, -0.119,  -0.152,  -0.136,  -0.17,
+  };
+
+  float min_pip_mom_values_FD[Pip_mom_bins_FD] = {0.3,  0.45, 0.5,  0.55, 0.6,  0.65, 0.7,  0.75, 0.8,
+                                                  0.85, 0.9,  0.95, 1.0,  1.05, 1.10, 1.15, 1.25, 1.35,
+                                                  1.45, 1.55, 1.65, 1.75, 1.9,  2.1,  2.5,  3.0};
+  float max_pip_mom_values_FD[Pip_mom_bins_FD] = { 0.45, 0.5,  0.55, 0.6,  0.65, 0.7,  0.75, 0.8,
+                                                  0.85, 0.9,  0.95, 1.0,  1.05, 1.10, 1.15, 1.25, 1.35,
+                                                  1.45, 1.55, 1.65, 1.75, 1.9,  2.1,  2.5,  3.0,  5.0};
+  double pip_mom_corr_FD[2][Pip_mom_bins_FD] = {
+      {
+          0.081,   0.021,   0.003,  -0.021, -0.045, -0.024, -0.0048, -0.0144, -0.024, -0.0336, -0.0336, -0.0336, -0.024,
+          -0.0336, -0.0336, -0.035, -0.035, -0.035, -0.024, -0.024,  -0.024,  -0.03,  -0.03,   -0.03,   -0.03,   -0.03,
+
+      },
+      {
+          0.051,   -0.003,  -0.009,  -0.021,  -0.027,  -0.0336, -0.0144, -0.0144, -0.0048,
+          -0.0144, -0.0048, -0.0048, -0.0048, -0.0048, -0.0048, -0.007,  -0.007,  -0.007,
+          -0.008,  -0.008,  -0.008,  -0.01,   -0.01,   0.01,    0.01,    -0.01,
+      }};  // first is for theta < 27 and second is for theta > 27 degrees, last one for >27 is adjusted to second last one
+
+  // double pip_mom_corr_sim_FD[Pip_mom_bins_FD][2] = {
   // };
 
   static const int Pip_theta_bins = 10;
@@ -261,7 +302,7 @@ class Reaction {
 
   float min_pip_theta_values[Pip_theta_bins] = {0, 19.5, 24, 28, 33, 38, 45, 52, 60, 75};
   float max_pip_theta_values[Pip_theta_bins] = {19.5, 24, 28, 33, 38, 45, 52, 60, 75, 180};
-  double pip_theta_corr[Pip_theta_bins] = {0.075 ,0.075, 0.075, - 0.15, - 0.45, 1.0, - 0.2, - 1.2, - 1.8, - 5.4};
+  double pip_theta_corr[Pip_theta_bins] = {0.075, 0.075, 0.075, -0.15, -0.45, 1.0, -0.2, -1.2, -1.8, -5.4};
   // double pip_theta_corr_sim[Pip_theta_bins] = {0.1875, 0.1875, 0.1875, 0.375, 0.225, 0.3, 0.3, 0.375, 0.6, 0.2};
 
   static const int Pip_phi_bins = 11;
@@ -292,41 +333,62 @@ class Reaction {
   double _py_prime_prot_E = NAN;
   double _pz_prime_prot_E = NAN;
 
-  static const int Prot_mom_bins = 8;
   float alpha_prot_mom_corr = 0.5;
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
   double _prot_mom_uncorr = NAN;
   float _E_corr_val_prot = NAN;
 
-  float min_prot_mom_values[Prot_mom_bins] = {0, 0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5};
-  float max_prot_mom_values[Prot_mom_bins] = {0.65, 0.8, 0.95, 1.15, 1.45, 1.9, 2.5, 10};
-  double prot_mom_corr[Prot_mom_bins] = {
-      0.0015, -0.0045, -0.01, -0.014, -0.0175, -0.0175, -0.0175, -0.0275,
-  };
-  // double prot_mom_corr_sim[Prot_mom_bins] = {0.0015, -0.0045, -0.01, -0.014, -0.0175, -0.0175, -0.0175, -0.0275};
+  static const int Prot_mom_bins_CD = 11;
+  static const int Prot_mom_bins_FD = 17;
+
+  float min_prot_mom_values_CD[Prot_mom_bins_CD] = {0, 0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.4, 1.55, 1.75};
+  float max_prot_mom_values_CD[Prot_mom_bins_CD] = {0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.4, 1.55, 1.75, 3.0};
+  float prot_mom_corr_CD[Prot_mom_bins_CD] = {
+      0.003, -0.0144, -0.0336, -0.0432, -0.0624, -0.072, -0.077, -0.105, -0.12, -0.136, -0.15,
+  };  
+
+  float min_prot_mom_values_FD[Prot_mom_bins_FD] = {0, 0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35,
+                                                    1.45, 1.55, 1.65, 1.75, 1.9,  2.1,  2.5,  3.0};
+  float max_prot_mom_values_FD[Prot_mom_bins_FD] = {0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35,
+                                                    1.45, 1.55, 1.65, 1.75, 1.9,  2.1,  2.5,  3.0,  5.0};
+  double prot_mom_corr_FD[2][Prot_mom_bins_FD] = {{
+                                                      0.003, -0.0048, -0.0048, -0.0144, -0.0144, -0.024, -0.035, -0.035,
+                                                      -0.035, -0.04, -0.04, -0.04, -0.05, -0.05, -0.05, -0.05,-0.05 },
+                                                  {0.009 , -0.0048 , -0.0048 , -0.0048 , -0.0048 , -0.0048 , -0.007 , -0.007 ,
+                                                   -0.007 , -0.008 , -0.008 , -0.008 , -0.01 , -0.01 , -0.01 , -0.01 , 0.01}};  // first is for theta < 27 and second is for theta > 27 degrees,
+
+  // double prot_mom_corr_sim_FD[Prot_mom_bins_FD][2] = {
+  // };
+
+
   static const int Prot_theta_bins = 10;
   float alpha_prot_theta_corr = 0.5;
   double _prot_theta = NAN;
   double _prot_theta_prime = NAN;
 
-  float min_prot_theta_values[Prot_theta_bins] = {0, 10, 15, 19.5, 24, 28, 33, 38};
-  float max_prot_theta_values[Prot_theta_bins] = {10, 15, 19.5, 24, 28, 33, 38, 180};
-  double prot_theta_corr[Prot_theta_bins] = {
-      0.315, 0.225, 0.225, 0.195, 0.135, 0.03, -0.45, -0.15,
-  };
+  // float min_prot_theta_values[Prot_theta_bins] = {0, 7, 10, 13, 16, 19, 22, 25, 27, 30, 33, 37, 42, 50, 60};
+  // float max_prot_theta_values[Prot_theta_bins] = {7, 10, 13, 16, 19, 22, 25, 27, 30, 33, 37, 42, 50, 60, 180};
+  // double prot_theta_corr[Prot_theta_bins] = {0.675, 0.225, 0.225, 0.225, 0.225, 0.225, 0.225, 0.075,
+  //                                            0.15,  -0.15, -0.45, 0.15,  -0.45, -3.15, -3.15};
+  // ,
   // double prot_theta_corr_sim[Prot_theta_bins] = {
-  //     0.1125, 0.1125, 0.1125, 0.1125, 0.1125, 0.225, 0.075, 0.075,
-  // };
+  //     0.1875 ,0.1125, 0.1125, 0.1125, 0.1125, 0.1125, 0.1125, 0.1125, 0.075, 0.075, 0.075, 0.075, -0.225, -1.125,
+  //     -1.125
+  // // };
 
   static const int Prot_phi_bins = 11;
   float alpha_prot_phi_corr = 0.5;
   double _prot_phi = NAN;
   double _prot_phi_prime = NAN;
-  float min_prot_phi_values[Prot_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
-  float max_prot_phi_values[Prot_phi_bins] = {30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 360};
-  double prot_phi_corr[Prot_phi_bins] = {0.9, 0.7, 0.5, 0.5, 0.1, -0.1, -0.3, 0.1, 0.1, 0.3, 0.7,};
-  // double prot_phi_corr_sim[Prot_phi_bins] = {-0.1, -0.1, -0.1, 0.1, 0.1, -0.1, 0.1, 0.1, 0.1, 0.1, -0.1};
+  // float min_prot_phi_values[Prot_phi_bins] = {0,   15,  30,  45,  60,  75,  90,  105, 120, 135, 150, 165,
+  //                                             180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
+  // float max_prot_phi_values[Prot_phi_bins] = {15,  30,  45,  60,  75,  90,  105, 120, 135, 150, 165, 180,
+  //                                             195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360};
+  // double prot_phi_corr[Prot_phi_bins] = {0.7,  1.1, 0.9, 0.7, 0.5, 0.5, 0.5, 0.5, 0.1, 0.3, -0.1, -0.1,
+  //                                        -0.3, 0.1, 0.1, 0.1, 0.1, 0.3, 0.3, 0.3, 0.5, 0.9, 0.9,  0.7};
+  // // double prot_phi_corr_sim[Prot_phi_bins] = {0.075,- 0.075,-0.075, 0.075, 0.075, 0.075, -0.075, 0.075, 0.075, -0.075,
+  // // -0.075, 0.075, 0.075, -0.075, -0.075, 0.075, 0.075,0.075, -0.075, 0.075, 0.075, -0.075, -0.075, -0.075,};
 
  public:
   Reaction(){};
@@ -340,7 +402,7 @@ class Reaction {
   // 1. inline weight function above
   // 2. gamma, _w, _q2 and dpp function in electron four vector set up at reaction.cpp because of momentum corrections
   // for elec included only for exp data
-  // 3. turn on the SetMomCorrElec() function on clas12_yields.hpp 
+  // 3. turn on the SetMomCorrElec() function on clas12_yields.hpp
   // 4. clas12_yields: auto data = std::make_shared<Branches12>(_chain, true);  turn off true for data
   // 5. from if (data->mc_npart() < 1) to all particle set up im mc events.
   // 6. all mc bank related (generated) output parameters will not work in exp data
@@ -481,7 +543,7 @@ class Reaction {
 
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 /*&& _numPip == 1*/) && (_hasE && _hasP/* && _hasPip*/));
+    _channelTwoPi &= ((_numProt == 1 /*&& _numPip == 1*/) && (_hasE && _hasP /* && _hasPip*/));
     return _channelTwoPi;
   }
 

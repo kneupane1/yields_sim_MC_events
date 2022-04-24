@@ -229,27 +229,26 @@ void Reaction::SetProton(int i) {
     //                     (-2.53253135e-02) * (_prot_theta) + 1.93782983e-01);
 
   } else if (abs(_data->status(i)) >= 4000) {
+    // _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
+    // a x ^ 2 bx c[-9.30990933e-05 1.23584235e-02 - 5.42538215e-01 7.87921215e+00]........................ a x ^
+    //     2 bx c[4.17955911e-04 - 5.53676478e-02 2.42642631e+00 - 3.51829220e+01]........................ a x ^
+    //     2 bx c[-5.58084320e-04 7.38670367e-02 - 3.23723227e+00 4.69456718e+01]........................ a x ^
+    //     2 bx c[2.40014720e-04 - 3.17071405e-02 1.38769727e+00 -2.01072704e+01]........................;
 
-      // _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
-      // a x ^ 2 bx c[-9.30990933e-05 1.23584235e-02 - 5.42538215e-01 7.87921215e+00]........................ a x ^
-      //     2 bx c[4.17955911e-04 - 5.53676478e-02 2.42642631e+00 - 3.51829220e+01]........................ a x ^
-      //     2 bx c[-5.58084320e-04 7.38670367e-02 - 3.23723227e+00 4.69456718e+01]........................ a x ^
-      //     2 bx c[2.40014720e-04 - 3.17071405e-02 1.38769727e+00 -2.01072704e+01]........................;
+    _E_corr_val_prot = ((-9.30990933e-05) * pow(_prot_theta, 3) + (1.23584235e-02) * pow(_prot_theta, 2) +
+                        (-5.42538215e-01) * (_prot_theta) + 7.87921215e+00) *
+                           pow(_prot_mom_uncorr, 3) +
 
-      _E_corr_val_prot = ((-9.30990933e-05) * pow(_prot_theta, 3) + (1.23584235e-02) * pow(_prot_theta, 2) +
-                          (-5.42538215e-01) * (_prot_theta) + 7.87921215e+00) *
-                             pow(_prot_mom_uncorr, 3) +
+                       (4.17955911e-04 * pow(_prot_theta, 3) + (-5.53676478e-02) * pow(_prot_theta, 2) +
+                        (2.42642631e+00) * (_prot_theta) + (-3.51829220e+01)) *
+                           pow(_prot_mom_uncorr, 2) +
 
-                         (4.17955911e-04 * pow(_prot_theta, 3) + (-5.53676478e-02) * pow(_prot_theta, 2) +
-                          (2.42642631e+00) * (_prot_theta) + (-3.51829220e+01)) *
-                             pow(_prot_mom_uncorr, 2) +
+                       ((-5.58084320e-04) * pow(_prot_theta, 3) + (7.38670367e-02) * pow(_prot_theta, 2) +
+                        (-3.23723227e+00) * (_prot_theta) + 4.69456718e+01) *
+                           (_prot_mom_uncorr) +
 
-                         ((-5.58084320e-04) * pow(_prot_theta, 3) + (7.38670367e-02) * pow(_prot_theta, 2) +
-                          (-3.23723227e+00) * (_prot_theta) + 4.69456718e+01) *
-                             (_prot_mom_uncorr) +
-
-                         ((2.40014720e-04) * pow(_prot_theta, 3) + (-3.17071405e-02) * pow(_prot_theta, 2) +
-                          (1.38769727e+00 * (_prot_theta)) + (-2.01072704e+01));
+                       ((2.40014720e-04) * pow(_prot_theta, 3) + (-3.17071405e-02) * pow(_prot_theta, 2) +
+                        (1.38769727e+00 * (_prot_theta)) + (-2.01072704e+01));
   }
 
   _prot_mom = _prot_mom_uncorr + _E_corr_val_prot;
@@ -300,21 +299,40 @@ void Reaction::SetProton(int i) {
   //     }
   // }
 
-  // for (size_t m = 0; m < Prot_mom_bins; m++) {
-  //   double mom_min = min_prot_mom_values[m];
-  //   double mom_max = max_prot_mom_values[m];
-  //   if (_prot_mom > mom_min && _prot_mom < mom_max) {
-  //     //For experimental data
-  //     _prot_mom_prime = _prot_mom - prot_mom_corr[m] * alpha_prot_mom_corr;
-  //     // // For simulation data
-  //     // _prot_mom_prime = _prot_mom - prot_mom_corr_sim[m] * alpha_prot_mom_corr;
+  // _px_prime_prot_mom = _mom_corr_prot_ph->Px() * ((_prot_mom_prime) / (_prot_mom));
+  // _py_prime_prot_mom = _mom_corr_prot_ph->Py() * ((_prot_mom_prime) / (_prot_mom));
+  // _pz_prime_prot_mom = _mom_corr_prot_ph->Pz() * ((_prot_mom_prime) / (_prot_mom));
+  // _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
+  _prot_mom = _prot->P();
 
-  //     _px_prime_prot_mom = _mom_corr_prot_ph->Px() * ((_prot_mom_prime) / (_prot_mom));
-  //     _py_prime_prot_mom = _mom_corr_prot_ph->Py() * ((_prot_mom_prime) / (_prot_mom));
-  //     _pz_prime_prot_mom = _mom_corr_prot_ph->Pz() * ((_prot_mom_prime) / (_prot_mom));
-  //     _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
-  //   }
-  // }
+  if (abs(_data->status(i)) < 4000) {
+    for (size_t m = 0; m < Prot_mom_bins_FD; m++) {
+      double mom_min = min_prot_mom_values_FD[m];
+      double mom_max = max_prot_mom_values_FD[m];
+      if (_prot_mom > mom_min && _prot_mom < mom_max) {
+        if (_prot_theta <= 27) {
+        //   //   // For experimental data
+          _prot_mom_prime = _prot_mom - prot_mom_corr_FD[0][m] * alpha_prot_mom_corr;
+        } else {
+         _prot_mom_prime = _prot_mom - prot_mom_corr_FD[1][m] * alpha_prot_mom_corr;
+        }
+      }
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    for (size_t m = 0; m < Prot_mom_bins_CD; m++) {
+      double mom_min = min_prot_mom_values_CD[m];
+      double mom_max = max_prot_mom_values_CD[m];
+      if (_prot_mom > mom_min && _prot_mom < mom_max) {
+        //   // For experimental data
+        _prot_mom_prime = _prot_mom - prot_mom_corr_CD[m] * alpha_prot_mom_corr;
+      }
+    }
+  }
+
+  _px_prime_prot_mom = _prot->Px() * ((_prot_mom_prime) / (_prot_mom));
+  _py_prime_prot_mom = _prot->Py() * ((_prot_mom_prime) / (_prot_mom));
+  _pz_prime_prot_mom = _prot->Pz() * ((_prot_mom_prime) / (_prot_mom));
+  _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
 }
 // bool Reaction::ctof_prot() {
 //   bool _prot_ctof = true;
@@ -350,20 +368,20 @@ void Reaction::SetPip(int i) {
     // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
     //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
     //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
-        _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
-                           (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
-                              pow(_pip_mom_uncorr, 3) +
+    _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
+                       (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
+                          pow(_pip_mom_uncorr, 3) +
 
-                          (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
-                           3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
-                              pow(_pip_mom_uncorr, 2) +
+                      (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
+                       3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
+                          pow(_pip_mom_uncorr, 2) +
 
-                          (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
-                           (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
-                              (_pip_mom_uncorr) +
+                      (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
+                       (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
+                          (_pip_mom_uncorr) +
 
-                          4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
-                          8.09261138e-03 * (_pip_theta)-2.05315604e-01;
+                      4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
+                      8.09261138e-03 * (_pip_theta)-2.05315604e-01;
 
     // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
     //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
@@ -456,21 +474,51 @@ void Reaction::SetPip(int i) {
   //     }
   //   }
 
-  //   for (size_t m = 0; m < Pip_mom_bins; m++) {
-  //     double mom_min = min_pip_mom_values[m];
-  //     double mom_max = max_pip_mom_values[m];
-  //     if (_pip_mom > mom_min && _pip_mom < mom_max) {
-  //       // For experimantal data
-  //       _pip_mom_prime = _pip_mom - pip_mom_corr[m] * alpha_pip_mom_corr;
-  //       // // For simulation data
-  //       // _pip_mom_prime = _pip_mom - pip_mom_corr_sim[m] * alpha_pip_mom_corr;
+  // for (size_t m = 0; m < Pip_mom_bins; m++) {
+  //   double mom_min = min_pip_mom_values[m];
+  //   double mom_max = max_pip_mom_values[m];
+  //   if (_pip_mom > mom_min && _pip_mom < mom_max) {
+  //     // For experimantal data
+  //     _pip_mom_prime = _pip_mom - pip_mom_corr[m] * alpha_pip_mom_corr;
+  //     // // For simulation data
+  //     // _pip_mom_prime = _pip_mom - pip_mom_corr_sim[m] * alpha_pip_mom_corr;
 
-  //       _px_prime_pip_mom = _mom_corr_pip_ph->Px() * ((_pip_mom_prime) / (_pip_mom));
-  //       _py_prime_pip_mom = _mom_corr_pip_ph->Py() * ((_pip_mom_prime) / (_pip_mom));
-  //       _pz_prime_pip_mom = _mom_corr_pip_ph->Pz() * ((_pip_mom_prime) / (_pip_mom));
-  //       _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
-  //     }
+  //     _px_prime_pip_mom = _mom_corr_pip_ph->Px() * ((_pip_mom_prime) / (_pip_mom));
+  //     _py_prime_pip_mom = _mom_corr_pip_ph->Py() * ((_pip_mom_prime) / (_pip_mom));
+  //     _pz_prime_pip_mom = _mom_corr_pip_ph->Pz() * ((_pip_mom_prime) / (_pip_mom));
+  //     _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
   //   }
+  // }
+  _pip_mom = _pip->P();
+
+  if (abs(_data->status(i)) < 4000) {
+    for (size_t m = 0; m < Pip_mom_bins_FD; m++) {
+      double mom_min = min_pip_mom_values_FD[m];
+      double mom_max = max_pip_mom_values_FD[m];
+      if (_pip_mom > mom_min && _pip_mom < mom_max) {
+        if (_pip_theta <= 27) {
+          //   //   // For experimental data
+          _pip_mom_prime = _pip_mom - pip_mom_corr_FD[0][m] * alpha_pip_mom_corr;
+        } else {
+          _pip_mom_prime = _pip_mom - pip_mom_corr_FD[1][m] * alpha_pip_mom_corr;
+        }
+      }
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    for (size_t m = 0; m < Pip_mom_bins_CD; m++) {
+      double mom_min = min_pip_mom_values_CD[m];
+      double mom_max = max_pip_mom_values_CD[m];
+      if (_pip_mom > mom_min && _pip_mom < mom_max) {
+        //   // For experimental data
+        _pip_mom_prime = _pip_mom - pip_mom_corr_CD[m] * alpha_pip_mom_corr;
+      }
+    }
+  }
+
+  _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
+  _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
+  _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
+  _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
 }
 
 // bool Reaction::ctof_pip() {
@@ -644,6 +692,37 @@ void Reaction::SetPim(int i) {
   //     _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);
   //   }
   // }
+
+  _pim_mom = _pim->P();
+
+  if (abs(_data->status(i)) < 4000) {
+    for (size_t m = 0; m < Pim_mom_bins_FD; m++) {
+      double mom_min = min_pim_mom_values_FD[m];
+      double mom_max = max_pim_mom_values_FD[m];
+      if (_pim_mom > mom_min && _pim_mom < mom_max) {
+        if (_pim_theta <= 27) {
+          //   //   // For experimental data
+          _pim_mom_prime = _pim_mom - pim_mom_corr_FD[0][m] * alpha_pim_mom_corr;
+        } else {
+          _pim_mom_prime = _pim_mom - pim_mom_corr_FD[1][m] * alpha_pim_mom_corr;
+        }
+      }
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    for (size_t m = 0; m < Pim_mom_bins_CD; m++) {
+      double mom_min = min_pim_mom_values_CD[m];
+      double mom_max = max_pim_mom_values_CD[m];
+      if (_pim_mom > mom_min && _pim_mom < mom_max) {
+        //   // For experimental data
+        _pim_mom_prime = _pim_mom - pim_mom_corr_CD[m] * alpha_pim_mom_corr;
+      }
+    }
+  }
+
+  _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
+  _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
+  _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
+  _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);
 }
 // bool Reaction::ctof_pim() {
 //   bool _pim_ctof = true;
@@ -957,12 +1036,12 @@ float Reaction::pim_Phi_lab_measured() {
   } else
     return NAN;
 }
-// float Reaction::pim_momentum_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_pim->P();
-//   else
-//     return NAN;
-// }
+float Reaction::pim_momentum_corrected() {
+  if (TwoPion_exclusive())
+    return _mom_corr_pim->P();
+  else
+    return NAN;
+}
 
 // float Reaction::pim_theta_corrected() {
 //   if (TwoPion_exclusive())
@@ -1046,12 +1125,12 @@ float Reaction::pip_Phi_lab_measured() {
     return NAN;
 }
 
-// float Reaction::pip_momentum_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_pip->P();
-//   else
-//     return NAN;
-// }
+float Reaction::pip_momentum_corrected() {
+  if (TwoPion_exclusive())
+    return _mom_corr_pip->P();
+  else
+    return NAN;
+}
 // float Reaction::pip_theta_corrected() {
 //   if (TwoPion_exclusive())
 //     return _mom_corr_pip->Theta() * 180.0 / PI;
@@ -1136,30 +1215,30 @@ float Reaction::prot_Phi_lab_measured() {
     return NAN;
 }
 
-// float Reaction::prot_momentum_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_prot->P();
-//   else
-//     return NAN;
-// }
-// float Reaction::prot_theta_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_prot->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
+float Reaction::prot_momentum_corrected() {
+  if (TwoPion_exclusive())
+    return _mom_corr_prot->P();
+  else
+    return NAN;
+}
+float Reaction::prot_theta_corrected() {
+  if (TwoPion_exclusive())
+    return _mom_corr_prot->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
 
-// float Reaction::prot_Phi_corrected() {
-//   if (TwoPion_exclusive()) {
-//     if (_mom_corr_prot->Phi() > 0)
-//       return _mom_corr_prot->Phi() * 180 / PI;
-//     else if (_mom_corr_prot->Phi() < 0)
-//       return (_mom_corr_prot->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
+float Reaction::prot_Phi_corrected() {
+  if (TwoPion_exclusive()) {
+    if (_mom_corr_prot->Phi() > 0)
+      return _mom_corr_prot->Phi() * 180 / PI;
+    else if (_mom_corr_prot->Phi() < 0)
+      return (_mom_corr_prot->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 
 /////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }
