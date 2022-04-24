@@ -209,9 +209,9 @@ struct csv_data {
     // os << data.pim_phi_corr << ",";
     os << std::setprecision(5);
 
-    os << data.mm2_mProt << ",";
-    os << data.mm2_mPip << ",";
     os << data.mm2_mPim << ",";
+    os << data.mm2_mPip << ",";
+    os << data.mm2_mProt << ",";
 
     os << data.mm2_exclusive_at_zero << ",";
     os << data.energy_x_mu << ",";
