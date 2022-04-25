@@ -969,8 +969,8 @@ float Reaction::pim_momentum() {
   if (TwoPion_missingPim()) {
     // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
-    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+    // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+    *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
     return missingpim_->P();
     // return _rec_pim_mom;
@@ -998,8 +998,8 @@ float Reaction::pim_Phi_lab() {
   if (TwoPion_missingPim()) {
     // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
-    // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+    *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
     if (missingpim_->Phi() > 0)
       return missingpim_->Phi() * 180 / PI;
