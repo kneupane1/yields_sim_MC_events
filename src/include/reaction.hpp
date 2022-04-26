@@ -333,7 +333,7 @@ class Reaction {
   double _py_prime_prot_E = NAN;
   double _pz_prime_prot_E = NAN;
 
-  float alpha_prot_mom_corr = 0.5;
+  float alpha_prot_mom_corr = 1.0;
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
   double _prot_mom_uncorr = NAN;
