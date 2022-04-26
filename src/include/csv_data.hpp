@@ -7,6 +7,9 @@
 struct csv_data {
   short electron_sector;
   float w;
+  float w_had;
+  float w_diff;
+
   float w_after;
 
   float q2;
@@ -124,7 +127,7 @@ struct csv_data {
     //        "status_Pip,status_Prot,weight";
     //
     // Simulations....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
-    return "stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
+    return "w,w_had,w_diff,stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,prot_mom_corr,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_mPim,mm2_mPip,"
@@ -150,7 +153,10 @@ struct csv_data {
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     os << std::setprecision(5);
     // os << data.electron_sector << ",";
-    // os << data.w << ",";
+    os << data.w << ",";
+    os << data.w_had << ",";
+    os << data.w_diff << ",";
+
     // os << data.w_after << ",";
 
     // // os << data.q2 << ",";

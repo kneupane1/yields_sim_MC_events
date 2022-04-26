@@ -528,6 +528,9 @@ class Reaction {
   float MM2_mPip();
   float MM2_mProt();
 
+  float w_hadron();
+  float w_difference();
+
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
 
