@@ -132,6 +132,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.w = event->W();
         output.w_had = event->w_hadron();
         output.w_diff = event->w_difference();
+        output.w_had_corr = event->w_hadron_corr();
+        output.w_diff_corr = event->w_difference_corr();
 
         // output.w = event->W_after();
 

@@ -396,8 +396,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    return _data->mc_weight();
-    // return 1.0;
+    // return _data->mc_weight();
+    return 1.0;
   }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
@@ -531,6 +531,8 @@ class Reaction {
 
   float w_hadron();
   float w_difference();
+  float w_hadron_corr();
+  float w_difference_corr();
 
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
