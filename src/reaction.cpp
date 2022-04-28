@@ -395,7 +395,7 @@ void Reaction::SetPip(int i) {
   _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
   _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
-  _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+  // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
   // if (abs(_data->status(i)) < 4000) {
 
   //     _E_corr_val_pip_th = 0.00000000;
@@ -491,36 +491,36 @@ void Reaction::SetPip(int i) {
   //     _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
   //   }
   // }
-  // _pip_mom = _pip->P();
+  _pip_mom = _pip->P();
 
-  // if (abs(_data->status(i)) < 4000) {
-  //   for (size_t m = 0; m < Pip_mom_bins_FD; m++) {
-  //     double mom_min = min_pip_mom_values_FD[m];
-  //     double mom_max = max_pip_mom_values_FD[m];
-  //     if (_pip_mom > mom_min && _pip_mom < mom_max) {
-  //       if (_pip_theta <= 27) {
-  //         //   //   // For experimental data
-  //         _pip_mom_prime = _pip_mom - pip_mom_corr_FD[0][m] * alpha_pip_mom_corr;
-  //       } else {
-  //         _pip_mom_prime = _pip_mom - pip_mom_corr_FD[1][m] * alpha_pip_mom_corr;
-  //       }
-  //     }
-  //   }
-  // } else if (abs(_data->status(i)) >= 4000) {
-  //   for (size_t m = 0; m < Pip_mom_bins_CD; m++) {
-  //     double mom_min = min_pip_mom_values_CD[m];
-  //     double mom_max = max_pip_mom_values_CD[m];
-  //     if (_pip_mom > mom_min && _pip_mom < mom_max) {
-  //       //   // For experimental data
-  //       _pip_mom_prime = _pip_mom - pip_mom_corr_CD[m] * alpha_pip_mom_corr;
-  //     }
-  //   }
-  // }
+  if (abs(_data->status(i)) < 4000) {
+    for (size_t m = 0; m < Pip_mom_bins_FD; m++) {
+      double mom_min = min_pip_mom_values_FD[m];
+      double mom_max = max_pip_mom_values_FD[m];
+      if (_pip_mom > mom_min && _pip_mom < mom_max) {
+        if (_pip_theta <= 27) {
+          //   //   // For experimental data
+          _pip_mom_prime = _pip_mom - pip_mom_corr_FD[0][m] * alpha_pip_mom_corr;
+        } else {
+          _pip_mom_prime = _pip_mom - pip_mom_corr_FD[1][m] * alpha_pip_mom_corr;
+        }
+      }
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    for (size_t m = 0; m < Pip_mom_bins_CD; m++) {
+      double mom_min = min_pip_mom_values_CD[m];
+      double mom_max = max_pip_mom_values_CD[m];
+      if (_pip_mom > mom_min && _pip_mom < mom_max) {
+        //   // For experimental data
+        _pip_mom_prime = _pip_mom - pip_mom_corr_CD[m] * alpha_pip_mom_corr;
+      }
+    }
+  }
 
-  // _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
-  // _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
-  // _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
-  // _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
+  _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
+  _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
+  _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
+  _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
 }
 
 // bool Reaction::ctof_pip() {
@@ -586,7 +586,7 @@ void Reaction::SetPim(int i) {
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
   _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
-  // _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+  _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
   // if (abs(_data->status(i)) < 4000) {
 
@@ -696,36 +696,36 @@ void Reaction::SetPim(int i) {
   //   }
   // }
 
-  _pim_mom = _pim->P();
+  // _pim_mom = _pim->P();
 
-  if (abs(_data->status(i)) < 4000) {
-    for (size_t m = 0; m < Pim_mom_bins_FD; m++) {
-      double mom_min = min_pim_mom_values_FD[m];
-      double mom_max = max_pim_mom_values_FD[m];
-      if (_pim_mom > mom_min && _pim_mom < mom_max) {
-        if (_pim_theta <= 27) {
-          //   //   // For experimental data
-          _pim_mom_prime = _pim_mom - pim_mom_corr_FD[0][m] * alpha_pim_mom_corr;
-        } else {
-          _pim_mom_prime = _pim_mom - pim_mom_corr_FD[1][m] * alpha_pim_mom_corr;
-        }
-      }
-    }
-  } else if (abs(_data->status(i)) >= 4000) {
-    for (size_t m = 0; m < Pim_mom_bins_CD; m++) {
-      double mom_min = min_pim_mom_values_CD[m];
-      double mom_max = max_pim_mom_values_CD[m];
-      if (_pim_mom > mom_min && _pim_mom < mom_max) {
-        //   // For experimental data
-        _pim_mom_prime = _pim_mom - pim_mom_corr_CD[m] * alpha_pim_mom_corr;
-      }
-    }
-  }
+  // if (abs(_data->status(i)) < 4000) {
+  //   for (size_t m = 0; m < Pim_mom_bins_FD; m++) {
+  //     double mom_min = min_pim_mom_values_FD[m];
+  //     double mom_max = max_pim_mom_values_FD[m];
+  //     if (_pim_mom > mom_min && _pim_mom < mom_max) {
+  //       if (_pim_theta <= 27) {
+  //         //   //   // For experimental data
+  //         _pim_mom_prime = _pim_mom - pim_mom_corr_FD[0][m] * alpha_pim_mom_corr;
+  //       } else {
+  //         _pim_mom_prime = _pim_mom - pim_mom_corr_FD[1][m] * alpha_pim_mom_corr;
+  //       }
+  //     }
+  //   }
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   for (size_t m = 0; m < Pim_mom_bins_CD; m++) {
+  //     double mom_min = min_pim_mom_values_CD[m];
+  //     double mom_max = max_pim_mom_values_CD[m];
+  //     if (_pim_mom > mom_min && _pim_mom < mom_max) {
+  //       //   // For experimental data
+  //       _pim_mom_prime = _pim_mom - pim_mom_corr_CD[m] * alpha_pim_mom_corr;
+  //     }
+  //   }
+  // }
 
-  _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
-  _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
-  _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
-  _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);
+  // _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
+  // _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
+  // _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
+  // _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);
 }
 // bool Reaction::ctof_pim() {
 //   bool _pim_ctof = true;
@@ -1058,7 +1058,7 @@ float Reaction::w_difference() {
 
 float Reaction::w_hadron_corr() {
   if (TwoPion_exclusive())
-    return ((*_prot) + (*_mom_corr_pim) + (*_pip)).Mag();
+    return ((*_prot) + (*_mom_corr_pip) + (*_pim)).Mag();
   else
     return NAN;
 }
