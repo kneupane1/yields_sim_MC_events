@@ -141,7 +141,7 @@ void Reaction::SetElec() {
   // //   // _pz_prime_elec, MASS_E);
 
   // // //   // mom correction another way
-  //   _elec_mom = _elec->P();
+    _elec_mom = _elec->P();
 
   // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
@@ -169,19 +169,19 @@ void Reaction::SetMomCorrElec() {
 
   // _E_elec = _mom_corr_elec->E();
 }
-// double Reaction::Corr_elec_mom() {
-//   if (_elec_mom_corrected != _elec_mom_corrected) SetElec();
-//   // std::cout << " emec mom corrected " << _elec_mom_corrected << std::endl;
+double Reaction::Corr_elec_mom() {
+  if (_elec_mom_corrected != _elec_mom_corrected) SetMomCorrElec();
+  // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
 
-//   return _elec_mom_corrected;
-// }
+  return _elec_mom_corrected;
+}
 
-// double Reaction::elec_mom() {
-//   if (_elec_mom != _elec_mom) SetElec();
-//   // std::cout << " emec mom " << _elec_mom << std::endl;
+double Reaction::elec_mom() {
+  if (_elec_mom != _elec_mom) SetElec();
+  // std::cout << " emec mom " << _elec_mom << std::endl;
 
-//   return _elec_mom;
-// }
+  return _elec_mom;
+}
 
 void Reaction::SetProton(int i) {
   _numProt++;

@@ -13,6 +13,9 @@ struct csv_data {
   float w_diff_corr;
   float w_after;
 
+  float elec_mom;
+  float corr_elec_mom;
+
   float q2;
   float scalar_product;
   float pim_mom_mPim;
@@ -101,8 +104,7 @@ struct csv_data {
   int status_Pip;
   int status_Prot;
 
-  float elec_mom;
-  float corr_elec_mom;
+
 
   // Static functions can be called without making a new struct
   static std::string header() {
@@ -128,7 +130,7 @@ struct csv_data {
     //        "status_Pip,status_Prot,weight";
     //
     // Simulations....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
-    return "w,w_had,w_diff,w_had_corr,w_diff_corr,stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
+    return "w,w_had,w_diff,w_had_corr,w_diff_corr,elec_mom,elec_mom_corr,stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "prot_mom_corr,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
@@ -162,7 +164,8 @@ struct csv_data {
     os << data.w_diff_corr << ",";
 
     // os << data.w_after << ",";
-
+    os << data.elec_mom << ",";
+    os << data.corr_elec_mom << ",";
     // // os << data.q2 << ",";
     os << data.scalar_product << ",";
     // // Generated
