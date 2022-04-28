@@ -167,13 +167,15 @@ void Reaction::SetMomCorrElec() {
   _W = physics::W_calc(*_beam, *_mom_corr_elec);
   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
+  _P_elec = _mom_corr_elec->P();
+
   // _E_elec = _mom_corr_elec->E();
 }
 double Reaction::Corr_elec_mom() {
-  if (_elec_mom_corrected != _elec_mom_corrected) SetMomCorrElec();
+  if (_P_elec != _P_elec) SetMomCorrElec();
   // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
 
-  return _elec_mom_corrected;
+  return _P_elec;
 }
 
 double Reaction::elec_mom() {

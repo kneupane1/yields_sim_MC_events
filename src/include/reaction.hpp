@@ -93,6 +93,8 @@ class Reaction {
 
   float _W_after = NAN;
 
+  float _P_elec = NAN;
+
   float _theta_e = NAN;
   float _theta_star = NAN;
   float _phi_star = NAN;
