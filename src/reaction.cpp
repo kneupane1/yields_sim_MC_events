@@ -125,8 +125,8 @@ void Reaction::SetElec() {
   // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
   // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  // _W = physics::W_calc(*_beam, *_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_elec);
+  _W = physics::W_calc(*_beam, *_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_elec);
 
   // // //One way of  calculating mom - corrected four vectors
   // //   // // _cx = _data->px(0)/_elec->P();
@@ -142,47 +142,63 @@ void Reaction::SetElec() {
 
   // // //   // mom correction another way
     _elec_mom = _elec->P();
+    _theta_e = _elec->Theta() * 180.0 / PI;
 
-  // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+    if (_elec->Phi() > 0)
+      _elec_phi = _elec->Phi() * 180 / PI;
+    else if (_elec->Phi() < 0)
+      _elec_phi = (_elec->Phi() + 2 * PI) * 180 / PI;
 
-  //   _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                              _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+    // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  //   *_gamma += *_beam - *_mom_corr_elec;
+    //   _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+    //                              _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-  //   _W = physics::W_calc(*_beam, *_mom_corr_elec);
-  //   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+    //   *_gamma += *_beam - *_mom_corr_elec;
+
+    //   _W = physics::W_calc(*_beam, *_mom_corr_elec);
+    //   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 }
-void Reaction::SetMomCorrElec() {
-  _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+// void Reaction::SetMomCorrElec() {
+//   _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
-  _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-                          _data->pz(0) * _elec_mom_corrected, MASS_E);
+//   _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+//                           _data->pz(0) * _elec_mom_corrected, MASS_E);
 
-  // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+//   // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+//   //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-  *_gamma += *_beam - *_mom_corr_elec;
+//   *_gamma += *_beam - *_mom_corr_elec;
 
-  _W = physics::W_calc(*_beam, *_mom_corr_elec);
-  _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+//   _W = physics::W_calc(*_beam, *_mom_corr_elec);
+//   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
-  _P_elec = _mom_corr_elec->P();
+//   _P_elec = _mom_corr_elec->P();
 
-  // _E_elec = _mom_corr_elec->E();
-}
-double Reaction::Corr_elec_mom() {
-  if (_P_elec != _P_elec) SetMomCorrElec();
-  // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
+//   // _E_elec = _mom_corr_elec->E();
+// }
+// double Reaction::Corr_elec_mom() {
+//   if (_P_elec != _P_elec) SetMomCorrElec();
+//   // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
 
-  return _P_elec;
-}
+//   return _P_elec;
+// }
 
 double Reaction::elec_mom() {
   if (_elec_mom != _elec_mom) SetElec();
   // std::cout << " emec mom " << _elec_mom << std::endl;
 
   return _elec_mom;
+}
+double Reaction::elec_theta() {
+  if (_theta_e != _theta_e) SetElec();
+
+  return _theta_e;
+}
+double Reaction::elec_phi() {
+  if (_elec_phi != _elec_phi) SetElec();
+
+  return _elec_phi;
 }
 
 void Reaction::SetProton(int i) {

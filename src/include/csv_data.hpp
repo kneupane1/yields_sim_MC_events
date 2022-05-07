@@ -16,8 +16,10 @@ struct csv_data {
   float w_diff_corr;
   float w_after;
 
-  float elec_mom;
+  float elec_mom_rec;
   float corr_elec_mom;
+  float elec_theta_rec;
+  float elec_phi_rec;
 
   float q2;
   float scalar_product;
@@ -101,6 +103,8 @@ struct csv_data {
 
   float weight_gen;
 
+  float weight_rec;
+
   // float diff_rec_mes_pip_mom;
   // float diff_rec_mes_pip_theta;
   // float diff_rec_mes_pip_phi;
@@ -118,7 +122,9 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "w_mc,q2_mc,elec_mom_gen,elec_th_gen,elec_phi_gen,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_gen,pip_phi_gen,pim_mom_gen,pim_th_gen,pim_phi_gen,weight";
+    return "w,q2,elec_mom_rec,elec_th_rec,elec_phi_rec,weight";
+    // return "w_mc,q2_mc,elec_mom_gen,elec_th_gen,elec_phi_gen,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_"
+    //        "gen,pip_phi_gen,pim_mom_gen,pim_th_gen,pim_phi_gen,weight";
 
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
@@ -165,27 +171,35 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     os << std::setprecision(5);
+    os << data.w << ",";
+    os << data.q2 << ",";
 
-    os << data.w_mc << ",";
-    os << data.q2_mc << ",";
+    os << data.elec_mom_rec << ",";
+    os << data.elec_theta_rec << ",";
+    os << data.elec_phi_rec << ",";
 
-    os << data.gen_elec_mom << ",";
-    os << data.gen_elec_theta<< ",";
-    os << data.gen_elec_phi << ",";
+    os << data.weight_rec<< ",";
 
-    os << data.gen_prot_mom << ",";
-    os << data.gen_prot_theta << ",";
-    os << data.gen_prot_phi << ",";
+    // os << data.w_mc << ",";
+    // os << data.q2_mc << ",";
 
-    os << data.gen_pip_mom << ",";
-    os << data.gen_pip_theta << ",";
-    os << data.gen_pip_phi <<",";
+    // os << data.gen_elec_mom << ",";
+    // os << data.gen_elec_theta<< ",";
+    // os << data.gen_elec_phi << ",";
 
-    os << data.gen_pim_mom << ",";
-    os << data.gen_pim_theta << ",";
-    os << data.gen_pim_phi<< ",";
+    // os << data.gen_prot_mom << ",";
+    // os << data.gen_prot_theta << ",";
+    // os << data.gen_prot_phi << ",";
 
-    os << data.weight_gen<< ",";
+    // os << data.gen_pip_mom << ",";
+    // os << data.gen_pip_theta << ",";
+    // os << data.gen_pip_phi <<",";
+
+    // os << data.gen_pim_mom << ",";
+    // os << data.gen_pim_theta << ",";
+    // os << data.gen_pim_phi<< ",";
+
+    // os << data.weight_gen<< ",";
 
     /// from here is for mom correction of final hadrons
 

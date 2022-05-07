@@ -415,6 +415,8 @@ class Reaction {
   double dpp(float px, float py, float pz, int sec_mom_corr, int ivec);
   double Corr_elec_mom();
   double elec_mom();
+  double elec_theta();
+  double elec_phi();
 
   inline bool mc() { return _mc; }
   void SetProton(int i);
