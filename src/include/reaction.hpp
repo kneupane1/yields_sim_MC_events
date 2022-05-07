@@ -621,14 +621,17 @@ class MCReaction : public Reaction {
   inline float W_mc() { return _W_mc; }
   inline float Q2_mc() { return _Q2_mc; }
 
+  float elec_mom_mc_gen();
   float pim_mom_mc_gen();
   float pip_mom_mc_gen();
   float prot_mom_mc_gen();
 
+  float elec_theta_mc_gen();
   float pim_theta_mc_gen();
   float pip_theta_mc_gen();
   float prot_theta_mc_gen();
 
+  float elec_phi_mc_gen();
   float pim_phi_mc_gen();
   float pip_phi_mc_gen();
   float prot_phi_mc_gen();

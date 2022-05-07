@@ -1437,6 +1437,19 @@ void MCReaction::SetMCPim(int i) { _pim_mc->SetXYZM(_data->mc_px(i), _data->mc_p
 //   _other_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i),
 //   mass[_data->pid(i)]);
 // }
+float MCReaction::elec_mom_mc_gen() {
+  return _elec_mc->P();
+
+}
+float MCReaction::elec_theta_mc_gen() { return _elec_mc->Theta() * 180 / PI; }
+float MCReaction::elec_phi_mc_gen() {
+  if (_elec_mc->Phi() >= 0)
+    return (_elec_mc->Phi() * 180 / PI);
+  else if (_elec_mc->Phi() < 0)
+    return ((_elec_mc->Phi() + 2 * PI) * 180 / PI);
+  else
+    return NAN;
+}
 
 float MCReaction::pim_mom_mc_gen() {
   // if (Reaction::TwoPion_exclusive())
@@ -1458,22 +1471,22 @@ float MCReaction::prot_mom_mc_gen() {
 }
 
 float MCReaction::pim_theta_mc_gen() {
-  if (Reaction::TwoPion_exclusive())
+  // if (Reaction::TwoPion_exclusive())
     return _pim_mc->Theta() * 180 / PI;
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 float MCReaction::pip_theta_mc_gen() {
-  if (Reaction::TwoPion_exclusive())
+  // if (Reaction::TwoPion_exclusive())
     return _pip_mc->Theta() * 180 / PI;
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 float MCReaction::prot_theta_mc_gen() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _prot_mc->Theta() * 180 / PI;
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float MCReaction::pim_phi_mc_gen() {
