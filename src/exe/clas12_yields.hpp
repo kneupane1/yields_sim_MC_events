@@ -134,6 +134,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.elec_mom_rec = (event->elec_mom());
         output.elec_theta_rec = (event->elec_theta());
         output.elec_phi_rec = (event->elec_phi());
+        output.weight_rec = event->weight();
 
         // output.w_mc = mc_event->W_mc();
         // output.q2_mc = mc_event->Q2_mc();
@@ -154,7 +155,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
         // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
-        output.weight_gen = mc_event->weight();
+        // output.weight_gen = mc_event->weight();
 
         // // This section is for mom correction for final hadrons {
 
