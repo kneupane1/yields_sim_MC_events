@@ -127,7 +127,7 @@ struct csv_data {
     // return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_"
     //        "mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
     //        "status_Pim,status_Pip,status_Prot,weight";
-    return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,pip_mom_miss,pip_theta_miss,pip_phi_miss,mm2_mPip,weight";
+    return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,prot_mom_miss,prot_theta_miss,prot_phi_miss,mm2_mProt,weight";
 
     // return
     // "w_mc,q2_mc,elec_mom_gen,elec_th_gen,elec_phi_gen,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_"
@@ -395,13 +395,13 @@ struct csv_data {
     // os << data.weight_exclusive<<",";
 
     // mPip
-      os << data.pip_mom_mPip << ",";
+  /*    os << data.pip_mom_mPip << ",";
       os << data.pip_theta_mPip << ",";
       os << data.pip_phi_mPip << ",";
       os << data.mm2_mPip << ",";
       os << std::setprecision(10);
       os << data.weight_mPip << ",";
-      
+     */ 
 
     /*  os << data.scalar_product << ",";
       os << data.pip_mom_exclusive << ",";
@@ -412,13 +412,13 @@ struct csv_data {
       os << data.weight_exclusive << ",";
   */
     // mProt
-    /* os << data.prot_mom_mProt << ",";
+     os << data.prot_mom_mProt << ",";
      os << data.prot_theta_mProt << ",";
      os << data.prot_phi_mProt << ",";
      os << data.mm2_mProt << ",";
          os << std::setprecision(10);
      os << data.weight_mProt << ",";
-*/
+
     /*      os << data.scalar_product << ",";
           os << data.prot_mom_exclusive << ",";
           os << data.prot_theta_exclusive << ",";

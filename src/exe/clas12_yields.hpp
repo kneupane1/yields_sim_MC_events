@@ -120,8 +120,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       }
     }
         // if (event->TwoPion_missingPim()) {
-        if (event->TwoPion_missingPip()) {
-      //   //   if (event->TwoPion_missingProt()) {
+        // if (event->TwoPion_missingPip()) {
+          if (event->TwoPion_missingProt()) {
         // if (event->TwoPion_exclusive()) {
       // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5 && abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       // //   //&&
@@ -368,13 +368,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.weight_exclusive = mc_event->weight();
 
         // mPip
-
+/*
             output.pip_mom_mPip = event->pip_momentum();
              output.pip_theta_mPip = event->pip_theta_lab();
              output.pip_phi_mPip = event->pip_Phi_lab();
              output.mm2_mPip = event->MM2_mPip();
              output.weight_mPip = event->weight();
-       
+       */
         /*
               output.scalar_product = event->scalar_triple_product();
               output.pip_mom_exclusive = event->pip_momentum_measured();
@@ -384,13 +384,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
               output.weight_exclusive = event->weight();
         */
         // mProt
-        /*
+        
               output.prot_mom_mProt = event->prot_momentum();
               output.prot_theta_mProt = event->prot_theta_lab();
               output.prot_phi_mProt = event->prot_Phi_lab();
               output.mm2_mProt = event->MM2_mProt();
               output.weight_mProt = event->weight();
-        */
+        
         /*
               output.scalar_product = event->scalar_triple_product();
               output.prot_mom_exclusive = event->prot_momentum_measured();
