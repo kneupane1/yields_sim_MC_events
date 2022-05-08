@@ -127,11 +127,10 @@ struct csv_data {
     // return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_"
     //        "mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
     //        "status_Pim,status_Pip,status_Prot,weight";
-    return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,pim_mom_miss,pim_theta_miss,pim_phi_miss,mm2_mPim,weight";
+    // return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,pim_mom_miss,pim_theta_miss,pim_phi_miss,mm2_mPim,weight";
 
-    // return
-    // "w_mc,q2_mc,elec_mom_gen,elec_th_gen,elec_phi_gen,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_"
-    //        "gen,pip_phi_gen,pim_mom_gen,pim_th_gen,pim_phi_gen,weight";
+    return "w_mc,q2_mc,elec_mom_gen,elec_th_gen,elec_phi_gen,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_"
+           "gen,pip_phi_gen,pim_mom_gen,pim_th_gen,pim_phi_gen,weight";
 
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
 
@@ -178,36 +177,36 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     os << std::setprecision(5);
-    os << data.w << ",";
-    os << data.q2 << ",";
-    os << data.sf << ",";
+    // os << data.w << ",";
+    // os << data.q2 << ",";
+    // os << data.sf << ",";
 
-    os << data.elec_mom_rec << ",";
-    os << data.elec_theta_rec << ",";
-    os << data.elec_phi_rec << ",";
+    // os << data.elec_mom_rec << ",";
+    // os << data.elec_theta_rec << ",";
+    // os << data.elec_phi_rec << ",";
 
-    // os << data.weight_rec<< ",";
+    // // os << data.weight_rec<< ",";
 
-    // os << data.w_mc << ",";
-    // os << data.q2_mc << ",";
+    os << data.w_mc << ",";
+    os << data.q2_mc << ",";
 
-    // os << data.gen_elec_mom << ",";
-    // os << data.gen_elec_theta<< ",";
-    // os << data.gen_elec_phi << ",";
+    os << data.gen_elec_mom << ",";
+    os << data.gen_elec_theta<< ",";
+    os << data.gen_elec_phi << ",";
 
-    // os << data.gen_prot_mom << ",";
-    // os << data.gen_prot_theta << ",";
-    // os << data.gen_prot_phi << ",";
+    os << data.gen_prot_mom << ",";
+    os << data.gen_prot_theta << ",";
+    os << data.gen_prot_phi << ",";
 
-    // os << data.gen_pip_mom << ",";
-    // os << data.gen_pip_theta << ",";
-    // os << data.gen_pip_phi <<",";
+    os << data.gen_pip_mom << ",";
+    os << data.gen_pip_theta << ",";
+    os << data.gen_pip_phi <<",";
 
-    // os << data.gen_pim_mom << ",";
-    // os << data.gen_pim_theta << ",";
-    // os << data.gen_pim_phi<< ",";
+    os << data.gen_pim_mom << ",";
+    os << data.gen_pim_theta << ",";
+    os << data.gen_pim_phi<< ",";
 
-    // os << data.weight_gen<< ",";
+    os << data.weight_gen<< ",";
 
     /// from here is for mom correction of final hadrons
 
@@ -334,13 +333,13 @@ struct csv_data {
     // os << data.energy_x_mu << ",";
     // os << data.weight_exclusive << ",";
 
-    // // // // // // // mPim
-     os << data.pim_mom_mPim << ",";
-     os << data.pim_theta_mPim << ",";
-     os << data.pim_phi_mPim << ",";
-     os << std::setprecision(10);
-     os << data.mm2_mPim << ",";
-     os << data.weight_mPim << ",";
+    // // // // // // // // mPim
+    //  os << data.pim_mom_mPim << ",";
+    //  os << data.pim_theta_mPim << ",";
+    //  os << data.pim_phi_mPim << ",";
+    //  os << std::setprecision(10);
+    //  os << data.mm2_mPim << ",";
+    //  os << data.weight_mPim << ",";
 
     // // // // // // //
     // // // // // // // os << data.elec_mom << ",";
