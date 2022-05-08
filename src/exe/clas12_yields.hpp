@@ -119,10 +119,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         event->SetOther(part);
       }
     }
-      //   // if (event->TwoPion_missingPim()) {
+        if (event->TwoPion_missingPim()) {
       //   // if (event->TwoPion_missingPip()) {
       //   //   if (event->TwoPion_missingProt()) {
-        if (event->TwoPion_exclusive()) {
+        // if (event->TwoPion_exclusive()) {
       // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5 && abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       // //   //&&
       // //   // abs(event->MM2_exclusive()) < 0.03) {
@@ -137,34 +137,34 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.elec_mom_rec = (event->elec_mom());
         output.elec_theta_rec = (event->elec_theta());
         output.elec_phi_rec = (event->elec_phi());
-        // output.weight_rec = event->weight();
+        // // output.weight_rec = event->weight();
 
-        /// 24 GEV test 2) reconstructed exclusive 
+        // /// 24 GEV test 2) reconstructed exclusive 
 
-        output.prot_mom_exclusive = event->prot_momentum_measured();
-        output.prot_theta_exclusive = event->prot_theta_lab_measured();
-        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+        // output.prot_mom_exclusive = event->prot_momentum_measured();
+        // output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
 
-        output.pip_mom_exclusive = event->pip_momentum_measured();
-        output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        // output.pip_mom_exclusive = event->pip_momentum_measured();
+        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
 
-        output.pim_mom_exclusive = event->pim_momentum_measured();
-        output.pim_theta_exclusive = event->pim_theta_lab_measured();
-        output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+        // output.pim_mom_exclusive = event->pim_momentum_measured();
+        // output.pim_theta_exclusive = event->pim_theta_lab_measured();
+        // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
 
-        output.mm2_mPim = event->MM2();
-        output.mm2_mPip = event->MM2_mPip();
-        output.mm2_mProt = event->MM2_mProt();
+        // output.mm2_mPim = event->MM2();
+        // output.mm2_mPip = event->MM2_mPip();
+        // output.mm2_mProt = event->MM2_mProt();
 
-        output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        output.energy_x_mu = event->Energy_excl();
+        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        // output.energy_x_mu = event->Energy_excl();
 
-        output.status_Pim = statusPim;
-        output.status_Pip = statusPip;
-        output.status_Prot = statusProt;
+        // output.status_Pim = statusPim;
+        // output.status_Pip = statusPip;
+        // output.status_Prot = statusProt;
 
-        output.weight_exclusive = event->weight();
+        // output.weight_exclusive = event->weight();
 
         
 // Still 24 gev test 3) for generated 
@@ -311,11 +311,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // // // // // mPim
 
-        // output.pim_mom_mPim = event->pim_momentum();
-        // output.pim_theta_mPim = event->pim_theta_lab();
-        // output.pim_phi_mPim = event->pim_Phi_lab();
-        // output.mm2_mPim = event->MM2();
-        // output.weight_mPim = event->weight();
+        output.pim_mom_mPim = event->pim_momentum();
+        output.pim_theta_mPim = event->pim_theta_lab();
+        output.pim_phi_mPim = event->pim_Phi_lab();
+        output.mm2_mPim = event->MM2();
+        output.weight_mPim = event->weight();
 
         // // // // // for rec pim
         // // // // // output.elec_mom = event->elec_mom();

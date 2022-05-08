@@ -123,9 +123,12 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_"
-           "mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
-           "status_Pim,status_Pip,status_Prot,weight";
+    // 24 GeV test
+    // return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_"
+    //        "mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
+    //        "status_Pim,status_Pip,status_Prot,weight";
+    return "w,q2,sf,elec_mom_rec,elec_th_rec,elec_phi_rec,pim_mom_miss,pim_theta_miss,pim_phi_miss,mm2_mPim,weight";
+
     // return
     // "w_mc,q2_mc,elec_mom_gen,elec_th_gen,elec_phi_gen,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_"
     //        "gen,pip_phi_gen,pim_mom_gen,pim_th_gen,pim_phi_gen,weight";
@@ -252,42 +255,42 @@ struct csv_data {
     // // measured
     // os << std::setprecision(5);
 
-    os << data.prot_mom_exclusive << ",";
-    os << data.prot_theta_exclusive << ",";
-    os << data.prot_phi_exclusive << ",";
-    // os << data.prot_mom_corr << ",";
-    // // os << data.prot_theta_corr << ",";
-    // // os << data.prot_phi_corr << ",";
+    // os << data.prot_mom_exclusive << ",";
+    // os << data.prot_theta_exclusive << ",";
+    // os << data.prot_phi_exclusive << ",";
+    // // os << data.prot_mom_corr << ",";
+    // // // os << data.prot_theta_corr << ",";
+    // // // os << data.prot_phi_corr << ",";
 
-    os << data.pip_mom_exclusive << ",";
-    os << data.pip_theta_exclusive << ",";
-    os << data.pip_phi_exclusive << ",";
-    // os << data.pip_mom_corr << ",";
-    // // os << data.pip_theta_corr << ",";
-    // // os << data.pip_phi_corr << ",";
+    // os << data.pip_mom_exclusive << ",";
+    // os << data.pip_theta_exclusive << ",";
+    // os << data.pip_phi_exclusive << ",";
+    // // os << data.pip_mom_corr << ",";
+    // // // os << data.pip_theta_corr << ",";
+    // // // os << data.pip_phi_corr << ",";
 
-    os << data.pim_mom_exclusive << ",";
-    os << data.pim_theta_exclusive << ",";
-    os << data.pim_phi_exclusive << ",";
-    // os << data.pim_mom_corr << ",";
-    // // os << data.pim_theta_corr << ",";
-    // // os << data.pim_phi_corr << ",";
-    // os << std::setprecision(5);
+    // os << data.pim_mom_exclusive << ",";
+    // os << data.pim_theta_exclusive << ",";
+    // os << data.pim_phi_exclusive << ",";
+    // // os << data.pim_mom_corr << ",";
+    // // // os << data.pim_theta_corr << ",";
+    // // // os << data.pim_phi_corr << ",";
+    // // os << std::setprecision(5);
 
-    os << data.mm2_mPim << ",";
-    os << data.mm2_mPip << ",";
-    os << data.mm2_mProt << ",";
+    // os << data.mm2_mPim << ",";
+    // os << data.mm2_mPip << ",";
+    // os << data.mm2_mProt << ",";
 
-    os << data.mm2_exclusive_at_zero << ",";
-    os << data.energy_x_mu << ",";
-    // os << std::setprecision(1);
+    // os << data.mm2_exclusive_at_zero << ",";
+    // os << data.energy_x_mu << ",";
+    // // os << std::setprecision(1);
 
-    os << data.status_Pim << ",";
-    os << data.status_Pip << ",";
-    os << data.status_Prot << ",";
+    // os << data.status_Pim << ",";
+    // os << data.status_Pip << ",";
+    // os << data.status_Prot << ",";
 
-    os << std::setprecision(10);
-    os << data.weight_exclusive << ",";
+    // os << std::setprecision(10);
+    // os << data.weight_exclusive << ",";
 
     /// upto here is for mom correction of final hadrons
 
@@ -332,12 +335,12 @@ struct csv_data {
     // os << data.weight_exclusive << ",";
 
     // // // // // // // mPim
-    //      os << data.pim_mom_mPim << ",";
-    //  os << data.pim_theta_mPim << ",";
-    //  os << data.pim_phi_mPim << ",";
-    //  os << std::setprecision(10);
-    //  os << data.mm2_mPim << ",";
-    //  os << data.weight_mPim << ",";
+     os << data.pim_mom_mPim << ",";
+     os << data.pim_theta_mPim << ",";
+     os << data.pim_phi_mPim << ",";
+     os << std::setprecision(10);
+     os << data.mm2_mPim << ",";
+     os << data.weight_mPim << ",";
 
     // // // // // // //
     // // // // // // // os << data.elec_mom << ",";
