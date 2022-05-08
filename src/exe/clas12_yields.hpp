@@ -84,41 +84,41 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       }
     }
 
-    // auto dt = std::make_shared<Delta_T>(data);
-    // auto cuts = std::make_shared<uconn_Cuts>(data);
-    // // auto cuts = std::make_shared<rga_Cuts>(data);
-    // if (!cuts->ElectronCuts()) continue;
+    auto dt = std::make_shared<Delta_T>(data);
+    auto cuts = std::make_shared<uconn_Cuts>(data);
+    // auto cuts = std::make_shared<rga_Cuts>(data);
+    if (!cuts->ElectronCuts()) continue;
 
-    // // Make a reaction class from the data given
-    // auto event = std::make_shared<Reaction>(data, beam_energy);
-    // // event->SetMomCorrElec();
+    // Make a reaction class from the data given
+    auto event = std::make_shared<Reaction>(data, beam_energy);
+    // event->SetMomCorrElec();
 
-    // // For each particle in the event
-    // for (int part = 1; part < data->gpart(); part++) {
-    //   dt->dt_calc(part);
+    // For each particle in the event
+    for (int part = 1; part < data->gpart(); part++) {
+      dt->dt_calc(part);
 
-    //   // Check particle ID's and fill the reaction class
-    //   if (cuts->IsProton(part)) {
-    //     event->SetProton(part);
-    //     statusProt = abs(data->status(part));
-    //     // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
-    //     // data->pz(part)
-    //     //           << "_prot E : " << MASS_P << std::endl;
+      // Check particle ID's and fill the reaction class
+      if (cuts->IsProton(part)) {
+        event->SetProton(part);
+        statusProt = abs(data->status(part));
+        // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
+        // data->pz(part)
+        //           << "_prot E : " << MASS_P << std::endl;
 
-    //   } else if (cuts->IsPip(part)) {
-    //     if (cuts->HadronsCuts(part)) {
-    //       event->SetPip(part);
-    //       statusPip = abs(data->status(part));
-    //     }
-    //   } else if (cuts->IsPim(part)) {
-    //     if (cuts->HadronsCuts(part)) {
-    //       event->SetPim(part);
-    //       statusPim = abs(data->status(part));
-    //     }
-    //   } else {
-    //     event->SetOther(part);
-    //   }
-    // }
+      } else if (cuts->IsPip(part)) {
+        if (cuts->HadronsCuts(part)) {
+          event->SetPip(part);
+          statusPip = abs(data->status(part));
+        }
+      } else if (cuts->IsPim(part)) {
+        if (cuts->HadronsCuts(part)) {
+          event->SetPim(part);
+          statusPim = abs(data->status(part));
+        }
+      } else {
+        event->SetOther(part);
+      }
+    }
         // if (event->TwoPion_missingPim()) {
         // if (event->TwoPion_missingPip()) {
           // if (event->TwoPion_missingProt()) {
@@ -131,13 +131,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
 
 /// 24 GEV test 1) reconstructed  and rec exclusive
-        // output.w = event->W();
-        // output.q2 = event->Q2();
-        // output.sf = (data->ec_tot_energy(0) / (event->elec_mom()));
-        // output.elec_mom_rec = (event->elec_mom());
-        // output.elec_theta_rec = (event->elec_theta());
-        // output.elec_phi_rec = (event->elec_phi());
-        // // output.weight_rec = event->weight();
+        output.w = event->W();
+        output.q2 = event->Q2();
+        output.sf = (data->ec_tot_energy(0) / (event->elec_mom()));
+        output.elec_mom_rec = (event->elec_mom());
+        output.elec_theta_rec = (event->elec_theta());
+        output.elec_phi_rec = (event->elec_phi());
+        output.weight_rec = event->weight();
 
         // /// 24 GEV test 2) reconstructed exclusive 
 
@@ -168,27 +168,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         
 // Still 24 gev test 3) for generated 
-        output.w_mc = mc_event->W_mc();
-        output.q2_mc = mc_event->Q2_mc();
-        // output.sf = (data->ec_tot_energy(0) / (event->elec_mom()));
+        // output.w_mc = mc_event->W_mc();
+        // output.q2_mc = mc_event->Q2_mc();
+        // // output.sf = (data->ec_tot_energy(0) / (event->elec_mom()));
 
-        output.gen_elec_mom = (mc_event->elec_mom_mc_gen());
-        output.gen_elec_theta = (mc_event->elec_theta_mc_gen());
-        output.gen_elec_phi = (mc_event->elec_phi_mc_gen());
+        // output.gen_elec_mom = (mc_event->elec_mom_mc_gen());
+        // output.gen_elec_theta = (mc_event->elec_theta_mc_gen());
+        // output.gen_elec_phi = (mc_event->elec_phi_mc_gen());
 
-        output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
-        output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
-        output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
+        // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
+        // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
+        // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
 
-        output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
-        output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
-        output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
+        // output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
+        // output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
+        // output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
 
-        output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
-        output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
-        output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
+        // output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
+        // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
+        // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
-        output.weight_gen = mc_event->weight();
+        // output.weight_gen = mc_event->weight();
 
 // 24 gev test finished here 
 
