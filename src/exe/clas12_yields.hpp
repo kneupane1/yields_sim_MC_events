@@ -122,20 +122,52 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       //   // if (event->TwoPion_missingPim()) {
       //   // if (event->TwoPion_missingPip()) {
       //   //   if (event->TwoPion_missingProt()) {
-      //   if (event->TwoPion_exclusive()) {
+        if (event->TwoPion_exclusive()) {
       // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5 && abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       // //   //&&
       // //   // abs(event->MM2_exclusive()) < 0.03) {
       // //   // total++;
         csv_data output;
 
+
+/// 24 GEV test 1) reconstructed  and rec exclusive
         output.w = event->W();
         output.q2 = event->Q2();
+        output.sf = (data->ec_tot_energy(0) / (event->elec_mom()));
         output.elec_mom_rec = (event->elec_mom());
         output.elec_theta_rec = (event->elec_theta());
         output.elec_phi_rec = (event->elec_phi());
-        output.weight_rec = event->weight();
+        // output.weight_rec = event->weight();
 
+        /// 24 GEV test 2) reconstructed exclusive 
+
+        output.prot_mom_exclusive = event->prot_momentum_measured();
+        output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+
+        output.pip_mom_exclusive = event->pip_momentum_measured();
+        output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+
+        output.pim_mom_exclusive = event->pim_momentum_measured();
+        output.pim_theta_exclusive = event->pim_theta_lab_measured();
+        output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+
+        output.mm2_mPim = event->MM2();
+        output.mm2_mPip = event->MM2_mPip();
+        output.mm2_mProt = event->MM2_mProt();
+
+        output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        output.energy_x_mu = event->Energy_excl();
+
+        output.status_Pim = statusPim;
+        output.status_Pip = statusPip;
+        output.status_Prot = statusProt;
+
+        output.weight_exclusive = event->weight();
+
+        
+// Still 24 gev test 3) for generated 
         // output.w_mc = mc_event->W_mc();
         // output.q2_mc = mc_event->Q2_mc();
 
@@ -156,6 +188,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
         // output.weight_gen = mc_event->weight();
+
+// 24 gev test finished here 
 
         // // This section is for mom correction for final hadrons {
 
@@ -410,7 +444,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
         _sync->write(output);
-    //   }
+      }
     // }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
