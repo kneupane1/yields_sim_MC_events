@@ -1063,13 +1063,13 @@ float Reaction::w_difference() {
 
 float Reaction::w_hadron_corr() {
   if (TwoPion_exclusive())
-    return ((*_prot) + (*_mom_corr_pip) + (*_pim)).Mag();
+    return ((*_mom_corr_prot) + (*_mom_corr_pip) + (*_mom_corr_pip)).Mag();
   else
     return NAN;
 }
 float Reaction::w_difference_corr() {
   if (TwoPion_exclusive())
-    return (physics::W_calc(*_beam, *_mom_corr_elec) - ((*_prot) + (*_mom_corr_pip) + (*_pim)).Mag());
+    return (physics::W_calc(*_beam, *_mom_corr_elec) - ((*_mom_corr_prot) + (*_mom_corr_pip) + (*_mom_corr_pip)).Mag());
   else
     return NAN;
 }
