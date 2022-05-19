@@ -255,7 +255,7 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  float alpha_pip_mom_corr = 0.50;
+  float alpha_pip_mom_corr = 0.10;
   double _pip_mom = NAN;
   double _pip_mom_tmt = NAN;
   double _pip_mom_tmt2 = NAN;
@@ -309,7 +309,7 @@ class Reaction {
   // double pip_theta_corr_sim[Pip_theta_bins] = {0.1875, 0.1875, 0.1875, 0.375, 0.225, 0.3, 0.3, 0.375, 0.6, 0.2};
 
   static const int Pip_phi_bins = 11;
-  float alpha_pip_phi_corr = 0.5;
+  float alpha_pip_phi_corr = 0.8;
   double _pip_phi = NAN;
   double _pip_phi_prime = NAN;
   float min_pip_phi_values[Pip_phi_bins] = {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300};
