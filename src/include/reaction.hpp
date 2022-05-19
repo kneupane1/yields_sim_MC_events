@@ -415,8 +415,6 @@ class Reaction {
   double dpp(float px, float py, float pz, int sec_mom_corr, int ivec);
   double Corr_elec_mom();
   double elec_mom();
-  double elec_theta();
-  double elec_phi();
 
   inline bool mc() { return _mc; }
   void SetProton(int i);
@@ -553,7 +551,7 @@ class Reaction {
 
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 && _numPip == 1) && (_hasE && _hasP  && _hasPip));
+    _channelTwoPi &= ((_numProt == 1 /*&& _numPip == 1*/) && (_hasE && _hasP /* && _hasPip*/));
     return _channelTwoPi;
   }
 
@@ -623,17 +621,14 @@ class MCReaction : public Reaction {
   inline float W_mc() { return _W_mc; }
   inline float Q2_mc() { return _Q2_mc; }
 
-  float elec_mom_mc_gen();
   float pim_mom_mc_gen();
   float pip_mom_mc_gen();
   float prot_mom_mc_gen();
 
-  float elec_theta_mc_gen();
   float pim_theta_mc_gen();
   float pip_theta_mc_gen();
   float prot_theta_mc_gen();
 
-  float elec_phi_mc_gen();
   float pim_phi_mc_gen();
   float pip_phi_mc_gen();
   float prot_phi_mc_gen();
