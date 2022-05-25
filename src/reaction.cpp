@@ -314,9 +314,11 @@ void Reaction::SetProton(int i) {
       if (_prot_mom > mom_min && _prot_mom < mom_max) {
         if (_prot_theta <= 27) {
           //   //   // For experimental data
-          _prot_mom_prime = _prot_mom - prot_mom_corr_FD[0][m] * alpha_prot_mom_corr;
+          _prot_mom_prime =
+              _prot_mom - prot_mom_corr_FD[0][m] * alpha_prot_mom_corr - prot_mom_corr_FD_2nd[0][m] * alpha_prot_mom_corr_2nd;
         } else {
-          _prot_mom_prime = _prot_mom - prot_mom_corr_FD[1][m] * alpha_prot_mom_corr;
+          _prot_mom_prime =
+              _prot_mom - prot_mom_corr_FD[1][m] * alpha_prot_mom_corr - prot_mom_corr_FD_2nd[1][m] * alpha_prot_mom_corr_2nd;
         }
       }
     }
@@ -326,7 +328,10 @@ void Reaction::SetProton(int i) {
       double mom_max = max_prot_mom_values_CD[m];
       if (_prot_mom > mom_min && _prot_mom < mom_max) {
         //   // For experimental data
-        _prot_mom_prime = _prot_mom - prot_mom_corr_CD[m] * alpha_prot_mom_corr;
+        // _prot_mom_prime = _prot_mom - prot_mom_corr_CD[m] * alpha_prot_mom_corr;
+        _prot_mom_prime =
+            _prot_mom - prot_mom_corr_CD[m] * alpha_prot_mom_corr - prot_mom_corr_CD_2nd[m] * alpha_prot_mom_corr_2nd;
+        
       }
     }
   }
@@ -336,6 +341,7 @@ void Reaction::SetProton(int i) {
   _pz_prime_prot_mom = _prot->Pz() * ((_prot_mom_prime) / (_prot_mom));
   _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
 }
+
 // bool Reaction::ctof_prot() {
 //   bool _prot_ctof = true;
 //   _prot_ctof &= (4000 <= _prot_status && _prot_status < 6000);
@@ -520,8 +526,9 @@ void Reaction::SetPip(int i) {
   _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
   _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
   _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
-  _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
+  _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP); 
 }
+
 
 // bool Reaction::ctof_pip() {
 //   bool _pip_ctof = true;
