@@ -361,7 +361,7 @@ class Reaction {
   double _pz_prime_prot_E = NAN;
 
   float alpha_prot_mom_corr = 0.80;
-  float alpha_prot_mom_corr_2nd = 1.0;
+  float alpha_prot_mom_corr_2nd = 0.80;
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
   double _prot_mom_prime_2nd = NAN;
