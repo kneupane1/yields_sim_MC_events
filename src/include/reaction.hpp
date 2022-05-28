@@ -162,7 +162,7 @@ class Reaction {
   double _pz_prime_prot_E = NAN;
 
   float alpha_prot_mom_corr = 0.80;
-  float alpha_prot_mom_corr_2nd = 0.80;
+  float alpha_prot_mom_corr_2nd = [3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
   double _prot_mom_prime_2nd = NAN;
@@ -188,13 +188,12 @@ class Reaction {
       {0.009, -0.0048, -0.0048, -0.0048, -0.0048, -0.0048, -0.007, -0.007, -0.007, -0.008, -0.008, -0.008, -0.01, -0.01,
        -0.01, -0.01, 0.01}};  // first is for theta < 27 and second is for theta > 27 degrees,
 
-//   float prot_mom_corr_CD_2nd[Prot_mom_bins_CD] = {0.003,  0.0048, -0.0144, -0.0048, -0.0048, -0.0144,
-//                                                   -0.021, -0.021, -0.056,  -0.056,  -0.09};
-//   double prot_mom_corr_FD_2nd[2][Prot_mom_bins_FD] = {
-//       {0.003, 0.0048, -0.0048, 0.0048, -0.0048, -0.0048, 0.007, 0.007, -0.007, 0.008, -0.008, -0.008, -0.01, 0.01,
-//        -0.01, -0.01, -0.01},
-//       {0.003, 0.0144, 0.0048, 0.0048, 0.0048, 0.0048, 0.007, 0.007, 0.007, -0.008, 0.008, 0.008, 0.01, 0.01, 0.01, 0.01,
-//        -0.01}};  // first is for theta < 27 and second is for theta > 27 degrees,
+  float prot_mom_corr_CD_2nd[Prot_mom_bins_CD] = {
+      0.003, 0.0048, -0.0144, -0.0048, -0.0048, -0.0144, -0.021, -0.021, -0.056, -0.056, -0.09,
+  };
+  double prot_mom_corr_FD_2nd[2][Prot_mom_bins_FD] = {
+      {-0.003, 0.0048, -0.0048, 0.0048, -0.0048, -0.0048, 0.007, 0.007, -0.007, -0.008, -0.008, -0.008, 0.01, 0.01, -0.01, -0.01, 0.01,},
+      {0.003, 0.0144, 0.0048, 0.0048, 0.0048, 0.0048, 0.007, 0.007, 0.007, -0.008, 0.008, 0.008, 0.01, 0.01, 0.01, 0.01, -0.01,}};  // first is for theta < 27 and second is for theta > 27 degrees,
 
   // double prot_mom_corr_sim_FD[Prot_mom_bins_FD][2] = {
   // };
@@ -255,7 +254,7 @@ class Reaction {
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
 
-  float alpha_pip_mom_corr_2nd = 0.10;
+  float alpha_pip_mom_corr_2nd[3] = {0.2, 0.0, 0.1};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _pip_mom_2nd = NAN;
   double _pip_mom_prime_2nd = NAN;
 
@@ -290,50 +289,17 @@ class Reaction {
       {0.003, -0.024, -0.0048, -0.0048, -0.0048, -0.0048, -0.007, -0.007,
       -0.007, -0.008, -0.008, -0.008, -0.01, -0.01, 0.01, 0.01, -0.01,}};  // first is for theta < 27 and second is for theta > 27 degrees, last one for >27 is
                              // adjusted to second last one
-//   float pip_mom_corr_CD_2nd[Pip_mom_bins_CD] = {0.045,   0.015,  0.003,  0.003,   -0.003,  -0.009,  -0.009,
-//                                                 -0.009,  -0.015, -0.015, -0.0336, -0.0336, -0.0432, -0.0528,
-//                                                 -0.0624, -0.072, -0.091, -0.105,  -0.12,   -0.136,  -0.19};
+  float pip_mom_corr_CD_2nd[Pip_mom_bins_CD] = {
+      0.045,  0.015,   0.003,   0.003,   -0.003,  -0.009,  -0.003, -0.009, -0.015,
+      -0.021, -0.0336, -0.0336, -0.0432, -0.0528, -0.0624, -0.091, -0.13,
+  };
 
-//   double pip_mom_corr_FD_2nd[2][Pip_mom_bins_FD] = {{
-//                                                         0.015,
-//                                                         0.0144,
-//                                                         0.0048,
-//                                                         -0.0144,
-//                                                         -0.0048,
-//                                                         -0.0048,
-//                                                         -0.007,
-//                                                         -0.007,
-//                                                         -0.021,
-//                                                         -0.008,
-//                                                         -0.008,
-//                                                         -0.008,
-//                                                         -0.01,
-//                                                         -0.01,
-//                                                         -0.01,
-//                                                         -0.01,
-//                                                         -0.01,
-//                                                     },
-//                                                     {
-//                                                         0.021,
-//                                                         0.0048,
-//                                                         0.0144,
-//                                                         0.0144,
-//                                                         0.0144,
-//                                                         0.0144,
-//                                                         0.007,
-//                                                         0.007,
-//                                                         0.021,
-//                                                         0.024,
-//                                                         0.024,
-//                                                         0.024,
-//                                                         0.03,
-//                                                         0.03,
-//                                                         0.03,
-//                                                         0.03,
-//                                                         -0.01,
-//                                                     }};
-  // double pip_mom_corr_sim_FD[Pip_mom_bins_FD][2] = {
-  // };
+  double pip_mom_corr_FD_2nd[2][Pip_mom_bins_FD] = {{0.015, 0.0144, -0.0048, -0.0144, -0.0048, -0.0048, -0.007, -0.007,
+                                                     -0.007, -0.008, -0.008, -0.008, -0.01, -0.01, -0.01, -0.01, -0.01},
+                                                    {0.021, 0.0048, 0.0144, 0.0144, 0.0144, 0.0144, 0.021, 0.021, 0.021,
+                                                     0.024, 0.024, 0.024, 0.03, 0.03, 0.03, 0.03, -0.03}}; // here we can see the correction did bad job on theta > 27 degree
+  double pip_mom_corr_sim_FD[Pip_mom_bins_FD][2] = {
+  };
 
   static const int Pip_theta_bins = 10;
   float alpha_pip_theta_corr = 0.5;
@@ -377,8 +343,8 @@ class Reaction {
   double _py_prime_pim_E_tmt = NAN;
   double _pz_prime_pim_E_tmt = NAN;
 
-  float alpha_pim_mom_corr = 0.10;
-  float alpha_pim_mom_corr_2nd = 0.10;
+  float alpha_pim_mom_corr = 0.10,;
+  float alpha_pim_mom_corr_2nd[3] = {0.1, 0.0, 0.0}; //CD , FD < 27 (DEG), FD > 27 (DEG)
   double _pim_mom = NAN;
   double _pim_mom_2nd = NAN;
   double _pim_mom_tmt = NAN;
@@ -418,14 +384,14 @@ class Reaction {
       }};  // first is for theta < 27 and second is for theta > 27 degrees, last bin for > 27 is adjusted to second last
            // bin
 
-//   float pim_mom_corr_CD_2nd[Pim_mom_bins_CD] = {0.039,   0.009,   0.003,  0.003,   0.003,   0.009,   0.003,
-//                                                 0.009,   0.003,   0.003,  -0.0048, -0.0048, -0.0048, -0.0048,
-//                                                 -0.0048, -0.0144, -0.021, -0.035,  -0.04,   -0.04,   -0.05};
+  float pim_mom_corr_CD_2nd[Pim_mom_bins_CD] = {0.039,   0.009,   0.003,   0.003,   0.0048, 0.0048,
+                                                0.0048,  0.0048,  0.0048,  -0.0048, 0.0048, -0.0048,
+                                                -0.0048, -0.0048, -0.0048, -0.021,  -0.03};
 
-//   double pim_mom_corr_FD_2nd[2][Pim_mom_bins_FD] = {{0.063, -0.0048, -0.0144, -0.0144, -0.0144, -0.0144, -0.021, -0.021,
-//                                                      -0.021, -0.024, -0.024, -0.024, -0.01, -0.01, -0.01, -0.01, -0.01},
-//                                                     {0.033, 0.0048, -0.0048, 0.0048, -0.0048, 0.0048, -0.007, -0.007,
-//                                                      -0.007, -0.008, 0.008, -0.008, -0.01, -0.01, 0.01, 0.01, 0.01}};
+    double pim_mom_corr_FD_2nd[2][Pim_mom_bins_FD] = {{0.063,-0.0048,-0.0144,-0.0144,-0.0144,-0.0144,-0.007,
+                                                       -0.021,-0.021,-0.024,-0.024,-0.008,-0.01,-0.01,-0.01,-0.01,0.01},
+                                                      {0.039 ,0.0048 ,-0.0048 ,0.0048 ,-0.0048 ,0.0048 ,-0.007 ,
+                                                      -0.007 ,-0.007 ,-0.008 ,0.008 ,-0.008 ,-0.01 ,-0.01 ,0.01 ,0.01 ,0.01 }};
 
   // double pim_mom_corr_sim_FD[Pim_mom_bins_FD][2] = {
   // };
