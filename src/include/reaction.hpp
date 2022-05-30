@@ -250,7 +250,7 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  float alpha_pip_mom_corr[3] = {0.5, 0.05, 0.0};
+  float alpha_pip_mom_corr[3] = {0.8, 0.1, 0.0};
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
 
