@@ -376,7 +376,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     //     // std::cout << "mes_pim pz " << event->pim_pz() << std::endl;
     //     // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
-    //     _sync->write(output);
+        _sync->write(output);
     //   }
     // }
   }
