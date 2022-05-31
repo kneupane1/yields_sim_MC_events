@@ -129,7 +129,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     //   //   //&&
     //   //   // abs(event->MM2_exclusive()) < 0.03) {
     //   //   // total++;
-    //     csv_data output;
+        csv_data output;
     //   //   // output.electron_sector = event->sec();
     //     output.w = event->W();
     //     output.w_had = event->w_hadron();
@@ -198,7 +198,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     //     output.status_Pip = statusPip;
     //     output.status_Prot = statusProt;
 
-    //     output.weight_exclusive = event->weight();
+        output.weight_exclusive = event->weight();
     //   //   // // for mom correction pim
     //   //   // output.pim_mom_mPim = event->pim_momentum();
     //   //   // output.pim_mom_exclusive = event->pim_momentum_measured();
