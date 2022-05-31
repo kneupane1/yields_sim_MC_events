@@ -800,10 +800,10 @@ void Reaction::SetPim(int i) {
     }
   }
 
-  // _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
-  // _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
-  // _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
-  // _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);  // momentum corrected pim
+  _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
+  _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
+  _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
+  _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);  // momentum corrected pim
 
   // // 2nd iteration
   // _pim_mom_2nd = _pim_mom_prime;
