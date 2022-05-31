@@ -345,7 +345,9 @@ void Reaction::SetProton(int i) {
 
 // 2nd iteration
   _prot_mom_2nd = _prot_mom_prime;
-  // if (abs(_data->status(i)) < 4000) {
+  if (abs(_data->status(i)) < 4000) {
+    _prot_mom_2nd = _prot_mom_prime;
+
     // for (size_t m = 0; m < Prot_mom_bins_FD; m++) {
     //   double mom_min = min_prot_mom_values_FD[m];
     //   double mom_max = max_prot_mom_values_FD[m];
@@ -358,9 +360,8 @@ void Reaction::SetProton(int i) {
     //     }
     //   }
     // }
-  // }
-  // else
-  if (abs(_data->status(i)) >= 4000) {
+  }
+  else if (abs(_data->status(i)) >= 4000) {
     for (size_t m = 0; m < Prot_mom_bins_CD; m++) {
       double mom_min = min_prot_mom_values_CD[m];
       double mom_max = max_prot_mom_values_CD[m];
@@ -544,10 +545,10 @@ void Reaction::SetPip(int i) {
           //   //   // For experimental data
           _pip_mom_prime = _pip_mom - pip_mom_corr_FD[0][m] * alpha_pip_mom_corr[1];
         }
-        // else {
+        else {
 
-        //   _pip_mom_prime = _pip_mom - pip_mom_corr_FD[1][m] * alpha_pip_mom_corr[2];
-        // }
+          _pip_mom_prime = _pip_mom ;//- pip_mom_corr_FD[1][m] * alpha_pip_mom_corr[2];
+        }
       }
     }
   } else if (abs(_data->status(i)) >= 4000) {
@@ -573,16 +574,17 @@ void Reaction::SetPip(int i) {
       double mom_min = min_pip_mom_values_FD[m];
       double mom_max = max_pip_mom_values_FD[m];
       if (_pip_mom_2nd > mom_min && _pip_mom_2nd < mom_max) {
-        // if (_pip_theta <= 27) {
-        //   //   //   // For experimental data
-        //   _pip_mom_prime_2nd = _pip_mom_2nd - pip_mom_corr_FD_2nd[0][m] * alpha_pip_mom_corr_2nd[1];
-        // } else
-        if (_pip_theta > 27) {
+        if (_pip_theta <= 27) {
+            //   // For experimental data
+          _pip_mom_prime_2nd = _pip_mom_2nd ;//- pip_mom_corr_FD_2nd[0][m] * alpha_pip_mom_corr_2nd[1];
+        } else  {
            _pip_mom_prime_2nd = _pip_mom_2nd - pip_mom_corr_FD_2nd[1][m] * alpha_pip_mom_corr_2nd[2]; }
         }
     }
   }
-  // else if (abs(_data->status(i)) >= 4000) {
+  else if (abs(_data->status(i)) >= 4000) {
+    _pip_mom_prime_2nd = _pip_mom_prime;
+
     // for (size_t m = 0; m < Pip_mom_bins_CD; m++) {
     //   double mom_min = min_pip_mom_values_CD[m];
     //   double mom_max = max_pip_mom_values_CD[m];
@@ -592,7 +594,7 @@ void Reaction::SetPip(int i) {
     //     _pip_mom_prime_2nd = _pip_mom_2nd - pip_mom_corr_CD_2nd[m] * alpha_pip_mom_corr_2nd[0];
     //   }
     // }
-  // }
+  }
 
   _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime_2nd) / (_pip_mom));
   _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime_2nd) / (_pip_mom));
