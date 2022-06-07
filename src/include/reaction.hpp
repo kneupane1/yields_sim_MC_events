@@ -161,7 +161,7 @@ class Reaction {
   double _py_prime_prot_E = NAN;
   double _pz_prime_prot_E = NAN;
 
-  float alpha_prot_mom_corr[3] = {0.8, 0.8, 0.5};
+  float alpha_prot_mom_corr[3] = {0.8, 0.8, 0.8};
   float alpha_prot_mom_corr_2nd[3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
@@ -229,17 +229,7 @@ class Reaction {
 
   // Now for pip mom corrections
 
-// for
-//   i in{0..1000};
-// do
-//   twopeg-- trig 5000 --docker-- ebeam 24.0 --wmin 1.25 --wmax 2.55 --q2min 1.5 --q2max 30.0 --trad 1.183 --tlen 5.0 --toff -
-//       3.0 --twlen 30.0 --flagrad 2;
-// mv twopeg.dat twopeg_${i}.dat;
-// done;
 
-  // for j in {0..9}; do for i in {0..999}; do twopeg --trig 5000 --docker --ebeam 24.0 --wmin 1.25 --wmax 2.55
-  // --q2min 1.5 --q2max 30.0 --trad 1.183 --tlen 5.0 --toff -3.0 --twlen 30.0 --flagrad 2; mv twopeg.dat
-  // twopeg_${j}_${i}.dat; done; done; 
   double _px_prime_pip_th = NAN;
   double _py_prime_pip_th = NAN;
   double _pz_prime_pip_th = NAN;
@@ -261,7 +251,7 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  float alpha_pip_mom_corr[3] = {0.8, 0.1, -0.1};
+  float alpha_pip_mom_corr[3] = {0.1, 0.1, 0.1};
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
 
@@ -417,7 +407,7 @@ class Reaction {
   double _py_prime_pim_E_tmt = NAN;
   double _pz_prime_pim_E_tmt = NAN;
 
-  float alpha_pim_mom_corr[3] = {0.2, 0.1, 0.1};
+  float alpha_pim_mom_corr[3] = {0.1, 0.1, 0.1};
   float alpha_pim_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _pim_mom = NAN;
   double _pim_mom_2nd = NAN;
