@@ -655,6 +655,9 @@ class Reaction {
   float Energy_excl();
   float MM2_mPip();
   float MM2_mProt();
+  float MM2_mPim_corr();
+  float MM2_mPip_corr();
+  float MM2_mProt_corr();
 
   float w_hadron();
   float w_difference();

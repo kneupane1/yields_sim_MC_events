@@ -22,6 +22,7 @@ struct csv_data {
   float pim_theta_mPim;
   float pim_phi_mPim;
   float mm2_mPim;
+  float mm2_mPim_corr;
   float weight_mPim;
   float pim_mom_exclusive;
 
@@ -47,6 +48,7 @@ struct csv_data {
   float pip_theta_mPip;
   float pip_phi_mPip;
   float mm2_mPip;
+  float mm2_mPip_corr;
   float weight_mPip;
   float pip_mom_exclusive;
   float pip_theta_exclusive;
@@ -57,6 +59,7 @@ struct csv_data {
   float prot_theta_mProt;
   float prot_phi_mProt;
   float mm2_mProt;
+  float mm2_mProt_corr;
   float weight_mProt;
 
   float prot_mom_exclusive;
@@ -150,7 +153,7 @@ struct csv_data {
     // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
 
     // // mProt case
-    return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,weight";
+    return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
     // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
   }
 
@@ -363,7 +366,8 @@ struct csv_data {
      os << data.prot_theta_mProt << ",";
      os << data.prot_phi_mProt << ",";
      os << data.mm2_mProt << ",";
-         os << std::setprecision(1);
+     os << data.mm2_mProt_corr << ",";
+     os << std::setprecision(1);
      os << data.weight_mProt << ",";
 
     /*      os << data.scalar_product << ",";
