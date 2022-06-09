@@ -114,7 +114,7 @@ struct csv_data {
     // Make a string for the header of the csv file mPim case
     // return "sec,w,w_after,weight";
 
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
+    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
 
     // return
     // "sec_ele,w,pim_mom_mPim,pim_mom_mes,pim_mom_corr,pim_theta_mPim,pim_theta_mes,pim_theta_corr,pim_phi_mPim,"
@@ -149,7 +149,7 @@ struct csv_data {
     //        "status_Prot,weight";
 
     // mPip case
-    // return "w,pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
+    return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
     // return "w,stp,pip_mom_exclusive,pip_theta_exclusive,pip_phi_exclusive,mm2_exclusive,weight";
 
     // // mProt case
@@ -285,7 +285,7 @@ struct csv_data {
     // os << data.weight_exclusive << ",";
 
     // // // // // // // mPim
-         os << data.pim_mom_mPim << ",";
+/*         os << data.pim_mom_mPim << ",";
      os << data.pim_theta_mPim << ",";
      os << data.pim_phi_mPim << ",";
      os << data.mm2_mPim << ",";
@@ -293,6 +293,7 @@ struct csv_data {
      os << std::setprecision(1);
      os << data.weight_mPim << ",";
 
+*/
     // // // // // // //
     // // // // // // // os << data.elec_mom << ",";
     // // // // // // // os << data.corr_elec_mom << ",";
@@ -346,13 +347,14 @@ struct csv_data {
     // os << data.weight_exclusive<<",";
 
      // mPip .......................................
-     /*  os << data.pip_mom_mPip << ",";
+       os << data.pip_mom_mPip << ",";
        os << data.pip_theta_mPip << ",";
        os << data.pip_phi_mPip << ",";
        os << data.mm2_mPip << ",";
-       os << std::setprecision(10);
+       os << data.mm2_mPip_corr << ",";
+       os << std::setprecision(1);
        os << data.weight_mPip << ",";
-       */
+
 
      /*  os << data.scalar_product << ",";
        os << data.pip_mom_exclusive << ",";

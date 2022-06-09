@@ -1001,11 +1001,11 @@ void Reaction::CalcMissMass() {
     // // //   // // std::cout << " beam_theta " << _diff_beam_x_mu_theta << std::endl;
     // // //   // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
 
-    // //   // for mPip peak with exclusive events
-    *mm_mpip += (*_gamma + *_target);
-    *mm_mpip -= *_mom_corr_prot;
-    *mm_mpip -= *_mom_corr_pim;
-    _MM2_mPip = mm_mpip->M2();
+    // // //   // for mPip peak with exclusive events
+    // *mm_mpip += (*_gamma + *_target);
+    // *mm_mpip -= *_mom_corr_prot;
+    // *mm_mpip -= *_mom_corr_pim;
+    // _MM2_mPip = mm_mpip->M2();
 
     // // //   // for mProt peak with exclusive events
     // *mm_mprot += (*_gamma + *_target);
@@ -1013,12 +1013,12 @@ void Reaction::CalcMissMass() {
     // *mm_mprot -= *_mom_corr_pim;
     // _MM2_mProt = mm_mprot->M2();
   }
-  // if (TwoPion_missingPip()) {
-  //   *mm_mpip += (*_gamma + *_target);
-  //   *mm_mpip -= *_prot;
-  //   *mm_mpip -= *_pim;
-  //   _MM2_mPip = mm_mpip->M2();
-  // }
+  if (TwoPion_missingPip()) {
+    *mm_mpip += (*_gamma + *_target);
+    *mm_mpip -= *_prot;
+    *mm_mpip -= *_pim;
+    _MM2_mPip = mm_mpip->M2();
+  }
   if (TwoPion_missingProt()) {
     *mm_mprot += (*_gamma + *_target);
     *mm_mprot -= *_pip;
