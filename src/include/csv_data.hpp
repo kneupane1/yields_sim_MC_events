@@ -161,20 +161,21 @@ struct csv_data {
 
     //for cross-section checks
     // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
-    return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
+    // return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
+    return "w_mc,q2_mc,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
      os << std::setprecision(7);
 
-    // os << data.electron_sector << ",";
-    os << data.w << ",";
-    os << data.q2 << ",";
-    os << data.w_had << ",";
-    // os << data.w_diff << ",";
-    // os << data.w_had_corr << ",";
-    // os << data.w_diff_corr << ",";
+    // // os << data.electron_sector << ",";
+    // os << data.w << ",";
+    // os << data.q2 << ",";
+    // os << data.w_had << ",";
+    // // os << data.w_diff << ",";
+    // // os << data.w_had_corr << ",";
+    // // os << data.w_diff_corr << ",";
 
     os << data.w_mc << ",";
     os << data.q2_mc << ",";
@@ -241,8 +242,8 @@ struct csv_data {
     // os << data.mm2_mPip << ",";
     // os << data.mm2_mProt << ",";
 
-    os << data.mm2_exclusive_at_zero << ",";
-    os << data.energy_x_mu << ",";
+    // os << data.mm2_exclusive_at_zero << ",";
+    // os << data.energy_x_mu << ",";
     // os << std::setprecision(1);
 
     // os << data.status_Pim << ",";
