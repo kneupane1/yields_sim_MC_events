@@ -42,9 +42,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  auto data = std::make_shared<Branches12>(_chain, true);
+  // auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  // auto data = std::make_shared<Branches12>(_chain);
+  auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -62,68 +62,68 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int statusPip = -9999;
     int statusProt = -9999;
 
-    if (data->mc_npart() < 1) continue;
+    // if (data->mc_npart() < 1) continue;
 
-    // If we pass electron cuts the event is processed
-    total++;
-
-    // Make a reaction class from the data given
-    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-
-    for (int part = 1; part < data->mc_npart(); part++) {
-      // Check particle ID's and fill the reaction class
-
-      if (data->mc_pid(part) == PIP) {
-        mc_event->SetMCPip(part);
-      } else if (data->mc_pid(part) == PROTON) {
-        mc_event->SetMCProton(part);
-      } else if (data->mc_pid(part) == PIM) {
-        mc_event->SetMCPim(part);
-        // } else {
-        //   mc_event->SetMCOther(part);
-      }
-    }
-
-    // auto dt = std::make_shared<Delta_T>(data);
-    // auto cuts = std::make_shared<uconn_Cuts>(data);
-    // // auto cuts = std::make_shared<rga_Cuts>(data);
-    // if (!cuts->ElectronCuts()) continue;
+    // // If we pass electron cuts the event is processed
+    // total++;
 
     // // Make a reaction class from the data given
-    // auto event = std::make_shared<Reaction>(data, beam_energy);
-    // // event->SetMomCorrElec();
+    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-    // // For each particle in the event
-    // for (int part = 1; part < data->gpart(); part++) {
-    //   dt->dt_calc(part);
-
+    // for (int part = 1; part < data->mc_npart(); part++) {
     //   // Check particle ID's and fill the reaction class
-    //   if (cuts->IsProton(part)) {
-    //     event->SetProton(part);
-    //     statusProt = abs(data->status(part));
-    //     // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
-    //     // data->pz(part)
-    //     //           << "_prot E : " << MASS_P << std::endl;
 
-    //   } else if (cuts->IsPip(part)) {
-    //     if (cuts->HadronsCuts(part)) {
-    //       event->SetPip(part);
-    //       statusPip = abs(data->status(part));
-    //     }
-    //   } else if (cuts->IsPim(part)) {
-    //     if (cuts->HadronsCuts(part)) {
-    //       event->SetPim(part);
-    //       statusPim = abs(data->status(part));
-    //     }
-    //   } else {
-    //     event->SetOther(part);
+    //   if (data->mc_pid(part) == PIP) {
+    //     mc_event->SetMCPip(part);
+    //   } else if (data->mc_pid(part) == PROTON) {
+    //     mc_event->SetMCProton(part);
+    //   } else if (data->mc_pid(part) == PIM) {
+    //     mc_event->SetMCPim(part);
+    //     // } else {
+    //     //   mc_event->SetMCOther(part);
     //   }
     // }
+
+    auto dt = std::make_shared<Delta_T>(data);
+    auto cuts = std::make_shared<uconn_Cuts>(data);
+    // auto cuts = std::make_shared<rga_Cuts>(data);
+    if (!cuts->ElectronCuts()) continue;
+
+    // Make a reaction class from the data given
+    auto event = std::make_shared<Reaction>(data, beam_energy);
+    event->SetMomCorrElec();
+
+    // For each particle in the event
+    for (int part = 1; part < data->gpart(); part++) {
+      dt->dt_calc(part);
+
+      // Check particle ID's and fill the reaction class
+      if (cuts->IsProton(part)) {
+        event->SetProton(part);
+        statusProt = abs(data->status(part));
+        // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
+        // data->pz(part)
+        //           << "_prot E : " << MASS_P << std::endl;
+
+      } else if (cuts->IsPip(part)) {
+        if (cuts->HadronsCuts(part)) {
+          event->SetPip(part);
+          statusPip = abs(data->status(part));
+        }
+      } else if (cuts->IsPim(part)) {
+        if (cuts->HadronsCuts(part)) {
+          event->SetPim(part);
+          statusPim = abs(data->status(part));
+        }
+      } else {
+        event->SetOther(part);
+      }
+    }
         // if (event->TwoPion_missingPim()) {
         // if (event->TwoPion_missingPip()) {
           // if (event->TwoPion_missingProt()) {
-      //   if (event->TwoPion_exclusive()) {
-      // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5 ){
+        if (event->TwoPion_exclusive()) {
+      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5 ){
       //&& abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3) {
       //   //&&
       //   // abs(event->MM2_exclusive()) < 0.03) {
@@ -132,20 +132,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
 //// using exclusive topology ...................................
 
-      // //   // output.electron_sector = event->sec();
-      //   output.w = event->W();
-      //   output.q2 = event->Q2();
-      //   output.w_had = event->w_hadron();
-      //   // output.w_diff = event->w_difference();
-      //   // output.w_had_corr = event->w_hadron_corr();
-      //   // output.w_diff_corr = event->w_difference_corr();
-      //   // output.elec_mom = event->elec_mom();
-      //   // output.corr_elec_mom = event->Corr_elec_mom();
+      //   // output.electron_sector = event->sec();
+        output.w = event->W();
+        output.q2 = event->Q2();
+        output.w_had = event->w_hadron();
+        // output.w_diff = event->w_difference();
+        output.w_had_corr = event->w_hadron_corr();
+        // output.w_diff_corr = event->w_difference_corr();
+        // output.elec_mom = event->elec_mom();
+        // output.corr_elec_mom = event->Corr_elec_mom();
 
-      //   // // for generated case
-        output.w_mc = mc_event->W_mc();
-        output.q2_mc = mc_event->Q2_mc();
-        output.weight_exclusive = mc_event->weight();
+      // //   // // for generated case
+      //   output.w_mc = mc_event->W_mc();
+      //   output.q2_mc = mc_event->Q2_mc();
+      //   output.weight_exclusive = mc_event->weight();
 
         // //   // //
         //   output.scalar_product = event->scalar_triple_product();
@@ -197,14 +197,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   output.mm2_mPip = event->MM2_mPip();
         //   output.mm2_mProt = event->MM2_mProt();
 
-        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        // output.energy_x_mu = event->Energy_excl();
+        output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        output.energy_x_mu = event->Energy_excl();
 
       //   output.status_Pim = statusPim;
       //   output.status_Pip = statusPip;
       //   output.status_Prot = statusProt;
 
-        // output.weight_exclusive = event->weight();
+        output.weight_exclusive = event->weight();
 
 
 /// ..........................................
@@ -393,8 +393,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
         _sync->write(output);
-    //   }
-    // }
+      }
+    }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // Return the total number of events
