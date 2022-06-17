@@ -42,9 +42,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  // auto data = std::make_shared<Branches12>(_chain, true);
+  auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  auto data = std::make_shared<Branches12>(_chain);
+  // auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -62,27 +62,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int statusPip = -9999;
     int statusProt = -9999;
 
-    // if (data->mc_npart() < 1) continue;
+    if (data->mc_npart() < 1) continue;
 
-    // // If we pass electron cuts the event is processed
-    // total++;
+    // If we pass electron cuts the event is processed
+    total++;
 
-    // // Make a reaction class from the data given
-    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // Make a reaction class from the data given
+    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-    // for (int part = 1; part < data->mc_npart(); part++) {
-    //   // Check particle ID's and fill the reaction class
+    for (int part = 1; part < data->mc_npart(); part++) {
+      // Check particle ID's and fill the reaction class
 
-    //   if (data->mc_pid(part) == PIP) {
-    //     mc_event->SetMCPip(part);
-    //   } else if (data->mc_pid(part) == PROTON) {
-    //     mc_event->SetMCProton(part);
-    //   } else if (data->mc_pid(part) == PIM) {
-    //     mc_event->SetMCPim(part);
-    //     // } else {
-    //     //   mc_event->SetMCOther(part);
-    //   }
-    // }
+      if (data->mc_pid(part) == PIP) {
+        mc_event->SetMCPip(part);
+      } else if (data->mc_pid(part) == PROTON) {
+        mc_event->SetMCProton(part);
+      } else if (data->mc_pid(part) == PIM) {
+        mc_event->SetMCPim(part);
+        // } else {
+        //   mc_event->SetMCOther(part);
+      }
+    }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -91,7 +91,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
-    event->SetMomCorrElec();
+    // event->SetMomCorrElec();
 
     // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -137,14 +137,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.q2 = event->Q2();
         output.w_had = event->w_hadron();
         // output.w_diff = event->w_difference();
-        output.w_had_corr = event->w_hadron_corr();
+        // output.w_had_corr = event->w_hadron_corr();
         // output.w_diff_corr = event->w_difference_corr();
         // output.elec_mom = event->elec_mom();
         // output.corr_elec_mom = event->Corr_elec_mom();
 
         // // for generated case
-        // output.w_mc = mc_event->W_mc();
-        // output.q2_mc = mc_event->Q2_mc();
+        output.w_mc = mc_event->W_mc();
+        output.q2_mc = mc_event->Q2_mc();
 
         // //   // //
         //   output.scalar_product = event->scalar_triple_product();

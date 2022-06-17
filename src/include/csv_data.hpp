@@ -160,8 +160,8 @@ struct csv_data {
     // return "w,stp,prot_mom_exclusive,prot_theta_exclusive,prot_phi_exclusive,mm2_exclusive,weight";
 
     //for cross-section checks
-    return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
-    // return "w,q2,w_had,w_had_corr_1st_iter,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
+    // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
+    return "w,q2,w_had,w_mc,q2_mc,mm2_exclusive_at_zero,energy_x_mu,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -173,11 +173,11 @@ struct csv_data {
     os << data.q2 << ",";
     os << data.w_had << ",";
     // os << data.w_diff << ",";
-    os << data.w_had_corr << ",";
+    // os << data.w_had_corr << ",";
     // os << data.w_diff_corr << ",";
 
-    // os << data.w_mc << ",";
-    // os << data.q2_mc << ",";
+    os << data.w_mc << ",";
+    os << data.q2_mc << ",";
 
     // // os << data.w_after << ",";
     // os << data.elec_mom << ",";
@@ -249,7 +249,7 @@ struct csv_data {
     // os << data.status_Pip << ",";
     // os << data.status_Prot << ",";
 
-    os << std::setprecision(1);
+    os << std::setprecision(7);
     os << data.weight_exclusive << ",";
 
     ///.......................................
