@@ -16,6 +16,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _gamma = std::make_unique<TLorentzVector>();
   _target = std::make_unique<TLorentzVector>(0.0, 0.0, 0.0, MASS_P);
   _elec = std::make_unique<TLorentzVector>();
+  this->SetElec();
 
   _mom_corr_elec = std::make_unique<TLorentzVector>();
   _mom_corr_pim = std::make_unique<TLorentzVector>();
@@ -33,7 +34,6 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _pim_tmt = std::make_unique<TLorentzVector>();
   _pip_tmt = std::make_unique<TLorentzVector>();
 
-  this->SetElec();
 
   _prot = std::make_unique<TLorentzVector>();
   _pip = std::make_unique<TLorentzVector>();
@@ -954,16 +954,22 @@ void Reaction::CalcMissMass() {
   // //   // // //   //
   // }
   if (TwoPion_exclusive()) {
-    *mm -= *_mom_corr_prot;
-    *mm -= *_mom_corr_pip;
-    // *mm -= *_pim;
-    _MM = mm->M();
-    _MM2 = mm->M2();
+    // *mm -= *_mom_corr_prot;
+    // *mm -= *_mom_corr_pip;
+    // // *mm -= *_pim;
+    // _MM = mm->M();
+    // _MM2 = mm->M2();
 
     // *mm_excl += (*_gamma + *_target);
     // *mm_excl -= *_mom_corr_prot;
     // *mm_excl -= *_mom_corr_pip;
     // *mm_excl -= *_mom_corr_pim;
+
+    *mm -= *_prot;
+    *mm -= *_pip;
+    // *mm -= *_pim;
+    _MM = mm->M();
+    _MM2 = mm->M2();
 
     *mm_excl += (*_gamma + *_target);
     *mm_excl -= *_prot;
@@ -1006,30 +1012,30 @@ void Reaction::CalcMissMass() {
     // // //   // // std::cout << " beam_theta " << _diff_beam_x_mu_theta << std::endl;
     // // //   // // std::cout << " rec_pim_energy " << mm->E() << std::endl;
 
-    // //   // for mPip peak with exclusive events
-    *mm_mpip += (*_gamma + *_target);
-    *mm_mpip -= *_mom_corr_prot;
-    *mm_mpip -= *_mom_corr_pim;
-    _MM2_mPip = mm_mpip->M2();
+    // // //   // for mPip peak with exclusive events
+    // *mm_mpip += (*_gamma + *_target);
+    // *mm_mpip -= *_mom_corr_prot;
+    // *mm_mpip -= *_mom_corr_pim;
+    // _MM2_mPip = mm_mpip->M2();
 
-    // //   // for mProt peak with exclusive events
-    *mm_mprot += (*_gamma + *_target);
-    *mm_mprot -= *_mom_corr_pip;
-    *mm_mprot -= *_mom_corr_pim;
-    _MM2_mProt = mm_mprot->M2();
-  }
+    // // //   // for mProt peak with exclusive events
+    // *mm_mprot += (*_gamma + *_target);
+    // *mm_mprot -= *_mom_corr_pip;
+    // *mm_mprot -= *_mom_corr_pim;
+    // _MM2_mProt = mm_mprot->M2();
+  // }
   // if (TwoPion_missingPip()) {
-  //   *mm_mpip += (*_gamma + *_target);
-  //   *mm_mpip -= *_prot;
-  //   *mm_mpip -= *_pim;
-  //   _MM2_mPip = mm_mpip->M2();
+    *mm_mpip += (*_gamma + *_target);
+    *mm_mpip -= *_prot;
+    *mm_mpip -= *_pim;
+    _MM2_mPip = mm_mpip->M2();
   // }
   // if (TwoPion_missingProt()) {
-  //   *mm_mprot += (*_gamma + *_target);
-  //   *mm_mprot -= *_pip;
-  //   *mm_mprot -= *_pim;
-  //   _MM2_mProt = mm_mprot->M2();
-  // }
+    *mm_mprot += (*_gamma + *_target);
+    *mm_mprot -= *_pip;
+    *mm_mprot -= *_pim;
+    _MM2_mProt = mm_mprot->M2();
+  }
 }
 // float Reaction::Diff_elec_x_mu_theta() {
 //   if (_diff_elec_x_mu_theta != _diff_elec_x_mu_theta) CalcMissMass();
@@ -1075,8 +1081,8 @@ float Reaction::MM2_mProt() {
 float Reaction::MM2_mPim_corr() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-  if (TwoPion_missingPim()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPim()) {
+    if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -1089,8 +1095,8 @@ float Reaction::MM2_mPim_corr() {
 }
 
 float Reaction::MM2_mPip_corr() {
-  if (TwoPion_missingPip()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPip()) {
+    if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
     *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
@@ -1101,8 +1107,8 @@ float Reaction::MM2_mPip_corr() {
 }
 
 float Reaction::MM2_mProt_corr() {
-  if (TwoPion_missingProt()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
@@ -1123,8 +1129,8 @@ float Reaction::Energy_excl() {
 float Reaction::pim_momentum() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-  if (TwoPion_missingPim()) {
-  // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPim()) {
+  if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -1138,8 +1144,8 @@ float Reaction::pim_momentum() {
 float Reaction::pim_theta_lab() {
   // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
 
-  if (TwoPion_missingPim()) {
-  // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPim()) {
+  if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -1152,8 +1158,8 @@ float Reaction::pim_theta_lab() {
 float Reaction::pim_Phi_lab() {
   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
 
-  if (TwoPion_missingPim()) {
-  // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPim()) {
+  if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -1245,8 +1251,8 @@ float Reaction::w_difference_corr() {
 // }
 ////////////////mPip
 float Reaction::pip_momentum() {
-  if (TwoPion_missingPip()) {
-  // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPip()) {
+  if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
     *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
@@ -1256,8 +1262,8 @@ float Reaction::pip_momentum() {
     return NAN;
 }
 float Reaction::pip_theta_lab() {
-  if (TwoPion_missingPip()) {
-  // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPip()) {
+  if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
     // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
@@ -1266,8 +1272,8 @@ float Reaction::pip_theta_lab() {
     return NAN;
 }
 float Reaction::pip_Phi_lab() {
-  if (TwoPion_missingPip()) {
-  // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPip()) {
+  if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
     // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
@@ -1334,8 +1340,8 @@ float Reaction::pip_momentum_corrected() {
 
 ////////////////mProt
 float Reaction::prot_momentum() {
-  if (TwoPion_missingProt()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
@@ -1345,8 +1351,8 @@ float Reaction::prot_momentum() {
     return NAN;
 }
 float Reaction::prot_theta_lab() {
-  if (TwoPion_missingProt()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
     // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
@@ -1356,8 +1362,8 @@ float Reaction::prot_theta_lab() {
     return NAN;
 }
 float Reaction::prot_Phi_lab() {
-  if (TwoPion_missingProt()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingProt()) {
+    if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
     // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
