@@ -133,8 +133,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 //// using exclusive topology ...................................
 
       // //   // output.electron_sector = event->sec();
-      //   output.w = event->W();
-      //   // output.q2 = event->Q2();
+        output.w = event->W();
+        output.q2 = event->Q2();
       //   output.w_had = event->w_hadron();
       //   output.w_diff = event->w_difference();
       //   output.w_had_corr = event->w_hadron_corr();
