@@ -165,6 +165,7 @@ class Reaction {
   float alpha_prot_mom_corr_2nd[3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
+  double _prot_mom_tmt = NAN;
   double _prot_mom_prime_2nd = NAN;
   double _prot_mom_2nd = NAN;
   double _prot_mom_uncorr = NAN;
@@ -679,7 +680,7 @@ class Reaction {
 
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
-    _channelTwoPi &= ((_numProt == 1 /*&& _numPip == 1*/) && (_hasE && _hasP /* && _hasPip*/));
+    _channelTwoPi &= ((_numProt == 1 && _numPip == 1) && (_hasE && _hasP  && _hasPip));
     return _channelTwoPi;
   }
 
