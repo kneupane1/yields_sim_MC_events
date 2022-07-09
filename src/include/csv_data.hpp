@@ -134,8 +134,8 @@ struct csv_data {
            "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_mPim,mm2_mPip,"
            "mm2_mProt,mm2_mPim_corr,mm2_mPip_corr,"
            "mm2_mProt_corr,mm2_exclusive_at_zero,energy_x_mu";
-          //  ",status_Pim,"
-          //  "status_Pip,status_Prot,weight";
+           ",status_Pim,"
+           "status_Pip,status_Prot,weight";
 
     // // // for mom thee phi rec- mes check
     // return "sec_ele,w,prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,stp,prot_mom_exclusive,prot_theta_"
@@ -229,14 +229,14 @@ struct csv_data {
 
     os << data.mm2_exclusive_at_zero << ",";
     os << data.energy_x_mu << ",";
-    // os << std::setprecision(1);
+    os << std::setprecision(1);
 
-    // os << data.status_Pim << ",";
-    // os << data.status_Pip << ",";
-    // os << data.status_Prot << ",";
+    os << data.status_Pim << ",";
+    os << data.status_Pip << ",";
+    os << data.status_Prot << ",";
 
     // // os << std::setprecision(7);
-    // os << data.weight_exclusive << ",";
+    os << data.weight_exclusive << ",";
 
     ///.......................................
 
