@@ -144,7 +144,14 @@ class Reaction {
   double _py_prime_elec = NAN;
   double _pz_prime_elec = NAN;
 
+  double fe = NAN;
+  double fpro = NAN;
+  double fpip = NAN;
+  double fpim = NAN;
+
   // Now for prot mom corrections
+
+
 
   double _px_prime_prot_th = NAN;
   double _py_prime_prot_th = NAN;
@@ -166,7 +173,7 @@ class Reaction {
 //   float alpha_prot_mom_corr[3] = {0.8, 0.8, 0.8};
 //   float alpha_prot_mom_corr_2nd[3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
 
-  float alpha_prot_mom_corr[3] = {1.0, 1.0, 1.0};
+  float alpha_prot_mom_corr[3] = {0.0, 0.0, 0.0};
 //   float alpha_prot_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
 
   double _prot_mom_prime = NAN;
