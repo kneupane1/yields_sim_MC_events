@@ -133,7 +133,7 @@ struct csv_data {
            "pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_mPim,mm2_mPip,"
            "mm2_mProt,mm2_mPim_corr,mm2_mPip_corr,"
-           "mm2_mProt_corr,mm2_exclusive_at_zero,energy_x_mu";
+           "mm2_mProt_corr,mm2_exclusive_at_zero,energy_x_mu"
            ",status_Pim,"
            "status_Pip,status_Prot,weight";
 
