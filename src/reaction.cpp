@@ -731,7 +731,7 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     _pz_prime_prot_E = _data->pz(i) *  ((_prot_mom_tmt) / (_prot_mom_uncorr));
 
     // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
-    // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+    _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
     // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
     if (abs(_data->status(i)) < 4000) {
@@ -739,6 +739,12 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     } else {
       fpro = 1.0;
     }
+
+    // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+    // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+    // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+    // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+
     _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P);
 
     // if (_prot->Phi() > 0)
@@ -789,38 +795,38 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     // _pz_prime_prot_mom = _mom_corr_prot_ph->Pz() * ((_prot_mom_prime) / (_prot_mom));
     // _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
 
-    ///---- For Hadron mom corr  --------///
+    // ///---- For Hadron mom corr  --------///
 
-    _prot_mom = _prot->P();
+    // _prot_mom = _prot->P();
 
-    if (abs(_data->status(i)) < 4000) {
-      for (size_t m = 0; m < Prot_mom_bins_FD; m++) {
-        double mom_min = min_prot_mom_values_FD[m];
-        double mom_max = max_prot_mom_values_FD[m];
-        if (_prot_mom > mom_min && _prot_mom < mom_max) {
-          if (_prot_theta <= 27) {
-            //   //   // For experimental data
-            _prot_mom_prime = _prot_mom - prot_mom_corr_FD[0][m] * alpha_prot_mom_corr[1];
-          } else {
-            _prot_mom_prime = _prot_mom - prot_mom_corr_FD[1][m] * alpha_prot_mom_corr[2];
-          }
-        }
-      }
-      } else if (abs(_data->status(i)) >= 4000) {
-        for (size_t m = 0; m < Prot_mom_bins_CD; m++) {
-          double mom_min = min_prot_mom_values_CD[m];
-          double mom_max = max_prot_mom_values_CD[m];
-          if (_prot_mom > mom_min && _prot_mom < mom_max) {
-            //   // For experimental data
-            _prot_mom_prime = _prot_mom - prot_mom_corr_CD[m] * alpha_prot_mom_corr[0];
-          }
-        }
-      }
+    // if (abs(_data->status(i)) < 4000) {
+    //   for (size_t m = 0; m < Prot_mom_bins_FD; m++) {
+    //     double mom_min = min_prot_mom_values_FD[m];
+    //     double mom_max = max_prot_mom_values_FD[m];
+    //     if (_prot_mom > mom_min && _prot_mom < mom_max) {
+    //       if (_prot_theta <= 27) {
+    //         //   //   // For experimental data
+    //         _prot_mom_prime = _prot_mom - prot_mom_corr_FD[0][m] * alpha_prot_mom_corr[1];
+    //       } else {
+    //         _prot_mom_prime = _prot_mom - prot_mom_corr_FD[1][m] * alpha_prot_mom_corr[2];
+    //       }
+    //     }
+    //   }
+    //   } else if (abs(_data->status(i)) >= 4000) {
+    //     for (size_t m = 0; m < Prot_mom_bins_CD; m++) {
+    //       double mom_min = min_prot_mom_values_CD[m];
+    //       double mom_max = max_prot_mom_values_CD[m];
+    //       if (_prot_mom > mom_min && _prot_mom < mom_max) {
+    //         //   // For experimental data
+    //         _prot_mom_prime = _prot_mom - prot_mom_corr_CD[m] * alpha_prot_mom_corr[0];
+    //       }
+    //     }
+    //   }
 
-      _px_prime_prot_mom = _prot->Px() * ((_prot_mom_prime) / (_prot_mom));
-      _py_prime_prot_mom = _prot->Py() * ((_prot_mom_prime) / (_prot_mom));
-      _pz_prime_prot_mom = _prot->Pz() * ((_prot_mom_prime) / (_prot_mom));
-      _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
+    //   _px_prime_prot_mom = _prot->Px() * ((_prot_mom_prime) / (_prot_mom));
+    //   _py_prime_prot_mom = _prot->Py() * ((_prot_mom_prime) / (_prot_mom));
+    //   _pz_prime_prot_mom = _prot->Pz() * ((_prot_mom_prime) / (_prot_mom));
+    //   _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
 
       // // 2nd iteration
       //   _prot_mom_2nd = _prot_mom_prime;
@@ -921,7 +927,7 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
       _pz_prime_pip_E = _data->pz(i) *  ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
       // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
-      // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+      _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
       if (abs(_data->status(i)) < 4000) {
         fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
@@ -1027,37 +1033,37 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
       //   }
       // }
 
-      ///---- For Hadron mom corr  --------///
-      _pip_mom = _pip->P();
+      // ///---- For Hadron mom corr  --------///
+      // _pip_mom = _pip->P();
 
-      if (abs(_data->status(i)) < 4000) {
-        for (size_t m = 0; m < Pip_mom_bins_FD; m++) {
-          double mom_min = min_pip_mom_values_FD[m];
-          double mom_max = max_pip_mom_values_FD[m];
-          if (_pip_mom > mom_min && _pip_mom < mom_max) {
-            if (_pip_theta <= 27) {
-              //   //   // For experimental data
-              _pip_mom_prime = _pip_mom - pip_mom_corr_FD[0][m] * alpha_pip_mom_corr[1];
-            } else {
-              _pip_mom_prime = _pip_mom - pip_mom_corr_FD[1][m] * alpha_pip_mom_corr[2];
-            }
-          }
-        }
-      } else if (abs(_data->status(i)) >= 4000) {
-        for (size_t m = 0; m < Pip_mom_bins_CD; m++) {
-          double mom_min = min_pip_mom_values_CD[m];
-          double mom_max = max_pip_mom_values_CD[m];
-          if (_pip_mom > mom_min && _pip_mom < mom_max) {
-            //   // For experimental data
-            _pip_mom_prime = _pip_mom - pip_mom_corr_CD[m] * alpha_pip_mom_corr[0];
-          }
-        }
-      }
+      // if (abs(_data->status(i)) < 4000) {
+      //   for (size_t m = 0; m < Pip_mom_bins_FD; m++) {
+      //     double mom_min = min_pip_mom_values_FD[m];
+      //     double mom_max = max_pip_mom_values_FD[m];
+      //     if (_pip_mom > mom_min && _pip_mom < mom_max) {
+      //       if (_pip_theta <= 27) {
+      //         //   //   // For experimental data
+      //         _pip_mom_prime = _pip_mom - pip_mom_corr_FD[0][m] * alpha_pip_mom_corr[1];
+      //       } else {
+      //         _pip_mom_prime = _pip_mom - pip_mom_corr_FD[1][m] * alpha_pip_mom_corr[2];
+      //       }
+      //     }
+      //   }
+      // } else if (abs(_data->status(i)) >= 4000) {
+      //   for (size_t m = 0; m < Pip_mom_bins_CD; m++) {
+      //     double mom_min = min_pip_mom_values_CD[m];
+      //     double mom_max = max_pip_mom_values_CD[m];
+      //     if (_pip_mom > mom_min && _pip_mom < mom_max) {
+      //       //   // For experimental data
+      //       _pip_mom_prime = _pip_mom - pip_mom_corr_CD[m] * alpha_pip_mom_corr[0];
+      //     }
+      //   }
+      // }
 
-      _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
-      _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
-      _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
-      _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
+      // _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
+      // _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
+      // _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
+      // _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
 
       // // 2nd iteration
       // _pip_mom_2nd = _pip_mom_prime;
@@ -1161,7 +1167,7 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     _pz_prime_pim_E = _data->pz(i) *  ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
     // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);  // energy loss corrected
-    // _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+    _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
     if (abs(_data->status(i)) < 4000) {
       fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
@@ -1283,38 +1289,38 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     // // // Now we are just applying momentum corrections only because we dont have much deviation in theta and
     // phi mes and miss
 
-    ///---- For Hadron mom corr  --------///
+    // ///---- For Hadron mom corr  --------///
 
-    _pim_mom = _pim->P();
+    // _pim_mom = _pim->P();
 
-    if (abs(_data->status(i)) < 4000) {
-      for (size_t m = 0; m < Pim_mom_bins_FD; m++) {
-        double mom_min = min_pim_mom_values_FD[m];
-        double mom_max = max_pim_mom_values_FD[m];
-        if (_pim_mom > mom_min && _pim_mom < mom_max) {
-          if (_pim_theta <= 27) {
-            //   //   // For experimental data
-            _pim_mom_prime = _pim_mom - pim_mom_corr_FD[0][m] * alpha_pim_mom_corr[1];
-          } else {
-            _pim_mom_prime = _pim_mom - pim_mom_corr_FD[1][m] * alpha_pim_mom_corr[2];
-          }
-        }
-      }
-    } else if (abs(_data->status(i)) >= 4000) {
-      for (size_t m = 0; m < Pim_mom_bins_CD; m++) {
-        double mom_min = min_pim_mom_values_CD[m];
-        double mom_max = max_pim_mom_values_CD[m];
-        if (_pim_mom > mom_min && _pim_mom < mom_max) {
-          //   // For experimental data
-          _pim_mom_prime = _pim_mom - pim_mom_corr_CD[m] * alpha_pim_mom_corr[0];
-        }
-      }
-    }
+    // if (abs(_data->status(i)) < 4000) {
+    //   for (size_t m = 0; m < Pim_mom_bins_FD; m++) {
+    //     double mom_min = min_pim_mom_values_FD[m];
+    //     double mom_max = max_pim_mom_values_FD[m];
+    //     if (_pim_mom > mom_min && _pim_mom < mom_max) {
+    //       if (_pim_theta <= 27) {
+    //         //   //   // For experimental data
+    //         _pim_mom_prime = _pim_mom - pim_mom_corr_FD[0][m] * alpha_pim_mom_corr[1];
+    //       } else {
+    //         _pim_mom_prime = _pim_mom - pim_mom_corr_FD[1][m] * alpha_pim_mom_corr[2];
+    //       }
+    //     }
+    //   }
+    // } else if (abs(_data->status(i)) >= 4000) {
+    //   for (size_t m = 0; m < Pim_mom_bins_CD; m++) {
+    //     double mom_min = min_pim_mom_values_CD[m];
+    //     double mom_max = max_pim_mom_values_CD[m];
+    //     if (_pim_mom > mom_min && _pim_mom < mom_max) {
+    //       //   // For experimental data
+    //       _pim_mom_prime = _pim_mom - pim_mom_corr_CD[m] * alpha_pim_mom_corr[0];
+    //     }
+    //   }
+    // }
 
-    _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
-    _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
-    _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
-    _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom,MASS_PIM);
+    // _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
+    // _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
+    // _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
+    // _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom,MASS_PIM);
 
     // // 2nd iteration
     // _pim_mom_2nd = _pim_mom_prime;
