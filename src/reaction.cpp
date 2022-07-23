@@ -730,22 +730,22 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     _py_prime_prot_E = _data->py(i) *  ((_prot_mom_tmt) / (_prot_mom_uncorr));
     _pz_prime_prot_E = _data->pz(i) *  ((_prot_mom_tmt) / (_prot_mom_uncorr));
 
-    _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+    // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
     _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
     // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-    // if (abs(_data->status(i)) < 4000) {
-    //   fpro = dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
-    // } else {
-    //   fpro = 1.0;
-    // }
+    if (abs(_data->status(i)) < 4000) {
+      fpro = dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
+    } else {
+      fpro = 1.0;
+    }
 
     // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
     // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
     // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
     // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
-    // _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P);
+    _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P);
 
     // if (_prot->Phi() > 0)
     //   _prot_phi = _prot->Phi() * 180 / PI;
@@ -926,15 +926,15 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
       _py_prime_pip_E = _data->py(i) *  ((_pip_mom_tmt) / (_pip_mom_uncorr));
       _pz_prime_pip_E = _data->pz(i) *  ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
-      _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+      // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
       _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
-      // if (abs(_data->status(i)) < 4000) {
-      //   fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
-      // } else {
-      //   fpip = 1.0;
-      // }
-      // _pip->SetXYZM(_px_prime_pip_E * fpip , _py_prime_pip_E * fpip , _pz_prime_pip_E * fpip , MASS_PIP);
+      if (abs(_data->status(i)) < 4000) {
+        fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
+      } else {
+        fpip = 1.0;
+      }
+      _pip->SetXYZM(_px_prime_pip_E * fpip , _py_prime_pip_E * fpip , _pz_prime_pip_E * fpip , MASS_PIP);
 
       // if (abs(_data->status(i)) < 4000) {
 
@@ -1166,15 +1166,15 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     _py_prime_pim_E = _data->py(i) *  ((_pim_mom_tmt) / (_pim_mom_uncorr));
     _pz_prime_pim_E = _data->pz(i) *  ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
-    _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);  // energy loss corrected
+    // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);  // energy loss corrected
     _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
-    // if (abs(_data->status(i)) < 4000) {
-    //   fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
-    // } else {
-    //   fpim = 1.0;
-    // }
-    // _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
+    if (abs(_data->status(i)) < 4000) {
+      fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
+    } else {
+      fpim = 1.0;
+    }
+    _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
 
     // if (abs(_data->status(i)) < 4000) {
 
