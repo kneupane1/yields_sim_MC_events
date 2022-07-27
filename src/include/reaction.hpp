@@ -192,14 +192,14 @@ class Reaction {
       0.027, 0.0048, -0.0048, -0.0144, -0.024, -0.0336, -0.049, -0.077, -0.088, -0.104, -0.13
   };
 
-  float min_prot_mom_values_FD[Prot_mom_bins_FD] = {0,    0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35,
+  float min_prot_mom_values_FD[Prot_mom_bins_FD] = {0, 0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35,
                                                     1.45, 1.55, 1.65, 1.75, 1.9,  2.1,  2.5,  3.0};
   float max_prot_mom_values_FD[Prot_mom_bins_FD] = {0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45,
                                                     1.55, 1.65, 1.75, 1.9,  2.1,  2.5,  3.0,  5.0};
   double prot_mom_corr_FD[2][Prot_mom_bins_FD] = {
       {0.027, 0.024, 0.0144, 0.0048, 0.0144, 0.0048, -0.007, -0.007, -0.007, -0.008, -0.008, -0.008, -0.01, -0.01,
        -0.03, -0.03, -0.03},
-      {0.039, 0.0336, 0.024, 0.024, 0.024, 0.024, 0.021, 0.021, 0.021, 0.024, 0.024, 0.024, 0.03, 0.03, 0.03, 0.01, 0.03, }};  // first is for theta < 27 and second is for theta > 27 degrees,
+      {0.039, 0.0336, 0.024, 0.024, 0.024, 0.024, 0.021, 0.021, 0.021, 0.024, 0.024, 0.024, 0.03, 0.03, 0.03, 0.01, 0.03}};  // first is for theta < 27 and second is for theta > 27 degrees,
 
   // float prot_mom_corr_CD_2nd[Prot_mom_bins_CD] = {
   //     0.003, 0.0048, -0.0144, -0.0048, -0.0048, -0.0144, -0.021, -0.035, -0.056, -0.056, -0.09
@@ -264,7 +264,7 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  float alpha_pip_mom_corr[3] = {0.2, 0.05, 0.1};
+  float alpha_pip_mom_corr[3] = {0.7, 0.1, 0.5};
 
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
@@ -350,9 +350,9 @@ class Reaction {
   double _py_prime_pim_E_tmt = NAN;
   double _pz_prime_pim_E_tmt = NAN;
 
-  float alpha_pim_mom_corr[3] = {0.1, 0.05, 0.1};
+  float alpha_pim_mom_corr[3] = {0.5, 0.1, 0.5};
 
-  float alpha_pim_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
+  // float alpha_pim_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _pim_mom = NAN;
   double _pim_mom_2nd = NAN;
   double _pim_mom_tmt = NAN;
