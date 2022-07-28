@@ -581,8 +581,8 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
     // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-    // _W = physics::W_calc(*_beam, *_elec);
-    // _Q2 = physics::Q2_calc(*_beam, *_elec);
+    _W = physics::W_calc(*_beam, *_elec);
+    _Q2 = physics::Q2_calc(*_beam, *_elec);
 
     // // //One way of  calculating mom - corrected four vectors
     // //   // // _cx = _data->px(0)/_elec->P();
@@ -618,7 +618,7 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     // auto eleC = ROOT::Math::PxPyPzMVector(ex * fe, ey * fe, ez * fe, 0);
     // _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->px(0) * fe, _data->px(0) * fe, 0);
     // _mom_corr_elec->SetXYZM(_data->px(0), _data->px(0), _data->px(0), MASS_E);
-    _mom_corr_elec->SetXYZM(_data->px(0)* fe, _data->py(0)* fe, _data->pz(0)* fe, MASS_E);
+    _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe, MASS_E);
 
     // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
 
@@ -629,9 +629,9 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
     //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
     *_gamma += *_beam - *_mom_corr_elec;
-
-    _W = physics::W_calc(*_beam, *_mom_corr_elec);
-    _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+    _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+    // _W = physics::W_calc(*_beam, *_mom_corr_elec);
+    // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
     _P_elec = _mom_corr_elec->P();
 

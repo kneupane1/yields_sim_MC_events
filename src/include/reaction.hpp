@@ -585,6 +585,12 @@ class Reaction {
   inline short sec() { return _data->dc_sec(0); }
   inline int det() { return abs(_data->status(0) / 1000); }
 
+  inline bool Inclusive() {
+    bool _channelIncl = true;
+    _channelIncl &= (_hasE);
+    return _channelIncl;
+  }
+
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
     _channelTwoPi &= ((_numProt == 1 && _numPip == 1) && (_hasE && _hasP  && _hasPip));
