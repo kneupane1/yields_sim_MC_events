@@ -116,6 +116,10 @@ class Reaction {
   float _pip_status = NAN;
   float _pim_status = NAN;
 
+  int _sectorPim = NAN;
+  int _sectorPip = NAN;
+  int _sectorProt = NAN;
+
   void SetElec();
 
   // momentum corrections earlier
@@ -583,6 +587,10 @@ class Reaction {
   float_t scalar_triple_product();
 
   inline short sec() { return _data->dc_sec(0); }
+  inline short pimSec() { return _sectorPim; }
+  inline short pipSec() { return _sectorPip; }
+  inline short protSec() { return _sectorProt; }
+
   inline int det() { return abs(_data->status(0) / 1000); }
 
   inline bool Inclusive() {
