@@ -40,32 +40,20 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _other = std::make_unique<TLorentzVector>();
   _neutron = std::make_unique<TLorentzVector>();
 
-  // for (int isec_mom_corr = 0; isec_mom_corr < 6; isec_mom_corr++) {
-  //   for (int ivec = 0; ivec < 3; ivec++) {
-  //     double dp1 = xx[ipar++], dp5 = xx[ipar++], dp9 = xx[ipar++];
+  for (int isec_mom_corr = 0; isec_mom_corr < 6; isec_mom_corr++) {
+    for (int ivec = 0; ivec < 3; ivec++) {
+      double dp1 = xx[ipar++], dp5 = xx[ipar++], dp9 = xx[ipar++];
 
-  //     pars[isec_mom_corr][ivec][0] = (dp1 - 2 * dp5 + dp9) / 32.;
-  //     pars[isec_mom_corr][ivec][1] = (-7 * dp1) / 16. + (5 * dp5) / 8. - (3 * dp9) / 16.;
-  //     pars[isec_mom_corr][ivec][2] = (45 * dp1) / 32. - (9 * dp5) / 16. + (5 * dp9) / 32.;
-  //   }
-  // }
+      pars[isec_mom_corr][ivec][0] = (dp1 - 2 * dp5 + dp9) / 32.;
+      pars[isec_mom_corr][ivec][1] = (-7 * dp1) / 16. + (5 * dp5) / 8. - (3 * dp9) / 16.;
+      pars[isec_mom_corr][ivec][2] = (45 * dp1) / 32. - (9 * dp5) / 16. + (5 * dp9) / 32.;
+    }
+  }
 }
 
 Reaction::~Reaction() {}
 
-////////////////////
-// double Reaction::dpp(float px, float py, float pz, int sec_mom_corr, int ivec) {
-//   double pp = sqrt(px * px + py * py + pz * pz);
-
-//   double a = pars[sec_mom_corr - 1][ivec][0], b = pars[sec_mom_corr - 1][ivec][1], c = pars[sec_mom_corr -
-//   1][ivec][2];
-
-//   double dp = a * pp * pp + b * pp + c;  // pol2 corr func
-
-//   // electron pol1 corr func for each sec_mom_corr and each phi bins
-//   if (ivec == 0) {
-//     if (sec_mom_corr == 1) {
-//       dp = 0.
+//////////////////// new mom correction start
 
 double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
   // auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec) {
@@ -499,7 +487,7 @@ if (ivec == 0) {
     return dp / pp;
   };
 
-  // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+  // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
   // auto fe = dppC(ex, ey, ez, esec, 0) + 1;
   // auto fpip = dppC(pipx, pipy, pipz, pipsec, 1) + 1;
   // auto fpim = dppC(pimx, pimy, pimz, pimsec, 2) + 1;
@@ -510,69 +498,70 @@ if (ivec == 0) {
   // auto pimC = ROOT::Math::PxPyPzMVector(pimx * fpim, pimy * fpim, pimz * fpim, 0.13957);
   // auto proC = ROOT::Math::PxPyPzMVector(prox * fpro, proy * fpro, proz * fpro, 0.938);
 
-  //////////////////// new mom corr done
+  ////////////////// new mom corr done
 
-  // double Reaction::dpp(float px, float py, float pz, int sec_mom_corr, int ivec) {
-  //   double pp = sqrt(px * px + py * py + pz * pz);
+//////////////////// old mom corrections (probably better one)
+  double Reaction::dpp(float px, float py, float pz, int sec_mom_corr, int ivec) {
+    double pp = sqrt(px * px + py * py + pz * pz);
 
-  //   double a = pars[sec_mom_corr - 1][ivec][0], b = pars[sec_mom_corr - 1][ivec][1],
-  //          c = pars[sec_mom_corr - 1][ivec][2];
+    double a = pars[sec_mom_corr - 1][ivec][0], b = pars[sec_mom_corr - 1][ivec][1],
+           c = pars[sec_mom_corr - 1][ivec][2];
 
-  //   double dp = a * pp * pp + b * pp + c;  // pol2 corr func
+    double dp = a * pp * pp + b * pp + c;  // pol2 corr func
 
-  //   // electron pol1 corr func for each sec_mom_corr and each phi bins
-  //   if (ivec == 0) {
-  //     if (sec_mom_corr == 1) {
-  //       dp = 0.45 * b * (pp - 9) + 0.1 * c;
+    // electron pol1 corr func for each sec_mom_corr and each phi bins
+    if (ivec == 0) {
+      if (sec_mom_corr == 1) {
+        dp = 0.45 * b * (pp - 9) + 0.1 * c;
 
-  //       // ep 3 phi bins
-  //       // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
-  //       // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
-  //       // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
-  //     }
-  //     if (sec_mom_corr == 2) {
-  //       dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
+        // ep 3 phi bins
+        // dp = -0.01*b*(pp-9)+1.35*c; //phi<-5
+        // dp = 0.6*b*(pp-9)-0.3*c; //-5<phi<5
+        // dp = 1.7*b*(pp-9)-1.5*c; //phi>5
+      }
+      if (sec_mom_corr == 2) {
+        dp = -0.15 * b * (pp - 8.0) - 0.3 * c;
 
-  //       // ep 3 phi bins
-  //       // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
-  //       // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
-  //       // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
-  //     }
-  //     if (sec_mom_corr == 3) {
-  //       dp = 3. * b * (pp - 5.4) - 0.5 * c;
+        // ep 3 phi bins
+        // dp = -0.7*b*(pp-8.0)+0.4*c; //phi<-5
+        // dp = -0.05*b*(pp-8.0)-0.4*c; //-5<phi<5
+        // dp = 0.01*b*(pp-8.0)-1.5*c; //phi>5
+      }
+      if (sec_mom_corr == 3) {
+        dp = 3. * b * (pp - 5.4) - 0.5 * c;
 
-  //       // ep 3 phi bins
-  //       // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
-  //       // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
-  //       // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
-  //     }
-  //     if (sec_mom_corr == 4) {
-  //       dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
+        // ep 3 phi bins
+        // dp = 0.04*b*(pp-5.4)-3.5*c; //phi<-5
+        // dp = 0.06*b*(pp-5.4)-3.*c; //-5<phi<5
+        // dp = 1.1*b*(pp-5.4)-0.7*c; //phi>5
+      }
+      if (sec_mom_corr == 4) {
+        dp = 0.25 * b * (pp - 9.25) - 0.3 * c;
 
-  //       // ep 3 phi bins
-  //       // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
-  //       // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
-  //       // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
-  //     }
-  //     if (sec_mom_corr == 5) {
-  //       dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
+        // ep 3 phi bins
+        // dp = 0.25*b*(pp-9.25)-0.7*c; //phi<-5
+        // dp = 0.25*b*(pp-9.25)+0.05*c; //-5<phi<5
+        // dp = 0.1*b*(pp-9.25)+1.1*c; //phi>5
+      }
+      if (sec_mom_corr == 5) {
+        dp = 2.2 * b * (pp - 7.5) - 0.5 * c;
 
-  //       // ep 3 phi bins
-  //       // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
-  //       // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
-  //       // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
-  //     }
-  //     if (sec_mom_corr == 6) {
-  //       dp = 0.5 * b * (pp - 7) - 0.6 * c;
+        // ep 3 phi bins
+        // dp = 2.2*b*(pp-7.5)+0.5*c; //phi<-5
+        // dp = 2.2*b*(pp-7.5)-0.1*c; //-5<phi<5
+        // dp = 2.2*b*(pp-7.5)-0.6*c; //phi>5
+      }
+      if (sec_mom_corr == 6) {
+        dp = 0.5 * b * (pp - 7) - 0.6 * c;
 
-  //       // ep 3 phi bins
-  //       // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
-  //       // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
-  //       // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
-  //     }
-  //   }
-  //   return dp / pp;
-  // };
+        // ep 3 phi bins
+        // dp = 1.263*b*(pp-7)+0.5*c; //phi<-5
+        // dp = 1.*b*(pp-7)-0.5*c; //-5<phi<5
+        // dp = 0.5*b*(pp-7)-1.45*c; //phi>5
+      }
+    }
+    return dp / pp;
+  };
 
   // double fe = dpp(ex, ey, ez, esec, 0) + 1;
   // double fpip = dpp(pipx,pipy,pipz,pipsec,1) + 1;
@@ -614,17 +603,14 @@ if (ivec == 0) {
   }
   void Reaction::SetMomCorrElec() {
     // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-  fe = dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-  //  double fe =1.0;
-    // auto eleC = ROOT::Math::PxPyPzMVector(ex * fe, ey * fe, ez * fe, 0);
-    // _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->px(0) * fe, _data->px(0) * fe, 0);
-    // _mom_corr_elec->SetXYZM(_data->px(0), _data->px(0), _data->px(0), MASS_E);
-    _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe, MASS_E);
 
-    // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  // New electron momentum corrections
+  // fe = dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+    // _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe, MASS_E); //this is new electron mom corrections aug 2022
 
-    // _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-    //                         _data->pz(0) * _elec_mom_corrected, MASS_E);
+    _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+    _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+                            _data->pz(0) * _elec_mom_corrected, MASS_E);
 
     // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
     //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
