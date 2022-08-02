@@ -134,11 +134,11 @@ struct csv_data {
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_"
            "mes,"
-           "prot_mom_corr,"
+           "prot_mom_uncorr,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
-           "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_mPim,mm2_mPip,"
-           "mm2_mProt,mm2_mPim_corr,mm2_mPip_corr,"
-           "mm2_mProt_corr,mm2_exclusive_at_zero,energy_x_mu"
+           "mes,pip_mom_uncorr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_uncorr,mm2_mPim,mm2_mPip,"
+           "mm2_mProt,mm2_mPim_uncorr,mm2_mPip_uncorr,"
+           "mm2_mProt_uncorr,mm2_exclusive_at_zero,energy_x_mu"
            ",status_Pim,"
            "status_Pip,status_Prot,weight";
 

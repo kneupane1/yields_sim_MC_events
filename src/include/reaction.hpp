@@ -116,9 +116,9 @@ class Reaction {
   float _pip_status = NAN;
   float _pim_status = NAN;
 
-  int _sectorPim = NAN;
-  int _sectorPip = NAN;
-  int _sectorProt = NAN;
+  int _sectorPim = -1;
+  int _sectorPip = -1;
+  int _sectorProt = -1;
 
   void SetElec();
 
@@ -174,7 +174,7 @@ class Reaction {
   double _py_prime_prot_E = NAN;
   double _pz_prime_prot_E = NAN;
 
-  float alpha_prot_mom_corr[3] = {0.95, 0.6, 0.6};
+  // float alpha_prot_mom_corr[3] = {0.95, 0.6, 0.6};
 //   float alpha_prot_mom_corr_2nd[3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
 
 //   float alpha_prot_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
@@ -268,7 +268,7 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  float alpha_pip_mom_corr[3] = {0.9, 0.1, 0.9};
+  // float alpha_pip_mom_corr[3] = {0.9, 0.1, 0.9};
 
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
@@ -354,7 +354,7 @@ class Reaction {
   double _py_prime_pim_E_tmt = NAN;
   double _pz_prime_pim_E_tmt = NAN;
 
-  float alpha_pim_mom_corr[3] = {0.6, 0.1, 0.6};
+  // float alpha_pim_mom_corr[3] = {0.6, 0.1, 0.6};
 
   // float alpha_pim_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _pim_mom = NAN;
