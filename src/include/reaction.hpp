@@ -176,8 +176,8 @@ class Reaction {
   double _py_prime_prot_E = NAN;
   double _pz_prime_prot_E = NAN;
 
-  float alpha_prot_mom_corr_FD[2] = {0.6, 0.9};
-  float alpha_prot_mom_corr_CD[3] = {0.99, 0.9, 0.75};
+  float alpha_prot_mom_corr_FD[2] = {0.5, 0.5};
+  float alpha_prot_mom_corr_CD[3] = {0.9, 0.75, 0.75};
 
   //   float alpha_prot_mom_corr_2nd[3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
 
@@ -306,8 +306,8 @@ class Reaction {
   double _py_prime_pip_E_tmt = NAN;
   double _pz_prime_pip_E_tmt = NAN;
 
-  float alpha_pip_mom_corr_FD[2] = {0.7, 0.9};
-  float alpha_pip_mom_corr_CD[3] = {1.0, 1.0, 1.0};
+  float alpha_pip_mom_corr_FD[2] = {0.5, 0.5};
+  float alpha_pip_mom_corr_CD[3] = {0.9, 0.7, 0.7};
   double _pip_mom = NAN;
   double _pip_mom_prime = NAN;
 
@@ -428,7 +428,7 @@ class Reaction {
   double _pz_prime_pim_E_tmt = NAN;
 
   float alpha_pim_mom_corr_FD[2] = {0.5, 0.5};
-  float alpha_pim_mom_corr_CD[3] = {0.6, 0.6, -0.6};
+  float alpha_pim_mom_corr_CD[3] = {0.75, 0.7, 0.7};
 
   // float alpha_pim_mom_corr_2nd[3] = {0.0, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
   double _pim_mom = NAN;
