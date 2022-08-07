@@ -1715,8 +1715,8 @@ void Reaction::SetPim(int i) {
     // if (TwoPion_missingPim()) {
     if (TwoPion_exclusive()) {
       auto missingpim_ = std::make_unique<TLorentzVector>();
-      *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-      // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+      // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+      *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
       return missingpim_->P();
       // return _rec_pim_mom;
@@ -1841,8 +1841,8 @@ void Reaction::SetPim(int i) {
     // if (TwoPion_missingPip()) {
     if (TwoPion_exclusive()) {
       auto missingpip_ = std::make_unique<TLorentzVector>();
-      *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-      // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+      // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+      *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
 
       return missingpip_->P();
     } else
@@ -1930,8 +1930,8 @@ void Reaction::SetPim(int i) {
     // if (TwoPion_missingProt()) {
     if (TwoPion_exclusive()) {
       auto missingprot_ = std::make_unique<TLorentzVector>();
-      *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-      // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+      // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+      *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
       return missingprot_->P();
     } else
