@@ -177,7 +177,7 @@ class Reaction {
   double _pz_prime_prot_E = NAN;
 
   float alpha_prot_mom_corr_FD[2] = {0.2,0.5};
-  float alpha_prot_mom_corr_CD[3] = {1.0, 0.01, 0.3, 0.7, 0.9}; //sec 2,3 has 2 alpha
+  float alpha_prot_mom_corr_CD[5] = {1.0, 0.01, 0.3, 0.7, 0.9}; //sec 2,3 has 2 alpha
 
   //   float alpha_prot_mom_corr_2nd[3] = {0.8, 0.0, 0.0};  // CD , FD < 27 (DEG), FD > 27 (DEG)
 
