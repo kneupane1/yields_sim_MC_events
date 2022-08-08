@@ -1371,12 +1371,13 @@ void Reaction::SetPim(int i) {
         double mom_max = max_pim_mom_values_CD[m];
         if (_pim_mom > mom_min && _pim_mom < mom_max) {
           //   // For experimental data
-          if (_pim_phi > 270 || _pim_phi <= 30)
-            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[0][m] * alpha_pim_mom_corr_CD[0];
-          else if (_pim_phi > 30 && _pim_phi <= 150)
-            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[1][m] * alpha_pim_mom_corr_CD[1];
+          if (_pim_phi > 270 || _pim_phi <= 30){
+            if (_pim_mom < 1.1) _pim_mom_prime = _pim_mom - pim_mom_corr_CD[0][m] * alpha_pim_mom_corr_CD[0];
+            else if (_pim_mom >= 1.1) _pim_mom_prime = _pim_mom - pim_mom_corr_CD[1][m] * alpha_pim_mom_corr_CD[0];
+          } else if (_pim_phi > 30 && _pim_phi <= 150)
+            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[1][m] * alpha_pim_mom_corr_CD[2];
           else if (_pim_phi > 150 && _pim_phi <= 270)
-            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[2][m] * alpha_pim_mom_corr_CD[2];
+            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[2][m] * alpha_pim_mom_corr_CD[3];
         }
       }
     }
