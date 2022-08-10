@@ -264,7 +264,7 @@ struct csv_data {
     os << data.pim_mom_corr << ",";
     // os << data.pim_theta_corr << ",";
     // os << data.pim_phi_corr << ",";
-    os << std::setprecision(77);
+    os << std::setprecision(7);
 
     os << data.mm2_mPim << ",";
     os << data.mm2_mPip << ",";
