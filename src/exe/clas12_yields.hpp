@@ -122,8 +122,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           // if (event->TwoPion_missingProt()) {
         if (event->TwoPion_exclusive()) {
           // if (event->Inclusive()) {
-          if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5 &&
-              abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
+          if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
+          //&&
+             // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
                 // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
             //   //&&
             //   // abs(event->MM2_exclusive()) < 0.03) {
@@ -145,7 +146,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
             // output.elec_mom = event->elec_mom();
             // output.corr_elec_mom = event->Corr_elec_mom();
-            // output.scalar_product = event->scalar_triple_product();
+            output.scalar_product = event->scalar_triple_product();
 
             // //   // // for generated case
             //   output.w_mc = mc_event->W_mc();
