@@ -1517,12 +1517,12 @@ void Reaction::SetPim(int i) {
 
     *mm += (*_gamma + *_target);
 
-    if (TwoPion_missingPim()) {
-      *mm -= *_prot;
-      *mm -= *_pip;
-      // *mm -= *_pim;
-      _MM = mm->M();
-      _MM2 = mm->M2();
+    // if (TwoPion_missingPim()) {
+    //   *mm -= *_prot;
+    //   *mm -= *_pip;
+    //   // *mm -= *_pim;
+    //   _MM = mm->M();
+    //   _MM2 = mm->M2();
 
     // //   // _rec_pim_mom = mm->P();
     // //   // _rec_pim_theta = mm->Theta() * 180 / PI;
@@ -1541,13 +1541,13 @@ void Reaction::SetPim(int i) {
     // // //   // // // _x_mu_m2 = mm->E() * mm->E() - mm->P() * mm->P();
     // // //   // // // _x_mu_m = mm->E() - mm->P();
     // // //   // // //   //
-    }
+    // }
     if (TwoPion_exclusive()) {
-      // *mm -= *_mom_corr_prot;
-      // *mm -= *_mom_corr_pip;
-      // // *mm -= *_pim;
-      // _MM = mm->M();
-      // _MM2 = mm->M2();
+      *mm -= *_mom_corr_prot;
+      *mm -= *_mom_corr_pip;
+      // *mm -= *_pim;
+      _MM = mm->M();
+      _MM2 = mm->M2();
 
       // *mm_excl += (*_gamma + *_target);
       // *mm_excl -= *_mom_corr_prot;
@@ -1847,8 +1847,8 @@ void Reaction::SetPim(int i) {
     // if (TwoPion_missingPip()) {
     if (TwoPion_exclusive()) {
       auto missingpip_ = std::make_unique<TLorentzVector>();
-      // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-      *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+      *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+      // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
 
       return missingpip_->P();
     } else
@@ -1936,8 +1936,8 @@ void Reaction::SetPim(int i) {
     // if (TwoPion_missingProt()) {
     if (TwoPion_exclusive()) {
       auto missingprot_ = std::make_unique<TLorentzVector>();
-      // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-      *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+      *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+      // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
       return missingprot_->P();
     } else
