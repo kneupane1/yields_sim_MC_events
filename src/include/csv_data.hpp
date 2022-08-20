@@ -130,15 +130,13 @@ struct csv_data {
     // return "sec,w,q2,w_after,weight";
 
     // Data/ Simulations excl....    prot_mom_gen,pip_mom_gen,pim_mom_gen,
-    return "sec_ele,sec_pim,sec_pip,sec_prot,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
+    return "stp,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_"
            "mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,"
-           "mm2_exclusive_at_zero,energy_x_mu"
-           ",status_Pim,"
-           "status_Pip,status_Prot,weight";
+           "mm2_exclusive_at_zero,energy_x_mu,weight";
 
     // return "elec_sec,pim_sec,pip_sec,prot_sec,w,q2,w_had,elec_mom,elec_mom_corr,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
     //        "miss,pip_mom_miss,pip_"
@@ -176,10 +174,10 @@ struct csv_data {
     ////.......................................
      os << std::setprecision(7);
 
-    os << data.electron_sector << ",";
-    os << data.pim_sec << ",";
-    os << data.pip_sec << ",";
-    os << data.prot_sec << ",";
+    // os << data.electron_sector << ",";
+    // os << data.pim_sec << ",";
+    // os << data.pip_sec << ",";
+    // os << data.prot_sec << ",";
 
     // os << data.w << ",";
     // os << data.q2 << ",";
@@ -276,9 +274,9 @@ struct csv_data {
     os << data.energy_x_mu << ",";
     os << std::setprecision(1);
 
-    os << data.status_Pim << ",";
-    os << data.status_Pip << ",";
-    os << data.status_Prot << ",";
+    // os << data.status_Pim << ",";
+    // os << data.status_Pip << ",";
+    // os << data.status_Prot << ",";
 
     os << std::setprecision(7);
     os << data.weight_exclusive << ",";

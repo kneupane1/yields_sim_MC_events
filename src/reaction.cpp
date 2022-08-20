@@ -1718,8 +1718,8 @@ void Reaction::SetPim(int i) {
   float Reaction::pim_momentum() {
     // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-    if (TwoPion_missingPim()) {
-    // if (TwoPion_exclusive()) {
+    // if (TwoPion_missingPim()) {
+    if (TwoPion_exclusive()) {
       auto missingpim_ = std::make_unique<TLorentzVector>();
       *missingpim_ += *_gamma + *_target - *_prot - *_pip;
       // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;

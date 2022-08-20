@@ -133,10 +133,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
             // //// using exclusive topology ...................................
 
-            output.electron_sector = event->sec();
-            output.pim_sec = event->pimSec();
-            output.pip_sec = event->pipSec();
-            output.prot_sec = event->protSec();
+            // output.electron_sector = event->sec();
+            // output.pim_sec = event->pimSec();
+            // output.pip_sec = event->pipSec();
+            // output.prot_sec = event->protSec();
             // output.w = event->W();
             // output.q2 = event->Q2();
             // output.w_had = event->w_hadron();
@@ -208,9 +208,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
             output.mm2_exclusive_at_zero = event->MM2_exclusive();
             output.energy_x_mu = event->Energy_excl();
 
-            output.status_Pim = statusPim;
-            output.status_Pip = statusPip;
-            output.status_Prot = statusProt;
+            // output.status_Pim = statusPim;
+            // output.status_Pip = statusPip;
+            // output.status_Prot = statusProt;
 
             output.weight_exclusive = event->weight();
 
@@ -261,12 +261,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
             // // // // // // // // // mPim .......................................
 
-            //         output.pim_mom_mPim = event->pim_momentum();
-            //         output.pim_theta_mPim = event->pim_theta_lab();
-            //         output.pim_phi_mPim = event->pim_Phi_lab();
-            //         output.mm2_mPim = event->MM2();
-            //         // output.mm2_mPim_corr = event->MM2_mPim_corr();
-            //         output.weight_mPim = event->weight();
+                    // output.pim_mom_mPim = event->pim_momentum();
+                    // output.pim_theta_mPim = event->pim_theta_lab();
+                    // output.pim_phi_mPim = event->pim_Phi_lab();
+                    // output.mm2_mPim = event->MM2();
+                    // // output.mm2_mPim_corr = event->MM2_mPim_corr();
+                    // output.weight_mPim = event->weight();
 
             // // // // // for rec pim
             // // // // // output.elec_mom = event->elec_mom();
