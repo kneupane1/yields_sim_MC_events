@@ -1111,67 +1111,67 @@ void Reaction::SetPip(int i) {
   _hasPip = true;
 
   // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // //   // _pip_status = abs(_data->status(i));
-  // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
-  // _pip_theta = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
-  // // std::cout << "pip ststus " << _data->status(i) << "   pip theta " << _pip_theta << " pip  mom   "
-  // //           << _pip_mom_uncorr<< std::endl;
-  // if (abs(_data->status(i)) < 4000) {
-  //   _sectorPip = _data->dc_sec(i);
-  //   // fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
+  //   // _pip_status = abs(_data->status(i));
+  _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
+  _pip_theta = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
+  // std::cout << "pip ststus " << _data->status(i) << "   pip theta " << _pip_theta << " pip  mom   "
+  //           << _pip_mom_uncorr<< std::endl;
+  if (abs(_data->status(i)) < 4000) {
+    // _sectorPip = _data->dc_sec(i);
+    // fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
 
-  //   if (_pip_theta <= 27) {
-  //     _E_corr_val_pip = 9.21970527e-05 * pow(_pip_mom_uncorr, 3) - 3.70500143e-04 * pow(_pip_mom_uncorr, 2) +
-  //                       2.78880101e-04 * (_pip_mom_uncorr) + 2.66040566e-03;
+    if (_pip_theta <= 27) {
+      _E_corr_val_pip = 9.21970527e-05 * pow(_pip_mom_uncorr, 3) - 3.70500143e-04 * pow(_pip_mom_uncorr, 2) +
+                        2.78880101e-04 * (_pip_mom_uncorr) + 2.66040566e-03;
 
-  //   } else {
-  //     _E_corr_val_pip = -0.00010482 * pow(_pip_mom_uncorr, 3) + 0.00080463 * pow(_pip_mom_uncorr, 2) -
-  //                       0.0022871 * (_pip_mom_uncorr) + 0.00831496;
-  //   }
-  // } else if (abs(_data->status(i)) >= 4000) {
-  //   // fpip = 1.0;
+    } else {
+      _E_corr_val_pip = -0.00010482 * pow(_pip_mom_uncorr, 3) + 0.00080463 * pow(_pip_mom_uncorr, 2) -
+                        0.0022871 * (_pip_mom_uncorr) + 0.00831496;
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    // fpip = 1.0;
 
-  //   // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
-  //   //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
-  //   //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
-  //   _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
-  //                      (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
-  //                         pow(_pip_mom_uncorr, 3) +
+    // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
+    //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
+    //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
+    _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
+                       (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
+                          pow(_pip_mom_uncorr, 3) +
 
-  //                     (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
-  //                      3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
-  //                         pow(_pip_mom_uncorr, 2) +
+                      (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
+                       3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
+                          pow(_pip_mom_uncorr, 2) +
 
-  //                     (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
-  //                      (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
-  //                         (_pip_mom_uncorr) +
+                      (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
+                       (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
+                          (_pip_mom_uncorr) +
 
-  //                     4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
-  //                     8.09261138e-03 * (_pip_theta)-2.05315604e-01;
+                      4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
+                      8.09261138e-03 * (_pip_theta)-2.05315604e-01;
 
-  //   // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
-  //   //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
-  // }
-  // _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip;
+    // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
+    //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
+  }
+  _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip;
 
-  // _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
-  // _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
-  // _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
-  // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
-  // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+  _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+  _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
   if (abs(_data->status(i)) < 4000) {
     _sectorPip = _data->dc_sec(i);
-    // fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
-    fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
+    fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
+    // fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
 
   } else {
     fpip = 1.0;
   }
-  // _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
-  _pip->SetXYZM(_data->px(i)* fpip, _data->py(i)* fpip, _data->pz(i)* fpip, MASS_PIP);
+  _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
+  // _pip->SetXYZM(_data->px(i)* fpip, _data->py(i)* fpip, _data->pz(i)* fpip, MASS_PIP);
 
   // // if (abs(_data->status(i)) < 4000) {
 
@@ -1377,56 +1377,56 @@ void Reaction::SetPim(int i) {
 
   // // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   _pim_status = abs(_data->status(i));
-  // _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  // _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
-  // _pim_theta = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
+  _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
+  _pim_theta = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
 
-  // // // this is for energy loss corrections
+  // // this is for energy loss corrections
 
-  // if (abs(_data->status(i)) < 4000) {
-  //   _sectorPim = _data->dc_sec(i);
-  //   // fpim = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
+  if (abs(_data->status(i)) < 4000) {
+    _sectorPim = _data->dc_sec(i);
+    // fpim = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
 
-  //   if (_pim_theta <= 27) {
-  //     _E_corr_val_pim = -0.00035275 * pow(_pim_mom_uncorr, 3) + 0.00291237 * pow(_pim_mom_uncorr, 2) -
-  //                       0.00681058 * (_pim_mom_uncorr) + 0.00736721;
+    if (_pim_theta <= 27) {
+      _E_corr_val_pim = -0.00035275 * pow(_pim_mom_uncorr, 3) + 0.00291237 * pow(_pim_mom_uncorr, 2) -
+                        0.00681058 * (_pim_mom_uncorr) + 0.00736721;
 
-  //   } else {
-  //     _E_corr_val_pim = 0.00019358 * pow(_pim_mom_uncorr, 3) - 0.00103456 * pow(_pim_mom_uncorr, 2) +
-  //                       0.00024772 * (_pim_mom_uncorr) + 0.00735159;
-  //   }
-  // } else if (abs(_data->status(i)) >= 4000) {
-  //   // fpim = 1.0;
+    } else {
+      _E_corr_val_pim = 0.00019358 * pow(_pim_mom_uncorr, 3) - 0.00103456 * pow(_pim_mom_uncorr, 2) +
+                        0.00024772 * (_pim_mom_uncorr) + 0.00735159;
+    }
+  } else if (abs(_data->status(i)) >= 4000) {
+    // fpim = 1.0;
 
-  //   // _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
-  //   //                   (0.13271424) * pow(_pim_mom_uncorr, 4) +
-  //   //                   (0.27140262) * pow(_pim_mom_uncorr, 3) -
-  //   //                   (0.23266059) * pow(_pim_mom_uncorr, 2) +
-  //   //                   (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
+    // _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
+    //                   (0.13271424) * pow(_pim_mom_uncorr, 4) +
+    //                   (0.27140262) * pow(_pim_mom_uncorr, 3) -
+    //                   (0.23266059) * pow(_pim_mom_uncorr, 2) +
+    //                   (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
 
-  //   _E_corr_val_pim = (-4.94426765e-07 * pow(_pim_theta, 3) + 9.85729368e-05 * pow(_pim_theta, 2) +
-  //                      (-5.85778699e-03) * (_pim_theta) + 1.17447168e-01) *
-  //                         pow(_pim_mom_uncorr, 3) +
+    _E_corr_val_pim = (-4.94426765e-07 * pow(_pim_theta, 3) + 9.85729368e-05 * pow(_pim_theta, 2) +
+                       (-5.85778699e-03) * (_pim_theta) + 1.17447168e-01) *
+                          pow(_pim_mom_uncorr, 3) +
 
-  //                     (1.75953956e-06 * pow(_pim_theta, 3) + (-3.63382515e-04) * pow(_pim_theta, 2) +
-  //                      2.21447425e-02 * (_pim_theta) + (-4.54844509e-01)) *
-  //                         pow(_pim_mom_uncorr, 2) +
+                      (1.75953956e-06 * pow(_pim_theta, 3) + (-3.63382515e-04) * pow(_pim_theta, 2) +
+                       2.21447425e-02 * (_pim_theta) + (-4.54844509e-01)) *
+                          pow(_pim_mom_uncorr, 2) +
 
-  //                     (-1.90446515e-06 * pow(_pim_theta, 3) + 4.08768480e-04 * pow(_pim_theta, 2) +
-  //                      (-2.65277055e-02) * (_pim_theta) + 5.57286393e-01) *
-  //                         (_pim_mom_uncorr) +
+                      (-1.90446515e-06 * pow(_pim_theta, 3) + 4.08768480e-04 * pow(_pim_theta, 2) +
+                       (-2.65277055e-02) * (_pim_theta) + 5.57286393e-01) *
+                          (_pim_mom_uncorr) +
 
-  //                     2.05653097e-07 * pow(_pim_theta, 3) + (-5.44018546e-05) * pow(_pim_theta, 2) +
-  //                     4.61561853e-03 * (_pim_theta)-1.35303212e-01;
-  // }
+                      2.05653097e-07 * pow(_pim_theta, 3) + (-5.44018546e-05) * pow(_pim_theta, 2) +
+                      4.61561853e-03 * (_pim_theta)-1.35303212e-01;
+  }
 
-  // // _pim_mom = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
+  // _pim_mom = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
 
-  // _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim;  // first iteration
+  _pim_mom_tmt = _pim_mom_uncorr + _E_corr_val_pim;  // first iteration
 
-  // _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
-  // _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
-  // _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
+  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
   // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);  // energy loss corrected
   // _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
@@ -1434,13 +1434,13 @@ void Reaction::SetPim(int i) {
   if (abs(_data->status(i)) < 4000) {
     _sectorPim = _data->dc_sec(i);
     // std::cout << "pim sec is " << _data->dc_sec(i) <<std::endl;
-    // fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
-    fpim = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
+    fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
+    // fpim = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
   } else {
     fpim = 1.0;
   }
-  // _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
-  _pim->SetXYZM(_data->px(i)* fpim, _data->py(i)* fpim, _data->pz(i)* fpim, MASS_PIM);
+  _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
+  // _pim->SetXYZM(_data->px(i)* fpim, _data->py(i)* fpim, _data->pz(i)* fpim, MASS_PIM);
   // // if (abs(_data->status(i)) < 4000) {
 
   // //     _E_corr_val_pim_th = 0.00000000;
