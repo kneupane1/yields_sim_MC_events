@@ -139,7 +139,7 @@ struct csv_data {
     //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
     //        "status_Pip,status_Prot,weight";
 
-    return "stp,prot_mom_miss,prot_theta_miss,prot_phi_"
+    return "sec_elec,sec_pim,sec_pip,sec_prot,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
@@ -162,12 +162,14 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-     os << std::setprecision(7);
+     os << std::setprecision(1);
 
-    // os << data.electron_sector << ",";
-    // os << data.pim_sec << ",";
-    // os << data.pip_sec << ",";
-    // os << data.prot_sec << ",";
+    os << data.electron_sector << ",";
+    os << data.pim_sec << ",";
+    os << data.pip_sec << ",";
+    os << data.prot_sec << ",";
+
+    os << std::setprecision(7);
 
     // os << data.w << ",";
     // os << data.q2 << ",";
