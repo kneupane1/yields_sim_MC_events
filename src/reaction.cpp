@@ -1163,6 +1163,7 @@ void Reaction::SetPip(int i) {
   // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
   if (abs(_data->status(i)) < 4000) {
+    _sectorPip = _data->dc_sec(i);
     // fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
     fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
 
@@ -1375,7 +1376,7 @@ void Reaction::SetPim(int i) {
   _hasPim = true;
 
   // // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  // // // // _pim_status = abs(_data->status(i));
+  _pim_status = abs(_data->status(i));
   // _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   // _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
   // _pim_theta = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
@@ -1431,6 +1432,7 @@ void Reaction::SetPim(int i) {
   // _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
   if (abs(_data->status(i)) < 4000) {
+    _sectorPim = _data->dc_sec(i);
     // std::cout << "pim sec is " << _data->dc_sec(i) <<std::endl;
     // fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
     fpim = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
