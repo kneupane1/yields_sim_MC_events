@@ -901,28 +901,28 @@ void Reaction::SetProton(int i) {
     //                     (-2.53253135e-02) * (_prot_theta) + 1.93782983e-01);
 
   } else if (abs(_data->status(i)) >= 4000) {
-    // fpro = 1.0;
-    // _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
-    // a x ^ 2 bx c[-9.30990933e-05 1.23584235e-02 - 5.42538215e-01 7.87921215e+00]........................ a x
-    // ^
-    //     2 bx c[4.17955911e-04 - 5.53676478e-02 2.42642631e+00 - 3.51829220e+01]........................ a x ^
-    //     2 bx c[-5.58084320e-04 7.38670367e-02 - 3.23723227e+00 4.69456718e+01]........................ a x ^
-    //     2 bx c[2.40014720e-04 - 3.17071405e-02 1.38769727e+00 -2.01072704e+01]........................;
+    _E_corr_val_prot = 0.0;
+    // // _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
+    // // a x ^ 2 bx c[-9.30990933e-05 1.23584235e-02 - 5.42538215e-01 7.87921215e+00]........................ a x
+    // // ^
+    // //     2 bx c[4.17955911e-04 - 5.53676478e-02 2.42642631e+00 - 3.51829220e+01]........................ a x ^
+    // //     2 bx c[-5.58084320e-04 7.38670367e-02 - 3.23723227e+00 4.69456718e+01]........................ a x ^
+    // //     2 bx c[2.40014720e-04 - 3.17071405e-02 1.38769727e+00 -2.01072704e+01]........................;
 
-    _E_corr_val_prot = ((-9.30990933e-05) * pow(_prot_theta, 3) + (1.23584235e-02) * pow(_prot_theta, 2) +
-                        (-5.42538215e-01) * (_prot_theta) + 7.87921215e+00) *
-                           pow(_prot_mom_uncorr, 3) +
+    // _E_corr_val_prot = ((-9.30990933e-05) * pow(_prot_theta, 3) + (1.23584235e-02) * pow(_prot_theta, 2) +
+    //                     (-5.42538215e-01) * (_prot_theta) + 7.87921215e+00) *
+    //                        pow(_prot_mom_uncorr, 3) +
 
-                       (4.17955911e-04 * pow(_prot_theta, 3) + (-5.53676478e-02) * pow(_prot_theta, 2) +
-                        (2.42642631e+00) * (_prot_theta) + (-3.51829220e+01)) *
-                           pow(_prot_mom_uncorr, 2) +
+    //                    (4.17955911e-04 * pow(_prot_theta, 3) + (-5.53676478e-02) * pow(_prot_theta, 2) +
+    //                     (2.42642631e+00) * (_prot_theta) + (-3.51829220e+01)) *
+    //                        pow(_prot_mom_uncorr, 2) +
 
-                       ((-5.58084320e-04) * pow(_prot_theta, 3) + (7.38670367e-02) * pow(_prot_theta, 2) +
-                        (-3.23723227e+00) * (_prot_theta) + 4.69456718e+01) *
-                           (_prot_mom_uncorr) +
+    //                    ((-5.58084320e-04) * pow(_prot_theta, 3) + (7.38670367e-02) * pow(_prot_theta, 2) +
+    //                     (-3.23723227e+00) * (_prot_theta) + 4.69456718e+01) *
+    //                        (_prot_mom_uncorr) +
 
-                       ((2.40014720e-04) * pow(_prot_theta, 3) + (-3.17071405e-02) * pow(_prot_theta, 2) +
-                        (1.38769727e+00 * (_prot_theta)) + (-2.01072704e+01));
+    //                    ((2.40014720e-04) * pow(_prot_theta, 3) + (-3.17071405e-02) * pow(_prot_theta, 2) +
+    //                     (1.38769727e+00 * (_prot_theta)) + (-2.01072704e+01));
   }
 
   _prot_mom_tmt = _prot_mom_uncorr + _E_corr_val_prot;
@@ -1130,28 +1130,28 @@ void Reaction::SetPip(int i) {
                         0.0022871 * (_pip_mom_uncorr) + 0.00831496;
     }
   } else if (abs(_data->status(i)) >= 4000) {
-    // fpip = 1.0;
+    _E_corr_val_pip = 0.0;
 
-    // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
-    //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
-    //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
-    _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
-                       (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
-                          pow(_pip_mom_uncorr, 3) +
+    // // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
+    // //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
+    // //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
+    // _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
+    //                    (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
+    //                       pow(_pip_mom_uncorr, 3) +
 
-                      (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
-                       3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
-                          pow(_pip_mom_uncorr, 2) +
+    //                   (2.48202211e-06 * pow(_pip_theta, 3) + (-5.15757241e-04) * pow(_pip_theta, 2) +
+    //                    3.19833135e-02 * (_pip_theta) + (-6.53476057e-01)) *
+    //                       pow(_pip_mom_uncorr, 2) +
 
-                      (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
-                       (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
-                          (_pip_mom_uncorr) +
+    //                   (-2.71923009e-06 * pow(_pip_theta, 3) + 5.80375203e-04 * pow(_pip_theta, 2) +
+    //                    (-3.75941898e-02) * (_pip_theta) + 7.80443724e-01) *
+    //                       (_pip_mom_uncorr) +
 
-                      4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
-                      8.09261138e-03 * (_pip_theta)-2.05315604e-01;
+    //                   4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
+    //                   8.09261138e-03 * (_pip_theta)-2.05315604e-01;
 
-    // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
-    //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
+    // // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
+    // //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
   }
   _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip;
 
@@ -1396,28 +1396,28 @@ void Reaction::SetPim(int i) {
                         0.00024772 * (_pim_mom_uncorr) + 0.00735159;
     }
   } else if (abs(_data->status(i)) >= 4000) {
-    // fpim = 1.0;
+    _E_corr_val_pim = 0.0;
 
-    // _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
-    //                   (0.13271424) * pow(_pim_mom_uncorr, 4) +
-    //                   (0.27140262) * pow(_pim_mom_uncorr, 3) -
-    //                   (0.23266059) * pow(_pim_mom_uncorr, 2) +
-    //                   (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
+    // // _E_corr_val_pim = (0.02153442) * pow(_pim_mom_uncorr, 5) -
+    // //                   (0.13271424) * pow(_pim_mom_uncorr, 4) +
+    // //                   (0.27140262) * pow(_pim_mom_uncorr, 3) -
+    // //                   (0.23266059) * pow(_pim_mom_uncorr, 2) +
+    // //                   (0.04031421) * (_pim_mom_uncorr) + 0.0036634;
 
-    _E_corr_val_pim = (-4.94426765e-07 * pow(_pim_theta, 3) + 9.85729368e-05 * pow(_pim_theta, 2) +
-                       (-5.85778699e-03) * (_pim_theta) + 1.17447168e-01) *
-                          pow(_pim_mom_uncorr, 3) +
+    // _E_corr_val_pim = (-4.94426765e-07 * pow(_pim_theta, 3) + 9.85729368e-05 * pow(_pim_theta, 2) +
+    //                    (-5.85778699e-03) * (_pim_theta) + 1.17447168e-01) *
+    //                       pow(_pim_mom_uncorr, 3) +
 
-                      (1.75953956e-06 * pow(_pim_theta, 3) + (-3.63382515e-04) * pow(_pim_theta, 2) +
-                       2.21447425e-02 * (_pim_theta) + (-4.54844509e-01)) *
-                          pow(_pim_mom_uncorr, 2) +
+    //                   (1.75953956e-06 * pow(_pim_theta, 3) + (-3.63382515e-04) * pow(_pim_theta, 2) +
+    //                    2.21447425e-02 * (_pim_theta) + (-4.54844509e-01)) *
+    //                       pow(_pim_mom_uncorr, 2) +
 
-                      (-1.90446515e-06 * pow(_pim_theta, 3) + 4.08768480e-04 * pow(_pim_theta, 2) +
-                       (-2.65277055e-02) * (_pim_theta) + 5.57286393e-01) *
-                          (_pim_mom_uncorr) +
+    //                   (-1.90446515e-06 * pow(_pim_theta, 3) + 4.08768480e-04 * pow(_pim_theta, 2) +
+    //                    (-2.65277055e-02) * (_pim_theta) + 5.57286393e-01) *
+    //                       (_pim_mom_uncorr) +
 
-                      2.05653097e-07 * pow(_pim_theta, 3) + (-5.44018546e-05) * pow(_pim_theta, 2) +
-                      4.61561853e-03 * (_pim_theta)-1.35303212e-01;
+    //                   2.05653097e-07 * pow(_pim_theta, 3) + (-5.44018546e-05) * pow(_pim_theta, 2) +
+    //                   4.61561853e-03 * (_pim_theta)-1.35303212e-01;
   }
 
   // _pim_mom = _pim_mom_uncorr + _E_corr_val_pim; // first iteration
