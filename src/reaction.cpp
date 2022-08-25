@@ -566,14 +566,9 @@ void Reaction::SetProton(int i) {
         if (_prot_phi > 270 || _prot_phi <= 30)
           _prot_mom_prime = _prot_mom - prot_mom_corr_CD[0][m] * alpha_prot_mom_corr_CD[0];
         else if (_prot_phi > 30 && _prot_phi <= 150) {
-          if (_pim_mom < 2.0)
-            _prot_mom_prime = _prot_mom - prot_mom_corr_CD[1][m] * alpha_prot_mom_corr_CD[1];
-            else
-              _prot_mom_prime = _prot_mom - prot_mom_corr_CD[1][m] * alpha_prot_mom_corr_CD[2];
+              _prot_mom_prime = _prot_mom - prot_mom_corr_CD[1][m] * alpha_prot_mom_corr_CD[1];
         } else if (_prot_phi > 150 && _prot_phi <= 270) {
-          if (_pim_mom < 2.0) _prot_mom_prime = _prot_mom - prot_mom_corr_CD[2][m] * alpha_prot_mom_corr_CD[3];
-          else
-            _prot_mom_prime = _prot_mom - prot_mom_corr_CD[2][m] * alpha_prot_mom_corr_CD[4];}
+           _prot_mom_prime = _prot_mom - prot_mom_corr_CD[2][m] * alpha_prot_mom_corr_CD[2];}
         }
     }
   }
@@ -1107,12 +1102,11 @@ void Reaction::SetPim(int i) {
         if (_pim_mom > mom_min && _pim_mom < mom_max) {
           //   // For experimental data
           if (_pim_phi > 270 || _pim_phi <= 30){
-            if (_pim_mom < 1.1) _pim_mom_prime = _pim_mom - pim_mom_corr_CD[0][m] * alpha_pim_mom_corr_CD[0];
-            else if (_pim_mom >= 1.1) _pim_mom_prime = _pim_mom - pim_mom_corr_CD[0][m] * alpha_pim_mom_corr_CD[1];
+             _pim_mom_prime = _pim_mom - pim_mom_corr_CD[0][m] * alpha_pim_mom_corr_CD[0];
           } else if (_pim_phi > 30 && _pim_phi <= 150)
-            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[1][m] * alpha_pim_mom_corr_CD[2];
+            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[1][m] * alpha_pim_mom_corr_CD[1];
           else if (_pim_phi > 150 && _pim_phi <= 270)
-            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[2][m] * alpha_pim_mom_corr_CD[3];
+            _pim_mom_prime = _pim_mom - pim_mom_corr_CD[2][m] * alpha_pim_mom_corr_CD[2];
         }
       }
     }
