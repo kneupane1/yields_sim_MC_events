@@ -62,446 +62,6 @@ double Reaction::dppC(float Px, float Py, float Pz, int sec, int ivec) {
   // ivec = 2 --> Pi- Corrections
   // ivec = 3 --> Proton Corrections
 
-  //   // Momentum Magnitude
-  //   double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
-
-  //   // Initializing the correction factor
-  //   double dp = 0;
-
-  //   // Defining Phi Angle
-  //   double Phi = (180 / 3.1415926) * atan2(Py, Px);
-
-  //   // (Initial) Shift of the Phi Angle (done to realign sectors whose data is separated when plotted from ±180˚)
-  //   if (((sec == 4 || sec == 3) && Phi < 0) || (sec > 4 && Phi < 90)) {
-  //     Phi += 360;
-  //   }
-
-  //   // Getting Local Phi Angle
-  //   double PhiLocal = Phi - (sec - 1) * 60;
-
-  //   // Applying Shift Functions to Phi Angles (local shifted phi = phi)
-  //   double phi = PhiLocal;
-
-  //   // For Electron Shift
-  //   if (ivec == 0) {
-  //     phi = PhiLocal - 30 / pp;
-  //   }
-
-  //   // For Pi+ Pion/Proton Shift
-  //   if (ivec == 1 || ivec == 3) {
-  //     phi = PhiLocal + (32 / (pp - 0.05));
-  //   }
-
-  //   // For Pi- Pion Shift
-  //   if (ivec == 2) {
-  //     phi = PhiLocal - (32 / (pp - 0.05));
-  //   }
-
-  //   //==========//  PARTICLE = ELECTRON  //==========//
-
-  //   if (ivec == 0) {
-  //     if (sec == 1) {
-  //       dp = ((1.57e-06) * phi * phi + (5.021e-05) * phi + (-1.74089e-03)) * pp * pp +
-  //            ((-2.192e-05) * phi * phi + (-1.12528e-03) * phi + (0.0146476)) * pp +
-  //            ((8.504e-05) * phi * phi + (2.08012e-03) * phi + (-0.0122501));
-  //     }
-
-  //     if (sec == 2) {
-  //       dp = ((-3.98e-06) * phi * phi + (1.66e-05) * phi + (-1.55918e-03)) * pp * pp +
-  //            ((2.136e-05) * phi * phi + (-5.7373e-04) * phi + (0.0143591)) * pp +
-  //            ((2.4e-06) * phi * phi + (1.6656e-03) * phi + (-0.0218711));
-  //     }
-
-  //     if (sec == 3) {
-  //       dp = ((5.57e-06) * phi * phi + (2.3e-07) * phi + (-2.26999e-03)) * pp * pp +
-  //            ((-7.761e-05) * phi * phi + (4.1437e-04) * phi + (0.0152985)) * pp +
-  //            ((2.2542e-04) * phi * phi + (-9.442e-04) * phi + (-0.0231432));
-  //     }
-
-  //     if (sec == 4) {
-  //       dp = ((3.48e-06) * phi * phi + (2.166e-05) * phi + (-2.29e-04)) * pp * pp +
-  //            ((-2.758e-05) * phi * phi + (7.226e-05) * phi + (-3.38e-03)) * pp +
-  //            ((3.166e-05) * phi * phi + (6.93e-05) * phi + (0.04767));
-  //     }
-
-  //     if (sec == 5) {
-  //       dp = ((1.19e-06) * phi * phi + (-2.286e-05) * phi + (-1.6332e-04)) * pp * pp +
-  //            ((-1.05e-06) * phi * phi + (7.04e-05) * phi + (-5.0754e-03)) * pp +
-  //            ((-7.22e-06) * phi * phi + (4.1748e-04) * phi + (0.04441));
-  //     }
-
-  //     if (sec == 6) {
-  //       dp = ((-5.97e-06) * phi * phi + (-3.689e-05) * phi + (5.782e-05)) * pp * pp +
-  //            ((6.573e-05) * phi * phi + (2.1376e-04) * phi + (-9.54576e-03)) * pp +
-  //            ((-1.7732e-04) * phi * phi + (-8.62e-04) * phi + (0.0618975));
-  //     }
-  //   }
-
-  //   //==========//  PARTICLE = ELECTRON (END)  //==========//
-
-  //   //==========//  PARTICLE = PI+ PION  //==========//
-
-  //   if (ivec == 1) {
-  //     if (sec == 1) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((-6.2e-07) * phi * phi + (-2.4e-06) * phi + (3.3867e-04)) * pp * pp +
-  //            ((8.66e-06) * phi * phi + (3.8389e-04) * phi + (-5.732e-03)) * pp +
-  //            ((-1.607e-05) * phi * phi + (-4.9186e-04) * phi + (0.01490708));
-
-  //       dp = dp + ((2.12e-06) * phi * phi + (-6.48e-06) * phi + (-3.0978e-04)) * pp * pp +
-  //            ((-1.717e-05) * phi * phi + (6.22e-06) * phi + (2.892e-03)) * pp +
-  //            ((2.56e-05) * phi * phi + (6.209e-05) * phi + (-3.692e-03));
-
-  //       dp = dp + ((-1.3e-06) * phi * phi + (-2.01e-06) * phi + (3.6961e-04)) * pp * pp +
-  //            ((1.103e-05) * phi * phi + (4.46e-06) * phi + (-3.5553e-03)) * pp +
-  //            ((-2.272e-05) * phi * phi + (-1.788e-05) * phi + (8.2909e-03));
-
-  //       dp = dp + ((-4.1e-07) * phi * phi + (-9.8e-07) * phi + (-1.71e-06)) * pp * pp +
-  //            ((3.13e-06) * phi * phi + (-1.651e-05) * phi + (3.055e-04)) * pp +
-  //            ((2.5e-07) * phi * phi + (-2.298e-05) * phi + (-1.09082e-03));
-
-  //       dp = dp + ((-3.1e-07) * phi * phi + (-1.96e-06) * phi + (7.5e-05)) * pp * pp +
-  //            ((2.68e-06) * phi * phi + (1.043e-05) * phi + (-7.2339e-04)) * pp +
-  //            ((-3.51e-06) * phi * phi + (-2.994e-05) * phi + (1.48688e-03));
-  //     }
-
-  //     if (sec == 2) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((2.38e-06) * phi * phi + (6.164e-05) * phi + (1.7685e-04)) * pp * pp +
-  //            ((-1.336e-05) * phi * phi + (-1.0139e-04) * phi + (-3.65463e-03)) * pp +
-  //            ((8.22e-06) * phi * phi + (-2.3904e-04) * phi + (6.66967e-03));
-
-  //       dp = dp + ((-2.99e-06) * phi * phi + (-3.46e-06) * phi + (8.3225e-04)) * pp * pp +
-  //            ((2.08e-05) * phi * phi + (-8.059e-05) * phi + (-7.9052e-03)) * pp +
-  //            ((-2.799e-05) * phi * phi + (3.0292e-04) * phi + (0.0169132));
-
-  //       dp = dp + ((-1.2e-07) * phi * phi + (-2.241e-05) * phi + (-1.3058e-04)) * pp * pp +
-  //            ((-1.21e-06) * phi * phi + (1.3224e-04) * phi + (1.5422e-03)) * pp +
-  //            ((7.43e-06) * phi * phi + (-1.3034e-04) * phi + (-3.34406e-03));
-
-  //       dp = dp + ((-9.7e-07) * phi * phi + (-1.14e-06) * phi + (2.3808e-04)) * pp * pp +
-  //            ((8.14e-06) * phi * phi + (3.86e-06) * phi + (-2.41185e-03)) * pp +
-  //            ((-1.481e-05) * phi * phi + (-3.1e-05) * phi + (5.53527e-03));
-
-  //       dp = dp + ((-1.8e-07) * phi * phi + (-1.6e-06) * phi + (1.65e-05)) * pp * pp +
-  //            ((1.32e-06) * phi * phi + (6.14e-06) * phi + (-1.5742e-04)) * pp +
-  //            ((-1.88e-06) * phi * phi + (-8.92e-06) * phi + (3.7879e-04));
-  //     }
-
-  //     if (sec == 3) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((2.49e-06) * phi * phi + (-4.841e-05) * phi + (2.8506e-04)) * pp * pp +
-  //            ((-9.06e-06) * phi * phi + (1.2071e-04) * phi + (-3.07157e-03)) * pp +
-  //            ((4.81e-06) * phi * phi + (2.85e-06) * phi + (8.91138e-03));
-
-  //       dp = dp + ((-2.35e-06) * phi * phi + (3.44e-05) * phi + (3.4527e-04)) * pp * pp +
-  //            ((2.068e-05) * phi * phi + (-2.005e-04) * phi + (-4.6252e-03)) * pp +
-  //            ((-4.26e-05) * phi * phi + (2.2642e-04) * phi + (0.01231));
-
-  //       dp = dp + ((-9e-07) * phi * phi + (1.367e-05) * phi + (1.6897e-04)) * pp * pp +
-  //            ((7.27e-06) * phi * phi + (-9.074e-05) * phi + (-1.39503e-03)) * pp +
-  //            ((-1.275e-05) * phi * phi + (1.316e-04) * phi + (2.2438e-03));
-
-  //       dp = dp + ((8.7e-07) * phi * phi + (-8e-06) * phi + (-8.044e-05)) * pp * pp +
-  //            ((-9.43e-06) * phi * phi + (9.486e-05) * phi + (8.8623e-04)) * pp +
-  //            ((2.283e-05) * phi * phi + (-2.1403e-04) * phi + (-2.10146e-03));
-
-  //       dp = dp + ((1.3e-07) * phi * phi + (-2.06e-06) * phi + (-1.022e-05)) * pp * pp +
-  //            ((-1.46e-06) * phi * phi + (2.411e-05) * phi + (8.388e-05)) * pp +
-  //            ((3.51e-06) * phi * phi + (-5.756e-05) * phi + (-4.141e-05));
-  //     }
-
-  //     if (sec == 4) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((3.03e-06) * phi * phi + (-3.98e-06) * phi + (1.24811e-03)) * pp * pp +
-  //            ((-8.87e-06) * phi * phi + (3.0e-07) * phi + (-0.01203987)) * pp +
-  //            ((-8.3e-07) * phi * phi + (1.2562e-04) * phi + (0.02730945));
-
-  //       dp = dp + ((-2.25e-06) * phi * phi + (-9.05e-06) * phi + (3.837e-05)) * pp * pp +
-  //            ((1.656e-05) * phi * phi + (5.745e-05) * phi + (-1.3013e-03)) * pp +
-  //            ((-3.035e-05) * phi * phi + (-8.443e-05) * phi + (5.295e-03));
-
-  //       dp = dp + ((3.1e-07) * phi * phi + (-1.313e-05) * phi + (-2.7121e-04)) * pp * pp +
-  //            ((-3.49e-06) * phi * phi + (9.059e-05) * phi + (2.3969e-03)) * pp +
-  //            ((6.43e-06) * phi * phi + (-9.583e-05) * phi + (-4.0804e-03));
-
-  //       dp = dp + ((-4.8e-07) * phi * phi + (-3.41e-06) * phi + (1.9609e-04)) * pp * pp +
-  //            ((1.56e-06) * phi * phi + (2.632e-05) * phi + (-1.44602e-03)) * pp +
-  //            ((3.17e-06) * phi * phi + (-2.63e-05) * phi + (2.6809e-03));
-
-  //       dp = dp + ((-6.5e-07) * phi * phi + (-6.33e-06) * phi + (1.101e-04)) * pp * pp +
-  //            ((4.47e-06) * phi * phi + (4.733e-05) * phi + (-9.1397e-04)) * pp +
-  //            ((-6.43e-06) * phi * phi + (-7.666e-05) * phi + (1.59452e-03));
-  //     }
-
-  //     if (sec == 5) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((6.33e-06) * phi * phi + (1.607e-05) * phi + (-2.2161e-04)) * pp * pp +
-  //            ((-5.05e-05) * phi * phi + (-9.049e-05) * phi + (9.6753e-04)) * pp +
-  //            ((1.0928e-04) * phi * phi + (1.2416e-04) * phi + (-0.01023377));
-
-  //       dp = dp + ((-4.5e-07) * phi * phi + (-6.42e-06) * phi + (5.021e-05)) * pp * pp +
-  //            ((4.9e-06) * phi * phi + (5.907e-05) * phi + (-1.0226e-03)) * pp +
-  //            ((-1.21e-05) * phi * phi + (-1.1515e-04) * phi + (3.9894e-03));
-
-  //       dp = dp + ((6e-07) * phi * phi + (-1.054e-05) * phi + (-4.725e-05)) * pp * pp +
-  //            ((-5.61e-06) * phi * phi + (1.0622e-04) * phi + (6.8259e-04)) * pp +
-  //            ((1.065e-05) * phi * phi + (-2.1664e-04) * phi + (-1.5396e-03));
-
-  //       dp = dp + ((5.5e-07) * phi * phi + (6.89e-06) * phi + (-7.51e-06)) * pp * pp +
-  //            ((-4.29e-06) * phi * phi + (-7.935e-05) * phi + (-7.698e-05)) * pp +
-  //            ((7.89e-06) * phi * phi + (1.5742e-04) * phi + (1.52222e-03));
-
-  //       dp = dp + ((-4.33e-06) * phi * phi + (-9.7e-07) * phi + (1.82284e-03)) * pp * pp +
-  //            ((4.27e-05) * phi * phi + (2.56e-06) * phi + (-0.01770834)) * pp +
-  //            ((-9.481e-05) * phi * phi + (8.81e-06) * phi + (0.03880514));
-  //     }
-
-  //     if (sec == 6) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((4.87e-06) * phi * phi + (-8.83e-05) * phi + (1.94282e-03)) * pp * pp +
-  //            ((-2.412e-05) * phi * phi + (6.0476e-04) * phi + (-0.01370525)) * pp +
-  //            ((2.318e-05) * phi * phi + (-6.665e-04) * phi + (0.03056206));
-
-  //       dp = dp + ((-5.9e-07) * phi * phi + (1.391e-05) * phi + (-7.5974e-04)) * pp * pp +
-  //            ((2.62e-06) * phi * phi + (-6.794e-05) * phi + (5.3699e-03)) * pp +
-  //            ((-3.38e-06) * phi * phi + (7.579e-05) * phi + (-6.5997e-03));
-
-  //       dp = dp + ((-6.1e-07) * phi * phi + (-1.245e-05) * phi + (3.0939e-04)) * pp * pp +
-  //            ((4.26e-06) * phi * phi + (9.574e-05) * phi + (-2.08024e-03)) * pp +
-  //            ((-3.25e-06) * phi * phi + (-1.0427e-04) * phi + (9.967e-04));
-
-  //       dp = dp + ((-7.8e-07) * phi * phi + (8.1e-06) * phi + (8.971e-05)) * pp * pp +
-  //            ((4.56e-06) * phi * phi + (-2.082e-05) * phi + (-1.1163e-03)) * pp +
-  //            ((-7.55e-06) * phi * phi + (-7.662e-05) * phi + (4.17743e-03));
-
-  //       dp = dp + ((-7.6e-07) * phi * phi + (3.84e-06) * phi + (1.7347e-04)) * pp * pp +
-  //            ((5.31e-06) * phi * phi + (-2.952e-05) * phi + (-1.265e-03)) * pp +
-  //            ((-8.51e-06) * phi * phi + (4.907e-05) * phi + (2.01338e-03));
-  //     }
-  //   }
-
-  //   //==========//  PARTICLE = PI+ PION (END)  //==========//
-
-  //   //==========//  PARTICLE = PI- PION  //==========//
-
-  //   if (ivec == 2) {
-  //     if (sec == 1) {
-  //       // std::cout << " " << sec << " " << Phi << std::endl;
-  //       // std::cout << " " << sec << " " << Phi << std::endl;
-
-  //       dp = ((-4.0192658422317425e-06) * phi * phi - (2.660222128967742e-05) * phi + 0.004774434682983547) * pp *
-  //       pp; dp = dp + ((1.9549520962477972e-05) * phi * phi - 0.0002456062756770577 * phi - 0.03787692408323466) *
-  //       pp; dp = dp + (-2.128953094937459e-05) * phi * phi + 0.0002461708852239913 * phi + 0.08060704449822174 -
-  //       0.01;
-  //     }
-
-  //     if (sec == 2) {
-  //       dp = ((1.193010521758372e-05) * phi * phi - (5.996221756031922e-05) * phi + 0.0009093437955814359) * pp * pp;
-  //       dp = dp + ((-4.89113824430594e-05) * phi * phi + 0.00021676479488147118 * phi - 0.01861892053916726) * pp;
-  //       dp = dp + (4.446394152208071e-05) * phi * phi - (3.6592784167335244e-05) * phi + 0.05498710249944096 - 0.01;
-  //     }
-
-  //     if (sec == 3) {
-  //       dp = ((-1.6596664895992133e-07) * phi * phi + (6.317189710683516e-05) * phi + 0.0016364212312654086) * pp *
-  //       pp; dp = dp + ((-2.898409777520318e-07) * phi * phi - 0.00014531513577533802 * phi - 0.025456145839203827) *
-  //       pp; dp = dp + (2.6432552410603506e-06) * phi * phi + 0.00018447151306275443 * phi + 0.06442602664627255 -
-  //       0.01;
-  //     }
-
-  //     if (sec == 4) {
-  //       dp = ((2.4035259647558634e-07) * phi * phi - (8.649647351491232e-06) * phi + 0.004558993439848128) * pp * pp;
-  //       dp = dp + ((-5.981498144060984e-06) * phi * phi + 0.00010582131454222416 * phi - 0.033572004651981686) * pp;
-  //       dp = dp + (8.70140266889548e-06) * phi * phi - 0.00020137414379966883 * phi + 0.07258774523336173 - 0.01;
-  //     }
-
-  //     if (sec == 5) {
-  //       dp = ((2.5817024702834863e-06) * phi * phi + 0.00010132810066914441 * phi + 0.003397314538804711) * pp * pp;
-  //       dp = dp + ((-1.5116941263931812e-05) * phi * phi - 0.00040679799541839254 * phi - 0.028144285760769876) * pp;
-  //       dp = dp + (1.4701931057951464e-05) * phi * phi + 0.0002426350390593454 * phi + 0.06781682510174941 - 0.01;
-  //     }
-
-  //     if (sec == 6) {
-  //       dp = ((-8.196823669099362e-07) * phi * phi - (5.280412421933636e-05) * phi + 0.0018457238328451137) * pp *
-  //       pp; dp = dp + ((5.2675062282094536e-06) * phi * phi + 0.0001515803461044587 * phi - 0.02294371578470564) *
-  //       pp; dp = dp + (-9.459454671739747e-06) * phi * phi - 0.0002389523716779765 * phi + 0.06428970810739926 -
-  //       0.01;
-  //     }
-  //   }
-
-  //   //==========//  PARTICLE = PI- PION (END)  //==========//
-
-  //   //==========//  PARTICLE = PROTON  //==========//
-
-  //   if (ivec == 3) {
-  //     if (sec == 1) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((3.54e-06) * phi * phi + (0.00012741) * phi + (-0.00169485)) * pp * pp +
-  //            ((-6.8e-06) * phi * phi + (-0.00018409) * phi + (0.00756841)) * pp +
-  //            ((3.49e-06) * phi * phi + (6.297e-05) * phi + (-0.00334762));
-  //       dp = dp + ((-1.857e-05) * phi * phi + (-1.14e-04) * phi + (4.346e-03)) * pp * pp +
-  //            ((5.978e-05) * phi * phi + (3.776e-04) * phi + (-0.0192)) * pp +
-  //            ((-3.864e-05) * phi * phi + (-2.651e-04) * phi + (0.0163));
-  //       dp = dp + ((9.05e-06) * phi * phi + (-0.00011072) * phi + (-0.0019497)) * pp * pp +
-  //            ((-2.473e-05) * phi * phi + (0.00025581) * phi + (0.006382)) * pp +
-  //            ((1.288e-05) * phi * phi + (-0.00012678) * phi + (-0.0034358));
-  //       dp = dp + ((-4.88e-06) * phi * phi + (0.00015119) * phi + (0.00157759)) * pp * pp +
-  //            ((1.467e-05) * phi * phi + (-0.00032185) * phi + (-0.00770597)) * pp +
-  //            ((-1.062e-05) * phi * phi + (0.00016935) * phi + (0.00680068));
-  //       dp = dp + ((-6.48e-06) * phi * phi + (9.682e-05) * phi + (0.00122778)) * pp * pp +
-  //            ((2.14e-05) * phi * phi + (-0.00026216) * phi + (-0.00452799)) * pp +
-  //            ((-1.54e-05) * phi * phi + (0.00013753) * phi + (0.00366475));
-  //     }
-
-  //     if (sec == 2) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((-7.51e-06) * phi * phi + (7.449e-05) * phi + (-0.00193523)) * pp * pp +
-  //            ((1.372e-05) * phi * phi + (-0.00033226) * phi + (0.01605589)) * pp +
-  //            ((-2.27e-06) * phi * phi + (0.00017048) * phi + (-0.01159601));
-  //       dp = dp + ((-2e-07) * phi * phi + (1.393e-04) * phi + (-9.325e-04)) * pp * pp +
-  //            ((3.51e-06) * phi * phi + (-4.582e-04) * phi + (-2.414e-03)) * pp +
-  //            ((1.13e-06) * phi * phi + (3.343e-04) * phi + (4.76e-03));
-  //       dp = dp + ((3.84e-06) * phi * phi + (-1.841e-05) * phi + (0.00085236)) * pp * pp +
-  //            ((-1.049e-05) * phi * phi + (3.949e-05) * phi + (-0.0024575)) * pp +
-  //            ((7.08e-06) * phi * phi + (-2.962e-05) * phi + (0.00084752));
-  //       dp = dp + ((1.51e-06) * phi * phi + (-8.957e-05) * phi + (-0.0029601)) * pp * pp +
-  //            ((-1.07e-05) * phi * phi + (0.00022399) * phi + (0.0077783)) * pp +
-  //            ((1.042e-05) * phi * phi + (-0.00015105) * phi + (-0.00291493));
-  //       dp = dp + ((2.57e-06) * phi * phi + (-1.635e-05) * phi + (-0.00105274)) * pp * pp +
-  //            ((-8.65e-06) * phi * phi + (4.65e-05) * phi + (0.00267734)) * pp +
-  //            ((5.91e-06) * phi * phi + (-2.431e-05) * phi + (-0.00144716));
-  //     }
-
-  //     if (sec == 3) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((-1.192e-05) * phi * phi + (5.745e-05) * phi + (0.00184011)) * pp * pp +
-  //            ((3.226e-05) * phi * phi + (-0.00017688) * phi + (0.00281795)) * pp +
-  //            ((-1.339e-05) * phi * phi + (0.00010705) * phi + (-0.00584473));
-  //       dp = dp + ((1.153e-05) * phi * phi + (-4.931e-05) * phi + (-5.09e-03)) * pp * pp +
-  //            ((-3.071e-05) * phi * phi + (7.061e-05) * phi + (6.413e-03)) * pp +
-  //            ((1.525e-05) * phi * phi + (3.982e-05) * phi + (2.289e-03));
-  //       dp = dp + ((2.49e-06) * phi * phi + (-2.58e-05) * phi + (-0.00047769)) * pp * pp +
-  //            ((-6.8e-06) * phi * phi + (7.153e-05) * phi + (0.0012909)) * pp +
-  //            ((3.31e-06) * phi * phi + (-5.431e-05) * phi + (-0.00023919));
-  //       dp = dp + ((4.49e-06) * phi * phi + (-0.00019179) * phi + (0.00160744)) * pp * pp +
-  //            ((-8.79e-06) * phi * phi + (0.00055794) * phi + (-0.0092487)) * pp +
-  //            ((1.43e-06) * phi * phi + (-0.00031925) * phi + (0.00929164));
-  //       dp = dp + ((7.71e-06) * phi * phi + (-2.683e-05) * phi + (-0.00231227)) * pp * pp +
-  //            ((-2.053e-05) * phi * phi + (3.837e-05) * phi + (0.00664668)) * pp +
-  //            ((1.225e-05) * phi * phi + (-7.91e-06) * phi + (-0.00462877));
-  //     }
-
-  //     if (sec == 4) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((1.02e-06) * phi * phi + (-5.753e-05) * phi + (-0.00116896)) * pp * pp +
-  //            ((6.6e-07) * phi * phi + (0.00027025) * phi + (0.01147826)) * pp +
-  //            ((5.7e-07) * phi * phi + (-0.00018222) * phi + (-0.01011935));
-  //       dp = dp + ((-1.496e-05) * phi * phi + (5.225e-05) * phi + (1.183e-03)) * pp * pp +
-  //            ((4.374e-05) * phi * phi + (-1.675e-04) * phi + (-8.0593e-03)) * pp +
-  //            ((-3.157e-05) * phi * phi + (1.325e-04) * phi + (9.979e-03));
-  //       dp = dp + ((5e-07) * phi * phi + (-1.454e-05) * phi + (-0.0007149)) * pp * pp +
-  //            ((5.47e-06) * phi * phi + (7.743e-05) * phi + (0.00068488)) * pp +
-  //            ((-7.88e-06) * phi * phi + (-8.695e-05) * phi + (7.4e-05));
-  //       dp = dp + ((7.8e-07) * phi * phi + (0.00011795) * phi + (0.00165541)) * pp * pp +
-  //            ((-3.13e-06) * phi * phi + (-0.00042059) * phi + (-0.00798432)) * pp +
-  //            ((6.23e-06) * phi * phi + (0.00033604) * phi + (0.00680092));
-  //       dp = dp + ((-3.98e-06) * phi * phi + (-2.054e-05) * phi + (0.00014266)) * pp * pp +
-  //            ((1.058e-05) * phi * phi + (6.702e-05) * phi + (-0.00055213)) * pp +
-  //            ((-8.63e-06) * phi * phi + (-8.036e-05) * phi + (0.00105203));
-  //     }
-
-  //     if (sec == 5) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((8.52e-06) * phi * phi + (-0.00019083) * phi + (-0.00545608)) * pp * pp +
-  //            ((-2.943e-05) * phi * phi + (0.00051946) * phi + (0.01909462)) * pp +
-  //            ((2.152e-05) * phi * phi + (-0.00028127) * phi + (-0.01224992));
-  //       dp = dp + ((-7.62e-06) * phi * phi + (4.846e-05) * phi + (1.713e-03)) * pp * pp +
-  //            ((1.092e-05) * phi * phi + (-4.886e-05) * phi + (-8.412e-03)) * pp +
-  //            ((5.17e-06) * phi * phi + (-2.448e-05) * phi + (5.572e-03));
-  //       dp = dp + ((4.63e-06) * phi * phi + (8.79e-06) * phi + (-0.0016709)) * pp * pp +
-  //            ((-1.308e-05) * phi * phi + (-3.022e-05) * phi + (0.0046265)) * pp +
-  //            ((7.58e-06) * phi * phi + (1.813e-05) * phi + (-0.0026691));
-  //       dp = dp + ((-1.6e-07) * phi * phi + (-3.7e-06) * phi + (0.00249659)) * pp * pp +
-  //            ((9e-06) * phi * phi + (-2.182e-05) * phi + (-0.012996)) * pp +
-  //            ((-1.66e-05) * phi * phi + (-1.649e-05) * phi + (0.01366649));
-  //       dp = dp + ((-3.89e-06) * phi * phi + (-8.14e-06) * phi + (0.00086004)) * pp * pp +
-  //            ((1.439e-05) * phi * phi + (4.012e-05) * phi + (-0.00281493)) * pp +
-  //            ((-1.111e-05) * phi * phi + (-3.062e-05) * phi + (0.00129624));
-  //     }
-
-  //     if (sec == 6) {
-  //       // The following lines should be added up in the order given for the full correction
-  //       // Applying this code as given will give the exact corrections of this analysis
-  //       // These parameters will be combined into a single line at a later point
-
-  //       dp = ((-6.8e-06) * phi * phi + (-9.966e-05) * phi + (0.00217971)) * pp * pp +
-  //            ((1.846e-05) * phi * phi + (0.000334) * phi + (-0.00358955)) * pp +
-  //            ((-7.83e-06) * phi * phi + (-0.00022134) * phi + (0.00280734));
-  //       dp = dp + ((-3.43e-06) * phi * phi + (3.171e-04) * phi + (-1.572e-03)) * pp * pp +
-  //            ((1.799e-05) * phi * phi + (-8.219e-04) * phi + (-2.945e-03)) * pp +
-  //            ((-9.34e-06) * phi * phi + (3.74e-04) * phi + (5.1794e-03));
-  //       dp = dp + ((-3.64e-06) * phi * phi + (1.113e-05) * phi + (0.0014469)) * pp * pp +
-  //            ((1.031e-05) * phi * phi + (-2.765e-05) * phi + (-0.0041404)) * pp +
-  //            ((-5.83e-06) * phi * phi + (-3.08e-06) * phi + (0.0024571));
-  //       dp = dp + ((1.969e-05) * phi * phi + (-6.395e-05) * phi + (-0.00457687)) * pp * pp +
-  //            ((-5.808e-05) * phi * phi + (0.00018976) * phi + (0.01091338)) * pp +
-  //            ((3.344e-05) * phi * phi + (-0.00015701) * phi + (-0.00426004));
-  //       dp = dp + ((2.39e-06) * phi * phi + (3.47e-06) * phi + (0.00087654)) * pp * pp +
-  //            ((-7.18e-06) * phi * phi + (4.082e-05) * phi + (-0.00295533)) * pp +
-  //            ((2.94e-06) * phi * phi + (-4.526e-05) * phi + (0.00265678));
-  //     }
-  //   }
-
-  //   // ==========//  PARTICLE = PROTON (END)  //==========//
-
-  //   return dp / pp;
-  // };
-
-  // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-  // // auto fe = dppC(ex, ey, ez, esec, 0) + 1;
-  // // auto fpip = dppC(pipx, pipy, pipz, pipsec, 1) + 1;
-  // // auto fpim = dppC(pimx, pimy, pimz, pimsec, 2) + 1;
-  // // auto fpro = dppC(prox, proy, proz, prosec, 3) + 1;
-
-  // // auto eleC = ROOT::Math::PxPyPzMVector(ex * fe, ey * fe, ez * fe, 0);
-  // // auto pipC = ROOT::Math::PxPyPzMVector(pipx * fpip, pipy * fpip, pipz * fpip, 0.13957);
-  // // auto pimC = ROOT::Math::PxPyPzMVector(pimx * fpim, pimy * fpim, pimz * fpim, 0.13957);
-  // // auto proC = ROOT::Math::PxPyPzMVector(prox * fpro, proy * fpro, proz * fpro, 0.938);
-
-  ////////////////// new mom corr done
 
   // Momentum Magnitude
   double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
@@ -860,13 +420,8 @@ void Reaction::SetProton(int i) {
 
   _prot_mom_uncorr = _Energy_loss_uncorr_prot->P();
   _prot_theta = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
-  // std::cout << "prot ststus " << _data->status(i) << "   prot theta " << _prot_theta << " prot  mom   "
-  //           << _prot_mom_uncorr<< std::endl;
   if (abs(_data->status(i)) < 4000) {
     _sectorProt = _data->dc_sec(i);
-
-    // fpro = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 3) + 1;
-
     if (_prot_theta <= 27) {
       _E_corr_val_prot = -0.00078846 * pow(_prot_mom_uncorr, 5) + 0.0093734 * pow(_prot_mom_uncorr, 4) -
                          0.04277868 * pow(_prot_mom_uncorr, 3) + 0.09421284 * pow(_prot_mom_uncorr, 2) -
@@ -876,39 +431,8 @@ void Reaction::SetProton(int i) {
                          0.13214962 * pow(_prot_mom_uncorr, 3) + 0.29609571 * pow(_prot_mom_uncorr, 2) -
                          0.32307424 * (_prot_mom_uncorr) + 0.14742569;
     }
-
-    // _E_corr_val_prot = (-2.38530518e-07 * pow(_prot_theta, 3) + 1.04005173e-05 * pow(_prot_theta, 2) +
-    //                     (-1.49765839e-04) * (_prot_theta) + (-1.41952603e-05)) *
-    //                        pow(_prot_mom_uncorr, 5) +
-
-    //                    (1.57607943e-06 * pow(_prot_theta, 3) + (-4.53383617e-05) * pow(_prot_theta, 2) +
-    //                     3.07855716e-04 * (_prot_theta) + (8.04420446e-03)) *
-    //                        pow(_prot_mom_uncorr, 4) +
-
-    //                    ((-1.67283666e-06) * pow(_prot_theta, 3) + (-1.39877228e-04) * pow(_prot_theta, 2) +
-    //                     5.19206096e-03 * (_prot_theta)-7.29631272e-02) *
-    //                        pow(_prot_mom_uncorr, 3) +
-
-    //                    (-7.85196782e-06 * pow(_prot_theta, 3) + 1.04094323e-03 * pow(_prot_theta, 2) +
-    //                     (-2.55883006e-02) * (_prot_theta) + 2.40630846e-01) *
-    //                        pow(_prot_mom_uncorr, 2) +
-
-    //                    (2.03637619e-05 * pow(_prot_theta, 3) + (-1.88926745e-03) * pow(_prot_theta, 2) +
-    //                     4.26626313e-02 * (_prot_theta)-3.46543011e-01) *
-    //                        (_prot_mom_uncorr) +
-
-    //                    ((-1.37003888e-05) * pow(_prot_theta, 3) + (1.15294285e-03) * pow(_prot_theta, 2) +
-    //                     (-2.53253135e-02) * (_prot_theta) + 1.93782983e-01);
-
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_prot = 0.0;
-    // // _E_corr_val_prot = 0.01066342 * pow(_prot_mom_uncorr, 2) - 0.05379427 * (_prot_mom_uncorr) + 0.02530928;
-    // // a x ^ 2 bx c[-9.30990933e-05 1.23584235e-02 - 5.42538215e-01 7.87921215e+00]........................ a x
-    // // ^
-    // //     2 bx c[4.17955911e-04 - 5.53676478e-02 2.42642631e+00 - 3.51829220e+01]........................ a x ^
-    // //     2 bx c[-5.58084320e-04 7.38670367e-02 - 3.23723227e+00 4.69456718e+01]........................ a x ^
-    // //     2 bx c[2.40014720e-04 - 3.17071405e-02 1.38769727e+00 -2.01072704e+01]........................;
-
     // _E_corr_val_prot = ((-9.30990933e-05) * pow(_prot_theta, 3) + (1.23584235e-02) * pow(_prot_theta, 2) +
     //                     (-5.42538215e-01) * (_prot_theta) + 7.87921215e+00) *
     //                        pow(_prot_mom_uncorr, 3) +
@@ -1115,8 +639,6 @@ void Reaction::SetPip(int i) {
   _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
   _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
   _pip_theta = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
-  // std::cout << "pip ststus " << _data->status(i) << "   pip theta " << _pip_theta << " pip  mom   "
-  //           << _pip_mom_uncorr<< std::endl;
   if (abs(_data->status(i)) < 4000) {
     // _sectorPip = _data->dc_sec(i);
     // fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
@@ -1132,9 +654,6 @@ void Reaction::SetPip(int i) {
   } else if (abs(_data->status(i)) >= 4000) {
     _E_corr_val_pip = 0.0;
 
-    // // _E_corr_val_pip = -0.00631413  * pow(_pip_mom_uncorr, 5) + 0.04713584  * pow(_pip_mom_uncorr, 4) -
-    // //                   0.12554256 * pow(_pip_mom_uncorr, 3) + 0.15622077 * pow(_pip_mom_uncorr, 2) -
-    // //                   0.11467851 * (_pip_mom_uncorr) + 0.01917004;
     // _E_corr_val_pip = (-6.50509539e-07 * pow(_pip_theta, 3) + 1.31547371e-04 * pow(_pip_theta, 2) +
     //                    (-7.99024673e-03) * (_pip_theta) + 1.60563630e-01) *
     //                       pow(_pip_mom_uncorr, 3) +
@@ -1149,9 +668,6 @@ void Reaction::SetPip(int i) {
 
     //                   4.62456800e-07 * pow(_pip_theta, 3) + (-1.08401698e-04) * pow(_pip_theta, 2) +
     //                   8.09261138e-03 * (_pip_theta)-2.05315604e-01;
-
-    // // _E_corr_val_pip =  -0.00279293 * pow(_pip_mom_uncorr, 3) + 0.0206818 * pow(_pip_mom_uncorr, 2) -
-    // //                   0.05257802 * pow(_pip_mom_uncorr, 2) + 0.00996933;
   }
   _pip_mom_tmt = _pip_mom_uncorr + _E_corr_val_pip;
 
@@ -1165,13 +681,10 @@ void Reaction::SetPip(int i) {
   if (abs(_data->status(i)) < 4000) {
     _sectorPip = _data->dc_sec(i);
     fpip = dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
-    // fpip = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
-
   } else {
     fpip = 1.0;
   }
   _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
-  // _pip->SetXYZM(_data->px(i)* fpip, _data->py(i)* fpip, _data->pz(i)* fpip, MASS_PIP);
 
   // // if (abs(_data->status(i)) < 4000) {
 
@@ -1433,14 +946,11 @@ void Reaction::SetPim(int i) {
 
   if (abs(_data->status(i)) < 4000) {
     _sectorPim = _data->dc_sec(i);
-    // std::cout << "pim sec is " << _data->dc_sec(i) <<std::endl;
     fpim = dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
-    // fpim = dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
   } else {
     fpim = 1.0;
   }
   _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
-  // _pim->SetXYZM(_data->px(i)* fpim, _data->py(i)* fpim, _data->pz(i)* fpim, MASS_PIM);
   // // if (abs(_data->status(i)) < 4000) {
 
   // //     _E_corr_val_pim_th = 0.00000000;
