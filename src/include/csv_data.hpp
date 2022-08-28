@@ -135,11 +135,12 @@ struct csv_data {
     //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
     //        "status_Pip,status_Prot,weight";
 
-    return "sec_elec,w,q2,w_had,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
+    return "sec_elec,sec_pim,sec_pip,sec_prot,w,q2,w_had,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
-           "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,status_Pim,"
+           "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
+           "status_Pim,"
            "status_Pip,status_Prot,weight";
 
     // mPip case
