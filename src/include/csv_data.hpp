@@ -162,9 +162,9 @@ struct csv_data {
      os << std::setprecision(1);
 
     os << data.electron_sector << ",";
-    // os << data.pim_sec << ",";
-    // os << data.pip_sec << ",";
-    // os << data.prot_sec << ",";
+    os << data.pim_sec << ",";
+    os << data.pip_sec << ",";
+    os << data.prot_sec << ",";
 
     os << std::setprecision(7);
 
