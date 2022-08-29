@@ -414,8 +414,7 @@ void Reaction::SetProton(int i) {
   _hasP = true;
 
   _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
-  if (abs(_data->status(i)) < 4000)
-    _sectorProt = _data->dc_sec(i);
+  if (abs(_data->status(i)) < 4000) _sectorProt = _data->dc_sec(i);
     /*
     _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
     // _prot_status = abs(_data->status(i));
@@ -641,8 +640,7 @@ void Reaction::SetPip(int i) {
   _hasPip = true;
 
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  if (abs(_data->status(i)) < 4000)
-    _sectorPip = _data->dc_sec(i);
+  if (abs(_data->status(i)) < 4000) _sectorPip = _data->dc_sec(i);
     /*
     //   // _pip_status = abs(_data->status(i));
     _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
@@ -899,8 +897,7 @@ void Reaction::SetPim(int i) {
   _hasPim = true;
 
   _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  if (abs(_data->status(i)) < 4000)
-    _sectorPim = _data->dc_sec(i);
+  if (abs(_data->status(i)) < 4000) _sectorPim = _data->dc_sec(i);
     /*
     _pim_status = abs(_data->status(i));
     _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
