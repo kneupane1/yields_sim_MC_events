@@ -116,6 +116,10 @@ class Reaction {
   int _sectorPip = -1;
   int _sectorProt = -1;
 
+  float _inv_Ppip = NAN;
+  float _inv_Ppim = NAN;
+  float _inv_pip_pim = NAN;
+
   void SetElec();
 
   // momentum corrections earlier
@@ -690,6 +694,14 @@ class Reaction {
   float w_difference();
   float w_hadron_corr();
   float w_difference_corr();
+
+  float inv_Ppip();
+  float inv_Ppim();
+  float inv_Pippim();
+
+  void invMassPpip();
+  void invMassPpim();
+  void invMasspippim();
 
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();

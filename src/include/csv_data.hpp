@@ -113,7 +113,9 @@ struct csv_data {
   int status_Pip;
   int status_Prot;
 
-
+  float inv_ppip;
+  float inv_ppim;
+  float inv_pip_pim;
 
   // Static functions can be called without making a new struct
   static std::string header() {
@@ -141,7 +143,7 @@ struct csv_data {
            "pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_mPip,mm2_mProt,mm2_exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
-           "status_Pip,status_Prot,weight";
+           "status_Pip,status_Prot,inv_ppip,inv_ppim,inv_pip_pim,weight";
 
     // mPip case
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
@@ -267,7 +269,13 @@ struct csv_data {
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    // os << std::setprecision(7);
+    os << std::setprecision(7);
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
+
+    os << std::setprecision(1);
+
     os << data.weight_exclusive << ",";
 
     ///.......................................

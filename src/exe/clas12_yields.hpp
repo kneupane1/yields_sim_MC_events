@@ -17,11 +17,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
-  float beam_energy = 10.6041;
+  float beam_energy = 10.2;
   if (std::is_same<CutType, rga_Cuts>::value) {
-    beam_energy = 10.6041;
+    beam_energy = 10.2;
   } else if (std::is_same<CutType, uconn_Cuts>::value) {
-    beam_energy = 10.6041;
+    beam_energy = 10.2;
     // } else if (std::is_same<CutType, rgf_Cuts>::value) {
     //         beam_energy = rgf_E0;
     // }
@@ -211,6 +211,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
             output.status_Pim = statusPim;
             output.status_Pip = statusPip;
             output.status_Prot = statusProt;
+            output.inv_ppip = event->inv_Ppip();
+            output.inv_ppim = event->inv_Ppim();
+            output.inv_pip_pim = event->inv_Pippim();
 
             output.weight_exclusive = event->weight();
 
