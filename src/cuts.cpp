@@ -206,8 +206,8 @@ bool uconn_Cuts::ElectronCuts() {
   //
   cut &= (_data->charge(0) == NEGATIVE);
   cut &= (_data->pid(0) == ELECTRON);
-  cut &= (_data->p(0) > 1.50);
-  cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
+  // cut &= (_data->p(0) > 1.50);
+  // cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
 /*
   cut &= CC_nphe_cut();
   cut &= EC_outer_vs_EC_inner_cut();

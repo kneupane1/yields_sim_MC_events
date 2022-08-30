@@ -86,6 +86,7 @@ class Reaction {
 
   float _W = NAN;
   float _Q2 = NAN;
+  float _elec_E = NAN;
 
   float _W_after = NAN;
 
@@ -618,7 +619,8 @@ class Reaction {
   float elec_px();
   float elec_py();
   float elec_pz();
-  float elec_E();
+  inline float elec_En() { return _elec_E; }
+  inline float Theta_Elec() { return _theta_e; }
 
   float beam_px();
   float beam_py();
@@ -677,7 +679,6 @@ class Reaction {
 
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }
-  inline float Theta_E() { return _theta_e; }
 
   void CalcMissMass();
   float MM();
