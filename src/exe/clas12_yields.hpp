@@ -37,9 +37,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  auto data = std::make_shared<Branches12>(_chain, true);
+  // auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  // auto data = std::make_shared<Branches12>(_chain);
+  auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -57,27 +57,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int statusPip = -9999;
     int statusProt = -9999;
 
-    if (data->mc_npart() < 1) continue;
+    // if (data->mc_npart() < 1) continue;
 
-    // If we pass electron cuts the event is processed
-    total++;
+    // // If we pass electron cuts the event is processed
+    // total++;
 
-    // Make a reaction class from the data given
-    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // // Make a reaction class from the data given
+    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-    for (int part = 1; part < data->mc_npart(); part++) {
-      // Check particle ID's and fill the reaction class
+    // for (int part = 1; part < data->mc_npart(); part++) {
+    //   // Check particle ID's and fill the reaction class
 
-      if (data->mc_pid(part) == PIP) {
-        mc_event->SetMCPip(part);
-      } else if (data->mc_pid(part) == PROTON) {
-        mc_event->SetMCProton(part);
-      } else if (data->mc_pid(part) == PIM) {
-        mc_event->SetMCPim(part);
-        // } else {
-        //   mc_event->SetMCOther(part);
-      }
-    }
+    //   if (data->mc_pid(part) == PIP) {
+    //     mc_event->SetMCPip(part);
+    //   } else if (data->mc_pid(part) == PROTON) {
+    //     mc_event->SetMCProton(part);
+    //   } else if (data->mc_pid(part) == PIM) {
+    //     mc_event->SetMCPim(part);
+    //     // } else {
+    //     //   mc_event->SetMCOther(part);
+    //   }
+    // }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -150,13 +150,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // output.corr_elec_mom = event->Corr_elec_mom();
     // output.scalar_product = event->scalar_triple_product();
 
-    // //   // // for generated case
-      output.w_mc = mc_event->W_mc();
-      output.q2_mc = mc_event->Q2_mc();
+    // // //   // // for generated case
+    //   output.w_mc = mc_event->W_mc();
+    //   output.q2_mc = mc_event->Q2_mc();
 
-      output.elec_mom_mc = mc_event->elec_mom_mc();
-      output.elec_energy_mc = mc_event->elec_En_mc();
-      output.elec_theta_mc = mc_event->Theta_Elec_mc();
+    //   output.elec_mom_mc = mc_event->elec_mom_mc();
+    //   output.elec_energy_mc = mc_event->elec_En_mc();
+    //   output.elec_theta_mc = mc_event->Theta_Elec_mc();
       //   output.weight_exclusive = mc_event->weight();
 
       // //   // //
