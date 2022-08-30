@@ -86,13 +86,14 @@ class Reaction {
 
   float _W = NAN;
   float _Q2 = NAN;
+  float _elec_mom = NAN;
   float _elec_E = NAN;
+  float _theta_e = NAN;
 
   float _W_after = NAN;
 
   float _P_elec = NAN;
 
-  float _theta_e = NAN;
   float _theta_star = NAN;
   float _phi_star = NAN;
 
@@ -139,7 +140,6 @@ class Reaction {
   /// finished momentum corrections earlier
 
   double _elec_mom_corrected = NAN;
-  double _elec_mom = NAN;
 
   double _cx = NAN;
   double _cy = NAN;
@@ -554,8 +554,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    // return _data->mc_weight();
-    return 1.0;
+    return _data->mc_weight();
+    // return 1.0;
   }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
@@ -571,7 +571,6 @@ class Reaction {
   double dpp(float px, float py, float pz, int sec_mom_corr, int ivec);
   double dppC(float px, float py, float pz, int sec, int ivec);
   double Corr_elec_mom();
-  double elec_mom();
 
   inline bool mc() { return _mc; }
   void SetProton(int i);
@@ -619,6 +618,7 @@ class Reaction {
   float elec_px();
   float elec_py();
   float elec_pz();
+  inline float elec_mom() { return _elec_mom; }
   inline float elec_En() { return _elec_E; }
   inline float Theta_Elec() { return _theta_e; }
 
@@ -787,6 +787,10 @@ class MCReaction : public Reaction {
   float _diff_beam_x_mu_theta_mc = NAN;
   float _diff_beam_x_mu_phi_mc = NAN;
 
+  float _elec_mom_mc = NAN;
+  float _elec_E_mc = NAN;
+  float _theta_e_mc = NAN;
+
  public:
   void SetMCProton(int i);
   void SetMCPip(int i);
@@ -796,6 +800,10 @@ class MCReaction : public Reaction {
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   void SetMCElec();
   inline float weight() { return _data->mc_weight(); }
+
+  inline float elec_mom_mc() { return _elec_mom_mc; }
+  inline float elec_En_mc() { return _elec_E_mc; }
+  inline float Theta_Elec_mc() { return _theta_e_mc; }
   inline float W_mc() { return _W_mc; }
   inline float Q2_mc() { return _Q2_mc; }
 

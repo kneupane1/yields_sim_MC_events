@@ -404,13 +404,6 @@ void Reaction::SetElec() {
 //   return _P_elec;
 // }
 
-double Reaction::elec_mom() {
-  if (_elec_mom != _elec_mom) SetElec();
-  // std::cout << " emec mom " << _elec_mom << std::endl;
-
-  return _elec_mom;
-}
-
 void Reaction::SetProton(int i) {
   _numProt++;
   _numPos++;
@@ -1955,6 +1948,10 @@ void MCReaction::SetMCElec() {
   // Can calculate W and Q2 here
   _W_mc = physics::W_calc(*_beam, *_elec_mc);
   _Q2_mc = physics::Q2_calc(*_beam, *_elec_mc);
+
+  _elec_mom_mc = _elec_mc->P();
+  _elec_E_mc = _elec_mc->E();
+  _theta_e_mc = _elec_mc->Theta() * 180 / PI;
 }
 
 void MCReaction::SetMCProton(int i) { _prot_mc->SetXYZM(_data->mc_px(i), _data->mc_py(i), _data->mc_pz(i), MASS_P); }

@@ -22,6 +22,9 @@ struct csv_data {
   float elec_mom;
   float elec_energy;
   float elec_theta;
+  float elec_mom_mc;
+  float elec_energy_mc;
+  float elec_theta_mc;
 
   float corr_elec_mom;
 
@@ -123,7 +126,7 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "w,q2,elec_mom,elec_en,elec_theta,weight";
+    return "w,q2,elec_mom,elec_en,elec_theta,w_mc,q2_mc,elec_mom_mc,elec_en_mc,elec_theta_mc,weight";
 
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
@@ -182,13 +185,18 @@ struct csv_data {
     // // os << data.w_had_corr << ",";
     // // // os << data.w_diff_corr << ",";
 
-    // // // // os << data.w_mc << ",";
-    // // // // os << data.q2_mc << ",";
 
     // // // os << data.w_after << ",";
     os << data.elec_mom << ",";
     os << data.elec_energy << ",";
     os << data.elec_theta << ",";
+
+    os << data.w_mc << ",";
+    os << data.q2_mc << ",";
+    os << data.elec_mom_mc << ",";
+    os << data.elec_energy_mc << ",";
+    os << data.elec_theta_mc << ",";
+
     // // os << data.corr_elec_mom << ",";
     // os << data.scalar_product << ",";
     // // // // Generated
