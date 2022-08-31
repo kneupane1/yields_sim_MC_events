@@ -89,74 +89,77 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // event->SetMomCorrElec();
 
     // // For each particle in the event
-    // for (int part = 1; part < data->gpart(); part++) {
-    //   dt->dt_calc(part);
+    for (int part = 1; part < data->gpart(); part++) {
+      dt->dt_calc(part);
 
-    //   // Check particle ID's and fill the reaction class
-    //   if (cuts->IsProton(part)) {
-    //     event->SetProton(part);
-    //     statusProt = abs(data->status(part));
-    //     // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
-    //     // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
-    //     // data->pz(part)
-    //     //           << "_prot E : " << MASS_P << std::endl;
+      // Check particle ID's and fill the reaction class
+      if (cuts->IsProton(part)) {
+        event->SetProton(part);
+        statusProt = abs(data->status(part));
+        // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
+        // std::cout << "_prot px : " << data->px(part) << "_prot py : " << data->py(part) << "_prot pz : " <<
+        // data->pz(part)
+        //           << "_prot E : " << MASS_P << std::endl;
 
-    //   } else if (cuts->IsPip(part)) {
-    //     if (cuts->HadronsCuts(part)) {
-    //       event->SetPip(part);
-    //       statusPip = abs(data->status(part));
-    //       // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
-    //     }
-    //   } else if (cuts->IsPim(part)) {
-    //     if (cuts->HadronsCuts(part)) {
-    //       event->SetPim(part);
-    //       statusPim = abs(data->status(part));
-    //       // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
-    //     }
-    //   } else {
-    //     event->SetOther(part);
-    //   }
-    // }
+      } else if (cuts->IsPip(part)) {
+        if (cuts->HadronsCuts(part)) {
+          event->SetPip(part);
+          statusPip = abs(data->status(part));
+          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
+        }
+      } else if (cuts->IsPim(part)) {
+        if (cuts->HadronsCuts(part)) {
+          event->SetPim(part);
+          statusPim = abs(data->status(part));
+          // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
+        }
+      } else {
+        event->SetOther(part);
+      }
+    }
+
+    if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
+        event->TwoPion_exclusive()) {
     // if (event->TwoPion_missingPim()) {
-    // if (event->TwoPion_missingPip()) {
-    // if (event->TwoPion_missingProt()) {
-    // if (event->TwoPion_exclusive()) {
-    // if (event->Inclusive()) {
-    // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
-    //&&
-    // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
-    // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
-    //   //&&
-    //   // abs(event->MM2_exclusive()) < 0.03) {
-    //   // total++;
-    csv_data output;
+      // if (event->TwoPion_missingPip()) {
+      // if (event->TwoPion_missingProt()) {
+      // if (event->TwoPion_exclusive()) {
+      // if (event->Inclusive()) {
+      // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
+      //&&
+      // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
+      // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
+      //   //&&
+      //   // abs(event->MM2_exclusive()) < 0.03) {
+      //   // total++;
+      csv_data output;
 
-    // // //// using exclusive topology ...................................
+      // // //// using exclusive topology ...................................
 
-    // output.electron_sector = event->sec();
-    // output.pim_sec = event->pimSec();
-    // output.pip_sec = event->pipSec();
-    // output.prot_sec = event->protSec();
-    output.w = event->W();
-    output.q2 = event->Q2();
-    // output.w_had = event->w_hadron();
-    // // output.w_diff = event->w_difference();
-    // output.w_had_corr = event->w_hadron_corr();
-    // // output.w_diff_corr = event->w_difference_corr();
+      // output.electron_sector = event->sec();
+      // output.pim_sec = event->pimSec();
+      // output.pip_sec = event->pipSec();
+      // output.prot_sec = event->protSec();
+      output.w = event->W();
+      output.q2 = event->Q2();
+      // output.w_had = event->w_hadron();
+      // // output.w_diff = event->w_difference();
+      // output.w_had_corr = event->w_hadron_corr();
+      // // output.w_diff_corr = event->w_difference_corr();
 
-    output.elec_mom = event->elec_mom();
-    output.elec_energy = event->elec_En();
-    output.elec_theta = event->Theta_Elec();
-    // output.corr_elec_mom = event->Corr_elec_mom();
-    // output.scalar_product = event->scalar_triple_product();
+      // output.elec_mom = event->elec_mom();
+      output.elec_energy = event->elec_En();
+      output.elec_theta = event->Theta_Elec();
+      // output.corr_elec_mom = event->Corr_elec_mom();
+      // output.scalar_product = event->scalar_triple_product();
 
-    // // //   // // for generated case
-    //   output.w_mc = mc_event->W_mc();
-    //   output.q2_mc = mc_event->Q2_mc();
+      // // //   // // for generated case
+      //   output.w_mc = mc_event->W_mc();
+      //   output.q2_mc = mc_event->Q2_mc();
 
-    //   output.elec_mom_mc = mc_event->elec_mom_mc();
-    //   output.elec_energy_mc = mc_event->elec_En_mc();
-    //   output.elec_theta_mc = mc_event->Theta_Elec_mc();
+      //   output.elec_mom_mc = mc_event->elec_mom_mc();
+      //   output.elec_energy_mc = mc_event->elec_En_mc();
+      //   output.elec_theta_mc = mc_event->Theta_Elec_mc();
       //   output.weight_exclusive = mc_event->weight();
 
       // //   // //
@@ -408,7 +411,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
       _sync->write(output);
-      // }
+    }
       // }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;

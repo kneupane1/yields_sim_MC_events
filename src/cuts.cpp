@@ -206,22 +206,22 @@ bool uconn_Cuts::ElectronCuts() {
   //
   cut &= (_data->charge(0) == NEGATIVE);
   cut &= (_data->pid(0) == ELECTRON);
-  // cut &= (_data->p(0) > 1.50);
-  // cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
-/*
+  cut &= (_data->p(0) > 1.50);
+  cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
+
   cut &= CC_nphe_cut();
   cut &= EC_outer_vs_EC_inner_cut();
   cut &= EC_sampling_fraction_cut();
   cut &= EC_hit_position_fiducial_cut_homogeneous();
   cut &= DC_fiducial_cut_XY();
-  cut &= DC_z_vertex_cut();*/
+  cut &= DC_z_vertex_cut();
   return cut;
 }
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
- /* cut &= DC_fiducial_cut_theta_phi(i);
+ // cut &= DC_fiducial_cut_theta_phi(i);
   cut &= Hadron_Delta_vz_cut(i);
-  cut &= Hadron_Chi2pid_cut(i);*/
+  cut &= Hadron_Chi2pid_cut(i);
   return cut;
 }
 //
