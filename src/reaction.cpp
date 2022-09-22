@@ -410,7 +410,10 @@ void Reaction::SetProton(int i) {
   _hasP = true;
 
   _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
-  // if (abs(_data->status(i)) < 4000) {_sectorProt = _data->dc_sec(i);}
+  if (abs(_data->status(i)) < 4000) {_sectorProt = _data->dc_sec(i);
+    _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2) +
+                                                               pow(_data->dc_r1_z(i), 2))));
+  }
     /*
     _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
     // _prot_status = abs(_data->status(i));
@@ -636,7 +639,10 @@ void Reaction::SetPip(int i) {
   _hasPip = true;
 
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // if (abs(_data->status(i)) < 4000) {_sectorPip = _data->dc_sec(i);}
+  if (abs(_data->status(i)) < 4000) {_sectorPip = _data->dc_sec(i);
+    _thetaDC_r1_Pip = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2) +
+                                                               pow(_data->dc_r1_z(i), 2))));
+  }
 /*
     // //   // _pip_status = abs(_data->status(i));
     // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
@@ -894,8 +900,11 @@ void Reaction::SetPim(int i) {
   _hasPim = true;
 
   _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  /*if (abs(_data->status(i)) < 4000) {_sectorPim = _data->dc_sec(i);}
-
+  if (abs(_data->status(i)) < 4000) {_sectorPim = _data->dc_sec(i);
+    _thetaDC_r1_Pim = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2) +
+                                                               pow(_data->dc_r1_z(i), 2))));
+  }
+/*
     _pim_status = abs(_data->status(i));
     _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
     _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
@@ -1789,6 +1798,7 @@ float Reaction::inv_Pippim() {
   if (_inv_pip_pim != _inv_pip_pim) invMasspippim();
   return _inv_pip_pim;
 }
+
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }
 std::string Reaction::ReacToCsv() {

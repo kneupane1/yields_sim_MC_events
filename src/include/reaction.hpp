@@ -153,6 +153,9 @@ class Reaction {
   double fpro = NAN;
   double fpip = NAN;
   double fpim = NAN;
+  float _thetaDC_r1_Prot;
+  float _thetaDC_r1_Pip;
+  float _thetaDC_r1_Pim;
 
   //
   static const int CD_SEC = 3;
@@ -706,6 +709,10 @@ class Reaction {
 
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
+
+  inline float thetaDCr1Prot(){ return _thetaDC_r1_Prot;}
+  inline float thetaDCr1Pip() { return _thetaDC_r1_Pip; }
+  inline float thetaDCr1Pim() { return _thetaDC_r1_Pim; }
 
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }
