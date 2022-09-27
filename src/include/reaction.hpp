@@ -8,7 +8,7 @@
 #include "branches.hpp"
 #include "constants.hpp"
 #include "physics.hpp"
-
+#include"mom_corr.hpp"
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
@@ -66,6 +66,10 @@ class Reaction {
   bool _hasPim = false;
   bool _hasOther = false;
   bool _hasNeutron = false;
+
+  bool _is_FD = false;
+  bool _is_CD = false;
+  bool _is_lower_band = false;
 
   short _numProt = 0;
   short _numPip = 0;
@@ -153,9 +157,9 @@ class Reaction {
   double fpro = NAN;
   double fpip = NAN;
   double fpim = NAN;
-  float _thetaDC_r1_Prot;
-  float _thetaDC_r1_Pip;
-  float _thetaDC_r1_Pim;
+  float _thetaDC_r1_Prot = NAN;;
+  float _thetaDC_r1_Pip = NAN;;
+  float _thetaDC_r1_Pim = NAN;;
 
   //
   static const int CD_SEC = 3;
@@ -186,10 +190,15 @@ class Reaction {
   double _prot_mom_prime = NAN;
   double _prot_mom = NAN;
   double _prot_mom_tmt = NAN;
+  double _prot_theta_tmt = NAN;
+  double _prot_phi_tmt = NAN;
+
   double _prot_mom_prime_2nd = NAN;
   double _prot_mom_2nd = NAN;
   double _prot_mom_uncorr = NAN;
   float _E_corr_val_prot = NAN;
+  double _prot_theta_uncorr = NAN;
+  double _prot_phi_uncorr = NAN;
 
   static const int Prot_mom_bins_CD = 11;
   static const int Prot_mom_bins_FD = 22;

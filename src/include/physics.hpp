@@ -1,8 +1,3 @@
-/************************************************************************/
-/*  Created by Nick Tyler*/
-/*	University Of South Carolina*/
-/************************************************************************/
-
 #ifndef PHYSICS_H_GUARD
 #define PHYSICS_H_GUARD
 #include <TLorentzVector.h>
