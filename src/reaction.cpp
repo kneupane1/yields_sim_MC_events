@@ -435,30 +435,35 @@ void Reaction::SetProton(int i) {
   // pnew =p + Ap + Bp/p;
   // θnew = θ + Dθ + Eθ / p2; or = θ+Aθ +Bθ ×exp(Cθp)
   // φnew = φ + Aφ + Bφ ×exp(Cφ ×p).;
-
-  _prot_mom_tmt = _prot_mom_uncorr +
-                  mom_corr::A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-                  mom_corr::B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
+  if (_prot_mom_uncorr < 1.0) {
+    _prot_mom_tmt =
+        _prot_mom_uncorr + mom_corr::A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
+        mom_corr::B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
+  } else {
+    // these are andrey's corrections
+    if (_is_lower_band)
+      _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+    else
+      _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+  }
 
   if (_is_FD) {
     _prot_theta_tmt = _prot_theta_uncorr +
                       mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-                      mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr *
-                          _prot_mom_uncorr;
-
-  }
-  else if (_is_CD) {
-    _prot_theta_tmt =
-        _prot_theta_uncorr + mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-        mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) *
-            exp(mom_corr::C_th(_prot_mom_uncorr, _prot_theta_uncorr, _sectorProt) * _prot_mom_uncorr);
+                      mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) /
+                          _prot_mom_uncorr * _prot_mom_uncorr;
+  } else if (_is_CD) {
+    _prot_theta_tmt = _prot_theta_uncorr +
+                      mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
+                      mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) *
+                          exp(mom_corr::C_th(_prot_mom_uncorr, _prot_theta_uncorr, _sectorProt) * _prot_mom_uncorr);
   }
 
   if (_is_lower_band) {
     _prot_phi_tmt = _prot_phi_uncorr +
-                      mom_corr::A_ph(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-                      mom_corr::B_ph(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr *
-                          _prot_mom_uncorr;
+                    mom_corr::A_ph(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
+                    mom_corr::B_ph(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) /
+                        _prot_mom_uncorr * _prot_mom_uncorr;
   } else if (!_is_lower_band) {
     _prot_phi_tmt =
         _prot_phi_uncorr + mom_corr::A_ph(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
@@ -467,7 +472,8 @@ void Reaction::SetProton(int i) {
   }
 
   // // (-0.00051894 - 0.00018104 * _prot_theta_uncorr) +
-  // //     (3.29466917e-3 + 5.73663160e-4 * _prot_theta_uncorr − 1.40807209e-5 * _prot_theta * _prot_theta) / _prot_mom_uncorr;
+  // //     (3.29466917e-3 + 5.73663160e-4 * _prot_theta_uncorr − 1.40807209e-5 * _prot_theta * _prot_theta) /
+  // _prot_mom_uncorr;
   // // else if () {
   //   // Ap = − 3.03346359 × 10−1 + 1.83368163 × 10−2 × θ − 2.86486404 × 10−4 × θ2(14) Bp =
   //   //     2.01023276 × 10−1 − 1.13312215 × 10−2 × θ + 1.82487916 × 10−4 × θ2.;
