@@ -435,30 +435,30 @@ void Reaction::SetProton(int i) {
   // pnew =p + Ap + Bp/p;
   // θnew = θ + Dθ + Eθ / p2; or = θ+Aθ +Bθ ×exp(Cθp)
   // φnew = φ + Aφ + Bφ ×exp(Cφ ×p).;
-if (_is_FD && _prot_mom_uncorr >= 1.0) {
-    // these are Andrey's corrections
-    if (_is_lower_band)
-      _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
-    else
-      _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
-} else {
-// if (_is_CD || (_is_FD && _prot_mom_uncorr < 1.0)) {
+  // if (_is_FD && _prot_mom_uncorr >= 1.0) {
+  //     // these are Andrey's corrections
+  //     if (_is_lower_band)
+  //       _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+  //     else
+  //       _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+  // } else {
+  // if (_is_CD || (_is_FD && _prot_mom_uncorr < 1.0)) {
   _prot_mom_tmt = _prot_mom_uncorr +
                   mom_corr::A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
                   mom_corr::B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
-}
+  // }
 
-    if (_is_FD) {
-  _prot_theta_tmt = _prot_theta_uncorr +
-                    mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-                    mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) /
-                        _prot_mom_uncorr * _prot_mom_uncorr;
-} else if (_is_CD) {
-  _prot_theta_tmt = _prot_theta_uncorr +
-                    mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-                    mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) *
-                        exp(mom_corr::C_th(_prot_mom_uncorr, _prot_theta_uncorr, _sectorProt) * _prot_mom_uncorr);
-}
+  if (_is_FD) {
+    _prot_theta_tmt = _prot_theta_uncorr +
+                      mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
+                      mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) /
+                          _prot_mom_uncorr * _prot_mom_uncorr;
+  } else if (_is_CD) {
+    _prot_theta_tmt = _prot_theta_uncorr +
+                      mom_corr::A_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
+                      mom_corr::B_th(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) *
+                          exp(mom_corr::C_th(_prot_mom_uncorr, _prot_theta_uncorr, _sectorProt) * _prot_mom_uncorr);
+  }
 
   if (_is_lower_band) {
     _prot_phi_tmt = _prot_phi_uncorr +
