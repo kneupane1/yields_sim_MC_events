@@ -1,6 +1,6 @@
 
 #include "mom_corr.hpp"
-
+#include "iostream"
 namespace mom_corr {
 
 bool is_FD(int dc_sec) {
@@ -18,7 +18,7 @@ bool is_CD(int dc_sec) {
 }
 bool is_lower_band(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return true;
     } else
       return false;
@@ -28,22 +28,28 @@ bool is_lower_band(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
 // energy loss corrections parameters for momentum of proton
 float A_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return -0.00051894 - 0.00018104 * theta_P;
       //   Ap = − 0.00051894 − 0.00018104 × θ
-
-    } else
-      return -3.03346359e-1 + 1.83368163e-2 * theta_P - 2.86486404e-4 * theta_P * theta_P;
+      // CorrectedPp_FD_1 = np.select([df_protonRecFD_1.Pp<1, df_protonRecFD_1.Pp>=1], [const_FD +
+      // coeff_FD/df_protonRecFD_1.loc[:, "Pp"] + df_protonRecFD_1.loc[:, "Pp"], np.exp(-2.739
+      // - 3.932*df_protonRecFD_1.Pp) + 0.002907+df_protonRecFD_1.Pp])
+      // np.exp(-2.739 - 3.932*df_protonRecFD_1.Pp) + 0.002907+df_protonRecFD_1.Pp])
+    } else return -3.03346359e-1 + 1.83368163e-2 * theta_P - 2.86486404e-4 * theta_P * theta_P;
     //   Ap = − 3.03346359 × 10−1 + 1.83368163 × 10−2 × θ − 2.86486404 × 10−4 × θ2
+    // CorrectedPp_FD_2 = np.select([df_protonRecFD_2.Pp<1, df_protonRecFD_2.Pp>=1], [const_FD +
+    // coeff_FD/df_protonRecFD_2.loc[:, "Pp"] + df_protonRecFD_2.loc[:, "Pp"],
+    //  np.exp(-1.2 - 4.228*df_protonRecFD_2.Pp) + 0.007502+df_protonRecFD_2.Pp])
+
   } else
-    return 1.93686914 - 0.116288824 * theta_P + 0.00223685833 * theta_P * theta_P -
-           1.40771969e-5 * theta_P * theta_P * theta_P;
+    return  1.93686914 - 0.116288824 * theta_P + 0.00223685833 * theta_P * theta_P -
+                 1.40771969e-5 * theta_P * theta_P * theta_P;
   // Ap =1.93686914 − 0.116288824 × θ + 0.00223685833 × θ2 − 1.40771969 × 10−5 × θ3
 }
 
 float B_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return 3.29466917e-3 + 5.73663160e-4 * theta_P - 1.40807209e-5 * theta_P * theta_P;
       //   Bp =3.29466917 × 10−3 + 5.73663160 × 10−4 × θ − 1.40807209 × 10−5 × θ2.
     } else
@@ -59,9 +65,9 @@ float B_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
 
 float A_th(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return -0.16742969 + 0.00697925 * theta_P;
-    //   Dθ = − 0.16742969 + 0.00697925 × θ
+      //   Dθ = − 0.16742969 + 0.00697925 × θ
     } else
       return 2.04334532 * 10 - 1.81052405 * theta_P + 5.32556360e-2 * theta_P * theta_P -
              5.23157558e-4 * theta_P * theta_P * theta_P;
@@ -75,7 +81,7 @@ float A_th(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
 
 float B_th(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return 0.23352115 - 0.01338697 * theta_P;
       //  Eθ = 0.23352115 − 0.01338697 × θ
     } else
@@ -101,7 +107,7 @@ float C_th(float mom_P, float theta_P, int dc_sec) {
 
 float A_ph(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return 0.21192125 - 0.0115175 * theta_P;
       //   Dφ = 0.21192125 − 0.0115175 × θ
     } else
@@ -117,7 +123,7 @@ float A_ph(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
 
 float B_ph(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
-    if (theta_DCr1_p < 53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return -8.94307411e-1 + 1.66349766e-1 * theta_P - 8.90617559e-3 * theta_P * theta_P +
              1.64803754e-4 * theta_P * theta_P * theta_P;
       //   Eφ = − 8.94307411 × 10−1 + 1.66349766 × 10−1 × θ − 8.90617559 × 10−3 × θ2 + 1.64803754 × 10−4 × θ3
