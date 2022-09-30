@@ -16,7 +16,7 @@ bool is_CD(int dc_sec) {
   else
     return false;
 }
-bool is_lower_band(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
+bool is_lower_band(float mom_P, float theta_DCr1_p, int dc_sec) {
   if (dc_sec >= 1 && dc_sec <= 6) {
     if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return true;

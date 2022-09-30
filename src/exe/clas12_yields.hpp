@@ -195,7 +195,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.prot_mom_exclusive = event->prot_momentum_measured();
         output.prot_theta_exclusive = event->prot_theta_lab_measured();
         output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-        output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+        // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
         // output.prot_mom_corr = event->prot_momentum_corrected();
         // // output.prot_theta_corr = event->prot_theta_corrected();
