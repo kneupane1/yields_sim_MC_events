@@ -5,7 +5,7 @@ namespace mom_corr {
 
 bool is_FD(int prot_status) {
   // if (dc_sec >= 1 && dc_sec <= 6)
-  if (abs(prot_status) > 2000 && abs(prot_status) <= 4000)
+  if (prot_status > 2000 && prot_status <= 4000)
     return true;
   else
     return false;
@@ -13,14 +13,14 @@ bool is_FD(int prot_status) {
 
 bool is_CD(int prot_status) {
   // if (dc_sec < 1 || dc_sec > 6)
-  if (abs(prot_status) > 4000 && abs(prot_status) <= 6000)
+  if (prot_status > 4000 && prot_status <= 6000)
     return true;
   else
     return false;
 }
 bool is_lower_band(float mom_P, float theta_DCr1_p, int prot_status) {
   // if (dc_sec >= 1 && dc_sec <= 6) {
-  if (abs(prot_status) > 2000 && abs(prot_status) <= 4000) {
+  if (prot_status > 2000 && prot_status <= 4000) {
     if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
       return true;
     } else
@@ -30,7 +30,7 @@ bool is_lower_band(float mom_P, float theta_DCr1_p, int prot_status) {
 }
 float CD_prot_Emom_corr(float mom_P, float theta_P) {
   return mom_P +
-         (-4.81194246e-05 * pow(mom_P, 3) + 2.14028275e-04 * pow(mom_P, 2) + (-2.57104043e-04) * mom_P +
+         ((-4.81194246e-05) * pow(mom_P, 3) + 2.14028275e-04 * pow(mom_P, 2) + (-2.57104043e-04) * mom_P +
           1.02579973e-04) *
              pow(theta_P, 3) +
          (0.00595756 * pow(mom_P, 3) + (-0.02653457) * pow(mom_P, 2) + 0.03182286 * mom_P + (-0.0127522)) *
@@ -54,13 +54,12 @@ float FD_prot_Emom_corr_lower(float mom_P, float theta_P) {
          ((-0.00049214) * pow(mom_P, 3) + 0.0022003 * pow(mom_P, 2) + (-0.001929) * mom_P + 0.00218473) * theta_P +
          0.00154294 * pow(mom_P, 3) + (-0.00661294) * pow(mom_P, 2) + 0.00329457 * mom_P + (-0.00185376);
 }
-
 float FD_prot_Emom_corr_upper(float mom_P, float theta_P) {
   return mom_P +
-         ((-6.33926614e-05) * pow(mom_P, 3) + 3.21255513e-04 * pow(mom_P, 2) + 4.80918164e-04 * mom_P +
+         ((-6.33926614e-05) * pow(mom_P, 3) + 3.21255513e-04 * pow(mom_P, 2) + (-4.80918164e-04) * mom_P +
           1.94036549e-04) *
              pow(theta_P, 2) +
-         (0.00385508 * pow(mom_P, 3) + (-0.0193179) * pow(mom_P, 2) + 0.0279666 * mom_P + (0.01032478)) *
+         (0.00385508 * pow(mom_P, 3) + (-0.0193179) * pow(mom_P, 2) + 0.0279666 * mom_P + (-0.01032478)) *
              pow(theta_P, 1) +
          (-0.06010495) * pow(mom_P, 3) + 0.30123952 * pow(mom_P, 2) + (-0.43371747) * mom_P + 0.16664826;
 }
