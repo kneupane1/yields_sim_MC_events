@@ -198,7 +198,7 @@ class Reaction {
   double _prot_mom_uncorr = NAN;
   float _E_corr_val_prot = NAN;
   double _prot_theta_uncorr = NAN;
-  double _prot_phi_uncorr = NAN;
+  float _prot_phi_uncorr = NAN;
 
   static const int Prot_mom_bins_CD = 11;
   static const int Prot_mom_bins_FD = 22;
