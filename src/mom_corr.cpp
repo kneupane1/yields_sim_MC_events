@@ -45,7 +45,7 @@ float FD_prot_Emom_corr_lower(float mom_P, float theta_P) {
          (2.41366148e-08 * pow(mom_P, 3) + (-8.48694710e-08) * pow(mom_P, 2) + 2.12520490e-08 * mom_P +
           8.19171862e-11) *
              pow(theta_P, 4) +
-         ((-1.79468233e-06) * pow(mom_P, 3) + 6.63527873e-06 * pow(mom_P, 2) + (2.41674379e-06) * mom_P +
+         ((-1.79468233e-06) * pow(mom_P, 3) + 6.63527873e-06 * pow(mom_P, 2) + (-2.41674379e-06) * mom_P +
           1.93217562e-06) *
              pow(theta_P, 3) +
          (4.60815923e-05 * pow(mom_P, 3) + (-1.84383312e-04) * pow(mom_P, 2) + 1.05318538e-04 * mom_P +
@@ -55,14 +55,14 @@ float FD_prot_Emom_corr_lower(float mom_P, float theta_P) {
          0.00154294 * pow(mom_P, 3) + (-0.00661294) * pow(mom_P, 2) + 0.00329457 * mom_P + (-0.00185376);
 }
 float FD_prot_Emom_corr_upper(float mom_P, float theta_P) {
-  return mom_P +
-         ((-6.33926614e-05) * pow(mom_P, 3) + 3.21255513e-04 * pow(mom_P, 2) + (-4.80918164e-04) * mom_P +
-          1.94036549e-04) *
-             pow(theta_P, 2) +
-         (0.00385508 * pow(mom_P, 3) + (-0.0193179) * pow(mom_P, 2) + 0.0279666 * mom_P + (-0.01032478)) *
-             pow(theta_P, 1) +
-         (-0.06010495) * pow(mom_P, 3) + 0.30123952 * pow(mom_P, 2) + (-0.43371747) * mom_P + 0.16664826;
-}
+      return mom_P +
+             ((-6.33926614e-05) * pow(mom_P, 3) + 3.21255513e-04 * pow(mom_P, 2) + (-4.80918164e-04) * mom_P +
+              1.94036549e-04) *
+                 pow(theta_P, 2) +
+             (0.00385508 * pow(mom_P, 3) + (-0.0193179) * pow(mom_P, 2) + 0.0279666 * mom_P + (-0.01032478)) *
+                 pow(theta_P, 1) +
+             (-0.06010495) * pow(mom_P, 3) + 0.30123952 * pow(mom_P, 2) + (-0.43371747) * mom_P + 0.16664826;
+    }
 
 float CD_prot_Eth_corr(float mom_P, float theta_P) {
   return theta_P +
@@ -112,40 +112,40 @@ float FD_prot_Eph_corr_upper(float mom_P, float theta_P, float phi_P) {
          0.27588214 * pow(mom_P, 3) + (-1.37114604) * pow(mom_P, 2) + 1.82000373 * mom_P + (-0.40190107);
 }
 // // energy loss corrections parameters for momentum of proton
-// float A_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
-//   if (dc_sec >= 1 && dc_sec <= 6) {
-//     if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
-//       return -0.00051894 - 0.00018104 * theta_P;
-//       //   Ap = − 0.00051894 − 0.00018104 × θ
-//       // CorrectedPp_FD_1 = np.select([df_protonRecFD_1.Pp<1, df_protonRecFD_1.Pp>=1], [const_FD +
-//       // coeff_FD/df_protonRecFD_1.loc[:, "Pp"] + df_protonRecFD_1.loc[:, "Pp"], np.exp(-2.739
-//       // - 3.932*df_protonRecFD_1.Pp) + 0.002907+df_protonRecFD_1.Pp])
-//       // np.exp(-2.739 - 3.932*df_protonRecFD_1.Pp) + 0.002907+df_protonRecFD_1.Pp])
-//     } else return -3.03346359e-1 + 1.83368163e-2 * theta_P - 2.86486404e-4 * theta_P * theta_P;
-//     //   Ap = − 3.03346359 × 10−1 + 1.83368163 × 10−2 × θ − 2.86486404 × 10−4 × θ2
-//     // CorrectedPp_FD_2 = np.select([df_protonRecFD_2.Pp<1, df_protonRecFD_2.Pp>=1], [const_FD +
-//     // coeff_FD/df_protonRecFD_2.loc[:, "Pp"] + df_protonRecFD_2.loc[:, "Pp"],
-//     //  np.exp(-1.2 - 4.228*df_protonRecFD_2.Pp) + 0.007502+df_protonRecFD_2.Pp])
+float A_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
+  // if (dc_sec >= 1 && dc_sec <= 6) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+      return -0.00051894 - 0.00018104 * theta_P;
+      //   Ap = − 0.00051894 − 0.00018104 × θ
+      // CorrectedPp_FD_1 = np.select([df_protonRecFD_1.Pp<1, df_protonRecFD_1.Pp>=1], [const_FD +
+      // coeff_FD/df_protonRecFD_1.loc[:, "Pp"] + df_protonRecFD_1.loc[:, "Pp"], np.exp(-2.739
+      // - 3.932*df_protonRecFD_1.Pp) + 0.002907+df_protonRecFD_1.Pp])
+      // np.exp(-2.739 - 3.932*df_protonRecFD_1.Pp) + 0.002907+df_protonRecFD_1.Pp])
+    } else return -3.03346359e-1 + 1.83368163e-2 * theta_P - 2.86486404e-4 * theta_P * theta_P;
+    //   Ap = − 3.03346359 × 10−1 + 1.83368163 × 10−2 × θ − 2.86486404 × 10−4 × θ2
+    // CorrectedPp_FD_2 = np.select([df_protonRecFD_2.Pp<1, df_protonRecFD_2.Pp>=1], [const_FD +
+    // coeff_FD/df_protonRecFD_2.loc[:, "Pp"] + df_protonRecFD_2.loc[:, "Pp"],
+    //  np.exp(-1.2 - 4.228*df_protonRecFD_2.Pp) + 0.007502+df_protonRecFD_2.Pp])
 
 //   } else
 // return  1.93686914 - 0.116288824 * theta_P + 0.00223685833 * theta_P * theta_P -
 //              1.40771969e-5 * theta_P * theta_P * theta_P;
 //   // Ap =1.93686914 − 0.116288824 × θ + 0.00223685833 × θ2 − 1.40771969 × 10−5 × θ3
-// }
+}
 
-// float B_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
-//   if (dc_sec >= 1 && dc_sec <= 6) {
-//     if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
-//       return 3.29466917e-3 + 5.73663160e-4 * theta_P - 1.40807209e-5 * theta_P * theta_P;
-//       //   Bp =3.29466917 × 10−3 + 5.73663160 × 10−4 × θ − 1.40807209 × 10−5 × θ2.
-//     } else
-//       return 2.01023276e-1 - 1.13312215e-2 * theta_P + 1.82487916e-4 * theta_P * theta_P;
-//     // Bp = 2.01023276 × 10−1 − 1.13312215 × 10−2 × θ + 1.82487916 × 10−4 × θ2.
-//   } else
-//     return -0.738047800 + 0.0443343685 * theta_P - 8.50985972e-4 * theta_P * theta_P +
-//            5.36810280e-6 * theta_P * theta_P * theta_P;
-//   //   Bp = − 0.738047800 + 0.0443343685 × θ − 8.50985972 × 10−4 × θ2 + 5.36810280 × 10−6 × θ3
-// }
+float B_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec) {
+  // if (dc_sec >= 1 && dc_sec <= 6) {
+    if (theta_DCr1_p < -53.14680163254601 + 79.61307254040804 * pow((mom_P - 0.3), 0.05739232362022314)) {
+      return 3.29466917e-3 + 5.73663160e-4 * theta_P - 1.40807209e-5 * theta_P * theta_P;
+      //   Bp =3.29466917 × 10−3 + 5.73663160 × 10−4 × θ − 1.40807209 × 10−5 × θ2.
+    } else
+      return 2.01023276e-1 - 1.13312215e-2 * theta_P + 1.82487916e-4 * theta_P * theta_P;
+    // Bp = 2.01023276 × 10−1 − 1.13312215 × 10−2 × θ + 1.82487916 × 10−4 × θ2.
+  // } else
+  //   return -0.738047800 + 0.0443343685 * theta_P - 8.50985972e-4 * theta_P * theta_P +
+  //          5.36810280e-6 * theta_P * theta_P * theta_P;
+  // //   Bp = − 0.738047800 + 0.0443343685 × θ − 8.50985972 × 10−4 × θ2 + 5.36810280 × 10−6 × θ3
+}
 
 // // energy loss corrections parameters for theta angle of proton
 

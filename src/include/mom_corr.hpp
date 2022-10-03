@@ -22,8 +22,8 @@ float FD_prot_Eph_corr_lower(float mom_P, float theta_P, float phi_P);
 float FD_prot_Eph_corr_upper(float mom_P, float theta_P, float phi_P);
 
 // // Calcuating Energy loss corr parameters
-// float A_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec);
-// float B_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec);
+float A_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec);
+float B_p(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec);
 
 // float A_th(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec);
 // float B_th(float mom_P, float theta_P, float theta_DCr1_p, int dc_sec);
