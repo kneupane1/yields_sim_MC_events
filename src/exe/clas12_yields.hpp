@@ -138,8 +138,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
       // output.electron_sector = event->sec();
       // output.pim_sec = event->pimSec();
-      // output.pip_sec = event->pipSec();
-      output.prot_sec = event->protSec();
+      output.pip_sec = event->pipSec();
+      // output.prot_sec = event->protSec();
       // output.w = event->W();
       // output.q2 = event->Q2();
       // output.w_had = event->w_hadron();
