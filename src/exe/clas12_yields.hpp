@@ -163,13 +163,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       //   output.weight_exclusive = mc_event->weight();
 
       //   // // for energy loss corrections : gen
-        output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
-        output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
-        output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
+        // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
+        // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
+        // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
 
-        // output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
-        // output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
-        // output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
+        output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
+        output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
+        output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
 
         // output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
         // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
@@ -192,18 +192,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.prot_mom_exclusive = event->prot_momentum_corrected();
         // // output.prot_theta_exclusive = event->prot_theta_corrected();
         // // output.prot_phi_exclusive = event->prot_Phi_corrected();
-        output.prot_mom_exclusive = event->prot_momentum_measured();
-        output.prot_theta_exclusive = event->prot_theta_lab_measured();
-        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-        output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+        // output.prot_mom_exclusive = event->prot_momentum_measured();
+        // output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+        // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
         // output.prot_mom_corr = event->prot_momentum_corrected();
         // // output.prot_theta_corr = event->prot_theta_corrected();
         // // output.prot_phi_corr = event->prot_Phi_corrected();
 
-        // output.pip_mom_exclusive = event->pip_momentum_measured();
-        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        output.pip_mom_exclusive = event->pip_momentum_measured();
+        output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+
         // // output.pip_mom_corr = event->pip_momentum_corrected();
         // // output.pip_theta_corr = event->pip_theta_corrected();
         // // output.pip_phi_corr = event->pip_Phi_corrected();
@@ -222,12 +224,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
         // // // output.mm2_mProt_corr = event->MM2_mProt_corr();
 
-        output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        output.energy_x_mu = event->Energy_excl();
+        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        // output.energy_x_mu = event->Energy_excl();
 
         // output.status_Pim = statusPim;
-        // output.status_Pip = statusPip;
-        output.status_Prot = statusProt;
+        output.status_Pip = statusPip;
+        // output.status_Prot = statusProt;
         // output.inv_ppip = event->inv_Ppip();
         // output.inv_ppim = event->inv_Ppim();
         // output.inv_pip_pim = event->inv_Pippim();
