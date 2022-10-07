@@ -325,8 +325,14 @@ class Reaction {
   double _pip_mom_prime_2nd = NAN;
 
   double _pip_mom_tmt = NAN;
+  double _pip_theta_tmt = NAN;
+  double _pip_phi_tmt = NAN;
+
   double _pip_mom_tmt2 = NAN;
   double _pip_mom_uncorr = NAN;
+  double _pip_theta_uncorr = NAN;
+  double _pip_phi_uncorr = NAN;
+
   float _E_corr_val_pip = NAN;
   float _E_corr_val_pip_th = NAN;
   float _E_corr_val_pip2 = NAN;
