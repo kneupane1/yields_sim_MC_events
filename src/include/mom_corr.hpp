@@ -17,9 +17,9 @@ float CD_prot_Eth_corr(float mom_, float theta_);
 float FD_prot_Eth_corr_lower(float mom_, float theta_);
 float FD_prot_Eth_corr_upper(float mom_, float theta_);
 
-float CD_prot_Eph_corr(float mom_, float theta_, float phi_P);
-float FD_prot_Eph_corr_lower(float mom_, float theta_, float phi_P);
-float FD_prot_Eph_corr_upper(float mom_, float theta_, float phi_P);
+float CD_prot_Eph_corr(float mom_, float theta_, float phi_);
+float FD_prot_Eph_corr_lower(float mom_, float theta_, float phi_);
+float FD_prot_Eph_corr_upper(float mom_, float theta_, float phi_);
 
 // // Calcuating Energy loss corr parameters
 float A_p(float mom_, float theta_, float theta_DCr1_p, int dc_sec);
@@ -42,9 +42,22 @@ float CD_pip_Eth_corr(float mom_, float theta_);
 float FD_pip_Eth_corr_lower(float mom_, float theta_);
 float FD_pip_Eth_corr_upper(float mom_, float theta_);
 
-float CD_pip_Eph_corr(float mom_, float theta_, float phi_P);
-float FD_pip_Eph_corr_lower(float mom_, float theta_, float phi_P);
-float FD_pip_Eph_corr_upper(float mom_, float theta_, float phi_P);
+float CD_pip_Eph_corr(float mom_, float theta_, float phi_);
+float FD_pip_Eph_corr_lower(float mom_, float theta_, float phi_);
+float FD_pip_Eph_corr_upper(float mom_, float theta_, float phi_);
+
+// pim energy loss correction functions
+float CD_pim_Emom_corr(float mom_, float theta_);
+float FD_pim_Emom_corr_lower(float mom_, float theta_);
+float FD_pim_Emom_corr_upper(float mom_, float theta_);
+
+float CD_pim_Eth_corr(float mom_, float theta_);
+float FD_pim_Eth_corr_lower(float mom_, float theta_);
+float FD_pim_Eth_corr_upper(float mom_, float theta_);
+
+float CD_pim_Eph_corr(float mom_, float theta_, float phi_);
+float FD_pim_Eph_corr_lower(float mom_, float theta_, float phi_);
+float FD_pim_Eph_corr_upper(float mom_, float theta_, float phi_);
 
 }  // namespace mom_corr
 
