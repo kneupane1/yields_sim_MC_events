@@ -767,58 +767,58 @@ void Reaction::SetPip(int i) {
   _numPos++;
   _hasPip = true;
   _pip_status = abs(_data->status(i));
-  _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
   _sectorPip = _data->dc_sec(i);
   _thetaDC_r1_Pip = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
-  // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
 
-  // _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
-  // _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
-  // if (_Energy_loss_uncorr_pip->Phi() > 0)
-  //   _pip_phi_uncorr = _Energy_loss_uncorr_pip->Phi() * 180 / PI;
-  // else if (_Energy_loss_uncorr_pip->Phi() < 0)
-  //   _pip_phi_uncorr = (_Energy_loss_uncorr_pip->Phi() + 2 * PI) * 180 / PI;
+  _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
+  _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
+  if (_Energy_loss_uncorr_pip->Phi() > 0)
+    _pip_phi_uncorr = _Energy_loss_uncorr_pip->Phi() * 180 / PI;
+  else if (_Energy_loss_uncorr_pip->Phi() < 0)
+    _pip_phi_uncorr = (_Energy_loss_uncorr_pip->Phi() + 2 * PI) * 180 / PI;
 
-  // _is_FD = mom_corr::is_FD(_pip_status);
-  // _is_CD = mom_corr::is_CD(_pip_status);
-  // _is_lower_band = mom_corr::is_lower_band(_pip_mom_uncorr, _thetaDC_r1_Pip, _pip_status);
+  _is_FD = mom_corr::is_FD(_pip_status);
+  _is_CD = mom_corr::is_CD(_pip_status);
+  _is_lower_band = mom_corr::is_lower_band(_pip_mom_uncorr, _thetaDC_r1_Pip, _pip_status);
 
-  // if (_is_CD) {
-  //   _pip_mom_tmt = mom_corr::CD_pip_Emom_corr(_pip_mom_uncorr, _pip_theta_uncorr);
-  //   _pip_theta_tmt = mom_corr::CD_pip_Eth_corr(_pip_mom_uncorr, _pip_theta_uncorr);
-  //   _pip_phi_tmt = mom_corr::CD_pip_Eph_corr(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
-  // }
-  // if (_is_FD) {
-  //   if (_is_lower_band) {
-  //     _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
-  //     _pip_phi_tmt = mom_corr::FD_pip_Eph_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
-  //     _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
+  if (_is_CD) {
+    _pip_mom_tmt = mom_corr::CD_pip_Emom_corr(_pip_mom_uncorr, _pip_theta_uncorr);
+    _pip_theta_tmt = mom_corr::CD_pip_Eth_corr(_pip_mom_uncorr, _pip_theta_uncorr);
+    _pip_phi_tmt = mom_corr::CD_pip_Eph_corr(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
+  }
+  if (_is_FD) {
+    if (_is_lower_band) {
+      _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
+      _pip_phi_tmt = mom_corr::FD_pip_Eph_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
+      _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
 
-  //   } else {
-  //     _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
-  //     _pip_phi_tmt = mom_corr::FD_pip_Eph_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
-  //     _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
-  //   }
-  // }
-  // _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * sin(DEG2RAD * _pip_theta_tmt) /
-  //                   sin(DEG2RAD * _pip_theta_uncorr) * cos(DEG2RAD * _pip_phi_tmt) / cos(DEG2RAD * _pip_phi_uncorr);
-  // _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * sin(DEG2RAD * _pip_theta_tmt) /
-  //                   sin(DEG2RAD * _pip_theta_uncorr) * sin(DEG2RAD * _pip_phi_tmt) / sin(DEG2RAD * _pip_phi_uncorr);
+    } else {
+      _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
+      _pip_phi_tmt = mom_corr::FD_pip_Eph_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
+      _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
+    }
+  }
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * sin(DEG2RAD * _pip_theta_tmt) /
+                    sin(DEG2RAD * _pip_theta_uncorr) * cos(DEG2RAD * _pip_phi_tmt) / cos(DEG2RAD * _pip_phi_uncorr);
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * sin(DEG2RAD * _pip_theta_tmt) /
+                    sin(DEG2RAD * _pip_theta_uncorr) * sin(DEG2RAD * _pip_phi_tmt) / sin(DEG2RAD * _pip_phi_uncorr);
 
-  // _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * cos(DEG2RAD * _pip_theta_tmt) /
-  //                   cos(DEG2RAD * _pip_theta_uncorr);
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * cos(DEG2RAD * _pip_theta_tmt) /
+                    cos(DEG2RAD * _pip_theta_uncorr);
 
-  // // std::cout << " x now " << _px_prime_pip_E << " x before " << _data->px(i) << " diff percent "
-  // //           << abs(_px_prime_pip_E - _data->px(i)) / _data->px(i) *100 << std::endl;
+  // std::cout << " x now " << _px_prime_pip_E << " x before " << _data->px(i) << " diff percent "
+  //           << abs(_px_prime_pip_E - _data->px(i)) / _data->px(i) *100 << std::endl;
 
-  // // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_P);
+  // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_P);
 
-  // // _px_prime_pip_E = _pip_mom_tmt;// * TMath::Sin(_pip_theta_tmt) * TMath::Cos(_pip_phi_tmt);
-  // // _py_prime_pip_E = _pip_mom_tmt;// * TMath::Sin(_pip_theta_tmt) * TMath::Sin(_pip_phi_tmt);
-  // // _pz_prime_pip_E = _pip_mom_tmt;// * TMath::Cos(_pip_theta_tmt);
+  // _px_prime_pip_E = _pip_mom_tmt;// * TMath::Sin(_pip_theta_tmt) * TMath::Cos(_pip_phi_tmt);
+  // _py_prime_pip_E = _pip_mom_tmt;// * TMath::Sin(_pip_theta_tmt) * TMath::Sin(_pip_phi_tmt);
+  // _pz_prime_pip_E = _pip_mom_tmt;// * TMath::Cos(_pip_theta_tmt);
 
-  // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+  _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
   // /*
   //     // //   // _pip_status = abs(_data->status(i));
   //     // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
