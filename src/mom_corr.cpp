@@ -252,11 +252,26 @@ float FD_pip_Eph_corr_upper(float mom_, float theta_, float phi_) {
 // energy loss corrections for pim
 
 float CD_pim_Emom_corr(float mom_, float theta_) {
-  return mom_ + ((-1.66077208e-08) * pow(mom_, 2) + 5.87672135e-08 * mom_ + (-1.35413089e-08)) * pow(theta_, 4) +
-         (5.15167601e-06 * pow(mom_, 2) + (-1.79444621e-05) * mom_ + 4.06971096e-06) * pow(theta_, 3) +
-         ((-0.00057812) * pow(mom_, 2) + 0.00197867 * mom_ + (-0.00044994)) * pow(theta_, 2) +
-         (0.02778557 * pow(mom_, 2) + (-0.09352583) * mom_ + 0.02226586) * pow(theta_, 1) +
-         (-0.47794319) * pow(mom_, 2) + 1.57678098 * mom_ + (-0.41789067);
+  // return mom_ + ((-1.66077208e-08) * pow(mom_, 2) + 5.87672135e-08 * mom_ + (-1.35413089e-08)) * pow(theta_, 4) +
+  //        (5.15167601e-06 * pow(mom_, 2) + (-1.79444621e-05) * mom_ + 4.06971096e-06) * pow(theta_, 3) +
+  //        ((-0.00057812) * pow(mom_, 2) + 0.00197867 * mom_ + (-0.00044994)) * pow(theta_, 2) +
+  //        (0.02778557 * pow(mom_, 2) + (-0.09352583) * mom_ + 0.02226586) * pow(theta_, 1) +
+  //        (-0.47794319) * pow(mom_, 2) + 1.57678098 * mom_ + (-0.41789067);
+
+  return mom_ +(-4.94426765e-07 * pow(theta_, 3) + 9.85729368e-05 * pow(theta_, 2) +
+              (-5.85778699e-03) * (theta_) + 1.17447168e-01) *
+             pow(mom_, 3) +
+
+         (1.75953956e-06 * pow(theta_, 3) + (-3.63382515e-04) * pow(theta_, 2) + 2.21447425e-02 * (theta_) +
+          (-4.54844509e-01)) *
+             pow(mom_, 2) +
+
+         (-1.90446515e-06 * pow(theta_, 3) + 4.08768480e-04 * pow(theta_, 2) +
+          (-2.65277055e-02) * (theta_) + 5.57286393e-01) *
+             (mom_) +
+
+         2.05653097e-07 * pow(theta_, 3) + (-5.44018546e-05) * pow(theta_, 2) +
+         4.61561853e-03 * (theta_)-1.35303212e-01;
 }
 float FD_pim_Emom_corr_lower(float mom_, float theta_) { return mom_ + 0.00030448 * mom_ + 0.00232071; }
 float FD_pim_Emom_corr_upper(float mom_, float theta_) { return mom_ + (-0.00100881) * mom_ + 0.00780439; }
