@@ -1087,7 +1087,7 @@ void Reaction::SetPim(int i) {
   _numNeg++;
   _hasPim = true;
   _pim_status = abs(_data->status(i));
-  _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   _sectorPim = _data->dc_sec(i);
   _thetaDC_r1_Pim = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
