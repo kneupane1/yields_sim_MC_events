@@ -424,11 +424,10 @@ void Reaction::SetProton(int i) {
     _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
 
   // _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i),
-  2) +
+  // 2) +
   //                                                            pow(_data->dc_r1_z(i), 2))));
 
-  _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)),
-  _data->dc_r1_z(i)));
+  _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   _is_FD = mom_corr::is_FD(_prot_status);
   _is_CD = mom_corr::is_CD(_prot_status);
