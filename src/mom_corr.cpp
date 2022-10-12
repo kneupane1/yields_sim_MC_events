@@ -329,19 +329,37 @@ float CD_pim_Eph_corr(float mom_, float theta_, float phi_) {
   } else {
     return phi_ + (-0.08507155) * mom_ + 0.28063752;
   }
-}  // namespace mom_corr
-float FD_pim_Eph_corr_lower(float mom_, float theta_, float phi_) {
-  return phi_ +
-         (0.00062892 * pow(mom_, 3) + (-0.00473899) * pow(mom_, 2) + 0.01034717 * mom_ + (-0.00552269)) *
-             pow(theta_, 1) +
-         (-0.02773412) * pow(mom_, 3) + 0.2414015 * pow(mom_, 2) + (-0.65243241) * mom_ + 0.51692214;
 }
 
+float FD_pim_Eph_corr_lower(float mom_, float theta_, float phi_) {
+  return phi_ +
+         ((-2.86749702e-05) * pow(mom_, 4) + 3.03813193e-04 * pow(mom_, 3) + (-1.12379180e-03) * pow(mom_, 2) +
+          1.70003187e-03 * pow(mom_, 1) + (-8.77541156e-04)) *
+             pow(theta_, 3) +
+
+         (0.00196534 * pow(mom_, 4) + (-0.0209559) * pow(mom_, 3) + 0.07804889 * pow(mom_, 2) +
+          (-0.11856395) * pow(mom_, 1) + 0.06067883) *
+             pow(theta_, 2) +
+         ((-0.04397531) * pow(mom_, 4) + 0.47211422 * pow(mom_, 3) + (-1.76953348) * pow(mom_, 2) +
+          2.69302517 * pow(mom_, 1) + (-1.35729049)) *
+             pow(theta_, 1) +
+         0.32282676 * pow(mom_, 3) + (-3.48574851) * pow(mom_, 3) + 13.11695944 * pow(mom_, 2) +
+         (-19.9133663) * pow(mom_, 1) + 9.82183739;
+}
 float FD_pim_Eph_corr_upper(float mom_, float theta_, float phi_) {
   return phi_ +
-         (0.07716561 * pow(mom_, 3) + (-0.40149604) * pow(mom_, 2) + 0.64711152 * mom_ + (-0.32409563)) *
+         ((-0.00049736) * pow(mom_, 4) + 0.0022372 * pow(mom_, 3) + (-0.00317915) * pow(mom_, 2) +
+          0.00218449 * pow(mom_, 1) + (-0.00080044)) *
+             pow(theta_, 3) +
+
+         (0.03527214 * pow(mom_, 4) + (-0.13061747) * pow(mom_, 3) + 0.10585015 * pow(mom_, 2) +
+          (-0.01732555) * pow(mom_, 1) + 0.013915) *
+             pow(theta_, 2) +
+         ((-0.80579394) * pow(mom_, 4) + 2.02762174 * pow(mom_, 3) + 1.63055562 * pow(mom_, 2) +
+          (-4.17036909) * pow(mom_, 1) + 1.03295098) *
              pow(theta_, 1) +
-         (-2.40769068) * pow(mom_, 3) + 12.46396527 * pow(mom_, 2) + (-19.90102114) * mom_ + 9.79297313;
+         6.17963055 * pow(mom_, 3) + (-5.81705813) * pow(mom_, 3) + (-53.39466945) * pow(mom_, 2) +
+         77.16020833 * pow(mom_, 1) + (-20.58824011);
 }
 // // Sangbaek energy loss corrections parameters for theta angle of proton
 
