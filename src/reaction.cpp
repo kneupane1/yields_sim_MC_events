@@ -95,7 +95,7 @@ void Reaction::SetMomCorrElec() {
   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
 
   // New electron momentum corrections
-  fe = dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+  fe = mom_corr::dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
   _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
                           MASS_E);  // this is new electron mom corrections aug 2022
 
@@ -112,7 +112,7 @@ void Reaction::SetMomCorrElec() {
   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
   _P_elec = _mom_corr_elec->P();
-  _E_elec = _mom_corr_elec->E();
+  // _E_elec = _mom_corr_elec->E();
   _theta_e = _mom_corr_elec->Theta() * 180 / PI;
 }
 // double Reaction::Corr_elec_mom() {
