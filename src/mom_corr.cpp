@@ -275,7 +275,8 @@ float CD_pim_Emom_corr(float mom_, float theta_) {
            2.05653097e-07 * pow(theta_, 3) + (-5.44018546e-05) * pow(theta_, 2) +
            4.61561853e-03 * (theta_)-1.35303212e-01;
   } else {
-    return mom_ + 0.00211489 * mom_ + 0.00299173;
+    return 2.27546950e-07 * pow(theta_, 3) + (-8.12537308e-05) * pow(theta_, 2) + 9.10902744e-03 * pow(theta_, 1) +
+           (-3.22464750e-01);
   }
 }
 float FD_pim_Emom_corr_lower(float mom_, float theta_) { return mom_ + 0.00030448 * mom_ + 0.00232071; }
