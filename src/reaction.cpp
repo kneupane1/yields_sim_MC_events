@@ -57,64 +57,64 @@ Reaction::~Reaction() {}
 void Reaction::SetElec() {
   _hasE = true;
   _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  _W = physics::W_calc(*_beam, *_elec);
-  _Q2 = physics::Q2_calc(*_beam, *_elec);
+  // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // _W = physics::W_calc(*_beam, *_elec);
+  // _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-  // // //One way of  calculating mom - corrected four vectors
-  // //   // // _cx = _data->px(0)/_elec->P();
-  // //   // // _cy = _data->py(0) / _elec->P();
-  // //   // // _cz = _data->pz(0) / _elec->P();
-  // //   // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0),
-  // 0) + 1);
+  // // // //One way of  calculating mom - corrected four vectors
+  // // //   // // _cx = _data->px(0)/_elec->P();
+  // // //   // // _cy = _data->py(0) / _elec->P();
+  // // //   // // _cz = _data->pz(0) / _elec->P();
+  // // //   // _elec_mom_corrected = _elec->P() * (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0),
+  // // 0) + 1);
 
-  // //   // _px_prime_elec = _cx * _elec_mom_corrected;
-  // //   // _py_prime_elec = _cy * _elec_mom_corrected;
-  // //   // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec,
-  // _py_prime_elec,
-  // //   // _pz_prime_elec, MASS_E);
+  // // //   // _px_prime_elec = _cx * _elec_mom_corrected;
+  // // //   // _py_prime_elec = _cy * _elec_mom_corrected;
+  // // //   // _pz_prime_elec = _cz * _elec_mom_corrected; // _mom_corr_elec->SetXYZM(_px_prime_elec,
+  // // _py_prime_elec,
+  // // //   // _pz_prime_elec, MASS_E);
 
-  _elec_mom = _elec->P();
-  _elec_E = _elec->E();
-  _theta_e = _elec->Theta() * 180 / PI;
+  // _elec_mom = _elec->P();
+  // _elec_E = _elec->E();
+  // _theta_e = _elec->Theta() * 180 / PI;
+
+  // // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+
+  // //   _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+  // //                              _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+
+  // // *_gamma += *_beam - *_mom_corr_elec;
+
+  // // _W = physics::W_calc(*_beam, *_mom_corr_elec);
+  // // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+  // // _P_elec = _elec->P();
+}
+void Reaction::SetMomCorrElec() {
+  // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+
+  // New electron momentum corrections
+  fe = dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+  _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+                          MASS_E);  // this is new electron mom corrections aug 2022
 
   // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
+  // _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+  //                         _data->pz(0) * _elec_mom_corrected, MASS_E);
 
-  //   _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-  //                              _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
+  // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
+  //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
-  // *_gamma += *_beam - *_mom_corr_elec;
+  *_gamma += *_beam - *_mom_corr_elec;
+  _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+  _W = physics::W_calc(*_beam, *_mom_corr_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
-  // _W = physics::W_calc(*_beam, *_mom_corr_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
-  // _P_elec = _elec->P();
+  _P_elec = _mom_corr_elec->P();
+  _E_elec = _mom_corr_elec->E();
+  _theta_e = _mom_corr_elec->Theta() * 180 / PI;
 }
-// void Reaction::SetMomCorrElec() {
-//   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-
-//   // New electron momentum corrections
-//   fe = dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-//   _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-//                           MASS_E);  // this is new electron mom corrections aug 2022
-
-//   // _elec_mom_corrected = (dpp(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1);
-//   // _mom_corr_elec->SetXYZM(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-//   //                         _data->pz(0) * _elec_mom_corrected, MASS_E);
-
-//   // _mom_corr_elec->SetPxPyPzE(_data->px(0) * _elec_mom_corrected, _data->py(0) * _elec_mom_corrected,
-//   //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
-
-//   *_gamma += *_beam - *_mom_corr_elec;
-//   _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
-//   _W = physics::W_calc(*_beam, *_mom_corr_elec);
-//   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
-
-//   _P_elec = _mom_corr_elec->P();
-
-//   // _E_elec = _mom_corr_elec->E();
-// }
 // double Reaction::Corr_elec_mom() {
 //   if (_P_elec != _P_elec) SetMomCorrElec();
 //   // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
