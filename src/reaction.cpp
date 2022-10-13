@@ -1120,12 +1120,12 @@ float Reaction::MM2_mProt() {
   if (_MM2_mProt != _MM2_mProt) CalcMissMass();
   return _MM2_mProt;
 }
-/*
+
 float Reaction::MM2_mPim_corr() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-  if (TwoPion_missingPim()) {
-    // if (TwoPion_exclusive()) {
+  // if (TwoPion_missingPim()) {
+    if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -1160,7 +1160,7 @@ float Reaction::MM2_mProt_corr() {
   } else
     return NAN;
 }
-*/
+
 float Reaction::Energy_excl() {
   if (_excl_Energy != _excl_Energy) CalcMissMass();
   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
