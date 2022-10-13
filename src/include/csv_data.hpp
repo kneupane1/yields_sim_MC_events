@@ -158,7 +158,8 @@ struct csv_data {
            "dcr1_theta_prot,prot_mom_uncorr,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,dcr1_theta_pip,pip_mom_uncorr,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_mom_uncorr,mm2_"
-           "exclusive_at_zero,energy_x_mu,mm2_mProt,mm2_mProt_uncorr,mm2_mPip,mm2_mPip_uncorr,mm2_mPim,mm2_mPim_uncorr,"
+           "mProt,mm2_mProt_uncorr,mm2_mPip,mm2_mPip_uncorr,mm2_mPim,mm2_mPim_uncorr,mm2_"
+           "exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
            "status_Pip,status_Prot,weight";
 
