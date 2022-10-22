@@ -59,9 +59,21 @@ float CD_pim_Eph_corr(float mom_, float theta_, float phi_);
 float FD_pim_Eph_corr_lower(float mom_, float theta_, float phi_);
 float FD_pim_Eph_corr_upper(float mom_, float theta_, float phi_);
 
-// hadrn mom corrections
-
+// hadron mom corrections
 double dppC(float Px, float Py, float Pz, int sec, int ivec);
+
+float CD_prot_Hmom_corr(float mom_, float phi_);
+float FD_prot_Hmom_corr_lower(float mom_, float dc_sec);
+float FD_prot_Hmom_corr_upper(float mom_, float dc_sec);
+
+float CD_pip_Hmom_corr(float mom_, float phi_);
+float FD_pip_Hmom_corr_lower(float mom_, float dc_sec);
+float FD_pip_Hmom_corr_upper(float mom_, float dc_sec);
+
+float CD_pim_Hmom_corr(float mom_, float phi_);
+float FD_pim_Hmom_corr_lower(float mom_, float dc_sec);
+float FD_pim_Hmom_corr_upper(float mom_, float dc_sec);
+
 }  // namespace mom_corr
 
 #endif

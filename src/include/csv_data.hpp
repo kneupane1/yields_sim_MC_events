@@ -155,10 +155,10 @@ struct csv_data {
     return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
-           "dcr1_theta_prot,prot_mom_uncorr,"
+           "dcr1_theta_prot,prot_mom_corr,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
-           "mes,dcr1_theta_pip,pip_mom_uncorr,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_mom_uncorr,mm2_"
-           "mProt,mm2_mProt_uncorr,mm2_mPip,mm2_mPip_uncorr,mm2_mPim,mm2_mPim_uncorr,mm2_"
+           "mes,dcr1_theta_pip,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,pim_mom_corr,mm2_"
+           "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
            "exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
            "status_Pip,status_Prot,weight";

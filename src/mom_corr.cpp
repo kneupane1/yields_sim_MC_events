@@ -564,6 +564,227 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
   return dp / pp;
 }
 
+// our hadron momentum correction come from here:
+// proton mom corr
+float alpha_prot_mom_corr_FD[2] = {0.6, 0.9};
+float alpha_prot_mom_corr_CD[5] = {1.0, 0.5, 0.95};
+
+
+double CDProt[3][4] = {{0.01887542, -0.02475295, -0.1015926, 0.03270923},
+                      {0.08789515, -0.28722038, 0.26654857, -0.07150531},
+                      {0.05834911, -0.1821812, 0.21029297, -0.06586461}};
+
+float CD_prot_Hmom_corr(float mom_, float phi_) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_prot_mom_corr_CD[0] * (CDProt[0][0] * pow(mom_, 3) + CDProt[0][1] * pow(mom_, 2) + CDProt[0][2] * mom_ + CDProt[0][3]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_prot_mom_corr_CD[1] * (CDProt[1][0] * pow(mom_, 3) + CDProt[1][1] * pow(mom_, 2) + CDProt[1][2] * mom_ + CDProt[1][3]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_prot_mom_corr_CD[2] * (CDProt[2][0] * pow(mom_, 3) + CDProt[2][1] * pow(mom_, 2) + CDProt[2][2] * mom_ + CDProt[2][3]);
+  }
+}
+
+double FDProtL[6][4] = {
+    {-0.00295384, 0.02153553, -0.05321597, 0.0246334}, {-0.00223025, 0.01588222, -0.04035392, 0.0281309},
+    {-0.00217536, 0.015924, -0.04262257, 0.03281738},  {-0.00223025, 0.01588222, -0.04035392, 0.0281309},
+    {-0.00211633, 0.0186769, -0.05749485, 0.03704521}, {-0.00421353, 0.03406236, -0.09387399, 0.05380671}};
+
+float FD_prot_Hmom_corr_lower(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_prot_mom_corr_FD[0] *
+                      (FDProtL[0][0] * pow(mom_, 3) + FDProtL[0][1] * pow(mom_, 2) + FDProtL[0][2] * mom_ + FDProtL[0][3]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_prot_mom_corr_FD[0] *
+                      (FDProtL[1][0] * pow(mom_, 3) + FDProtL[1][1] * pow(mom_, 2) + FDProtL[1][2] * mom_ + FDProtL[1][3]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_prot_mom_corr_FD[0] *
+                      (FDProtL[2][0] * pow(mom_, 3) + FDProtL[2][1] * pow(mom_, 2) + FDProtL[2][2] * mom_ + FDProtL[2][3]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_prot_mom_corr_FD[0] *
+                      (FDProtL[3][0] * pow(mom_, 3) + FDProtL[3][1] * pow(mom_, 2) + FDProtL[3][2] * mom_ + FDProtL[3][3]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_prot_mom_corr_FD[0] *
+                      (FDProtL[4][0] * pow(mom_, 3) + FDProtL[4][1] * pow(mom_, 2) + FDProtL[4][2] * mom_ + FDProtL[4][3]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_prot_mom_corr_FD[0] *
+                      (FDProtL[5][0] * pow(mom_, 3) + FDProtL[5][1] * pow(mom_, 2) + FDProtL[5][2] * mom_ + FDProtL[0][3]);
+  }
+}
+
+double FDProth[6][4] = {
+    {-0.00647504, 0.05130311, -0.10250439, 0.05724377}, {0.01688694, -0.08105666, 0.12060526, -0.04750832},
+    {-0.01177275, 0.06558347, -0.10800544, 0.07067348}, {0.0022607, -0.00595311, 0.00188426, 0.01132344},
+    {-0.00149675, 0.0334335, -0.08967463, 0.06174838},  {-0.00422545, 0.037816, -0.08261621, 0.04522374}};
+
+float FD_prot_Hmom_corr_upper(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_prot_mom_corr_FD[1] *
+                      (FDProth[0][0] * pow(mom_, 3) + FDProth[0][1] * pow(mom_, 2) + FDProth[0][2] * mom_ + FDProth[0][3]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_prot_mom_corr_FD[1] *
+                      (FDProth[1][0] * pow(mom_, 3) + FDProth[1][1] * pow(mom_, 2) + FDProth[1][2] * mom_ + FDProth[1][3]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_prot_mom_corr_FD[1] *
+                      (FDProth[2][0] * pow(mom_, 3) + FDProth[2][1] * pow(mom_, 2) + FDProth[2][2] * mom_ + FDProth[2][3]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_prot_mom_corr_FD[1] *
+                      (FDProth[3][0] * pow(mom_, 3) + FDProth[3][1] * pow(mom_, 2) + FDProth[3][2] * mom_ + FDProth[3][3]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_prot_mom_corr_FD[1] *
+                      (FDProth[4][0] * pow(mom_, 3) + FDProth[4][1] * pow(mom_, 2) + FDProth[4][2] * mom_ + FDProth[4][3]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_prot_mom_corr_FD[1] *
+                      (FDProth[5][0] * pow(mom_, 3) + FDProth[5][1] * pow(mom_, 2) + FDProth[5][2] * mom_ + FDProth[0][3]);
+  }
+}
+
+/// pip hadron corrections
+
+float alpha_pip_mom_corr_FD[2] = {0.5, 0.7};
+float alpha_pip_mom_corr_CD[3] = {0.9, 0.45, 0.9};
+
+double CDPip[3][3] = {
+    {0.04719538, -0.1493156, 0.02066552}, {0.01280761, -0.02654298, 0.01043671}, {0.01650979, 0.00771899, -0.00896883}};
+
+float CD_pip_Hmom_corr(float mom_, float phi_) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_pip_mom_corr_CD[0] * (CDPip[0][0] * pow(mom_, 2) + CDPip[0][1] * mom_ + CDPip[0][2]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_pip_mom_corr_CD[1] * (CDPip[1][0] * pow(mom_, 2) + CDPip[1][1] * mom_ + CDPip[1][2]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_pip_mom_corr_CD[2] * (CDPip[2][0] * pow(mom_, 2) + CDPip[2][1] * mom_ + CDPip[2][2]);
+  }
+}
+
+double FDPipL[6][4] = {{0.00121648, -0.00639932, 0.01722629, -0.02311194},
+                       {0.0006273, -0.00401133, 0.01160091, -0.00776435},
+                       {0.0012861, -0.011386, 0.03326134, -0.01889528},
+                       {-4.35537266e-05, 2.88048986e-05, 1.16868864e-03, 2.25183481e-03},
+                       {-0.00246769, 0.01826193, -0.04038504, 0.02252866},
+                       {-0.0008343, 0.00713883, -0.01056021, -0.00563172}};
+
+float FD_pip_Hmom_corr_lower(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_pip_mom_corr_FD[0] *
+                      (FDPipL[0][0] * pow(mom_, 3) + FDPipL[0][1] * pow(mom_, 2) + FDPipL[0][2] * mom_ + FDPipL[0][3]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_pip_mom_corr_FD[0] *
+                      (FDPipL[1][0] * pow(mom_, 3) + FDPipL[1][1] * pow(mom_, 2) + FDPipL[1][2] * mom_ + FDPipL[1][3]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_pip_mom_corr_FD[0] *
+                      (FDPipL[2][0] * pow(mom_, 3) + FDPipL[2][1] * pow(mom_, 2) + FDPipL[2][2] * mom_ + FDPipL[2][3]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_pip_mom_corr_FD[0] *
+                      (FDPipL[3][0] * pow(mom_, 3) + FDPipL[3][1] * pow(mom_, 2) + FDPipL[3][2] * mom_ + FDPipL[3][3]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_pip_mom_corr_FD[0] *
+                      (FDPipL[4][0] * pow(mom_, 3) + FDPipL[4][1] * pow(mom_, 2) + FDPipL[4][2] * mom_ + FDPipL[4][3]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_pip_mom_corr_FD[0] *
+                      (FDPipL[5][0] * pow(mom_, 3) + FDPipL[5][1] * pow(mom_, 2) + FDPipL[5][2] * mom_ + FDPipL[0][3]);
+  }
+}
+
+double FDPipH[6][4] = {
+    {-0.00356278, 0.01426312, 0.01091276, -0.02680428}, {0.01664683, -0.07549475, 0.1280444, -0.07204956},
+    {0.00441982, -0.02617576, 0.06874411, -0.04127967}, {-0.0121876, 0.05399212, -0.04808956, 0.00589738},
+    {-0.00209284, 0.01315519, -0.00717711, 0.00233726}, {0.02996566, -0.12590414, 0.18225925, -0.08344463}};
+
+float FD_pip_Hmom_corr_upper(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_pip_mom_corr_FD[1] *
+                      (FDPipH[0][0] * pow(mom_, 3) + FDPipH[0][1] * pow(mom_, 2) + FDPipH[0][2] * mom_ + FDPipH[0][3]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_pip_mom_corr_FD[1] *
+                      (FDPipH[1][0] * pow(mom_, 3) + FDPipH[1][1] * pow(mom_, 2) + FDPipH[1][2] * mom_ + FDPipH[1][3]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_pip_mom_corr_FD[1] *
+                      (FDPipH[2][0] * pow(mom_, 3) + FDPipH[2][1] * pow(mom_, 2) + FDPipH[2][2] * mom_ + FDPipH[2][3]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_pip_mom_corr_FD[1] *
+                      (FDPipH[3][0] * pow(mom_, 3) + FDPipH[3][1] * pow(mom_, 2) + FDPipH[3][2] * mom_ + FDPipH[3][3]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_pip_mom_corr_FD[1] *
+                      (FDPipH[4][0] * pow(mom_, 3) + FDPipH[4][1] * pow(mom_, 2) + FDPipH[4][2] * mom_ + FDPipH[4][3]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_pip_mom_corr_FD[1] *
+                      (FDPipH[5][0] * pow(mom_, 3) + FDPipH[5][1] * pow(mom_, 2) + FDPipH[5][2] * mom_ + FDPipH[0][3]);
+  }
+}
+
+/// pim hadron corrections
+float alpha_pim_mom_corr_FD[2] = {0.3, 0.6};
+float alpha_pim_mom_corr_CD[4] = {0.85, 1.0, 0.4};
+
+double CDPim[3][3] = {
+    {0.03532859, -0.0343919, 0.00118764}, {0.02215662, 0.00657728, -0.00050019}, {0.03928169, -0.09742097, 0.02256432}};
+
+float CD_pim_Hmom_corr(float mom_, float phi_) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_pim_mom_corr_CD[0] * (CDPim[0][0] * pow(mom_, 2) + CDPim[0][1] * mom_ + CDPim[0][2]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_pim_mom_corr_CD[1] * (CDPim[1][0] * pow(mom_, 2) + CDPim[1][1] * mom_ + CDPim[1][2]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_pim_mom_corr_CD[2] * (CDPim[2][0] * pow(mom_, 2) + CDPim[2][1] * mom_ + CDPim[2][2]);
+  }
+}
+
+double FDPimL[6][4] = {
+    {-0.00093805, 0.01419687, -0.05424683, 0.05540511}, {0.00101109, -0.00627509, 0.00820368, 0.0083081},
+    {0.000657, -0.00192145, -0.00327336, 0.01824693},   {-0.0048234, 0.03892757, -0.09560444, 0.0720411},
+    {-0.00028774, 0.00718568, -0.02632964, 0.02415357}, {-0.00022294, 0.00749173, -0.03113873, 0.0249824}};
+
+float FD_pim_Hmom_corr_lower(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_pim_mom_corr_FD[0] *
+                      (FDPimL[0][0] * pow(mom_, 3) + FDPimL[0][1] * pow(mom_, 2) + FDPimL[0][2] * mom_ + FDPimL[0][3]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_pim_mom_corr_FD[0] *
+                      (FDPimL[1][0] * pow(mom_, 3) + FDPimL[1][1] * pow(mom_, 2) + FDPimL[1][2] * mom_ + FDPimL[1][3]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_pim_mom_corr_FD[0] *
+                      (FDPimL[2][0] * pow(mom_, 3) + FDPimL[2][1] * pow(mom_, 2) + FDPimL[2][2] * mom_ + FDPimL[2][3]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_pim_mom_corr_FD[0] *
+                      (FDPimL[3][0] * pow(mom_, 3) + FDPimL[3][1] * pow(mom_, 2) + FDPimL[3][2] * mom_ + FDPimL[3][3]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_pim_mom_corr_FD[0] *
+                      (FDPimL[4][0] * pow(mom_, 3) + FDPimL[4][1] * pow(mom_, 2) + FDPimL[4][2] * mom_ + FDPimL[4][3]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_pim_mom_corr_FD[0] *
+                      (FDPimL[5][0] * pow(mom_, 3) + FDPimL[5][1] * pow(mom_, 2) + FDPimL[5][2] * mom_ + FDPimL[0][3]);
+  }
+}
+
+double FDPimH[6][5] = {{-0.03708776, 0.28179957, -0.75582601, 0.82592834, -0.30001301},
+                       {-0.02561556, 0.18208368, -0.46698648, 0.51041072, -0.1898823},
+                       {-0.02949599, 0.2299059, -0.63540584, 0.72691335, -0.27715446},
+                       {-0.02387114, 0.18711438, -0.51217348, 0.57264114, -0.21573554},
+                       {-0.0132594, 0.10936398, -0.31834157, 0.38727052, -0.16851244},
+                       {-0.00052433, 0.00753084, -0.02917275, 0.03994074, -0.02118046}};
+
+float FD_pim_Hmom_corr_upper(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_pim_mom_corr_FD[1] * (FDPimH[0][0] * pow(mom_, 4) + FDPimH[0][1] * pow(mom_, 3) +
+                                              FDPimH[0][2] * pow(mom_, 2) + FDPimH[0][3] * mom_ + FDPimH[0][4]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_pim_mom_corr_FD[1] * (FDPimH[1][0] * pow(mom_, 4) + FDPimH[1][1] * pow(mom_, 3) +
+                                              FDPimH[1][2] * pow(mom_, 2) + FDPimH[1][3] * mom_ + FDPimH[1][4]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_pim_mom_corr_FD[1] * (FDPimH[2][0] * pow(mom_, 4) + FDPimH[2][1] * pow(mom_, 3) +
+                                              FDPimH[2][2] * pow(mom_, 2) + FDPimH[2][3] * mom_ + FDPimH[2][4]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_pim_mom_corr_FD[1] * (FDPimH[3][0] * pow(mom_, 4) + FDPimH[3][1] * pow(mom_, 3) +
+                                              FDPimH[3][2] * pow(mom_, 2) + FDPimH[3][3] * mom_ + FDPimH[3][4]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_pim_mom_corr_FD[1] * (FDPimH[4][0] * pow(mom_, 4) + FDPimH[4][1] * pow(mom_, 3) +
+                                              FDPimH[4][2] * pow(mom_, 2) + FDPimH[4][3] * mom_ + FDPimH[4][4]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_pim_mom_corr_FD[1] * (FDPimH[5][0] * pow(mom_, 4) + FDPimH[5][1] * pow(mom_, 3) +
+                                              FDPimH[5][2] * pow(mom_, 2) + FDPimH[5][3] * mom_ + FDPimH[5][4]);
+  }
+}
+
 // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
 // auto fe = dppC(ex, ey, ez, esec, 0) + 1;
 // auto fpip = dppC(pipx, pipy, pipz, pipsec, 1) + 1;
@@ -579,14 +800,40 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
 
 }  // namespace mom_corr
 
-//////////////////// old mom corrections (probably better one)
+// ////////////////// old mom corrections (probably better one)
+
+// // momentum corrections earlier
+
+// double xx[54] = {
+//     0.0263375, 0.0158871,  0.0130852,  -0.00366006, 0.00694866,  0.0197195, 0.00767067, 0.00480921,  -0.0175756,
+//     0.0252757, 0.0156601,  0.00984872, 0.00244435,  0.00681414,  0.0294068, 0.0059881,  0.00286992,  0.0179319,
+//     0.0171495, 0.00359637, -0.0046115, 0.00314739,  0.0136338,   0.0768753, 0.00675454, -0.0118234,  -0.0288654,
+//     0.0189465, 0.0131816,  0.0262004,  0.00375165,  0.00907457,  0.0486894, 0.00806305, 0.0006999,   0.00527513,
+//     0.0116485, 0.0105681,  0.0149848,  0.000318094, -0.00480124, 0.0395545, 0.00824216, -0.00070659, -0.0057075,
+//     0.0213057, 0.0112999,  0.0100216,  0.000653685, 0.0093174,   0.0822385, 0.00808384, 0.000898799, -0.0172692,
+// };
+// double pars[6][3][3];
+// int ipar = 0;
+
+// /// this was inside the constructor   // for (int isec_mom_corr = 0; isec_mom_corr < 6; isec_mom_corr++) {
+//   for (int ivec = 0; ivec < 3; ivec++) {
+//     double dp1 = xx[ipar++], dp5 = xx[ipar++], dp9 = xx[ipar++];
+
+//     pars[isec_mom_corr][ivec][0] = (dp1 - 2 * dp5 + dp9) / 32.;
+//     pars[isec_mom_corr][ivec][1] = (-7 * dp1) / 16. + (5 * dp5) / 8. - (3 * dp9) / 16.;
+//     pars[isec_mom_corr][ivec][2] = (45 * dp1) / 32. - (9 * dp5) / 16. + (5 * dp9) / 32.;
+//   }
+// }
+
+// /// now outside the constructor
+
 // double Reaction::dpp(float px, float py, float pz, int sec_mom_corr, int ivec) {
 //   double pp = sqrt(px * px + py * py + pz * pz);
 
 //   double a = pars[sec_mom_corr - 1][ivec][0], b = pars[sec_mom_corr - 1][ivec][1],
 //          c = pars[sec_mom_corr - 1][ivec][2];
 
-//   double dp = a * pp * pp + b * pp + c;  // pol2 corr func
+//   // double dp = a * pp * pp + b * pp + c;  // pol2 corr func
 
 //   // electron pol1 corr func for each sec_mom_corr and each phi bins
 //   if (ivec == 0) {
