@@ -566,9 +566,11 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
 
 // our hadron momentum correction come from here:
 // proton mom corr
-float alpha_prot_mom_corr_FD[2] = {0.6, 0.9};
-float alpha_prot_mom_corr_CD[5] = {1.0, 0.5, 0.95};
+// float alpha_prot_mom_corr_FD[2] = {0.6, 0.9};
+// float alpha_prot_mom_corr_CD[5] = {1.0, 0.5, 0.95};
 
+float alpha_prot_mom_corr_FD[2] = {0., 0.};
+float alpha_prot_mom_corr_CD[5] = {0.0, 0.0, 0.0};
 
 double CDProt[3][4] = {{0.01887542, -0.02475295, -0.1015926, 0.03270923},
                       {0.08789515, -0.28722038, 0.26654857, -0.07150531},
@@ -640,8 +642,11 @@ float FD_prot_Hmom_corr_upper(float mom_, float dc_sec) {
 
 /// pip hadron corrections
 
-float alpha_pip_mom_corr_FD[2] = {0.5, 0.7};
-float alpha_pip_mom_corr_CD[3] = {0.9, 0.45, 0.9};
+// float alpha_pip_mom_corr_FD[2] = {0.5, 0.7};
+// float alpha_pip_mom_corr_CD[3] = {0.9, 0.45, 0.9};
+
+float alpha_pip_mom_corr_FD[2] = {0.50, 0.0};
+float alpha_pip_mom_corr_CD[3] = {0.0, 0.0, 0.0};
 
 double CDPip[3][3] = {
     {0.04719538, -0.1493156, 0.02066552}, {0.01280761, -0.02654298, 0.01043671}, {0.01650979, 0.00771899, -0.00896883}};
@@ -713,8 +718,11 @@ float FD_pip_Hmom_corr_upper(float mom_, float dc_sec) {
 }
 
 /// pim hadron corrections
-float alpha_pim_mom_corr_FD[2] = {0.3, 0.6};
-float alpha_pim_mom_corr_CD[4] = {0.85, 1.0, 0.4};
+// float alpha_pim_mom_corr_FD[2] = {0.3, 0.6};
+// float alpha_pim_mom_corr_CD[4] = {0.85, 1.0, 0.4};
+
+float alpha_pim_mom_corr_FD[2] = {0., 0.};
+float alpha_pim_mom_corr_CD[4] = {0., 0.0, 0.};
 
 double CDPim[3][3] = {
     {0.03532859, -0.0343919, 0.00118764}, {0.02215662, 0.00657728, -0.00050019}, {0.03928169, -0.09742097, 0.02256432}};
