@@ -217,13 +217,13 @@ void Reaction::SetProton(int i) {
     _prot_phi = (_prot->Phi() + 2 * PI) * 180 / PI;
 
   if (_is_CD) {
-    _prot_mom_prime = mom_corr::CD_pim_Hmom_corr(_prot_mom, _prot_phi);
+    _prot_mom_prime = mom_corr::CD_prot_Hmom_corr(_prot_mom, _prot_phi);
   }
   if (_is_FD) {
     if (_is_lower_band) {
-      _prot_mom_prime = mom_corr::FD_pim_Hmom_corr_lower(_prot_mom, _sectorProt);
+      _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_lower(_prot_mom, _sectorProt);
     } else {
-      _prot_mom_prime = mom_corr::FD_pim_Hmom_corr_upper(_prot_mom, _sectorProt);
+      _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_upper(_prot_mom, _sectorProt);
     }
   }
 
@@ -457,13 +457,13 @@ void Reaction::SetProton(int i) {
         _pip_phi = (_pip->Phi() + 2 * PI) * 180 / PI;
 
       if (_is_CD) {
-        _pip_mom_prime = mom_corr::CD_pim_Hmom_corr(_pip_mom, _pip_phi);
+        _pip_mom_prime = mom_corr::CD_pip_Hmom_corr(_pip_mom, _pip_phi);
       }
       if (_is_FD) {
         if (_is_lower_band) {
-          _pip_mom_prime = mom_corr::FD_pim_Hmom_corr_lower(_pip_mom, _sectorPip);
+          _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_lower(_pip_mom, _sectorPip);
         } else {
-          _pip_mom_prime = mom_corr::FD_pim_Hmom_corr_upper(_pip_mom, _sectorPip);
+          _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_upper(_pip_mom, _sectorPip);
         }
       }
 
