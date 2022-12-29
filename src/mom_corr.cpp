@@ -1190,7 +1190,7 @@ float FD_pim_Hmom_corr_upper(float mom_, float dc_sec) {
 // // φnew = φ + Aφ + Bφ ×exp(Cφ ×p).;
 // // if (_is_FD && _prot_mom_uncorr >= 1.0) {
 // //     // these are Andrey's corrections
-// //     if (_is_lower_band)
+// //     if (_is_lower_band) /// it is not lower band it is for less than 27 degree.......... be careful here.
 // //       _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
 // //     else
 // //       _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;

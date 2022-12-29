@@ -155,7 +155,7 @@ bool Cuts::IsProton(int i) {
   //   _proton &= (_data->p(i) > 0.0);
   //   _proton &= (_data->p(i) < 3.0);
   // }
-    //   _proton &= (_data->p(i) > 0.2);
+  //   _proton &= (_data->p(i) > 0.2);
   // //_proton &= (abs(_data->chi2pid(i)) < 0.5);
   return _proton;
 }
@@ -175,13 +175,13 @@ bool Cuts::IsPim(int i) {
   //   _pim &= (_data->p(i) < 3.0);
   // }
 
-    // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
+  // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
 
-    //_pim &= DC_fiducial_cut_theta_phi(i);
-    //_pim &= Hadron_Delta_vz_cut(i);
-    //_pim &= Hadron_Chi2pid_cut(i);
+  //_pim &= DC_fiducial_cut_theta_phi(i);
+  //_pim &= Hadron_Delta_vz_cut(i);
+  //_pim &= Hadron_Chi2pid_cut(i);
 
-    return _pim;
+  return _pim;
 }
 
 // // bool Cuts::IsmissingPim(int i) {
@@ -208,7 +208,7 @@ bool uconn_Cuts::ElectronCuts() {
   cut &= (_data->pid(0) == ELECTRON);
   cut &= (_data->p(0) > 1.50);
   cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
-
+  cut &= (abs(_data->chi2pid(0)) < 3);  ////////////// check it.......
   cut &= CC_nphe_cut();
   cut &= EC_outer_vs_EC_inner_cut();
   cut &= EC_sampling_fraction_cut();
@@ -219,7 +219,7 @@ bool uconn_Cuts::ElectronCuts() {
 }
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
- // cut &= DC_fiducial_cut_theta_phi(i);
+  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) cut &= DC_fiducial_cut_theta_phi(i);
   cut &= Hadron_Delta_vz_cut(i);
   cut &= Hadron_Chi2pid_cut(i);
   return cut;
@@ -245,7 +245,6 @@ bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
   double edep_tight = 0.06, edep_medium = 0.07, edep_loose = 0.09;
   return (_data->ec_pcal_energy(0) > edep_medium);
 }
-
 
 bool uconn_Cuts::EC_sampling_fraction_cut() {
   double ecal_e_sampl_mu[3][6] = {{0.2531, 0.2550, 0.2514, 0.2494, 0.2528, 0.2521},
@@ -1126,7 +1125,12 @@ bool uconn_Cuts::DC_fiducial_cut_theta_phi(int i) {
  */
 bool uconn_Cuts::Hadron_Delta_vz_cut(int i) {
   int pid = _data->pid(i);
+  // if(pid==PROTON){
   float dvz = (_data->vz(i) - _data->vz(0));
+
+  // std::cout<<"dvz  "<<dvz<<std::endl;
+
+  // return dvz > -20 && dvz < 20;}
   switch (pid) {
     case 2212:
       return dvz > -20 && dvz < 20;
@@ -1155,31 +1159,45 @@ bool uconn_Cuts::Hadron_Chi2pid_cut(int i) {
   float chi2pid = _data->chi2pid(i);
   float p = _data->p(i);
   int pid = _data->pid(i);
+  int status = abs(_data->status(i));
 
   double coef;
   if (pid == 211)
     coef = 0.88;
   else if (pid == -211)
     coef = 0.93;
+
+  else if (pid == 2212) {
+    if (status < 4000)
+      return abs(chi2pid) < 3.0;  /// please confirm this first 2.64 is given for rga fall 2018
+    else {
+      return abs(chi2pid) < 6.0;
+    }
+  }
+
   else
     return false;
 
   bool chi2cut = false;
-  if (isstrict) {
-    if (p < 2.44)
-      chi2cut = chi2pid < 3 * coef;
-    else if (p < 4.6)
-      chi2cut = chi2pid < coef * (0.00869 + 14.98587 * exp(-p / 1.18236) + 1.81751 * exp(-p / 4.86394));
-    else
-      chi2cut = chi2pid < coef * (-1.14099 + 24.14992 * exp(-p / 1.36554) + 2.66876 * exp(-p / 6.80522));
-  } else {
-    if (p < 2.44)
-      chi2cut = chi2pid < 3 * coef;
-    else
-      chi2cut = chi2pid < coef * (0.00869 + 14.98587 * exp(-p / 1.18236) + 1.81751 * exp(-p / 4.86394));
-  }
+  if (status < 4000) {
+    if (isstrict) {
+      if (p < 2.44)
+        chi2cut = chi2pid < 3 * coef;
+      else if (p < 4.6)
+        chi2cut = chi2pid < coef * (0.00869 + 14.98587 * exp(-p / 1.18236) + 1.81751 * exp(-p / 4.86394));
+      else
+        chi2cut = chi2pid < coef * (-1.14099 + 24.14992 * exp(-p / 1.36554) + 2.66876 * exp(-p / 6.80522));
+    } else {
+      if (p < 2.44)
+        chi2cut = chi2pid < 3 * coef;
+      else
+        chi2cut = chi2pid < coef * (0.00869 + 14.98587 * exp(-p / 1.18236) + 1.81751 * exp(-p / 4.86394));
+    }
 
-  return chi2cut && chi2pid > coef * -3;
+    return chi2cut && chi2pid > coef * -3;
+  } else {
+    return abs(chi2pid) < 6.0;
+  }
 }
 
 //}
