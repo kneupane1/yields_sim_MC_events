@@ -233,13 +233,13 @@ struct csv_data {
     // os << data.gen_pim_phi << ",";
 
     // // // Missing
-    os << std::setprecision(10);
-    os << data.prot_mom_mProt << ",";
     os << std::setprecision(7);
+    os << data.prot_mom_mProt << ",";
+    os << std::setprecision(3);
 
     os << data.prot_theta_mProt << ",";
     os << data.prot_phi_mProt << ",";
-    os << std::setprecision(10);
+    // os << std::setprecision(10);
 
     // os << data.pip_mom_mPip << ",";
     // os << std::setprecision(7);
@@ -255,15 +255,15 @@ struct csv_data {
     // os << data.pim_phi_mPim << ",";
 
     // // // measured
-    os << std::setprecision(10);
+    os << std::setprecision(7);
 
     os << data.prot_mom_exclusive << ",";
-    os << std::setprecision(7);
+    os << std::setprecision(3);
 
     os << data.prot_theta_exclusive << ",";
     os << data.prot_phi_exclusive << ",";
     os << data.prot_dcr1theta_exclusive << ",";
-    os << std::setprecision(10);
+    os << std::setprecision(7);
 
     os << data.prot_mom_corr << ",";
     // // os << data.prot_theta_corr << ",";
