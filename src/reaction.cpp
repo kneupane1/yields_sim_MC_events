@@ -128,20 +128,20 @@ void Reaction::SetProton(int i) {
 
   _prot_theta_uncorr = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
 
-  // if (_Energy_loss_uncorr_prot->Phi() > 0)
-  //   _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
-  // else if (_Energy_loss_uncorr_prot->Phi() < 0)
-  //   _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
+  if (_Energy_loss_uncorr_prot->Phi() > 0)
+    _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
+  else if (_Energy_loss_uncorr_prot->Phi() < 0)
+    _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
 
-  // // _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i),
-  // // 2) +
-  // //                                                            pow(_data->dc_r1_z(i), 2))));
+  // _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i),
+  // 2) +
+  //                                                            pow(_data->dc_r1_z(i), 2))));
 
   _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   _is_FD = mom_corr::is_FD(_prot_status);
   _is_CD = mom_corr::is_CD(_prot_status);
-  // _is_lower_band = mom_corr::is_lower_band(_prot_mom_uncorr, _thetaDC_r1_Prot, _prot_status);
+  _is_lower_band = mom_corr::is_lower_band(_prot_mom_uncorr, _thetaDC_r1_Prot, _prot_status);
 
 
   if (_is_CD) {
@@ -154,11 +154,11 @@ void Reaction::SetProton(int i) {
     _prot_phi_tmt = mom_corr::CD_prot_Eph_corr(_prot_mom_uncorr, _prot_theta_uncorr, _prot_phi_uncorr);
   }
   if (_is_FD) {
-        // these are Andrey's corrections
-        if (_prot_theta_uncorr < 27)  ///it is for less than 27 degree
-          _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
-        else
-          _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+        // // these are Andrey's corrections
+        // if (_prot_theta_uncorr < 27)  ///it is for less than 27 degree
+        //   _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+        // else
+        //   _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
 
     if (_is_lower_band) {
       _prot_theta_tmt = mom_corr::FD_prot_Eth_corr_lower(_prot_mom_uncorr, _prot_theta_uncorr);
@@ -695,7 +695,7 @@ void Reaction::SetPim(int i) {
   _thetaDC_r1_Pim = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
 
     _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
     _pim_theta_uncorr = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
