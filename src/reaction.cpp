@@ -99,7 +99,7 @@ void Reaction::SetMomCorrElec() {
   //                            _data->pz(0) * _elec_mom_corrected, _elec_mom * _elec_mom_corrected);
 
   *_gamma += *_beam - *_mom_corr_elec;
-  _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
+  // _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
   _W = physics::W_calc(*_beam, *_mom_corr_elec);
   _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
 
@@ -146,8 +146,8 @@ void Reaction::SetProton(int i) {
 
   if (_is_CD) {
     _prot_mom_tmt = _prot_mom_uncorr;
-    _prot_theta_tmt = _prot_theta_uncorr;
-    _prot_phi_tmt = _prot_phi_uncorr;
+    // _prot_theta_tmt = _prot_theta_uncorr;
+    // _prot_phi_tmt = _prot_phi_uncorr;
 
     // _prot_mom_tmt = mom_corr::CD_prot_Emom_corr(_prot_mom_uncorr, _prot_theta_uncorr);
     // _prot_theta_tmt = mom_corr::CD_prot_Eth_corr(_prot_mom_uncorr, _prot_theta_uncorr);
