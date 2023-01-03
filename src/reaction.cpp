@@ -125,25 +125,25 @@ void Reaction::SetProton(int i) {
 
   _prot_theta_uncorr = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
 
-  if (_Energy_loss_uncorr_prot->Phi() > 0)
-    _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
-  else if (_Energy_loss_uncorr_prot->Phi() < 0)
-    _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
+  // if (_Energy_loss_uncorr_prot->Phi() > 0)
+  //   _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
+  // else if (_Energy_loss_uncorr_prot->Phi() < 0)
+  //   _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
 
-  // _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i),
-  // 2) +
-  //                                                            pow(_data->dc_r1_z(i), 2))));
+  // // _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i),
+  // // 2) +
+  // //                                                            pow(_data->dc_r1_z(i), 2))));
 
-  _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
+  // _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   _is_FD = mom_corr::is_FD(_prot_status);
   _is_CD = mom_corr::is_CD(_prot_status);
-  _is_lower_band = mom_corr::is_lower_band(_prot_mom_uncorr, _thetaDC_r1_Prot, _prot_status);
+  // _is_lower_band = mom_corr::is_lower_band(_prot_mom_uncorr, _thetaDC_r1_Prot, _prot_status);
 
   if (_is_CD) {
     _prot_mom_tmt = _prot_mom_uncorr;
-    _prot_theta_tmt = _prot_theta_uncorr;
-    _prot_phi_tmt = _prot_phi_uncorr;
+    // _prot_theta_tmt = _prot_theta_uncorr;
+    // _prot_phi_tmt = _prot_phi_uncorr;
 
     // _prot_mom_tmt = mom_corr::CD_prot_Emom_corr(_prot_mom_uncorr, _prot_theta_uncorr);
     // _prot_theta_tmt = mom_corr::CD_prot_Eth_corr(_prot_mom_uncorr, _prot_theta_uncorr);
@@ -152,12 +152,12 @@ void Reaction::SetProton(int i) {
   if (_is_FD) {
     // // these are Andrey's corrections
     if (_prot_theta_uncorr < 27) {
-      _prot_theta_tmt = _prot_theta_uncorr;
-      _prot_phi_tmt = _prot_phi_uncorr;
+      // _prot_theta_tmt = _prot_theta_uncorr;
+      // _prot_phi_tmt = _prot_phi_uncorr;
       _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
     } else {
-      _prot_theta_tmt = _prot_theta_uncorr;
-      _prot_phi_tmt = _prot_phi_uncorr;
+      // _prot_theta_tmt = _prot_theta_uncorr;
+      // _prot_phi_tmt = _prot_phi_uncorr;
       _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
     }
 
@@ -394,24 +394,24 @@ void Reaction::SetPip(int i) {
   _thetaDC_r1_Pip = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // _mom_corr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // // _mom_corr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
 
   _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
-  _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
-  if (_Energy_loss_uncorr_pip->Phi() > 0)
-    _pip_phi_uncorr = _Energy_loss_uncorr_pip->Phi() * 180 / PI;
-  else if (_Energy_loss_uncorr_pip->Phi() < 0)
-    _pip_phi_uncorr = (_Energy_loss_uncorr_pip->Phi() + 2 * PI) * 180 / PI;
+  // _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
+  // if (_Energy_loss_uncorr_pip->Phi() > 0)
+  //   _pip_phi_uncorr = _Energy_loss_uncorr_pip->Phi() * 180 / PI;
+  // else if (_Energy_loss_uncorr_pip->Phi() < 0)
+  //   _pip_phi_uncorr = (_Energy_loss_uncorr_pip->Phi() + 2 * PI) * 180 / PI;
 
   _is_FD = mom_corr::is_FD(_pip_status);
   _is_CD = mom_corr::is_CD(_pip_status);
-  _is_lower_band = mom_corr::is_lower_band(_pip_mom_uncorr, _thetaDC_r1_Pip, _pip_status);
+  // _is_lower_band = mom_corr::is_lower_band(_pip_mom_uncorr, _thetaDC_r1_Pip, _pip_status);
 
   if (_is_CD) {
     _pip_mom_tmt = _pip_mom_uncorr;
-    _pip_theta_tmt = _pip_theta_uncorr;
-    _pip_phi_tmt = _pip_phi_uncorr;
+    // _pip_theta_tmt = _pip_theta_uncorr;
+    // _pip_phi_tmt = _pip_phi_uncorr;
 
     // _pip_mom_tmt = mom_corr::CD_pip_Emom_corr(_pip_mom_uncorr, _pip_theta_uncorr);
     // _pip_theta_tmt = mom_corr::CD_pip_Eth_corr(_pip_mom_uncorr, _pip_theta_uncorr);
@@ -419,8 +419,8 @@ void Reaction::SetPip(int i) {
   }
   if (_is_FD) {
     _pip_mom_tmt = _pip_mom_uncorr;
-    _pip_theta_tmt = _pip_theta_uncorr;
-    _pip_phi_tmt = _pip_phi_uncorr;
+    // _pip_theta_tmt = _pip_theta_uncorr;
+    // _pip_phi_tmt = _pip_phi_uncorr;
 
     // if (_is_lower_band) {
     //   _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
@@ -701,20 +701,20 @@ void Reaction::SetPim(int i) {
   // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
 
   _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
-  _pim_theta_uncorr = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
-  if (_Energy_loss_uncorr_pim->Phi() > 0)
-    _pim_phi_uncorr = _Energy_loss_uncorr_pim->Phi() * 180 / PI;
-  else if (_Energy_loss_uncorr_pim->Phi() < 0)
-    _pim_phi_uncorr = (_Energy_loss_uncorr_pim->Phi() + 2 * PI) * 180 / PI;
+  // _pim_theta_uncorr = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
+  // if (_Energy_loss_uncorr_pim->Phi() > 0)
+  //   _pim_phi_uncorr = _Energy_loss_uncorr_pim->Phi() * 180 / PI;
+  // else if (_Energy_loss_uncorr_pim->Phi() < 0)
+  //   _pim_phi_uncorr = (_Energy_loss_uncorr_pim->Phi() + 2 * PI) * 180 / PI;
 
   _is_FD = mom_corr::is_FD(_pim_status);
   _is_CD = mom_corr::is_CD(_pim_status);
-  _is_lower_band = mom_corr::is_lower_band(_pim_mom_uncorr, _thetaDC_r1_Pim, _pim_status);
+  // _is_lower_band = mom_corr::is_lower_band(_pim_mom_uncorr, _thetaDC_r1_Pim, _pim_status);
 
   if (_is_CD) {
     _pim_mom_tmt = _pim_mom_uncorr;
-    _pim_theta_tmt = _pim_theta_uncorr;
-    _pim_phi_tmt = _pim_phi_uncorr;
+    // _pim_theta_tmt = _pim_theta_uncorr;
+    // _pim_phi_tmt = _pim_phi_uncorr;
 
     // _pim_mom_tmt = mom_corr::CD_pim_Emom_corr(_pim_mom_uncorr, _pim_theta_uncorr);
     // _pim_theta_tmt = mom_corr::CD_pim_Eth_corr(_pim_mom_uncorr, _pim_theta_uncorr);
@@ -722,8 +722,8 @@ void Reaction::SetPim(int i) {
   }
   if (_is_FD) {
     _pim_mom_tmt = _pim_mom_uncorr;
-    _pim_theta_tmt = _pim_theta_uncorr;
-    _pim_phi_tmt = _pim_phi_uncorr;
+    // _pim_theta_tmt = _pim_theta_uncorr;
+    // _pim_phi_tmt = _pim_phi_uncorr;
 
     // if (_is_lower_band) {
     //   _pim_theta_tmt = mom_corr::FD_pim_Eth_corr_lower(_pim_mom_uncorr, _pim_theta_uncorr);
