@@ -183,13 +183,13 @@ void Reaction::SetProton(int i) {
     //         mom_corr::B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
     // }
   }
-  _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) * sin(DEG2RAD * _prot_theta_tmt) /
-                     sin(DEG2RAD * _prot_theta_uncorr) * cos(DEG2RAD * _prot_phi_tmt) / cos(DEG2RAD * _prot_phi_uncorr);
-  _py_prime_prot_E = _data->py(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) * sin(DEG2RAD * _prot_theta_tmt) /
-                     sin(DEG2RAD * _prot_theta_uncorr) * sin(DEG2RAD * _prot_phi_tmt) / sin(DEG2RAD * _prot_phi_uncorr);
+  _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));// * sin(DEG2RAD * _prot_theta_tmt) /
+                    //  sin(DEG2RAD * _prot_theta_uncorr) * cos(DEG2RAD * _prot_phi_tmt) / cos(DEG2RAD * _prot_phi_uncorr);
+  _py_prime_prot_E = _data->py(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));// * sin(DEG2RAD * _prot_theta_tmt) /
+                    //  sin(DEG2RAD * _prot_theta_uncorr) * sin(DEG2RAD * _prot_phi_tmt) / sin(DEG2RAD * _prot_phi_uncorr);
 
-  _pz_prime_prot_E = _data->pz(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) * cos(DEG2RAD * _prot_theta_tmt) /
-                     cos(DEG2RAD * _prot_theta_uncorr);
+  _pz_prime_prot_E = _data->pz(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));// * cos(DEG2RAD * _prot_theta_tmt) /
+                    //  cos(DEG2RAD * _prot_theta_uncorr);
 
   // _px_prime_prot_E = _prot_mom_tmt;// * TMath::Sin(_prot_theta_tmt) * TMath::Cos(_prot_phi_tmt);
   // _py_prime_prot_E = _prot_mom_tmt;// * TMath::Sin(_prot_theta_tmt) * TMath::Sin(_prot_phi_tmt);
@@ -433,13 +433,13 @@ void Reaction::SetPip(int i) {
     //   _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
     // }
   }
-  _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * sin(DEG2RAD * _pip_theta_tmt) /
-                    sin(DEG2RAD * _pip_theta_uncorr) * cos(DEG2RAD * _pip_phi_tmt) / cos(DEG2RAD * _pip_phi_uncorr);
-  _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * sin(DEG2RAD * _pip_theta_tmt) /
-                    sin(DEG2RAD * _pip_theta_uncorr) * sin(DEG2RAD * _pip_phi_tmt) / sin(DEG2RAD * _pip_phi_uncorr);
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));// * sin(DEG2RAD * _pip_theta_tmt) /
+                    // sin(DEG2RAD * _pip_theta_uncorr) * cos(DEG2RAD * _pip_phi_tmt) / cos(DEG2RAD * _pip_phi_uncorr);
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));// * sin(DEG2RAD * _pip_theta_tmt) /
+                    // sin(DEG2RAD * _pip_theta_uncorr) * sin(DEG2RAD * _pip_phi_tmt) / sin(DEG2RAD * _pip_phi_uncorr);
 
-  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr)) * cos(DEG2RAD * _pip_theta_tmt) /
-                    cos(DEG2RAD * _pip_theta_uncorr);
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));// * cos(DEG2RAD * _pip_theta_tmt) /
+                    // cos(DEG2RAD * _pip_theta_uncorr);
 
   // std::cout << " x now " << _px_prime_pip_E << " x before " << _data->px(i) << " diff percent "
   //           << abs(_px_prime_pip_E - _data->px(i)) / _data->px(i) *100 << std::endl;
@@ -736,13 +736,13 @@ void Reaction::SetPim(int i) {
     //   _pim_mom_tmt = mom_corr::FD_pim_Emom_corr_upper(_pim_mom_uncorr, _pim_theta_uncorr);
     // }
   }
-  _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr)) * sin(DEG2RAD * _pim_theta_tmt) /
-                    sin(DEG2RAD * _pim_theta_uncorr) * cos(DEG2RAD * _pim_phi_tmt) / cos(DEG2RAD * _pim_phi_uncorr);
-  _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr)) * sin(DEG2RAD * _pim_theta_tmt) /
-                    sin(DEG2RAD * _pim_theta_uncorr) * sin(DEG2RAD * _pim_phi_tmt) / sin(DEG2RAD * _pim_phi_uncorr);
+  _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));// * sin(DEG2RAD * _pim_theta_tmt) /
+                    // sin(DEG2RAD * _pim_theta_uncorr) * cos(DEG2RAD * _pim_phi_tmt) / cos(DEG2RAD * _pim_phi_uncorr);
+  _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));// * sin(DEG2RAD * _pim_theta_tmt) /
+                    // sin(DEG2RAD * _pim_theta_uncorr) * sin(DEG2RAD * _pim_phi_tmt) / sin(DEG2RAD * _pim_phi_uncorr);
 
-  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr)) * cos(DEG2RAD * _pim_theta_tmt) /
-                    cos(DEG2RAD * _pim_theta_uncorr);
+  _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));// * cos(DEG2RAD * _pim_theta_tmt) /
+                    // cos(DEG2RAD * _pim_theta_uncorr);
 
   // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
