@@ -172,7 +172,7 @@ struct csv_data {
            "mProt,mm2_mPip,mm2_mPim,mm2_"
            "exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
-           "status_Pip,status_Prot,weight";
+           "status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pipPim,weight";
 
     // mPip case
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
@@ -319,12 +319,12 @@ struct csv_data {
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    // os << std::setprecision(7);
-    // os << data.inv_ppip << ",";
-    // os << data.inv_ppim << ",";
-    // os << data.inv_pip_pim << ",";
+    os << std::setprecision(7);
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
 
-    // os << std::setprecision(1);
+    os << std::setprecision(1);
 
     os << data.weight_exclusive << ",";
 
