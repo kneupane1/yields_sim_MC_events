@@ -1347,12 +1347,12 @@ float Reaction::pim_Phi_lab_measured() {
 //   else
 //     return NAN;
 // }
-// float Reaction::w_hadron() {
-//   if (TwoPion_exclusive())
-//     return ((*_prot) + (*_pip) + (*_pim)).Mag();
-//   else
-//     return NAN;
-// }
+float Reaction::w_hadron() {
+  if (TwoPion_exclusive())
+    return ((*_prot) + (*_pip) + (*_pim)).Mag();
+  else
+    return NAN;
+}
 // float Reaction::w_difference() {
 //   if (TwoPion_exclusive())
 //     return (physics::W_calc(*_beam, *_mom_corr_elec) - ((*_prot) + (*_pip) + (*_pim)).Mag());

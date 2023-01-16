@@ -124,7 +124,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
       // if (event->Inclusive()) {
-      // if (event->W() > 1.3 && event->W() < 2.5 && event->Q2() > 1.5 && event->Q2() < 10.5){
+      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5){
       // &&
       // abs(event->MM2_exclusive()) < 0.03 && abs(event->Energy_excl()) < 0.3){
       // &&(event->pim_Phi_lab() > 330 || event->pim_Phi_lab() < 30)) {
@@ -139,9 +139,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       output.pim_sec = event->pimSec();
       output.pip_sec = event->pipSec();
       output.prot_sec = event->protSec();
-      // output.w = event->W();
-      // output.q2 = event->Q2();
-      // output.w_had = event->w_hadron();
+      output.w = event->W();
+      output.q2 = event->Q2();
+      output.w_had = event->w_hadron();
       // // output.w_diff = event->w_difference();
       // output.w_had_corr = event->w_hadron_corr();
       // // output.w_diff_corr = event->w_difference_corr();
@@ -418,7 +418,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // std::cout << "mes_pim E " << event->pim_E() << std::endl;
 
       _sync->write(output);
-      // }
+      }
     }
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;

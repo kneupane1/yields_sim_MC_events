@@ -163,7 +163,7 @@ struct csv_data {
     //        "status_Pim,"
     //        "status_Pip,status_Prot,weight";
 
-    return "sec_pim,sec_pip,sec_prot,prot_mom_miss,prot_theta_miss,prot_phi_"
+    return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,w_had,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "dcr1_theta_prot,"
@@ -199,11 +199,11 @@ struct csv_data {
 
     os << std::setprecision(7);
 
-    // os << data.w << ",";
-    // os << data.q2 << ",";
+    os << data.w << ",";
+    os << data.q2 << ",";
     // // // os << data.w_after << ",";
 
-    // // os << data.w_had << ",";
+    os << data.w_had << ",";
     // // // // os << data.w_diff << ",";
     // // // os << data.w_had_corr << ",";
     // // // // os << data.w_diff_corr << ",";
