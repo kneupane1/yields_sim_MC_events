@@ -194,7 +194,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       output.prot_mom_exclusive = event->prot_momentum_measured();
       output.prot_theta_exclusive = event->prot_theta_lab_measured();
       output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-      output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+      // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
       // output.prot_mom_corr = event->prot_momentum_corrected();
       // output.prot_theta_corr = event->prot_theta_corrected();
@@ -203,7 +203,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       output.pip_mom_exclusive = event->pip_momentum_measured();
       output.pip_theta_exclusive = event->pip_theta_lab_measured();
       output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-      output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+      // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
       // output.pip_mom_corr = event->pip_momentum_corrected();
       // // output.pip_theta_corr = event->pip_theta_corrected();
@@ -212,7 +212,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       output.pim_mom_exclusive = event->pim_momentum_measured();
       output.pim_theta_exclusive = event->pim_theta_lab_measured();
       output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-      output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+      // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
       // output.pim_mom_corr = event->pim_momentum_corrected();
       // // output.pim_theta_corr = event->pim_theta_corrected();
