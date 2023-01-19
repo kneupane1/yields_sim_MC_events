@@ -395,7 +395,7 @@ void Reaction::SetPip(int i) {
 
   // _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
   // // // _mom_corr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
 
   // _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
   // _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
@@ -697,7 +697,7 @@ void Reaction::SetPim(int i) {
   // _thetaDC_r1_Pim = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
 
   // _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
-  _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
 
   // // _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
   // // // _pim_theta_uncorr = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
