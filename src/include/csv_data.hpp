@@ -163,7 +163,7 @@ struct csv_data {
     //        "status_Pim,"
     //        "status_Pip,status_Prot,weight";
 
-    return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,w_had,prot_mom_miss,prot_theta_miss,prot_phi_"
+    return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
            "miss,pip_mom_miss,pip_"
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "pip_mom_mes,pip_theta_mes,pip_phi_"
@@ -171,7 +171,7 @@ struct csv_data {
            "mProt,mm2_mPip,mm2_mPim,mm2_"
            "exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
-           "status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pipPim,weight";
+           "status_Pip,status_Prot,weight";
 
     // mPip case
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
@@ -202,7 +202,7 @@ struct csv_data {
     os << data.q2 << ",";
     // // // os << data.w_after << ",";
 
-    os << data.w_had << ",";
+    // os << data.w_had << ",";
     // // // // os << data.w_diff << ",";
     // // // os << data.w_had_corr << ",";
     // // // // os << data.w_diff_corr << ",";
@@ -220,7 +220,7 @@ struct csv_data {
     // os << data.elec_theta_mc << ",";
 
     // // os << data.corr_elec_mom << ",";
-    // os << data.scalar_product << ",";
+    os << data.scalar_product << ",";
     // // // // Generated
     // // // os << std::setprecision(5);
 
@@ -318,10 +318,10 @@ struct csv_data {
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    os << std::setprecision(7);
-    os << data.inv_ppip << ",";
-    os << data.inv_ppim << ",";
-    os << data.inv_pip_pim << ",";
+    // os << std::setprecision(7);
+    // os << data.inv_ppip << ",";
+    // os << data.inv_ppim << ",";
+    // os << data.inv_pip_pim << ",";
 
     os << std::setprecision(1);
 

@@ -139,7 +139,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       output.prot_sec = event->protSec();
       output.w = event->W();
       output.q2 = event->Q2();
-      output.w_had = event->w_hadron();
+      // output.w_had = event->w_hadron();
       // // output.w_diff = event->w_difference();
       // output.w_had_corr = event->w_hadron_corr();
       // // output.w_diff_corr = event->w_difference_corr();
@@ -148,7 +148,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // output.elec_energy = event->elec_En();
       // output.elec_theta = event->Theta_Elec();
       // output.corr_elec_mom = event->Corr_elec_mom();
-      // output.scalar_product = event->scalar_triple_product();
+      output.scalar_product = event->scalar_triple_product();
 
       // // //   // // for generated case
       //   output.w_mc = mc_event->W_mc();
@@ -229,9 +229,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       output.status_Pim = statusPim;
       output.status_Pip = statusPip;
       output.status_Prot = statusProt;
-      output.inv_ppip = event->inv_Ppip();
-      output.inv_ppim = event->inv_Ppim();
-      output.inv_pip_pim = event->inv_Pippim();
+      // output.inv_ppip = event->inv_Ppip();
+      // output.inv_ppim = event->inv_Ppim();
+      // output.inv_pip_pim = event->inv_Pippim();
 
       output.weight_exclusive = event->weight();
 
