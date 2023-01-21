@@ -132,6 +132,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.pim_phi_mPim = event->pim_Phi_lab();
         output.mm2_mPim = event->MM2();
         // output.mm2_mPim_corr = event->MM2_mPim_corr();
+        output.status_Pim = statusPim;
+        output.status_Pip = statusPip;
+        output.status_Prot = statusProt;
         output.weight_mPim = event->weight();
 
         _sync->write(output);
