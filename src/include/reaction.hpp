@@ -730,11 +730,11 @@ class Reaction {
 
   inline int det() { return abs(_data->status(0) / 1000); }
 
-  inline bool Inclusive() {
-    bool _channelIncl = true;
-    _channelIncl &= (_hasE);
-    return _channelIncl;
-  }
+  // inline bool Inclusive() {
+  //   bool _channelIncl = true;
+  //   _channelIncl &= (_hasE);
+  //   return _channelIncl;
+  // }
 
   inline bool TwoPion_missingPim() {
     bool _channelTwoPi = true;
@@ -742,26 +742,26 @@ class Reaction {
     return _channelTwoPi;
   }
 
-  inline bool TwoPion_exclusive() {
-    bool _channelTwoPi_excl = true;
+  // inline bool TwoPion_exclusive() {
+  //   bool _channelTwoPi_excl = true;
 
-    _channelTwoPi_excl &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
-                           (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
-    return _channelTwoPi_excl;
-  }
-  inline bool TwoPion_missingPip() {
-    bool _channelTwoPi_mpip = true;
+  //   _channelTwoPi_excl &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
+  //                          (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
+  //   return _channelTwoPi_excl;
+  // }
+  // inline bool TwoPion_missingPip() {
+  //   bool _channelTwoPi_mpip = true;
 
-    _channelTwoPi_mpip &=
-        ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&&!_hasPip && !_hasNeutron && !_hasOther*/));
-    return _channelTwoPi_mpip;
-  }
-  inline bool TwoPion_missingProt() {
-    bool _channelTwoPi_mprot = true;
-    _channelTwoPi_mprot &=
-        ((_numPip == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
-    return _channelTwoPi_mprot;
-  }
+  //   _channelTwoPi_mpip &=
+  //       ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&&!_hasPip && !_hasNeutron && !_hasOther*/));
+  //   return _channelTwoPi_mpip;
+  // }
+  // inline bool TwoPion_missingProt() {
+  //   bool _channelTwoPi_mprot = true;
+  //   _channelTwoPi_mprot &=
+  //       ((_numPip == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
+  //   return _channelTwoPi_mprot;
+  // }
 
   const TLorentzVector &e_mu() { return *_beam; }
   const TLorentzVector &e_mu_prime() { return *_elec; }
