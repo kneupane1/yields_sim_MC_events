@@ -180,6 +180,8 @@ void Reaction::SetProton(int i) {
   } else {
     fpro = 1.0;
   }
+  // one question here are these corrections good for all FD protons or just for FD prot with FD pip, FD pim???
+
 
   // // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
   // // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));

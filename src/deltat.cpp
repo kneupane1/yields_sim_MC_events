@@ -1,8 +1,4 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
+
 #include "deltat.hpp"
 
 Delta_T::Delta_T(std::shared_ptr<Branches12> data) {
