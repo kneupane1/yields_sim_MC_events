@@ -69,12 +69,17 @@ namespace mom_corr {
   float FD_prot_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec);
 
   float CD_pip_Hmom_corr(float mom_, float phi_);
-  float FD_pip_Hmom_corr_lower(float mom_, float dc_sec);
-  float FD_pip_Hmom_corr_upper(float mom_, float dc_sec);
+  float FD_pip_Hmom_corr_lower_All_FD(float mom_, float dc_sec);
+  float FD_pip_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec);
+  float FD_pip_Hmom_corr_upper_All_FD(float mom_, float dc_sec);
+  float FD_pip_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec);
+
 
   float CD_pim_Hmom_corr(float mom_, float phi_);
-  float FD_pim_Hmom_corr_lower(float mom_, float dc_sec);
-  float FD_pim_Hmom_corr_upper(float mom_, float dc_sec);
+  float FD_pim_Hmom_corr_lower_All_FD(float mom_, float dc_sec);
+  float FD_pim_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec);
+  float FD_pim_Hmom_corr_upper_All_FD(float mom_, float dc_sec);
+  float FD_pim_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec);
 
 }  // namespace mom_corr
 

@@ -102,16 +102,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         if (cuts->HadronsCuts(part)) {
           event->SetProton(part);
           statusProt = abs(data->status(part));
-          sectorProt = data->dc_sec(part);
-
-          // protons_loop = [proton_count];
-          // proton_count++;
-
-          // part_name[0] = "Proton";
-          // part_count++;
-
-          // event->Prot_Mom_corr_all_FD(part);
-          // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
+          // sectorProt = data->dc_sec(part);
+          if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
         }
 
       } else if (cuts->IsPip(part)) {
@@ -119,23 +111,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           event->SetPip(part);
           statusPip = abs(data->status(part));
           sectorPip = data->dc_sec(part);
-          // // pips_loop = [pip_count];
-          // pip_count++;
-          // part_name[1] = "Pion+";
-          // part_count++;
-          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
+          if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
       } else if (cuts->IsPim(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetPim(part);
           statusPim = abs(data->status(part));
           sectorPim = data->dc_sec(part);
-
-          // pims_loop = [pip_count];
-          // pim_count++;
-          // part_name[2] = "Pion-";
-          // part_count++;
-          // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
+          if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
         }
       } else {
         event->SetOther(part);
@@ -158,42 +141,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
           // if (part_name[] == "Proton"){
           event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
-          // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
-          // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
-
-          // }
-          // else if (part_name == 'Pion+')s
-          //   Pip_Mom_corr_all_FD(part_again);
-          // else if (part_name == 'Pion-')
-          //   Pim_Mom_corr_all_FD(part_again)
-      //   }
-      // }
-      //     else {
-      //       for (int part_again = 0; part_again < part_count; part_again++) {
-      //         if (part_name[part_again] == "Proton") event->Prot_Mom_corr_Except_all_FD(part_again);
-      //         //     else if (part_name == 'Pion+')
-      //         //       Pip_Mom_corr_Except_all_FD(part_again);
-      //         //     else if (part_name == 'Pion-')
-      //         //       Pim_Mom_corr_Except_all_FD(part_again)
-      //         //   }
-      //         }
-      // }
-          //     else if (cuts->IsPip(part)){
-          //       event->Pip_Mom_corr_all_FD(part);
-          //     } else if (cuts->IsPim(part)) {
-          //       event->Pim_Mom_corr_all_FD(part);
-          //     }
-          //   }
-          // }
-          // else{
-          //   for (int part = 1; part < data->gpart(); part++) {
-          //     if (cuts->IsProton(part)) {
-          //       event->Prot_Mom_corr_all_FD(part);
-          //     } else if (cuts->IsPip(part)) {
-          //       event->Pip_Mom_corr_all_FD(part);
-          //     } else if (cuts->IsPim(part)) {
-          //       event->Pim_Mom_corr_all_FD(part);
-          //     }
+          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
+          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
 
       // if (event->Inclusive()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
@@ -277,7 +226,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.pip_phi_exclusive = event->pip_Phi_lab_measured();
         // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
-        // output.pip_mom_corr = event->pip_momentum_corrected();
+        output.pip_mom_corr = event->pip_momentum_corrected();
         // // output.pip_theta_corr = event->pip_theta_corrected();
         // // output.pip_phi_corr = event->pip_Phi_corrected();
 
@@ -286,16 +235,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.pim_phi_exclusive = event->pim_Phi_lab_measured();
         // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
-        // output.pim_mom_corr = event->pim_momentum_corrected();
+        output.pim_mom_corr = event->pim_momentum_corrected();
         // // output.pim_theta_corr = event->pim_theta_corrected();
         // // output.pim_phi_corr = event->pim_Phi_corrected();
 
         output.mm2_mProt = event->MM2_mProt();
-        // output.mm2_mProt_corr = event->MM2_mProt_corr();
+        output.mm2_mProt_corr = event->MM2_mProt_corr();
         output.mm2_mPip = event->MM2_mPip();
-        // output.mm2_mPip_corr = event->MM2_mPip_corr();
+        output.mm2_mPip_corr = event->MM2_mPip_corr();
         output.mm2_mPim = event->MM2();
-        // output.mm2_mPim_corr = event->MM2_mPim_corr();
+        output.mm2_mPim_corr = event->MM2_mPim_corr();
 
         output.mm2_exclusive_at_zero = event->MM2_exclusive();
         output.energy_x_mu = event->Energy_excl();
