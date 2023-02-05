@@ -102,7 +102,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         if (cuts->HadronsCuts(part)) {
           event->SetProton(part);
           statusProt = abs(data->status(part));
-          sectorProt = data->dc_sec(i);
+          sectorProt = data->dc_sec(part);
 
           // protons_loop = [proton_count];
           // proton_count++;
@@ -118,7 +118,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         if (cuts->HadronsCuts(part)) {
           event->SetPip(part);
           statusPip = abs(data->status(part));
-          sectorPip = data->dc_sec(i);
+          sectorPip = data->dc_sec(part);
           // // pips_loop = [pip_count];
           // pip_count++;
           // part_name[1] = "Pion+";
@@ -129,7 +129,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         if (cuts->HadronsCuts(part)) {
           event->SetPim(part);
           statusPim = abs(data->status(part));
-          sectorPim = data->dc_sec(i);
+          sectorPim = data->dc_sec(part);
 
           // pims_loop = [pip_count];
           // pim_count++;
@@ -158,8 +158,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
           // if (part_name[] == "Proton"){
           event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
-          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
-          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
+          // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
+          // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
 
           // }
           // else if (part_name == 'Pion+')s
