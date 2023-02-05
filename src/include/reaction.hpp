@@ -605,7 +605,7 @@ class Reaction {
   void SetOther(int i);
   void SetNeutron(int i);
 
-  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim);
+  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot);
   float rec_pim_px();
   float rec_pim_py();
   float rec_pim_pz();
