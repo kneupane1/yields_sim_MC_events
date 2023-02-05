@@ -58,14 +58,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int statusPim = -9999;
     int statusPip = -9999;
     int statusProt = -9999;
-    int protons_loop[5];
-    int pips_loop[5];
-    int pims_loop[5];
-    int proton_count = 0;
-    int pip_count = 0;
-    int pim_count = 0;
-    int part_count = 0;
-    string part_name[3];
+    int sectorPim = -1;
+    int sectorPip = -1;
+    int sectorProt = -1;
 
     // if (data->mc_npart() < 1) continue;
 
@@ -107,11 +102,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         if (cuts->HadronsCuts(part)) {
           event->SetProton(part);
           statusProt = abs(data->status(part));
-          // protons_loop = [proton_count];
-          proton_count++;
+          sectorProt = data->dc_sec(i);
 
-          part_name[0] = "Proton";
-          part_count++;
+          // protons_loop = [proton_count];
+          // proton_count++;
+
+          // part_name[0] = "Proton";
+          // part_count++;
 
           // event->Prot_Mom_corr_all_FD(part);
           // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
@@ -121,20 +118,23 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         if (cuts->HadronsCuts(part)) {
           event->SetPip(part);
           statusPip = abs(data->status(part));
-          // pips_loop = [pip_count];
-          pip_count++;
-          part_name[1] = "Pion+";
-          part_count++;
+          sectorPip = data->dc_sec(i);
+          // // pips_loop = [pip_count];
+          // pip_count++;
+          // part_name[1] = "Pion+";
+          // part_count++;
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
       } else if (cuts->IsPim(part)) {
         if (cuts->HadronsCuts(part)) {
           event->SetPim(part);
           statusPim = abs(data->status(part));
+          sectorPim = data->dc_sec(i);
+
           // pims_loop = [pip_count];
-          pim_count++;
-          part_name[2] = "Pion-";
-          part_count++;
+          // pim_count++;
+          // part_name[2] = "Pion-";
+          // part_count++;
           // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
         }
       } else {
@@ -157,7 +157,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // for (int part_again = 0; part_again < part_count; part_again++) {
 
           // if (part_name[] == "Proton"){
-          event->Prot_HMom_corr(statusProt, statusPip, statusPim);
+          event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
+          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
+          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
+
           // }
           // else if (part_name == 'Pion+')s
           //   Pip_Mom_corr_all_FD(part_again);
