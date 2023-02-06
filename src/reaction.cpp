@@ -389,7 +389,7 @@ void Reaction::Prot_HMom_corr(int status_prot, int status_pip, int status_pim, i
   _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
 }
 
-void Reaction::Pip_HMom_corr(int status_pip, int status_prot, int status_pim, int sector_Pip) {
+void Reaction::Pip_HMom_corr(int status_prot, int status_pip, int status_pim, int sector_Pip) {
   auto uncorr_pip = std::make_unique<TLorentzVector>();
   *uncorr_pip += (*_pip);
   _is_FD_Prot = mom_corr::is_FD(status_prot);
