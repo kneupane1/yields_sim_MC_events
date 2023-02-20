@@ -574,7 +574,7 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
 
 // our hadron momentum correction come from here:
 // proton mom corr
-float alpha_prot_mom_corr_FD[5] = {0.7,0.5, 0.6, -0.9}; // all fd low, except all fd low, all fd high, except all fd high
+float alpha_prot_mom_corr_FD[5] = {0.7,0.5, 0.6, 0.1}; // all fd low, except all fd low, all fd high, except all fd high
 float alpha_prot_mom_corr_CD[3] = {0.9, 0.45, 0.95};
 
 // float alpha_prot_mom_corr_FD[2] = {1., 1.};
@@ -696,26 +696,25 @@ float FD_prot_Hmom_corr_upper_All_FD(float mom_, float dc_sec) {
 float FD_prot_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec) {
   if (dc_sec == 1) {
     return mom_ - alpha_prot_mom_corr_FD[3] * (FDProtH[1][0][0] * pow(mom_, 3) + FDProtH[1][0][1] * pow(mom_, 2) +
-                                               FDProtH[1][0][2] * mom_ + FDProtH[1][0][3]);
+                                              FDProtH[1][0][2] * mom_ + FDProtH[1][0][3]);
   } else if (dc_sec == 2) {
     return mom_ - alpha_prot_mom_corr_FD[3] * (FDProtH[1][1][0] * pow(mom_, 3) + FDProtH[1][1][1] * pow(mom_, 2) +
-                                               FDProtH[1][1][2] * mom_ + FDProtH[1][1][3]);
+                                              FDProtH[1][1][2] * mom_ + FDProtH[1][1][3]);
   } else if (dc_sec == 3) {
     return mom_ - alpha_prot_mom_corr_FD[3] * (FDProtH[1][2][0] * pow(mom_, 3) + FDProtH[1][2][1] * pow(mom_, 2) +
-                                               FDProtH[1][2][2] * mom_ + FDProtH[1][2][3]);
+                                              FDProtH[1][2][2] * mom_ + FDProtH[1][2][3]);
   } else if (dc_sec == 4) {
     return mom_ - alpha_prot_mom_corr_FD[3] * (FDProtH[1][3][0] * pow(mom_, 3) + FDProtH[1][3][1] * pow(mom_, 2) +
-                                               FDProtH[1][3][2] * mom_ + FDProtH[1][3][3]);
+                                              FDProtH[1][3][2] * mom_ + FDProtH[1][3][3]);
   } else if (dc_sec == 5) {
     return mom_ - alpha_prot_mom_corr_FD[3] * (FDProtH[1][4][0] * pow(mom_, 3) + FDProtH[1][4][1] * pow(mom_, 2) +
-                                               FDProtH[1][4][2] * mom_ + FDProtH[1][4][3]);
+                                              FDProtH[1][4][2] * mom_ + FDProtH[1][4][3]);
   } else if (dc_sec == 6) {
     return mom_ - alpha_prot_mom_corr_FD[3] * (FDProtH[1][5][0] * pow(mom_, 3) + FDProtH[1][5][1] * pow(mom_, 2) +
-                                               FDProtH[1][5][2] * mom_ + FDProtH[1][5][3]);
+                                              FDProtH[1][5][2] * mom_ + FDProtH[1][5][3]);
   } else
     return NAN;
 }
-
 /// pip hadron corrections
 
 float alpha_pip_mom_corr_FD[4] = {0.2, 0.1,0.7, 0.5};
