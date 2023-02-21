@@ -574,12 +574,12 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
 
 // our hadron momentum correction come from here:
 // proton mom corr
-float alpha_prot_mom_corr_FD[9] = {0.7, 0.5, 0.6,
-                                   0.3};  // all fd low, except all fd low, all fd high, except all fd high
-float alpha_prot_mom_corr_CD[3] = {0.9, 0.45, 0.95};
+// float alpha_prot_mom_corr_FD[4] = {0.7, 0.5, 0.6,
+//                                    1.0};  // all fd low, except all fd low, all fd high, except all fd high
+// float alpha_prot_mom_corr_CD[3] = {0.9, 0.45, 0.95};
 
-// float alpha_prot_mom_corr_FD[2] = {1., 1.};
-// float alpha_prot_mom_corr_CD[5] = {1.0, 1.0, 1.0};
+float alpha_prot_mom_corr_FD[4] = {1., 1.,1.0,1.0};
+float alpha_prot_mom_corr_CD[5] = {1.0, 1.0, 1.0};
 
 double CDProt[3][4] = {
     {-0.0529, 0.3096, -0.528, 0.178}, {0.0862, -0.2776, 0.2507, -0.0698}, {0.04395, -0.122, 0.1293, -0.0375}};
@@ -778,11 +778,11 @@ float FD_prot_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec) {
 
 /// pip hadron corrections
 
-float alpha_pip_mom_corr_FD[4] = {0.2, 0.1, 0.7, 0.5};
-float alpha_pip_mom_corr_CD[3] = {0.8, 0.4, 0.8};
+// float alpha_pip_mom_corr_FD[4] = {0.2, 0.1, 0.7, 0.5};
+// float alpha_pip_mom_corr_CD[3] = {0.8, 0.4, 0.8};
 
-// float alpha_pip_mom_corr_FD[2] = {0.50, 0.0};
-// float alpha_pip_mom_corr_CD[3] = {0.0, 0.0, 0.0};
+float alpha_pip_mom_corr_FD[4] = {0.0, 0.0, 0.0, 0.0};
+float alpha_pip_mom_corr_CD[3] = {0.0, 0.0, 0.0};
 
 double CDPip[3][4] = {{0.06537, -0.1185, -0.03845, 0.003094},
                       {0.04617, -0.1136, 0.06757, -0.00892},
@@ -922,11 +922,11 @@ float FD_pip_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec) {
 }
 
 /// pim hadron corrections
-float alpha_pim_mom_corr_FD[4] = {0.2, 0.3, 0.3, 0.4};
-float alpha_pim_mom_corr_CD[3] = {0.5, 1.0, 0.4};
+// float alpha_pim_mom_corr_FD[4] = {0.2, 0.3, 0.3, 0.4};
+// float alpha_pim_mom_corr_CD[3] = {0.5, 1.0, 0.4};
 
-// float alpha_pim_mom_corr_FD[2] = {1., 1.};
-// float alpha_pim_mom_corr_CD[4] = {1., 1.0, 1.};
+float alpha_pim_mom_corr_FD[4] = {0.0, 0.0, 0.0, 0.0};
+float alpha_pim_mom_corr_CD[3] = {0., 0.0, 0.0};
 
 double CDPim[3][4] = {{0.0364, -0.02226, -0.0404, 0.004772},
                       {0.01921, 0.00173, 0.00629, 0.0003066},
