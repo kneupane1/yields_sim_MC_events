@@ -131,18 +131,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingPip()) {
     // if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
-      // if (statusProt < 4000 && statusPip < 4000 && statusPim < 4000) {
-        // std::cout <<" part_count " << part_count<<std::endl;
-        // std::cout << " prot_count " << proton_count << std::endl;
-        // std::cout << " pip_count " << pip_count << std::endl;
-        // std::cout << " pim_count " << pim_count << std::endl;
+      // // if (statusProt < 4000 && statusPip < 4000 && statusPim < 4000) {
+      //   // std::cout <<" part_count " << part_count<<std::endl;
+      //   // std::cout << " prot_count " << proton_count << std::endl;
+      //   // std::cout << " pip_count " << pip_count << std::endl;
+      //   // std::cout << " pim_count " << pim_count << std::endl;
 
-        // for (int part_again = 0; part_again < part_count; part_again++) {
+      //   // for (int part_again = 0; part_again < part_count; part_again++) {
 
-          // if (part_name[] == "Proton"){
-          event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
-          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
-          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
+      //     // if (part_name[] == "Proton"){
+      //     event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
+      //     event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
+      //     event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
 
       // if (event->Inclusive()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {

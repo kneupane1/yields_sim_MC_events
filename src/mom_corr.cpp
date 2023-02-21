@@ -578,8 +578,8 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
 //                                    1.0};  // all fd low, except all fd low, all fd high, except all fd high
 // float alpha_prot_mom_corr_CD[3] = {0.9, 0.45, 0.95};
 
-float alpha_prot_mom_corr_FD[4] = {1., 1.,1.0,1.0};
-float alpha_prot_mom_corr_CD[5] = {1.0, 1.0, 1.0};
+float alpha_prot_mom_corr_FD[4] = {0., 0.,0.0,0.0};
+float alpha_prot_mom_corr_CD[5] = {0.0, 0.0, 0.0};
 
 double CDProt[3][4] = {
     {-0.0529, 0.3096, -0.528, 0.178}, {0.0862, -0.2776, 0.2507, -0.0698}, {0.04395, -0.122, 0.1293, -0.0375}};
