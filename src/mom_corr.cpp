@@ -868,7 +868,7 @@ float FD_pip_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec) {
 }
 
 /// pim hadron corrections
-float alpha_pim_mom_corr_FD[4] = {0.5, 0.3, 0.5, 0.4};
+float alpha_pim_mom_corr_FD[4] = {0.5, 0.2, 0.3, 0.3};
 float alpha_pim_mom_corr_CD[3] = {0.5, 1.0, 0.5};
 
 // float alpha_pim_mom_corr_FD[4] = {0.0, 0.0, 0.0, 0.0};
