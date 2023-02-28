@@ -132,9 +132,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
 
-          event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
-          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
-          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
+          // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
+          // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
+          // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
 
       // if (event->Inclusive()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
