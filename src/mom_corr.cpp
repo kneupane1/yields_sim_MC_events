@@ -574,7 +574,7 @@ double dppC(float Px, float Py, float Pz, int sec, int ivec) {
 
 // our hadron momentum correction come from here:
 // proton mom corr
-float alpha_prot_mom_corr_FD[4] = {0.3, 0.3, 0.5,
+float alpha_prot_mom_corr_FD[4] = {0.5, 0.6, 0.5,
                                    0.5};  // all fd low, except all fd low, all fd high, except all fd high
 float alpha_prot_mom_corr_CD[3] = {0.9, 0.9, 0.95};
 
@@ -724,7 +724,7 @@ float FD_prot_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec) {
 
 /// pip hadron corrections
 
-float alpha_pip_mom_corr_FD[4] = {0.1, 0.1, 0.5, 0.5};
+float alpha_pip_mom_corr_FD[4] = {0.1, 0.15, 0.5, 0.5};
 float alpha_pip_mom_corr_CD[3] = {0.8, 0.4, 0.8};
 
 // float alpha_pip_mom_corr_FD[4] = {0.0, 0.0, 0.0, 0.0};

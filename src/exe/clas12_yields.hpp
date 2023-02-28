@@ -91,7 +91,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
-    event->SetMomCorrElec();
+    // event->SetMomCorrElec();
 
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -131,18 +131,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingPip()) {
     // if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
-      // // if (statusProt < 4000 && statusPip < 4000 && statusPim < 4000) {
-      //   // std::cout <<" part_count " << part_count<<std::endl;
-      //   // std::cout << " prot_count " << proton_count << std::endl;
-      //   // std::cout << " pip_count " << pip_count << std::endl;
-      //   // std::cout << " pim_count " << pim_count << std::endl;
 
-      //   // for (int part_again = 0; part_again < part_count; part_again++) {
-
-      //     // if (part_name[] == "Proton"){
-          event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
-          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
-          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
+          // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt);
+          // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip);
+          // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim);
 
       // if (event->Inclusive()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
@@ -215,7 +207,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.prot_mom_exclusive = event->prot_momentum_measured();
         output.prot_theta_exclusive = event->prot_theta_lab_measured();
         output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-        // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+        output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
         output.prot_mom_corr = event->prot_momentum_corrected();
         // output.prot_theta_corr = event->prot_theta_corrected();
@@ -224,7 +216,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.pip_mom_exclusive = event->pip_momentum_measured();
         output.pip_theta_exclusive = event->pip_theta_lab_measured();
         output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-        // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+        output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
         output.pip_mom_corr = event->pip_momentum_corrected();
         // // output.pip_theta_corr = event->pip_theta_corrected();
@@ -233,7 +225,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.pim_mom_exclusive = event->pim_momentum_measured();
         output.pim_theta_exclusive = event->pim_theta_lab_measured();
         output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-        // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+        output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
         output.pim_mom_corr = event->pim_momentum_corrected();
         // // output.pim_theta_corr = event->pim_theta_corrected();
@@ -252,9 +244,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.status_Pim = statusPim;
         output.status_Pip = statusPip;
         output.status_Prot = statusProt;
-        // output.inv_ppip = event->inv_Ppip();
-        // output.inv_ppim = event->inv_Ppim();
-        // output.inv_pip_pim = event->inv_Pippim();
+        output.inv_ppip = event->inv_Ppip();
+        output.inv_ppim = event->inv_Ppim();
+        output.inv_pip_pim = event->inv_Pippim();
 
         output.weight_exclusive = event->weight();
 
