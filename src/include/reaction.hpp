@@ -605,9 +605,13 @@ class Reaction {
   void SetOther(int i);
   void SetNeutron(int i);
 
-  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot);
-  void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip);
-  void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim);
+  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alpha_prot);
+  void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alpha_pip);
+  void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alpha_pim);
+
+  // void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot);
+  // void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip);
+  // void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim);
 
   float rec_pim_px();
   float rec_pim_py();
