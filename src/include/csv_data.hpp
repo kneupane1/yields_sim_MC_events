@@ -165,7 +165,7 @@ struct csv_data {
            "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_"
            "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
            "exclusive_at_zero,energy_x_mu,"
-           "status_Pim,status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pip_pim,min_alpha_prot,min_alpha_pip,mim_alpha_pim,min_deltap,weight";
+           "status_Pim,status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pip_pim,min_alpha_prot,min_alpha_pip,min_alpha_pim,min_deltap,weight";
 
     // mPip case
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";

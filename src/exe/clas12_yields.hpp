@@ -131,13 +131,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingPip()) {
     // if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
-      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5){// &&
+          // abs(event->Energy_excl()) < 0.3) {
         float deltapCom = NAN;
         float min_deltapCom = 9999.9;
         float minimum_alphap = NAN;
         float minimum_alphapip = NAN;
         float minimum_alphapim = NAN;
-        float alpha_universe[30] = {-5.0, -4.0, -3.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.1, 0, 0.05, 0.10, 0.15, 0.25, 0.4, 0.5, 0.65, 0.75, 0.85, 0.95, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0};
+        // float alpha_universe[30] = {-5.0, -4.0, -3.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.1, 0, 0.05, 0.10, 0.15,
+        // 0.25, 0.4, 0.5, 0.65, 0.75, 0.85, 0.95, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0};
+
+        float alpha_universe[30] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
+
         float alpha_proton = NAN;
         float deltapP = NAN;
         float deltapInitialP = NAN;
