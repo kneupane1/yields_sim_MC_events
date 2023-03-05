@@ -141,7 +141,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // float alpha_universe[30] = {-5.0, -4.0, -3.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.1, 0, 0.05, 0.10, 0.15,
         // 0.25, 0.4, 0.5, 0.65, 0.75, 0.85, 0.95, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0};
 
-        float alpha_universe[30] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
+        float alpha_universe[11] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
 
         float alpha_proton = NAN;
         float deltapP = NAN;
@@ -153,9 +153,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         float deltapPim = NAN;
         float deltapInitialPim = NAN;
 
-        for (int alpha_countP = 0; alpha_countP < 30; alpha_countP++) {
-          for (int alpha_countPip = 0; alpha_countPip < 30; alpha_countPip++) {
-            for (int alpha_countPim = 0; alpha_countPim < 30; alpha_countPim++) {
+        for (int alpha_countP = 0; alpha_countP < 11; alpha_countP++) {
+          for (int alpha_countPip = 0; alpha_countPip < 11; alpha_countPip++) {
+            for (int alpha_countPim = 0; alpha_countPim < 11; alpha_countPim++) {
               alpha_proton = alpha_universe[alpha_countP];
               alpha_pip = alpha_universe[alpha_countPip];
               alpha_pim = alpha_universe[alpha_countPim];
