@@ -164,7 +164,7 @@ void Reaction::SetProton(int i) {
 
   /////// _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P); // energy loss corrected
   /////// _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss
-  ///corrected
+  /// corrected
 
   // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
   if (_is_FD) {
@@ -256,7 +256,7 @@ void Reaction::SetPip(int i) {
     fpip = 1.0;
   }
   _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
-  // // _mom_corr_pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
+  // _mom_corr_pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
 
   // // _pip->SetXYZM(_data->px(i) * fpip, _data->py(i) * fpip, _data->pz(i) * fpip, MASS_PIP);
   // // _mom_corr_pip->SetXYZM(_data->px(i) * fpip, _data->py(i) * fpip, _data->pz(i) * fpip, MASS_PIP);
@@ -333,7 +333,7 @@ void Reaction::SetPim(int i) {
     fpim = 1.0;
   }
   _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
-  // // _mom_corr_pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
+  // _mom_corr_pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
 
   // // _pim->SetXYZM(_data->px(i) * fpim, _data->py(i) * fpim, _data->pz(i) * fpim, MASS_PIM);
   // // _mom_corr_pim->SetXYZM(_data->px(i) * fpim, _data->py(i) * fpim, _data->pz(i) * fpim, MASS_PIM);
@@ -610,6 +610,7 @@ void Reaction::CalcMissMass() {
   auto mm_mpip = std::make_unique<TLorentzVector>();
   auto mm_mprot = std::make_unique<TLorentzVector>();
   auto mm_excl = std::make_unique<TLorentzVector>();
+  auto mm_excl_corr = std::make_unique<TLorentzVector>();
 
   *mm += (*_gamma + *_target);
 
@@ -663,6 +664,16 @@ void Reaction::CalcMissMass() {
 
     _MM2_exclusive = mm_excl->M2();
     _excl_Energy = mm_excl->E();
+    _mom_exclusive = mm_excl->P();
+
+    *mm_excl_corr += (*_gamma + *_target);
+    *mm_excl_corr -= *_mom_corr_prot;
+    *mm_excl_corr -= *_mom_corr_pip;
+    *mm_excl_corr -= *_mom_corr_pim;
+
+    _MM2_exclusive_corr = mm_excl_corr->M2();
+    _excl_Energy_corr = mm_excl_corr->E();
+    _mom_exclusive_corr = mm_excl_corr->P();
 
     // _rec_pim_mom = mm->P();
     // _rec_pim_theta = mm->Theta() * 180 / PI;
@@ -754,6 +765,10 @@ float Reaction::MM2_exclusive() {
   if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
   return _MM2_exclusive;
 }
+float Reaction::MM2_exclusive_corr() {
+  if (_MM2_exclusive_corr != _MM2_exclusive_corr) CalcMissMass();
+  return _MM2_exclusive_corr;
+}
 float Reaction::MM2_mPip() {
   if (_MM2_mPip != _MM2_mPip) CalcMissMass();
   return _MM2_mPip;
@@ -805,9 +820,28 @@ float Reaction::MM2_mProt_corr() {
 
 float Reaction::Energy_excl() {
   if (_excl_Energy != _excl_Energy) CalcMissMass();
-  //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
-  //  if (_x_mu_E > 0)
   return _excl_Energy;
+  // else
+  // return NAN;
+}
+
+float Reaction::Mom_excl() {
+  if (_mom_exclusive != _mom_exclusive) CalcMissMass();
+  return _mom_exclusive;
+  // else
+  // return NAN;
+}
+
+float Reaction::Energy_excl_corr() {
+  if (_excl_Energy_corr != _excl_Energy_corr) CalcMissMass();
+  return _excl_Energy_corr;
+  // else
+  // return NAN;
+}
+
+float Reaction::Mom_excl_corr() {
+  if (_mom_exclusive_corr != _mom_exclusive_corr) CalcMissMass();
+  return _mom_exclusive_corr;
   // else
   // return NAN;
 }

@@ -94,6 +94,11 @@ class Reaction {
   float _MM2 = NAN;
   float _MM2_exclusive = NAN;
   float _excl_Energy = NAN;
+  float _mom_exclusive = NAN;
+  float _MM2_exclusive_corr = NAN;
+  float _excl_Energy_corr = NAN;
+  float _mom_exclusive_corr = NAN;
+
   float _MM2_mPip = NAN;
   float _MM2_mProt = NAN;
 
@@ -712,8 +717,15 @@ class Reaction {
   float MM2();
   float MM2_exclusive();
   float Energy_excl();
+  float Mom_excl();
+
   float MM2_mPip();
   float MM2_mProt();
+
+  float MM2_exclusive_corr();
+  float Energy_excl_corr();
+  float Mom_excl_corr();
+
   float MM2_mPim_corr();
   float MM2_mPip_corr();
   float MM2_mProt_corr();
@@ -806,7 +818,6 @@ class MCReaction : public Reaction {
 
   float _MM2_exclusive_mc = NAN;
   float _excl_Energy_mc = NAN;
-
   float _rec_x_mu_mom_mc = NAN;
   float _rec_x_mu_theta_mc = NAN;
   float _x_mu_phi_mc = NAN;

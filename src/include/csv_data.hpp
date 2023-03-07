@@ -52,9 +52,14 @@ struct csv_data {
 
   float pim_theta_exclusive;
   float pim_phi_exclusive;
-  float mm2_exclusive;
+  float mom_x_mu;
   float mm2_exclusive_at_zero;
+  float energy_x_mu;
   float weight_exclusive;
+
+  float mom_x_mu_corr;
+  float mm2_x_mu_corr;
+  float energy_x_mu_corr;
 
   float pip_mom_mPip;
   float pip_theta_mPip;
@@ -65,7 +70,6 @@ struct csv_data {
   float pip_mom_exclusive;
   float pip_theta_exclusive;
   float pip_phi_exclusive;
-  float energy_x_mu;
 
   float prot_mom_mProt;
   float prot_theta_mProt;
@@ -163,9 +167,10 @@ struct csv_data {
            "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "prot_mom_corr,pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_"
-           "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,mm2_"
-           "exclusive_at_zero,energy_x_mu,"
-           "status_Pim,status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pip_pim,min_alpha_prot,min_alpha_pip,min_alpha_pim,min_deltap,weight";
+           "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,"
+           "mm2_exclusive_at_zero,energy_x_mu,mom_x_mu,mm2_x_mu_corr,energy_x_mu_corr,mom_x_mu_corr,"
+           "status_Pim,status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pip_pim,min_alpha_prot,min_alpha_pip,min_alpha_pim,"
+           "min_deltap,weight";
 
     // mPip case
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
@@ -306,6 +311,10 @@ struct csv_data {
     os << std::setprecision(7);
     os << data.mm2_exclusive_at_zero << ",";
     os << data.energy_x_mu << ",";
+    os << data.mom_x_mu << ",";
+    os << data.mm2_x_mu_corr << ",";
+    os << data.energy_x_mu_corr << ",";
+    os << data.mom_x_mu_corr << ",";
     os << std::setprecision(1);
 
     os << data.status_Pim << ",";

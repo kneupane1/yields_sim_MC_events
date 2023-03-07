@@ -141,7 +141,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // float alpha_universe[30] = {-5.0, -4.0, -3.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.1, 0, 0.05, 0.10, 0.15,
         // 0.25, 0.4, 0.5, 0.65, 0.75, 0.85, 0.95, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0};
 
-        float alpha_universe[11] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
+        // float alpha_universe[11] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
+        float alpha_universe[15] = {-50.0, -30.0, -15.0, -10.0, -5.0, -1.0, -0.5, 0, 0.5,  1.0, 5.0, 10.0, 15.0, 30.0, 50.0};
 
         float alpha_proton = NAN;
         float deltapP = NAN;
@@ -291,6 +292,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         output.mm2_exclusive_at_zero = event->MM2_exclusive();
         output.energy_x_mu = event->Energy_excl();
+        output.mom_x_mu = event->Mom_excl();
+
+        output.mm2_x_mu_corr = event->MM2_exclusive_corr();
+        output.energy_x_mu_corr = event->Energy_excl_corr();
+        output.mom_x_mu_corr = event->Mom_excl_corr();
 
         output.status_Pim = statusPim;
         output.status_Pip = statusPip;
