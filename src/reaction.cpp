@@ -445,7 +445,7 @@ void Reaction::Pip_HMom_corr(int status_prot, int status_pip, int status_pim, in
 
 void Reaction::Pim_HMom_corr(int status_prot, int status_pip, int status_pim, int sector_Pim, float alpha_pim) {
   auto uncorr_pim = std::make_unique<TLorentzVector>();
-  // *uncorr_pim += (*_pim);
+  *uncorr_pim += (*_pim);
   // _is_FD_Prot = mom_corr::is_FD(status_prot);
   // _is_FD_Pip = mom_corr::is_FD(status_pip);
   _is_FD_Pim = mom_corr::is_FD(status_pim);

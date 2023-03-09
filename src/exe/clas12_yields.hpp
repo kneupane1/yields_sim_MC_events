@@ -164,7 +164,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
               event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_proton);
               event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_pip);
-              event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
+              // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
 
               deltapCom = pow((event->prot_momentum_corrected() - event->prot_momentum()), 2) +
                           pow((event->pip_momentum_corrected() - event->pip_momentum()), 2) +
