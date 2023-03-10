@@ -155,47 +155,47 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         float deltapPim = NAN;
         float deltapInitialPim = NAN;
 
-        for (int alpha_countP = 0; alpha_countP < 20; alpha_countP++) {
-          for (int alpha_countPip = 0; alpha_countPip < 20; alpha_countPip++) {
-            for (int alpha_countPim = 0; alpha_countPim < 20; alpha_countPim++) {
-              alpha_proton = alpha_universe[alpha_countP];
-              alpha_pip = alpha_universe[alpha_countPip];
-              alpha_pim = alpha_universe[alpha_countPim];
+        // for (int alpha_countP = 0; alpha_countP < 20; alpha_countP++) {
+        //   for (int alpha_countPip = 0; alpha_countPip < 20; alpha_countPip++) {
+        //     for (int alpha_countPim = 0; alpha_countPim < 20; alpha_countPim++) {
+        //       alpha_proton = alpha_universe[alpha_countP];
+        //       alpha_pip = alpha_universe[alpha_countPip];
+        //       alpha_pim = alpha_universe[alpha_countPim];
 
-              event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_proton);
-              event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_pip);
-              // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
+        //       event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_proton);
+        //       event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_pip);
+        //       // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
 
-              deltapCom = pow((event->prot_momentum_corrected() - event->prot_momentum()), 2) +
-                          pow((event->pip_momentum_corrected() - event->pip_momentum()), 2) +
-                          pow((event->pim_momentum_corrected() - event->pim_momentum()), 2);
+        //       deltapCom = pow((event->prot_momentum_corrected() - event->prot_momentum()), 2) +
+        //                   pow((event->pip_momentum_corrected() - event->pip_momentum()), 2) +
+        //                   pow((event->pim_momentum_corrected() - event->pim_momentum()), 2);
 
-              if (deltapCom < min_deltapCom) {
-                minimum_alphap = alpha_proton;
-                minimum_alphapip = alpha_pip;
-                minimum_alphapim = alpha_pim;
-                min_deltapCom = deltapCom;
-              } else
-                continue;
+        //       if (deltapCom < min_deltapCom) {
+        //         minimum_alphap = alpha_proton;
+        //         minimum_alphapip = alpha_pip;
+        //         minimum_alphapim = alpha_pim;
+        //         min_deltapCom = deltapCom;
+        //       } else
+        //         continue;
 
-              // if (deltapInitialP < deltapP)
-              //   deltapInitialP = deltapP;
-              // else
-              //   continue;
-              // if (deltapInitialPip < deltapPip)
-              //   deltapInitialPip = deltapPip;
-              // else
-              //   continue;
-              // if (deltapInitialPim < deltapPim)
-              //   deltapInitialPim = deltapPim;
-              // else
-              //   continue;
-            }
-          }
-        }
-        event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, minimum_alphap);
-        event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, minimum_alphapip);
-        event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, minimum_alphapim);
+        //       // if (deltapInitialP < deltapP)
+        //       //   deltapInitialP = deltapP;
+        //       // else
+        //       //   continue;
+        //       // if (deltapInitialPip < deltapPip)
+        //       //   deltapInitialPip = deltapPip;
+        //       // else
+        //       //   continue;
+        //       // if (deltapInitialPim < deltapPim)
+        //       //   deltapInitialPim = deltapPim;
+        //       // else
+        //       //   continue;
+        //     }
+        //   }
+        // }
+        // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, minimum_alphap);
+        // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, minimum_alphapip);
+        // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, minimum_alphapim);
 
         csv_data output;
 

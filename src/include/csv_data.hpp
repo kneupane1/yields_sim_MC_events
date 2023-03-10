@@ -162,9 +162,9 @@ struct csv_data {
     //        "pim_mom_mes,pim_theta_mes,pim_phi_mes,dcr1_theta_pim,"
     //        "status_Pim,weight";
 
-    return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
-           "miss,pip_mom_miss,pip_"
-           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
+    return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,stp,prot_mom_dp,prot_theta_miss,prot_phi_"
+           "miss,pip_mom_dp,pip_"
+           "theta_miss,pip_phi_miss,pim_mom_dp,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,"
            "prot_mom_corr,pip_mom_mes,pip_theta_mes,pip_phi_"
            "mes,pip_mom_corr,pim_mom_mes,pim_theta_mes,pim_phi_mes,pim_mom_corr,mm2_"
            "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr,"
