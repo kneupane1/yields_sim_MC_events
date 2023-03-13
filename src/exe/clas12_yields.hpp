@@ -142,11 +142,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // 0.25, 0.4, 0.5, 0.65, 0.75, 0.85, 0.95, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0};
 
         // float alpha_universe[11] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
-        // float alpha_universe[20] = {-15.0, -10.0, -5.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.15, 0.0,
-        //                             0.15,  0.25,  0.5,   0.75,  1.0,  2.0,  5.0, 7.0,  10.0,  15.0};
+        float alpha_universe[20] = {-15.0, -10.0, -5.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.15, 0.0,
+                                    0.15,  0.25,  0.5,   0.75,  1.0,  2.0,  5.0, 7.0,  10.0,  15.0};
 
-        float alpha_universe[20] = {-1.0, 0.9,  -0.75, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0,
-                                    0.1,  0.2, 0.3, 0.4,  0.5,  0.6, 0.7, 0.8,  0.9, 1.0 };
+        // float alpha_universe[20] = {-1.0, -0.9, -0.75, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0,
+        //                             0.1,  0.2,  0.3,   0.4,  0.5,  0.6,  0.7,  0.8,  0.9,  1.0};
 
         float alpha_proton = NAN;
         float deltapP = NAN;
@@ -167,7 +167,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
               event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_proton);
               event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_pip);
-              // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
+              event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
 
               deltapCom = pow((event->prot_momentum_corrected() - event->prot_momentum()), 2) +
                           pow((event->pip_momentum_corrected() - event->pip_momentum()), 2) +

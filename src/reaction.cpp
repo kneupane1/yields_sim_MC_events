@@ -377,21 +377,21 @@ void Reaction::Prot_HMom_corr(int status_prot, int status_pip, int status_pim, i
     _prot_mom_prime = mom_corr::CD_prot_Hmom_corr(_prot_mom, _prot_phi, alpha_prot);
   }
   if (_is_FD_Prot) {
-    // _prot_mom_prime = mom_corr::FD_prot_Hmom_corr(_prot_mom, sector_Prot, alpha_prot);
+    _prot_mom_prime = mom_corr::FD_prot_Hmom_corr(_prot_mom, sector_Prot, alpha_prot);
 
-    if (_prot_theta < 27) {
-      if ((_is_FD_Pip) && (_is_FD_Pim)) {
-        _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_lower_All_FD(_prot_mom, sector_Prot, alpha_prot);
-      } else {
-        _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_lower_Except_All_FD(_prot_mom, sector_Prot, alpha_prot);
-      }
-    } else {
-      if ((_is_FD_Pip) && (_is_FD_Pim)) {
-        _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_upper_All_FD(_prot_mom, sector_Prot, alpha_prot);
-      } else {
-        _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_upper_Except_All_FD(_prot_mom, sector_Prot, alpha_prot);
-      }
-    }
+    // if (_prot_theta < 27) {
+    //   if ((_is_FD_Pip) && (_is_FD_Pim)) {
+    //     _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_lower_All_FD(_prot_mom, sector_Prot, alpha_prot);
+    //   } else {
+    //     _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_lower_Except_All_FD(_prot_mom, sector_Prot, alpha_prot);
+    //   }
+    // } else {
+    //   if ((_is_FD_Pip) && (_is_FD_Pim)) {
+    //     _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_upper_All_FD(_prot_mom, sector_Prot, alpha_prot);
+    //   } else {
+    //     _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_upper_Except_All_FD(_prot_mom, sector_Prot, alpha_prot);
+    //   }
+    // }
   }
 
   _px_prime_prot_mom = uncorr_prot->Px() * ((_prot_mom_prime) / (_prot_mom));
@@ -420,21 +420,21 @@ void Reaction::Pip_HMom_corr(int status_prot, int status_pip, int status_pim, in
     _pip_mom_prime = mom_corr::CD_pip_Hmom_corr(_pip_mom, _pip_phi, alpha_pip);
   }
   if (_is_FD_Pip) {
-        // _pip_mom_prime = mom_corr::FD_pip_Hmom_corr(_pip_mom, sector_Pip, alpha_pip);
+        _pip_mom_prime = mom_corr::FD_pip_Hmom_corr(_pip_mom, sector_Pip, alpha_pip);
 
-    if (_pip_theta < 27) {
-      if ((_is_FD_Prot) && (_is_FD_Pim)) {
-        _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_lower_All_FD(_pip_mom, sector_Pip, alpha_pip);
-      } else {
-        _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_lower_Except_All_FD(_pip_mom, sector_Pip, alpha_pip);
-      }
-    } else {
-      if ((_is_FD_Prot) && (_is_FD_Pim)) {
-        _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_upper_All_FD(_pip_mom, sector_Pip, alpha_pip);
-      } else {
-        _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_upper_Except_All_FD(_pip_mom, sector_Pip, alpha_pip);
-      }
-    }
+    // if (_pip_theta < 27) {
+    //   if ((_is_FD_Prot) && (_is_FD_Pim)) {
+    //     _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_lower_All_FD(_pip_mom, sector_Pip, alpha_pip);
+    //   } else {
+    //     _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_lower_Except_All_FD(_pip_mom, sector_Pip, alpha_pip);
+    //   }
+    // } else {
+    //   if ((_is_FD_Prot) && (_is_FD_Pim)) {
+    //     _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_upper_All_FD(_pip_mom, sector_Pip, alpha_pip);
+    //   } else {
+    //     _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_upper_Except_All_FD(_pip_mom, sector_Pip, alpha_pip);
+    //   }
+    // }
   }
 
   _px_prime_pip_mom = uncorr_pip->Px() * ((_pip_mom_prime) / (_pip_mom));
@@ -463,21 +463,21 @@ void Reaction::Pim_HMom_corr(int status_prot, int status_pip, int status_pim, in
     _pim_mom_prime = mom_corr::CD_pim_Hmom_corr(_pim_mom, _pim_phi, alpha_pim);
   }
   if (_is_FD_Pim) {
-        // _pim_mom_prime = mom_corr::FD_pim_Hmom_corr(_pim_mom, sector_Pim, alpha_pim);
+        _pim_mom_prime = mom_corr::FD_pim_Hmom_corr(_pim_mom, sector_Pim, alpha_pim);
 
-    if (_pim_theta < 27) {
-      if ((_is_FD_Pip) && (_is_FD_Prot)) {
-        _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_lower_All_FD(_pim_mom, sector_Pim, alpha_pim);
-      } else {
-        _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_lower_Except_All_FD(_pim_mom, sector_Pim, alpha_pim);
-      }
-    } else {
-      if ((_is_FD_Pip) && (_is_FD_Prot)) {
-        _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_upper_All_FD(_pim_mom, sector_Pim, alpha_pim);
-      } else {
-        _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_upper_Except_All_FD(_pim_mom, sector_Pim, alpha_pim);
-      }
-    }
+    // if (_pim_theta < 27) {
+    //   if ((_is_FD_Pip) && (_is_FD_Prot)) {
+    //     _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_lower_All_FD(_pim_mom, sector_Pim, alpha_pim);
+    //   } else {
+    //     _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_lower_Except_All_FD(_pim_mom, sector_Pim, alpha_pim);
+    //   }
+    // } else {
+    //   if ((_is_FD_Pip) && (_is_FD_Prot)) {
+    //     _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_upper_All_FD(_pim_mom, sector_Pim, alpha_pim);
+    //   } else {
+    //     _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_upper_Except_All_FD(_pim_mom, sector_Pim, alpha_pim);
+    //   }
+    // }
   }
 
   _px_prime_pim_mom = uncorr_pim->Px() * ((_pim_mom_prime) / (_pim_mom));
