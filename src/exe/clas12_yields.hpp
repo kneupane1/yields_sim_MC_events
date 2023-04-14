@@ -47,8 +47,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   size_t total = 0;
   // For each event
 
-  float alpha_CD[3][3] = {{0.9, 0.9, 0.95}, {0.8, 0.4, 0.8}, {0.5, 1.0, 0.5}};
-  float alpha_FD[3][4] = {{0.5, 0.6, 0.5, 0.5}, {0.1, 0.15, 0.5, 0.5}, {0.5, 0.15, 0.3, 0.3}};
+  // float alpha_CD[3][3] = {{0.9, 0.9, 0.95}, {0.8, 0.4, 0.8}, {0.5, 1.0, 0.5}};
+  // float alpha_FD[3][4] = {{0.5, 0.6, 0.5, 0.5}, {0.1, 0.15, 0.5, 0.5}, {0.5, 0.15, 0.3, 0.3}};
+
+  float alpha_CD[3][3];
+  float alpha_FD[3][4];
 
   std::srand(std::chrono::duration_cast<std::chrono::milliseconds>(
                  std::chrono::high_resolution_clock::now().time_since_epoch())
@@ -57,7 +60,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 4; j++) {
       float rand_no = static_cast<float>(std::rand()) / RAND_MAX;
-      alpha_FD[i][j] += alpha_FD[i][j] * (rand_no - 0.5) * 0.1;
+      // alpha_FD[i][j] += alpha_FD[i][j] * (rand_no - 0.5) * 0.1;
+      alpha_FD[i][j] = rand_no ;
+
       std::cout << "fd rand no: " << rand_no << "  alpha : " << alpha_FD[i][j] << std::endl;
     }
   }
@@ -65,7 +70,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       float rand_no = static_cast<float>(std::rand()) / RAND_MAX;
-      alpha_CD[i][j] += alpha_CD[i][j] * (rand_no - 0.5) * 0.1;
+      // alpha_CD[i][j] += alpha_CD[i][j] * (rand_no - 0.5) * 0.1;
+      alpha_CD[i][j] = rand_no;
+
       std::cout << " cd rand no: " << rand_no << "  alpha : " << alpha_CD[i][j] << std::endl;
     }
   }
