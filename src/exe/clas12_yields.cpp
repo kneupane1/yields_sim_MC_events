@@ -3,25 +3,27 @@
 #include <thread>
 
 int main(int argc, char** argv) {
-        // Need this to make sure root doesn't break
-        ROOT::EnableThreadSafety();
-        // std::ios::sync_with_stdio(false);
+  // Initialize alpha_FD before starting any threads
+  initialize_alphas();
+  // Need this to make sure root doesn't break
+  ROOT::EnableThreadSafety();
+  // std::ios::sync_with_stdio(false);
 
-        // Make sure we don't create more threads than files
-        int NUM_THREADS = 4;
-        if (getenv("NUM_THREADS") != NULL) NUM_THREADS = atoi(getenv("NUM_THREADS"));
-        if (NUM_THREADS > argc - NUM_THREADS) NUM_THREADS = 1;
+  // Make sure we don't create more threads than files
+  int NUM_THREADS = 4;
+  if (getenv("NUM_THREADS") != NULL) NUM_THREADS = atoi(getenv("NUM_THREADS"));
+  if (NUM_THREADS > argc - NUM_THREADS) NUM_THREADS = 1;
 
-        // Make a vector of vectors of strings the size of the number of threads
-        std::vector<std::vector<std::string> > infilenames(NUM_THREADS);
-        // Get the output file name
-        std::string outfilename;
+  // Make a vector of vectors of strings the size of the number of threads
+  std::vector<std::vector<std::string> > infilenames(NUM_THREADS);
+  // Get the output file name
+  std::string outfilename;
 
-        if (argc >= 2) {
-                // First argument is the output file
-                outfilename = argv[1];
-                // All other files are split evently by the under of threads
-                for (int i = 2; i < argc; i++) infilenames[i % NUM_THREADS].push_back(argv[i]);
+  if (argc >= 2) {
+    // First argument is the output file
+    outfilename = argv[1];
+    // All other files are split evently by the under of threads
+    for (int i = 2; i < argc; i++) infilenames[i % NUM_THREADS].push_back(argv[i]);
         } else {
                 return 1;
         }
