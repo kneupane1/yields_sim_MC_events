@@ -155,7 +155,7 @@ bool Cuts::IsProton(int i) {
     _proton &= (_data->p(i) > 0.4);
     _proton &= (_data->p(i) < 2.0);
   }
-  _proton &= (_data->p(i) > 0.2);
+  // _proton &= (_data->p(i) > 0.2);
   // //_proton &= (abs(_data->chi2pid(i)) < 0.5);
   return _proton;
 }
@@ -170,7 +170,7 @@ bool Cuts::IsPim(int i) {
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
     _pim &= (_data->p(i) > 0.5);
     _pim &= (_data->p(i) < 4.5);
-  } else if (abs(_data->status(i)) > 4000) {
+  } else if (abs(_data->status(i)) >= 4000) {
     _pim &= (_data->p(i) > 0.2);
     _pim &= (_data->p(i) < 1.9);
   }
