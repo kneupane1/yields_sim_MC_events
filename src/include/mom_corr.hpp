@@ -1,15 +1,15 @@
 #ifndef MOM_CORR_H_GUARD
 #define MOM_CORR_H_GUARD
-#include <ctime>  // add this line to include <ctime> header
 #include <cstdlib>
+#include <ctime>  // add this line to include <ctime> header
 #include <iostream>
 #include "TROOT.h"
 #include "constants.hpp"
 // using namespace std;
 class mom_corr {
  private:
-//   float alpha_prot_mom_corr_FD[4];
-//   float alpha_prot_mom_corr_FD[4] = {0.5, 0.6, 0.5, 0.5};
+  //   float alpha_prot_mom_corr_FD[4];
+  //   float alpha_prot_mom_corr_FD[4] = {0.5, 0.6, 0.5, 0.5};
 
  public:
   mom_corr(){};
@@ -134,6 +134,6 @@ class mom_corr {
   //     // std::cout << "New value in element " << i << " of array: " << alpha_prot_mom_corr_FD[i] << std::endl;
   //   }
   // }
-  };  // namespace mom_corr
+};  // namespace mom_corr
 
 #endif

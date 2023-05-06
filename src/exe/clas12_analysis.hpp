@@ -1,8 +1,3 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #ifndef MAIN_H_GUARD
 #define MAIN_H_GUARD
