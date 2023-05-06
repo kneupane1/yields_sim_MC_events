@@ -1,11 +1,8 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #ifndef CONSTANTS_H_GUARD
 #define CONSTANTS_H_GUARD
+#include <iostream>
+#include <ctime>
 #include <unordered_map>
 #include "TMath.h"
 
@@ -20,7 +17,7 @@ static const int NEGATIVE = -1;
 static const float c_special_units = 29.9792458F;
 // misc. constants
 static const float FSC = 0.00729735253F;
-static const float NA = 6.02214129E23F;               // Avigadro's number
+static const float NA = 6.02214129E23F;               // Avigadro's numbers
 static const float QE = 1.60217646E-19F;              // Charge or electron
 static const double FS_ALPHA = 0.007297352570866302;  // Fine structure alpha
 
@@ -78,5 +75,6 @@ static const float DCR3_HEIGHT = 49.0;
 static const float DCR1_SQUARE = DCR1_HEIGHT * DCR1_HEIGHT;
 static const float DCR2_SQUARE = DCR2_HEIGHT * DCR2_HEIGHT;
 static const float DCR3_SQUARE = DCR3_HEIGHT * DCR3_HEIGHT;
+
 
 #endif
