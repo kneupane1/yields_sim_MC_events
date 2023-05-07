@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv) {
   // Initialize alpha_FD before starting any threads
-  initialize_alphas();
+//   initialize_alphas();
   // Need this to make sure root doesn't break
   ROOT::EnableThreadSafety();
   // std::ios::sync_with_stdio(false);
