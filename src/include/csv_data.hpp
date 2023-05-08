@@ -28,7 +28,7 @@ struct csv_data {
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,status_Pim,status_Pip,status_Prot,weight";
+    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -41,11 +41,11 @@ struct csv_data {
     os << std::setprecision(7);
     os << data.mm2_mPim << ",";
     //  os << data.mm2_mPim_corr << ",";
-    os << std::setprecision(1);
+    // os << std::setprecision(1);
 
-    os << data.status_Pim << ",";
-    os << data.status_Pip << ",";
-    os << data.status_Prot << ",";
+    // os << data.status_Pim << ",";
+    // os << data.status_Pip << ",";
+    // os << data.status_Prot << ",";
     os << std::setprecision(7);
     os << data.weight_mPim << ",";
 
