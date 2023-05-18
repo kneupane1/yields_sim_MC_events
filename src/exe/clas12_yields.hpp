@@ -246,11 +246,11 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       // // // //// using exclusive topology ...................................
 
       // // output.electron_sector = event->sec();
-      output.pim_sec = event->pimSec();
-      output.pip_sec = event->pipSec();
-      output.prot_sec = event->protSec();
-      output.w = event->W();
-      output.q2 = event->Q2();
+      // output.pim_sec = event->pimSec();
+      // output.pip_sec = event->pipSec();
+      // output.prot_sec = event->protSec();
+      // output.w = event->W();
+      // output.q2 = event->Q2();
       // output.w_had = event->w_hadron();
       // // output.w_diff = event->w_difference();
       // output.w_had_corr = event->w_hadron_corr();
@@ -332,23 +332,23 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       output.mm2_mProt_corr = event->MM2_mProt_corr();
       output.mm2_mPip = event->MM2_mPip();
       output.mm2_mPip_corr = event->MM2_mPip_corr();
-      output.mm2_mPim = event->MM2();
+      output.mm2_mPim = event->MM2_mPim();
       output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-      output.mm2_exclusive_at_zero = event->MM2_exclusive();
-      output.energy_x_mu = event->Energy_excl();
-      output.mom_x_mu = event->Mom_excl();
+      // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      // output.energy_x_mu = event->Energy_excl();
+      // output.mom_x_mu = event->Mom_excl();
 
       // output.mm2_x_mu_corr = event->MM2_exclusive_corr();
       // output.energy_x_mu_corr = event->Energy_excl_corr();
       // output.mom_x_mu_corr = event->Mom_excl_corr();
 
-      output.status_Pim = statusPim;
-      output.status_Pip = statusPip;
-      output.status_Prot = statusProt;
-      output.inv_ppip = event->inv_Ppip();
-      output.inv_ppim = event->inv_Ppim();
-      output.inv_pip_pim = event->inv_Pippim();
+      // output.status_Pim = statusPim;
+      // output.status_Pip = statusPip;
+      // output.status_Prot = statusProt;
+      // output.inv_ppip = event->inv_Ppip();
+      // output.inv_ppim = event->inv_Ppim();
+      // output.inv_pip_pim = event->inv_Pippim();
 
       // output.min_alphaP = minimum_alphap;
       // output.min_alphaPip = minimum_alphapip;
