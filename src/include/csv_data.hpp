@@ -129,9 +129,11 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-
-    return "w_rec,q2_rec,stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_"
-           "exclusive_at_zero,energy_x_mu,weight";
+//Pim
+    // return "w_rec,q2_rec,stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_"
+    //        "exclusive_at_zero,energy_x_mu,weight";
+//Pip
+    return "stp,pip_mom_miss,pip_theta_miss,pip_phi_miss,pip_mom_mes,pip_theta_mes,pip_phi_mes,mm2_mPip,weight";
 
     // return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
     //        "miss,pip_mom_miss,pip_"
@@ -292,31 +294,48 @@ struct csv_data {
     //  ///.......................................
 
 
-// for pim eff check
+// // for pim eff check
+
+//      os << std::setprecision(7);
+
+//      os << data.w << ",";
+//      os << data.q2 << ",";
+//      os << data.scalar_product << ",";
+
+//      //missing
+//      os << data.pim_mom_mPim << ",";
+//      os << std::setprecision(5);
+//      os << data.pim_theta_mPim << ",";
+//      os << data.pim_phi_mPim << ",";
+
+//      // // // measured
+//      os << std::setprecision(7);
+//      os << data.pim_mom_exclusive << ",";
+//      os << std::setprecision(5);
+//      os << data.pim_theta_exclusive << ",";
+//      os << data.pim_phi_exclusive << ",";
+//      os << data.mm2_mPim << ",";
+//      // os << data.mm2_mPim_corr << ",";
+//      os << std::setprecision(7);
+//      os << data.mm2_exclusive_at_zero << ",";
+//      os << data.energy_x_mu << ",";
+//      os << data.weight_exclusive << ",";
+
+     // for pip eff check
 
      os << std::setprecision(7);
-
-     os << data.w << ",";
-     os << data.q2 << ",";
      os << data.scalar_product << ",";
 
-     //missing
-     os << data.pim_mom_mPim << ",";
-     os << std::setprecision(5);
-     os << data.pim_theta_mPim << ",";
-     os << data.pim_phi_mPim << ",";
+     // missing
+     os << data.pip_mom_mPip << ",";
+     os << data.pip_theta_mPip << ",";
+     os << data.pip_phi_mPip << ",";
 
      // // // measured
-     os << std::setprecision(7);
-     os << data.pim_mom_exclusive << ",";
-     os << std::setprecision(5);
-     os << data.pim_theta_exclusive << ",";
-     os << data.pim_phi_exclusive << ",";
-     os << data.mm2_mPim << ",";
-     // os << data.mm2_mPim_corr << ",";
-     os << std::setprecision(7);
-     os << data.mm2_exclusive_at_zero << ",";
-     os << data.energy_x_mu << ",";
+     os << data.pip_mom_exclusive << ",";
+     os << data.pip_theta_exclusive << ",";
+     os << data.pip_phi_exclusive << ",";
+     os << data.mm2_mPip << ",";
      os << data.weight_exclusive << ",";
 
      ///.......................................
