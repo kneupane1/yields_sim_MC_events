@@ -89,8 +89,8 @@ class Reaction {
 
   short _sector = -1;
 
-  float _MM = NAN;
-  float _MM2 = NAN;
+  float _MM_mPim = NAN;
+  float _MM2_mPim = NAN;
   float _MM2_exclusive = NAN;
   float _excl_Energy = NAN;
   float _mom_exclusive = NAN;
@@ -712,8 +712,8 @@ class Reaction {
   inline float Phi_star() { return _phi_star; }
 
   void CalcMissMass();
-  float MM();
-  float MM2();
+  float MM_mPim();
+  float MM2_mPim();
   float MM2_exclusive();
   float Energy_excl();
   float Mom_excl();
@@ -782,19 +782,17 @@ class Reaction {
   //                          (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
   //   return _channelTwoPi_excl;
   // }
-  // inline bool TwoPion_missingPip() {
-  //   bool _channelTwoPi_mpip = true;
-
-  //   _channelTwoPi_mpip &=
-  //       ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&&!_hasPip && !_hasNeutron && !_hasOther*/));
-  //   return _channelTwoPi_mpip;
-  // }
-  // inline bool TwoPion_missingProt() {
-  //   bool _channelTwoPi_mprot = true;
-  //   _channelTwoPi_mprot &=
-  //       ((_numPip == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
-  //   return _channelTwoPi_mprot;
-  // }
+  inline bool TwoPion_missingPip() {
+    bool _channelTwoPi_mpip = true;
+    _channelTwoPi_mpip &=((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&& !_hasOther*/));
+    return _channelTwoPi_mpip;
+  }
+  inline bool TwoPion_missingProt() {
+    bool _channelTwoPi_mprot = true;
+    _channelTwoPi_mprot &=
+        ((_numPip == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
+    return _channelTwoPi_mprot;
+  }
 
   const TLorentzVector &e_mu() { return *_beam; }
   const TLorentzVector &e_mu_prime() { return *_elec; }

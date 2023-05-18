@@ -235,35 +235,45 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     // if (event->TwoPion_exclusive()) {
-    if (event->TwoPion_missingPim()) {
-      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-        event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
+    // if (event->TwoPion_missingPim()) {
+      if (event->TwoPion_missingPip()) {
+        if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+          event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
 
-        // std::cout << "alpha when called: 0  " << alpha_PFD[0] << " 1:  " << alpha_PFD[1] << " 2:  " <<
-        // alpha_PFD[2]
-        //           << " 3:  " << alpha_PFD[3] << std::endl;ss
+          // std::cout << "alpha when called: 0  " << alpha_PFD[0] << " 1:  " << alpha_PFD[1] << " 2:  " <<
+          // alpha_PFD[2]
+          //           << " 3:  " << alpha_PFD[3] << std::endl;ss
 
-        event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-        event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+          event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
+          event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
-        //   // total++;
-        csv_data output;
+          //   // total++;
+          csv_data output;
 
-        // mPim .......................................
+          // // mPim .......................................
 
-        output.pim_mom_mPim = event->pim_momentum();
-        output.pim_theta_mPim = event->pim_theta_lab();
-        output.pim_phi_mPim = event->pim_Phi_lab();
-        output.mm2_mPim = event->MM2();
-        // output.mm2_mPim_corr = event->MM2_mPim_corr();
-        output.status_Pim = statusPim;
-        output.status_Pip = statusPip;
-        output.status_Prot = statusProt;
-        output.weight_mPim = event->weight();
+          // output.pim_mom_mPim = event->pim_momentum();
+          // output.pim_theta_mPim = event->pim_theta_lab();
+          // output.pim_phi_mPim = event->pim_Phi_lab();
+          // output.mm2_mPim = event->MM2_mPim();
+          // // output.mm2_mPim_corr = event->MM2_mPim_corr();
+          // output.status_Pim = statusPim;
+          // output.status_Pip = statusPip;
+          // output.status_Prot = statusProt;
+          // output.weight_mPim = event->weight();
 
-        _sync->write(output);
+          // mpip .......................................
+
+          output.pip_mom_mPip = event->pip_momentum();
+          output.pip_theta_mPip = event->pip_theta_lab();
+          output.pip_phi_mPip = event->pip_Phi_lab();
+          output.mm2_mPip = event->MM2_mPip();
+          output.mm2_mPip_corr = event->MM2_mPip_corr();
+          output.weight_mPip = event->weight();
+
+          _sync->write(output);
+        }
       }
-    }
     // }
 
     // std::cout << "event no = " <<total << std::endl;

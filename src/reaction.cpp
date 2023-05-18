@@ -47,8 +47,6 @@ void Reaction::SetElec() {
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   // _W = physics::W_calc(*_beam, *_elec);
   // _Q2 = physics::Q2_calc(*_beam, *_elec);
-
-
 }
 void Reaction::SetMomCorrElec() {
   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
@@ -487,39 +485,95 @@ void Reaction::Pim_HMom_corr(int status_prot, int status_pip, int status_pim, in
 }
 
 void Reaction::CalcMissMass() {
-  auto mm = std::make_unique<TLorentzVector>();
-  *mm += (*_gamma + *_target);
+  auto mm_mPim = std::make_unique<TLorentzVector>();
+  *mm_mPim += (*_gamma + *_target);
+
+  auto mm_mPip = std::make_unique<TLorentzVector>();
+  *mm_mPip += (*_gamma + *_target);
 
   if (TwoPion_missingPim()) {
-    *mm -= *_prot;
-    *mm -= *_pip;
-    // *mm -= *_pim;
-    _MM = mm->M();
-    _MM2 = mm->M2();
+    *mm_mPim -= *_prot;
+    *mm_mPim -= *_pip;
+    // *mm_mPim -= *_pim;
+    _MM_mPim = mm_mPim->M();
+    _MM2_mPim = mm_mPim->M2();
 
-  //   // _rec_pim_mom = mm->P();
-  //   // _rec_pim_theta = mm->Theta() * 180 / PI;
+    //   // _rec_pim_mom = mm->P();
+    //   // _rec_pim_theta = mm->Theta() * 180 / PI;
 
-  //   // if (mm->Phi() >= 0)
-  //   //   _rec_pim_phi = (mm->Phi() * 180 / PI);
-  //   // else if (mm->Phi() < 0)
-  //   //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+    //   // if (mm->Phi() >= 0)
+    //   //   _rec_pim_phi = (mm->Phi() * 180 / PI);
+    //   // else if (mm->Phi() < 0)
+    //   //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
+  }
+  if (TwoPion_missingPip()) {
+    *mm_mPip -= *_prot;
+    *mm_mPip -= *_pim;
+    // *mm_mPip -= *_pip;
+    _MM2_mPip = mm_mPip->M2();
   }
 }
 
-float Reaction::MM() {
-  if (_MM != _MM) CalcMissMass();
-  return _MM;
+float Reaction::MM_mPim() {
+  if (_MM_mPim != _MM_mPim) CalcMissMass();
+  return _MM_mPim;
 }
-float Reaction::MM2() {
-  if (_MM2 != _MM2) CalcMissMass();
-  return _MM2;
+float Reaction::MM2_mPim() {
+  if (_MM2_mPim != _MM2_mPim) CalcMissMass();
+  return _MM2_mPim;
 }
-float Reaction::pim_momentum() {
+
+float Reaction::MM2_mProt() {
+  if (_MM2_mProt != _MM2_mProt) CalcMissMass();
+  return _MM2_mProt;
+}
+
+float Reaction::MM2_mPim_corr() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
   if (TwoPion_missingPim()) {
   // if (TwoPion_exclusive()) {
+    auto missingpim_ = std::make_unique<TLorentzVector>();
+    // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
+    *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
+
+    return missingpim_->M2();
+    // return _rec_pim_mom;
+
+  } else
+    return NAN;
+}
+
+float Reaction::MM2_mPip_corr() {
+  if (TwoPion_missingPip()) {
+  // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+    *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+
+    return missingpip_->M2();
+  }
+  else
+    return NAN;
+}
+
+float Reaction::MM2_mProt_corr() {
+  if (TwoPion_missingProt()) {
+  // if (TwoPion_exclusive()) {
+    auto missingprot_ = std::make_unique<TLorentzVector>();
+    // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
+    *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
+
+    return missingprot_->M2();
+  } else
+    return NAN;
+}
+
+float Reaction::pim_momentum() {
+  // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
+
+  if (TwoPion_missingPim()) {
+    // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -535,7 +589,7 @@ float Reaction::pim_theta_lab() {
   // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
 
   if (TwoPion_missingPim()) {
-  // if (TwoPion_exclusive()) {
+    // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -549,7 +603,7 @@ float Reaction::pim_Phi_lab() {
   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
 
   if (TwoPion_missingPim()) {
-  // if (TwoPion_exclusive()) {
+    // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
     // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
@@ -571,6 +625,63 @@ float Reaction::pim_Phi_lab() {
 //     return NAN;
 // }
 
+
+
+///// pip
+
+float Reaction::MM2_mPip() {
+  if (_MM2_mPip != _MM2_mPip) CalcMissMass();
+  return _MM2_mPip;
+}
+float Reaction::pip_momentum() {
+  // if (_rec_pip_mom != _rec_pip_mom) CalcMissMass();
+
+  if (TwoPion_missingPip()) {
+    // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    // *missingpip_ += *_gamma + *_target - *_prot - *_pip;
+    *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+    /// 4-vect approach
+    // *missingpip_ += *_pip - (*_gamma + *_target - *_prot - *_pim);
+    return missingpip_->P();
+    // return _rec_pip_mom;
+
+  } else
+    return NAN;
+}
+float Reaction::pip_theta_lab() {
+  // if (_rec_pip_theta != _rec_pip_theta) CalcMissMass();
+
+  if (TwoPion_missingPip()) {
+    // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+
+    return missingpip_->Theta() * 180.0 / PI;
+    // return _rec_pip_theta;
+  } else
+    return NAN;
+}
+float Reaction::pip_Phi_lab() {
+  // if (_rec_pip_phi != _rec_pip_phi) CalcMissMass();
+
+  if (TwoPion_missingPip()) {
+    // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+
+    if (missingpip_->Phi() > 0)
+      return missingpip_->Phi() * 180 / PI;
+    else if (missingpip_->Phi() < 0)
+      return (missingpip_->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+    // return _rec_pip_phi;
+  } else
+    return NAN;
+}
 
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }
@@ -625,7 +736,6 @@ void Reaction::boost() {
   _boosted_pim_measured->Boost(0, 0, -beta_1);
   // -beta ko value (0.5 to -0.5 huda
   // samma value aauchha nattra aaudyna)
-
 }
 
 // // float Reaction::pim_momentum_cm() {
