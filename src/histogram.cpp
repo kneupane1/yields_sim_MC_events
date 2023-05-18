@@ -33,7 +33,7 @@ Histogram::Histogram(const std::string& output_file) {
   Q2_MC_hist = std::make_shared<TH1D>("Q2_MC", "Q2", bins, zero, q2_max);
   W_vs_q2_MC = std::make_shared<TH2D>("W_vs_q2_MC", "W_vs_q2", bins, zero, w_max, bins, zero, q2_max);
 
-  MM_neutron = std::make_shared<TH1D>("missMass", "missMass", bins, zero, 4.0);
+  // MM_neutron = std::make_shared<TH1D>("missMass", "missMass", bins, zero, 4.0);
 
   W_hist_singlePip = std::make_shared<TH1D>("W_singlePip", "W_singlePip", bins, zero, w_max);
   Q2_hist_singlePip = std::make_shared<TH1D>("Q2_singlePip", "Q2_singlePip", bins, zero, q2_max);
@@ -118,30 +118,30 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<MCReaction>& _e) {
   }
 }
 
-// W and Q^2
-void Histogram::Fill_WvsQ2_singlePip(const std::shared_ptr<Reaction>& _e) {
-  short sec = _e->sec();
-  W_vs_q2_singlePip->Fill(_e->W(), _e->Q2());
-  W_hist_singlePip->Fill(_e->W());
-  Q2_hist_singlePip->Fill(_e->Q2());
-  MM_neutron->Fill(_e->MM());
-  if (sec > 0 && sec <= 6) {
-    W_vs_MM_singlePip[sec - 1]->Fill(_e->W(), _e->MM());
-    W_vs_q2_singlePip_sec[sec - 1]->Fill(_e->W(), _e->Q2());
-    W_singlePip_sec[sec - 1]->Fill(_e->W());
-    MM_neutron_sec[sec - 1]->Fill(_e->MM());
-  }
-}
+// // W and Q^2
+// void Histogram::Fill_WvsQ2_singlePip(const std::shared_ptr<Reaction>& _e) {
+//   short sec = _e->sec();
+//   W_vs_q2_singlePip->Fill(_e->W(), _e->Q2());
+//   W_hist_singlePip->Fill(_e->W());
+//   Q2_hist_singlePip->Fill(_e->Q2());
+//   MM_neutron->Fill(_e->MM());
+//   if (sec > 0 && sec <= 6) {
+//     W_vs_MM_singlePip[sec - 1]->Fill(_e->W(), _e->MM());
+//     W_vs_q2_singlePip_sec[sec - 1]->Fill(_e->W(), _e->Q2());
+//     W_singlePip_sec[sec - 1]->Fill(_e->W());
+//     MM_neutron_sec[sec - 1]->Fill(_e->MM());
+//   }
+// }
 
-// W and Q^2
-void Histogram::Fill_WvsQ2_Npip(const std::shared_ptr<Reaction>& _e) {
-  short sec = _e->sec();
-  if (sec > 0 && sec <= 6) {
-    W_vs_q2_Npip_sec[sec - 1]->Fill(_e->W(), _e->Q2());
-    W_Npip_sec[sec - 1]->Fill(_e->W());
-    MM_Npip_sec[sec - 1]->Fill(_e->MM());
-  }
-}
+// // W and Q^2
+// void Histogram::Fill_WvsQ2_Npip(const std::shared_ptr<Reaction>& _e) {
+//   short sec = _e->sec();
+//   if (sec > 0 && sec <= 6) {
+//     W_vs_q2_Npip_sec[sec - 1]->Fill(_e->W(), _e->Q2());
+//     W_Npip_sec[sec - 1]->Fill(_e->W());
+//     MM_Npip_sec[sec - 1]->Fill(_e->MM());
+//   }
+// }
 
 void Histogram::Write_WvsQ2() {
   for (short i = 0; i < 3; i++) {
@@ -195,7 +195,7 @@ void Histogram::Write_WvsQ2() {
   Q2_hist_singlePip->SetXTitle("Q^{2} (GeV^{2})");
   if (Q2_hist_singlePip->GetEntries()) Q2_hist_singlePip->Write();
 
-  if (MM_neutron->GetEntries()) MM_neutron->Write();
+  // if (MM_neutron->GetEntries()) MM_neutron->Write();
 
   auto wvsq2_sec = RootOutputFile->mkdir("wvsq2_sec");
   wvsq2_sec->cd();
@@ -211,50 +211,50 @@ void Histogram::Write_WvsQ2() {
     W_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
     W_sec[i]->Write();
   }
-  auto singlePip_sec = RootOutputFile->mkdir("singlePip_sec");
-  singlePip_sec->cd();
-  for (short i = 0; i < num_sectors; i++) {
-    W_vs_q2_singlePip_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-    W_vs_q2_singlePip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
-    W_vs_q2_singlePip_sec[i]->SetOption("COLZ1");
-    if (W_vs_q2_singlePip_sec[i]->GetEntries()) W_vs_q2_singlePip_sec[i]->Write();
-  }
+  // auto singlePip_sec = RootOutputFile->mkdir("singlePip_sec");
+  // singlePip_sec->cd();
+  // for (short i = 0; i < num_sectors; i++) {
+  //   W_vs_q2_singlePip_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
+  //   W_vs_q2_singlePip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
+  //   W_vs_q2_singlePip_sec[i]->SetOption("COLZ1");
+  //   if (W_vs_q2_singlePip_sec[i]->GetEntries()) W_vs_q2_singlePip_sec[i]->Write();
+  // }
 
-  for (short i = 0; i < num_sectors; i++) {
-    W_vs_MM_singlePip[i]->SetOption("COLZ1");
-    W_vs_MM_singlePip[i]->SetYTitle("MM (GeV)");
-    W_vs_MM_singlePip[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
-    if (W_vs_MM_singlePip[i]->GetEntries()) W_vs_MM_singlePip[i]->Write();
-  }
+  // for (short i = 0; i < num_sectors; i++) {
+  //   W_vs_MM_singlePip[i]->SetOption("COLZ1");
+  //   W_vs_MM_singlePip[i]->SetYTitle("MM (GeV)");
+  //   W_vs_MM_singlePip[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
+  //   if (W_vs_MM_singlePip[i]->GetEntries()) W_vs_MM_singlePip[i]->Write();
+  // }
 
-  for (short i = 0; i < num_sectors; i++) {
-    W_singlePip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
-    if (W_singlePip_sec[i]->GetEntries()) W_singlePip_sec[i]->Write();
-  }
+  // for (short i = 0; i < num_sectors; i++) {
+  //   W_singlePip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
+  //   if (W_singlePip_sec[i]->GetEntries()) W_singlePip_sec[i]->Write();
+  // }
 
-  for (short i = 0; i < num_sectors; i++) {
-    if (MM_neutron_sec[i]->GetEntries()) MM_neutron_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.7, 1.1);
-    MM_neutron_sec[i]->SetXTitle("Mass (GeV)");
-    if (MM_neutron_sec[i]->GetEntries()) MM_neutron_sec[i]->Write();
-  }
+  // for (short i = 0; i < num_sectors; i++) {
+  //   if (MM_neutron_sec[i]->GetEntries()) MM_neutron_sec[i]->Fit("gaus", "QMR+", "QMR+", 0.7, 1.1);
+  //   MM_neutron_sec[i]->SetXTitle("Mass (GeV)");
+  //   if (MM_neutron_sec[i]->GetEntries()) MM_neutron_sec[i]->Write();
+  // }
 
-  auto Npip_sec = RootOutputFile->mkdir("Npip_sec");
-  Npip_sec->cd();
+  // auto Npip_sec = RootOutputFile->mkdir("Npip_sec");
+  // Npip_sec->cd();
 
-  for (short i = 0; i < num_sectors; i++) {
-    W_vs_q2_Npip_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
-    W_vs_q2_Npip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
-    W_vs_q2_Npip_sec[i]->SetOption("COLZ1");
-    W_vs_q2_Npip_sec[i]->Write();
-  }
-  for (short i = 0; i < num_sectors; i++) {
-    W_Npip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
-    W_Npip_sec[i]->Write();
-  }
-  for (short i = 0; i < num_sectors; i++) {
-    MM_Npip_sec[i]->SetXTitle("Mass (GeV)");
-    MM_Npip_sec[i]->Write();
-  }
+  // for (short i = 0; i < num_sectors; i++) {
+  //   W_vs_q2_Npip_sec[i]->SetYTitle("Q^{2} (GeV^{2})");
+  //   W_vs_q2_Npip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
+  //   W_vs_q2_Npip_sec[i]->SetOption("COLZ1");
+  //   W_vs_q2_Npip_sec[i]->Write();
+  // }
+  // for (short i = 0; i < num_sectors; i++) {
+  //   W_Npip_sec[i]->SetXTitle("W [Invariant Mass] (GeV/c^{2})");
+  //   W_Npip_sec[i]->Write();
+  // }
+  // for (short i = 0; i < num_sectors; i++) {
+  //   MM_Npip_sec[i]->SetXTitle("Mass (GeV)");
+  //   MM_Npip_sec[i]->Write();
+  // }
 }
 
 void Histogram::Write_WvsQ2MC() {
@@ -356,14 +356,14 @@ void Histogram::makeHists_sector() {
     W_Npip_sec[i] =
         std::make_shared<TH1D>(Form("w_sec_Npip_%d", i + 1), Form("W Npip Sector: %d", i + 1), bins, zero, w_max);
 
-    MM_neutron_sec[i] =
-        std::make_shared<TH1D>(Form("MM_Sec_%d", i + 1), Form("MM neutron Sector: %d", i + 1), bins, zero, 4.0);
+    // MM_neutron_sec[i] =
+    //     std::make_shared<TH1D>(Form("MM_Sec_%d", i + 1), Form("MM neutron Sector: %d", i + 1), bins, zero, 4.0);
 
-    MM_Npip_sec[i] = std::make_shared<TH1D>(Form("MM_Npip_Sec_%d", i + 1), Form("MM^{2} neutron pip Sector: %d", i + 1),
-                                            bins, zero, 4.0);
-    W_vs_MM_singlePip[i] =
-        std::make_shared<TH2D>(Form("W_vs_MM_singlePip_%d", i + 1), Form("W_vs_MM_singlePip_%d", i + 1), bins, zero,
-                               w_max, bins, -q2_max, q2_max);
+    // MM_Npip_sec[i] = std::make_shared<TH1D>(Form("MM_Npip_Sec_%d", i + 1), Form("MM^{2} neutron pip Sector: %d", i + 1),
+    //                                         bins, zero, 4.0);
+    // W_vs_MM_singlePip[i] =
+    //     std::make_shared<TH2D>(Form("W_vs_MM_singlePip_%d", i + 1), Form("W_vs_MM_singlePip_%d", i + 1), bins, zero,
+    //                            w_max, bins, -q2_max, q2_max);
   }
 }
 

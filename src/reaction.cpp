@@ -405,16 +405,17 @@ void Reaction::SetOther(int i) {
 }
 
 void Reaction::CalcMissMass() {
-  auto mm = std::make_unique<TLorentzVector>();
-  *mm += (*_gamma + *_target);
+  auto mm_mPim = std::make_unique<TLorentzVector>();
+  *mm_mPim += (*_gamma + *_target);
+  auto mm_mPip = std::make_unique<TLorentzVector>();
+  *mm_mPip += (*_gamma + *_target);
 
   if (TwoPion_missingPim()) {
-    *mm -= *_prot;
-    *mm -= *_pip;
+    *mm_mPim -= *_prot;
+    *mm_mPim -= *_pip;
     // *mm -= *_pim;
-    _MM = mm->M();
-    _MM2 = mm->M2();
-
+    _MM_mPim = mm_mPim->M();
+    _MM2_mPim = mm_mPim->M2();
   //   // _rec_pim_mom = mm->P();
   //   // _rec_pim_theta = mm->Theta() * 180 / PI;
 
@@ -423,15 +424,21 @@ void Reaction::CalcMissMass() {
   //   // else if (mm->Phi() < 0)
   //   //   _rec_pim_phi = ((mm->Phi() + 2 * PI) * 180 / PI);
   }
+
+  if (TwoPion_missingPip()) {
+    *mm_mPip -= *_prot;
+    *mm_mPip -= *_pim;
+    _MM2_mPip = mm_mPip->M2();
+  }
 }
 
-float Reaction::MM() {
-  if (_MM != _MM) CalcMissMass();
-  return _MM;
+float Reaction::MM_mPim() {
+  if (_MM_mPim != _MM_mPim) CalcMissMass();
+  return _MM_mPim;
 }
-float Reaction::MM2() {
-  if (_MM2 != _MM2) CalcMissMass();
-  return _MM2;
+float Reaction::MM2_mPim() {
+  if (_MM2_mPim != _MM2_mPim) CalcMissMass();
+  return _MM2_mPim;
 }
 float Reaction::pim_momentum() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
@@ -488,6 +495,61 @@ float Reaction::pim_Phi_lab() {
 //     return NAN;
 // }
 
+
+/// pip topology
+
+float Reaction::MM2_mPip() {
+  if (_MM2_mPip != _MM2_mPip) CalcMissMass();
+  return _MM2_mPip;
+}
+float Reaction::pip_momentum() {
+  // if (_rec_pip_mom != _rec_pip_mom) CalcMissMass();
+
+  if (TwoPion_missingPip()) {
+    // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+
+    return missingpip_->P();
+    // return _rec_pip_mom;
+
+  } else
+    return NAN;
+}
+float Reaction::pip_theta_lab() {
+  // if (_rec_pip_theta != _rec_pip_theta) CalcMissMass();
+
+  if (TwoPion_missingPip()) {
+    // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+
+    return missingpip_->Theta() * 180.0 / PI;
+    // return _rec_pip_theta;
+  } else
+    return NAN;
+}
+float Reaction::pip_Phi_lab() {
+  // if (_rec_pip_phi != _rec_pip_phi) CalcMissMass();
+
+  if (TwoPion_missingPip()) {
+    // if (TwoPion_exclusive()) {
+    auto missingpip_ = std::make_unique<TLorentzVector>();
+    *missingpip_ += *_gamma + *_target - *_prot - *_pim;
+    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
+
+    if (missingpip_->Phi() > 0)
+      return missingpip_->Phi() * 180 / PI;
+    else if (missingpip_->Phi() < 0)
+      return (missingpip_->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+    // return _rec_pip_phi;
+  } else
+    return NAN;
+}
 
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }
