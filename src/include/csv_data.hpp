@@ -133,7 +133,10 @@ struct csv_data {
     // return "w_rec,q2_rec,stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mPim,mm2_"
     //        "exclusive_at_zero,energy_x_mu,weight";
 //Pip
-    return "stp,pip_mom_miss,pip_theta_miss,pip_phi_miss,pip_mom_mes,pip_theta_mes,pip_phi_mes,mm2_mPip,weight";
+    // return "stp,pip_mom_miss,pip_theta_miss,pip_phi_miss,pip_mom_mes,pip_theta_mes,pip_phi_mes,mm2_mPip,weight";
+
+    // Prot
+    return "stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,prot_mom_mes,prot_theta_mes,prot_phi_mes,mm2_mProt,weight";
 
     // return "sec_pim,sec_pip,sec_prot,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
     //        "miss,pip_mom_miss,pip_"
@@ -153,7 +156,7 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-     os << std::setprecision(1);
+    //  os << std::setprecision(1);
 
 // For excl case
 
@@ -321,21 +324,38 @@ struct csv_data {
 //      os << data.energy_x_mu << ",";
 //      os << data.weight_exclusive << ",";
 
+    //  // for pip eff check
+
+    //  os << std::setprecision(7);
+    //  os << data.scalar_product << ",";
+
+    //  // missing
+    //  os << data.pip_mom_mPip << ",";
+    //  os << data.pip_theta_mPip << ",";
+    //  os << data.pip_phi_mPip << ",";
+
+    //  // // // measured
+    //  os << data.pip_mom_exclusive << ",";
+    //  os << data.pip_theta_exclusive << ",";
+    //  os << data.pip_phi_exclusive << ",";
+    //  os << data.mm2_mPip << ",";
+    //  os << data.weight_exclusive << ",";
+
      // for pip eff check
 
      os << std::setprecision(7);
      os << data.scalar_product << ",";
 
      // missing
-     os << data.pip_mom_mPip << ",";
-     os << data.pip_theta_mPip << ",";
-     os << data.pip_phi_mPip << ",";
+     os << data.prot_mom_mProt << ",";
+     os << data.prot_theta_mProt << ",";
+     os << data.prot_phi_mProt << ",";
 
      // // // measured
-     os << data.pip_mom_exclusive << ",";
-     os << data.pip_theta_exclusive << ",";
-     os << data.pip_phi_exclusive << ",";
-     os << data.mm2_mPip << ",";
+     os << data.prot_mom_exclusive << ",";
+     os << data.prot_theta_exclusive << ",";
+     os << data.prot_phi_exclusive << ",";
+     os << data.mm2_mProt << ",";
      os << data.weight_exclusive << ",";
 
      ///.......................................
