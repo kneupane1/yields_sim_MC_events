@@ -233,13 +233,9 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, minimum_alphapip);
       // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, minimum_alphapim);
 
-      event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-
-      // std::cout << "alpha when called: 0  " << alpha_PFD[0] << " 1:  " << alpha_PFD[1] << " 2:  " << alpha_PFD[2]
-      //           << " 3:  " << alpha_PFD[3] << std::endl;ss
-
-      event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-      event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+      // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
+      // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
+      // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
       csv_data output;
 
