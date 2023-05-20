@@ -119,8 +119,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     //     event->TwoPion_exclusive()) {
-    if (event->TwoPion_missingPip()) {
+    // if (event->TwoPion_missingPip()) {
       // if (event->TwoPion_missingPim()) {
+    if (event->TwoPion_missingProt()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
         //   // total++;
         csv_data output;
@@ -138,14 +139,24 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   // output.status_Prot = statusProt;
         //   output.weight_mPim = event->weight();
 
-        // mPip .......................................
+        // // mPip .......................................
 
-        output.pip_mom_mPip = event->pip_momentum();
-        output.pip_theta_mPip = event->pip_theta_lab();
-        output.pip_phi_mPip = event->pip_Phi_lab();
-        output.mm2_mPip = event->MM2_mPip();
-        // output.mm2_mPip_corr = event->MM2_mPip_corr();
-        output.weight_mPip = event->weight();
+        // output.pip_mom_mPip = event->pip_momentum();
+        // output.pip_theta_mPip = event->pip_theta_lab();
+        // output.pip_phi_mPip = event->pip_Phi_lab();
+        // output.mm2_mPip = event->MM2_mPip();
+        // // output.mm2_mPip_corr = event->MM2_mPip_corr();
+        // output.weight_mPip = event->weight();
+
+        // mProt .......................................
+
+        output.prot_mom_mProt = event->prot_momentum();
+        output.prot_theta_mProt = event->prot_theta_lab();
+        output.prot_phi_mProt = event->prot_Phi_lab();
+        output.mm2_mProt = event->MM2_mProt();
+        // output.mm2_mProt_corr = event->MM2_mProt_corr();
+        output.weight_mProt = event->weight();
+
 
         _sync->write(output);
       }

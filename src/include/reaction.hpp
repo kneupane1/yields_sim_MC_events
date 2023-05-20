@@ -754,12 +754,12 @@ class Reaction {
     _channelTwoPi_mpip &=((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /* !_hasNeutron && !_hasOther*/));
     return _channelTwoPi_mpip;
   }
-  // inline bool TwoPion_missingProt() {
-  //   bool _channelTwoPi_mprot = true;
-  //   _channelTwoPi_mprot &=
-  //       ((_numPip == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
-  //   return _channelTwoPi_mprot;
-  // }
+  inline bool TwoPion_missingProt() {
+    bool _channelTwoPi_mprot = true;
+    _channelTwoPi_mprot &=
+        ((_numPip == 1 && _numPim == 1) && (_hasE && _hasPip && _hasPim /*&&!_hasP  && !_hasOther*/));
+    return _channelTwoPi_mprot;
+  }
 
   const TLorentzVector &e_mu() { return *_beam; }
   const TLorentzVector &e_mu_prime() { return *_elec; }
