@@ -160,7 +160,7 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-     os << std::setprecision(1);
+     os << std::setprecision(7);
 
     // // os << data.electron_sector << ",";
     // os << data.pim_sec << ",";
