@@ -335,8 +335,8 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       // output.energy_x_mu = event->Energy_excl();
       // output.mom_x_mu = event->Mom_excl();
 
-      // output.mm2_x_mu_corr = event->MM2_exclusive_corr();
-      // output.energy_x_mu_corr = event->Energy_excl_corr();
+      output.mm2_x_mu_corr = event->MM2_exclusive_corr();
+      output.energy_x_mu_corr = event->Energy_excl_corr();
       // output.mom_x_mu_corr = event->Mom_excl_corr();
 
       // output.status_Pim = statusPim;

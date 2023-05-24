@@ -544,13 +544,13 @@ void Reaction::CalcMissMass() {
     _excl_Energy = mm_excl->E();
     _mom_exclusive = mm_excl->P();
 
-    // *mm_excl_corr += (*_gamma + *_target);
-    // *mm_excl_corr -= *_mom_corr_prot;
-    // *mm_excl_corr -= *_mom_corr_pip;
-    // *mm_excl_corr -= *_mom_corr_pim;
+    *mm_excl_corr += (*_gamma + *_target);
+    *mm_excl_corr -= *_mom_corr_prot;
+    *mm_excl_corr -= *_mom_corr_pip;
+    *mm_excl_corr -= *_mom_corr_pim;
 
-    // _MM2_exclusive_corr = mm_excl_corr->M2();
-    // _excl_Energy_corr = mm_excl_corr->E();
+    _MM2_exclusive_corr = mm_excl_corr->M2();
+    _excl_Energy_corr = mm_excl_corr->E();
     // _mom_exclusive_corr = mm_excl_corr->P();
 
     // _rec_pim_mom = mm->P();
@@ -643,10 +643,10 @@ float Reaction::MM2_exclusive() {
   if (_MM2_exclusive != _MM2_exclusive) CalcMissMass();
   return _MM2_exclusive;
 }
-// float Reaction::MM2_exclusive_corr() {
-//   if (_MM2_exclusive_corr != _MM2_exclusive_corr) CalcMissMass();
-//   return _MM2_exclusive_corr;
-// }
+float Reaction::MM2_exclusive_corr() {
+  if (_MM2_exclusive_corr != _MM2_exclusive_corr) CalcMissMass();
+  return _MM2_exclusive_corr;
+}
 float Reaction::MM2_mPip() {
   if (_MM2_mPip != _MM2_mPip) CalcMissMass();
   return _MM2_mPip;
@@ -710,12 +710,12 @@ float Reaction::Mom_excl() {
   // return NAN;
 }
 
-// float Reaction::Energy_excl_corr() {
-//   if (_excl_Energy_corr != _excl_Energy_corr) CalcMissMass();
-//   return _excl_Energy_corr;
-//   // else
-//   // return NAN;
-// }
+float Reaction::Energy_excl_corr() {
+  if (_excl_Energy_corr != _excl_Energy_corr) CalcMissMass();
+  return _excl_Energy_corr;
+  // else
+  // return NAN;
+}
 
 // float Reaction::Mom_excl_corr() {
 //   if (_mom_exclusive_corr != _mom_exclusive_corr) CalcMissMass();
