@@ -172,14 +172,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
       // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
-      // // // // // missing
-      output.prot_mom_mProt = event->prot_momentum();
-      output.prot_theta_mProt = event->prot_theta_lab();
-      output.prot_phi_mProt = event->prot_Phi_lab();
+      // // // // // // missing
+      // output.prot_mom_mProt = event->prot_momentum();
+      // output.prot_theta_mProt = event->prot_theta_lab();
+      // output.prot_phi_mProt = event->prot_Phi_lab();
 
-      // output.pip_mom_mPip = event->pip_momentum();
-      // output.pip_theta_mPip = event->pip_theta_lab();
-      // output.pip_phi_mPip = event->pip_Phi_lab();
+      output.pip_mom_mPip = event->pip_momentum();
+      output.pip_theta_mPip = event->pip_theta_lab();
+      output.pip_phi_mPip = event->pip_Phi_lab();
 
       // output.pim_mom_mPim = event->pim_momentum();
       // output.pim_theta_mPim = event->pim_theta_lab();
