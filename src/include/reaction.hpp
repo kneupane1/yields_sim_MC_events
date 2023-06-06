@@ -609,13 +609,13 @@ class Reaction {
   void SetOther(int i);
   void SetNeutron(int i);
 
-  // void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alpha_prot);
-  // void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alpha_pip);
-  // void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alpha_pim);
+  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alFD, float alCD[3]);
+  void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alFD, float alCD[3]);
+  void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alFD, float alCD[3]);
 
-  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alFD[4], float alCD[3]);
-  void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alFD[4], float alCD[3]);
-  void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alFD[4], float alCD[3]);
+  // void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alFD[4], float alCD[3]);
+  // void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alFD[4], float alCD[3]);
+  // void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alFD[4], float alCD[3]);
 
   float rec_pim_px();
   float rec_pim_py();

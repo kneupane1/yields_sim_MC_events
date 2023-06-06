@@ -120,16 +120,16 @@ bool Cuts::IsPip(int i) {
   _pip &= (_data->pid(i) == PIP);
   // _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
   // _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
-  _pip &= (_data->p(i) > 0.2);
+  // _pip &= (_data->p(i) > 0.2);
   _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
   // // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-    // _pip &= (_data->p(i) > 0.5);
-    // _pip &= (_data->p(i) < 4.6);
+    _pip &= (_data->p(i) > 0.4);  // was 0.5 for w< 2.55
+    _pip &= (_data->p(i) < 7.5);  // was 4.6 for w< 2.55
   } else if (abs(_data->status(i)) >= 4000) {
-    // _pip &= (_data->p(i) > 0.2);
-    // _pip &= (_data->p(i) < 1.7);
+    _pip &= (_data->p(i) > 0.2);  // was same 0.2 for w< 2.55
+    _pip &= (_data->p(i) < 1.8);  // was 1.7 for w< 2.55
   }
   ////_pip &= (abs(_data->chi2pid(i)) < 0.5);
 
@@ -149,13 +149,13 @@ bool Cuts::IsProton(int i) {
   _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-    // _proton &= (_data->p(i) > 0.4);
-    // _proton &= (_data->p(i) < 4.5);
+    _proton &= (_data->p(i) > 0.4);  // was same 0.4 for w< 2.55
+    _proton &= (_data->p(i) < 7);  // was 4.5 for w< 2.55
   } else if (abs(_data->status(i)) >= 4000) {
-    // _proton &= (_data->p(i) > 0.4);
-    // _proton &= (_data->p(i) < 2.0);
+    _proton &= (_data->p(i) > 0.2);  // was 0.4 for w< 2.55
+    _proton &= (_data->p(i) < 2.2); // was 2.0 for w< 2.55
   }
-  _proton &= (_data->p(i) > 0.2);
+  // _proton &= (_data->p(i) > 0.2);
   // //_proton &= (abs(_data->chi2pid(i)) < 0.5);
   return _proton;
 }
@@ -164,16 +164,16 @@ bool Cuts::IsPim(int i) {
   bool _pim = true;
   //   _pim &= (_data->charge(i) == NEGATIVE);
   _pim &= (_data->pid(i) == PIM);
-  _pim &= (_data->p(i) > 0.2);
+  // _pim &= (_data->p(i) > 0.2);
   // _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
   _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-    // _pim &= (_data->p(i) > 0.5);
-    // _pim &= (_data->p(i) < 4.5);
+    _pim &= (_data->p(i) > 0.5);
+    _pim &= (_data->p(i) < 7.5); // up to 4.5 in w< 2.55 gev
   } else if (abs(_data->status(i)) >= 4000) {
-    // _pim &= (_data->p(i) > 0.2);
-    // _pim &= (_data->p(i) < 1.9);
+    _pim &= (_data->p(i) > 0.2);
+    _pim &= (_data->p(i) < 2.0); // up to 1.9 in case of w< 2.55 gev
   }
 
   // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
