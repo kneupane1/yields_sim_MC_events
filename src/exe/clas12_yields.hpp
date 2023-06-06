@@ -163,8 +163,8 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
   // if (event->TwoPion_missingPim()) {
   // if (event->TwoPion_missingPip()) {
   // if (event->TwoPion_missingProt()) {
-  if (event->TwoPion_exclusive()) {
-    if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
+  if (event->TwoPion_exclusive()) {{
+    // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
       // // abs(event->Energy_excl()) < 0.3) {
       // float deltapCom = NAN;
       // float min_deltapCom = 9999.9;
@@ -233,20 +233,23 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, minimum_alphapip);
       // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, minimum_alphapim);
 
-      event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-      event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-      event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+
+//############# THESE ARE OUR MOM CORRECTIONS ####################
+
+      // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
+      // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
+      // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
       csv_data output;
 
       // // // //// using exclusive topology ...................................
 
       // // output.electron_sector = event->sec();
-      // output.pim_sec = event->pimSec();
-      // output.pip_sec = event->pipSec();
-      // output.prot_sec = event->protSec();
-      // output.w = event->W();
-      // output.q2 = event->Q2();
+      output.pim_sec = event->pimSec();
+      output.pip_sec = event->pipSec();
+      output.prot_sec = event->protSec();
+      output.w = event->W();
+      output.q2 = event->Q2();
       // output.w_had = event->w_hadron();
       // // output.w_diff = event->w_difference();
       // output.w_had_corr = event->w_hadron_corr();
@@ -300,7 +303,7 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       output.prot_mom_exclusive = event->prot_momentum_measured();
       output.prot_theta_exclusive = event->prot_theta_lab_measured();
       output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-      output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+      // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
       output.prot_mom_corr = event->prot_momentum_corrected();
       // output.prot_theta_corr = event->prot_theta_corrected();
@@ -309,7 +312,7 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       output.pip_mom_exclusive = event->pip_momentum_measured();
       output.pip_theta_exclusive = event->pip_theta_lab_measured();
       output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-      output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+      // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
       output.pip_mom_corr = event->pip_momentum_corrected();
       // // output.pip_theta_corr = event->pip_theta_corrected();
@@ -318,7 +321,7 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       output.pim_mom_exclusive = event->pim_momentum_measured();
       output.pim_theta_exclusive = event->pim_theta_lab_measured();
       output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-      output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+      // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
       output.pim_mom_corr = event->pim_momentum_corrected();
       // // output.pim_theta_corr = event->pim_theta_corrected();
@@ -331,20 +334,20 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       output.mm2_mPim = event->MM2_mPim();
       output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-      // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-      // output.energy_x_mu = event->Energy_excl();
+      output.mm2_exclusive_at_zero = event->MM2_exclusive();
+      output.energy_x_mu = event->Energy_excl();
       // output.mom_x_mu = event->Mom_excl();
 
       output.mm2_x_mu_corr = event->MM2_exclusive_corr();
       output.energy_x_mu_corr = event->Energy_excl_corr();
       // output.mom_x_mu_corr = event->Mom_excl_corr();
 
-      // output.status_Pim = statusPim;
-      // output.status_Pip = statusPip;
-      // output.status_Prot = statusProt;
-      // output.inv_ppip = event->inv_Ppip();
-      // output.inv_ppim = event->inv_Ppim();
-      // output.inv_pip_pim = event->inv_Pippim();
+      output.status_Pim = statusPim;
+      output.status_Pip = statusPip;
+      output.status_Prot = statusProt;
+      output.inv_ppip = event->inv_Ppip();
+      output.inv_ppim = event->inv_Ppim();
+      output.inv_pip_pim = event->inv_Pippim();
 
       // output.min_alphaP = minimum_alphap;
       // output.min_alphaPip = minimum_alphapip;
