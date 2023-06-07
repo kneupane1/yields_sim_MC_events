@@ -576,19 +576,20 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
   return dp / pp;
 }
 //// NEW method FOR ALL W RANGE USING TWOPION skim data
-double CDProt[3][4] = {
-    {0.1101, -0.3027, 0.1732, -0.05716}, {0.1255, -0.4148, 0.396, -0.11505}, {0.0934, -0.2988, 0.3293, -0.1082}};
+double CDProt[3][5] = {{-0.1469, 0.7793, -1.339, 0.8013, -0.1791},
+                       {0.03082, -0.01495, -0.1974, 0.2642, -0.0895},
+                       {-0.02351, 0.2006, -0.4646, 0.43, -0.1278}};
 
 float mom_corr::CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot_mom_corr_CD[3]) {
   if (phi_ > 270 || phi_ <= 30) {
-    return mom_ - alpha_prot_mom_corr_CD[0] * (CDProt[0][0] * pow(mom_, 3) + CDProt[0][1] * pow(mom_, 2) +
-                                               CDProt[0][2] * pow(mom_, 1) + CDProt[0][3]);
+    return mom_ - alpha_prot_mom_corr_CD[0] * (CDProt[0][0] * pow(mom_, 4) + CDProt[0][1] * pow(mom_, 3) +
+                                               CDProt[0][2] * pow(mom_, 2) + CDProt[0][3] * mom_ + CDProt[0][4]);
   } else if (phi_ > 30 && phi_ <= 150) {
-    return mom_ - alpha_prot_mom_corr_CD[1] * (CDProt[1][0] * pow(mom_, 3) + CDProt[1][1] * pow(mom_, 2) +
-                                               CDProt[1][2] * pow(mom_, 1) + CDProt[1][3]);
+    return mom_ - alpha_prot_mom_corr_CD[1] * (CDProt[1][0] * pow(mom_, 4) + CDProt[1][1] * pow(mom_, 3) +
+                                               CDProt[1][2] * pow(mom_, 2) + CDProt[1][3] * mom_ + CDProt[1][4]);
   } else if (phi_ > 150 && phi_ <= 270) {
-    return mom_ - alpha_prot_mom_corr_CD[2] * (CDProt[2][0] * pow(mom_, 3) + CDProt[2][1] * pow(mom_, 2) +
-                                               CDProt[2][2] * pow(mom_, 1) + CDProt[2][3]);
+    return mom_ - alpha_prot_mom_corr_CD[2] * (CDProt[2][0] * pow(mom_, 4) + CDProt[2][1] * pow(mom_, 3) +
+                                               CDProt[2][2] * pow(mom_, 2) + CDProt[2][3] * mom_ + CDProt[2][4]);
   } else
     return NAN;
 }
@@ -614,19 +615,20 @@ float mom_corr::FD_prot_Hmom_corr(float mom_, float dc_sec, float alpha_prot) {
 }
 
 ///// pip
-double CDPip[3][4] = {
-    {0.0567, -0.10406, -0.04553, 0.0054}, {0.04437, -0.10474, 0.0567, -0.0057}, {-0.01445, 0.0762, -0.05533, 0.005894}};
+double CDPip[3][5] = {{0.02008, -0.01386, -0.02003, -0.0848, 0.01132},
+                      {0.003, 0.03384, -0.09216, 0.0508, -0.004814},
+                      {-0.0642, 0.2113, -0.1926, 0.0702, -0.01304}};
 
 float mom_corr::CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip_mom_corr_CD[3]) {
   if (phi_ > 270 || phi_ <= 30) {
-    return mom_ - alpha_pip_mom_corr_CD[0] * (CDPip[0][0] * pow(mom_, 3) + CDPip[0][1] * pow(mom_, 2) +
-                                              CDPip[0][2] * pow(mom_, 1) + CDPip[0][3]);
+    return mom_ - alpha_pip_mom_corr_CD[0] * (CDPip[0][0] * pow(mom_, 4) + CDPip[0][1] * pow(mom_, 3) +
+                                              CDPip[0][2] * pow(mom_, 2) + CDPip[0][3] * mom_ + CDPip[0][4]);
   } else if (phi_ > 30 && phi_ <= 150) {
-    return mom_ - alpha_pip_mom_corr_CD[1] * (CDPip[1][0] * pow(mom_, 3) + CDPip[1][1] * pow(mom_, 2) +
-                                              CDPip[1][2] * pow(mom_, 1) + CDPip[1][3]);
+    return mom_ - alpha_pip_mom_corr_CD[1] * (CDPip[1][0] * pow(mom_, 4) + CDPip[1][1] * pow(mom_, 3) +
+                                              CDPip[1][2] * pow(mom_, 2) + CDPip[1][3] * mom_ + CDPip[1][4]);
   } else if (phi_ > 150 && phi_ <= 270) {
-    return mom_ - alpha_pip_mom_corr_CD[2] * (CDPip[2][0] * pow(mom_, 3) + CDPip[2][1] * pow(mom_, 2) +
-                                              CDPip[2][2] * pow(mom_, 1) + CDPip[2][3]);
+    return mom_ - alpha_pip_mom_corr_CD[2] * (CDPip[2][0] * pow(mom_, 4) + CDPip[2][1] * pow(mom_, 3) +
+                                              CDPip[2][2] * pow(mom_, 2) + CDPip[2][3] * mom_ + CDPip[2][4]);
   } else
     return NAN;
 }
@@ -652,20 +654,20 @@ float mom_corr::FD_pip_Hmom_corr(float mom_, float dc_sec, float alpha_pip) {
     return NAN;
 }
 ///// pim
-double CDPim[3][4] = {{0.03806, -0.05493, 0.02776, -0.00544},
-                      {0.007496, 0.0076, 0.01862, 0.001124},
-                      {0.0412, -0.0696, -0.01749, 0.01143}};
+double CDPim[3][5] = {{-0.09753, 0.394, -0.4932, 0.2395, -0.03833},
+                      {-0.03668, 0.1414, -0.1572, 0.09827, -0.011246},
+                      {-0.1105, 0.4443, -0.566, 0.2224, -0.02582}};
 
 float mom_corr::CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim_mom_corr_CD[3]) {
   if (phi_ > 270 || phi_ <= 30) {
-    return mom_ - alpha_pim_mom_corr_CD[0] * (CDPim[0][0] * pow(mom_, 3) + CDPim[0][1] * pow(mom_, 2) +
-                                              CDPim[0][2] * pow(mom_, 1) + CDPim[0][3] * mom_);
+    return mom_ - alpha_pim_mom_corr_CD[0] * (CDPim[0][0] * pow(mom_, 4) + CDPim[0][1] * pow(mom_, 3) +
+                                              CDPim[0][2] * pow(mom_, 2) + CDPim[0][3] * mom_ + CDPim[0][4]);
   } else if (phi_ > 30 && phi_ <= 150) {
-    return mom_ - alpha_pim_mom_corr_CD[1] * (CDPim[1][0] * pow(mom_, 3) + CDPim[1][1] * pow(mom_, 2) +
-                                              CDPim[1][2] * pow(mom_, 1) + CDPim[1][3] * mom_);
+    return mom_ - alpha_pim_mom_corr_CD[1] * (CDPim[1][0] * pow(mom_, 4) + CDPim[1][1] * pow(mom_, 3) +
+                                              CDPim[1][2] * pow(mom_, 2) + CDPim[1][3] * mom_ + CDPim[1][4]);
   } else if (phi_ > 150 && phi_ <= 270) {
-    return mom_ - alpha_pim_mom_corr_CD[2] * (CDPim[2][0] * pow(mom_, 3) + CDPim[2][1] * pow(mom_, 2) +
-                                              CDPim[2][2] * pow(mom_, 1) + CDPim[2][3] * mom_);
+    return mom_ - alpha_pim_mom_corr_CD[2] * (CDPim[2][0] * pow(mom_, 4) + CDPim[2][1] * pow(mom_, 3) +
+                                              CDPim[2][2] * pow(mom_, 2) + CDPim[2][3] * mom_ + CDPim[2][4]);
   } else
     return NAN;
 }
