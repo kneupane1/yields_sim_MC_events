@@ -363,16 +363,8 @@ void Reaction::Prot_HMom_corr(int status_prot, int status_pip, int status_pim, i
   *uncorr_prot += (*_prot);
   _is_FD_Prot = objMomCorr->is_FD(status_prot);
   _is_CD_Prot = objMomCorr->is_CD(status_prot);
-  _is_FD_Pip = objMomCorr->is_FD(status_pip);
-  _is_FD_Pim = objMomCorr->is_FD(status_pim);
 
   _prot_mom = uncorr_prot->P();
-  _prot_theta = uncorr_prot->Theta() * 180 / PI;
-
-  if (uncorr_prot->Phi() > 0)
-    _prot_phi = uncorr_prot->Phi() * 180 / PI;
-  else if (_prot->Phi() < 0)
-    _prot_phi = (uncorr_prot->Phi() + 2 * PI) * 180 / PI;
 
   if (_is_CD_Prot) {
     _prot_mom_prime = objMomCorr->CD_prot_Hmom_corr(_prot_mom, _prot_phi, alPCD);
@@ -392,18 +384,11 @@ void Reaction::Pip_HMom_corr(int status_prot, int status_pip, int status_pim, in
   auto uncorr_pip = std::make_unique<TLorentzVector>();
 
   *uncorr_pip += (*_pip);
-  _is_FD_Prot = objMomCorr->is_FD(status_prot);
   _is_CD_Pip = objMomCorr->is_CD(status_pip);
   _is_FD_Pip = objMomCorr->is_FD(status_pip);
-  _is_FD_Pim = objMomCorr->is_FD(status_pim);
 
   _pip_mom = uncorr_pip->P();
   _pip_theta = uncorr_pip->Theta() * 180 / PI;
-
-  if (uncorr_pip->Phi() > 0)
-    _pip_phi = uncorr_pip->Phi() * 180 / PI;
-  else if (_pip->Phi() < 0)
-    _pip_phi = (uncorr_pip->Phi() + 2 * PI) * 180 / PI;
 
   if (_is_CD_Pip) {
     _pip_mom_prime = objMomCorr->CD_pip_Hmom_corr(_pip_mom, _pip_phi, alPCD);
@@ -415,24 +400,16 @@ void Reaction::Pip_HMom_corr(int status_prot, int status_pip, int status_pim, in
   _px_prime_pip_mom = uncorr_pip->Px() * ((_pip_mom_prime) / (_pip_mom));
   _py_prime_pip_mom = uncorr_pip->Py() * ((_pip_mom_prime) / (_pip_mom));
   _pz_prime_pip_mom = uncorr_pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
-  _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_P);
+  _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
 }
 
 void Reaction::Pim_HMom_corr(int status_prot, int status_pip, int status_pim, int sector_Pim, float alPimFD,float alPimCD[3]) {
   auto uncorr_pim = std::make_unique<TLorentzVector>();
   *uncorr_pim += (*_pim);
-  _is_FD_Prot = objMomCorr->is_FD(status_prot);
-  _is_FD_Pip = objMomCorr->is_FD(status_pip);
   _is_FD_Pim = objMomCorr->is_FD(status_pim);
   _is_CD_Pim = objMomCorr->is_CD(status_pim);
 
   _pim_mom = uncorr_pim->P();
-  _pim_theta = uncorr_pim->Theta() * 180 / PI;
-
-  if (uncorr_pim->Phi() > 0)
-    _pim_phi = uncorr_pim->Phi() * 180 / PI;
-  else if (_pim->Phi() < 0)
-    _pim_phi = (uncorr_pim->Phi() + 2 * PI) * 180 / PI;
 
   if (_is_CD_Pim) {
     _pim_mom_prime = objMomCorr->CD_pim_Hmom_corr(_pim_mom, _pim_phi, alPimCD);
