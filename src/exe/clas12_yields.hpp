@@ -248,9 +248,9 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
 
     // //############# THESE ARE OUR MOM CORRECTIONS in wider W range with Twopion skim  ####################
 
-    event->Prot_HMom_corr(statusProt, sectorProt, alpha_FD[0], alpha_CD[0]);
-    event->Pip_HMom_corr(statusPip, sectorPip, alpha_FD[1], alpha_CD[1]);
-    event->Pim_HMom_corr(statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+    // event->Prot_HMom_corr(statusProt, sectorProt, alpha_FD[0], alpha_CD[0]);
+    // event->Pip_HMom_corr(statusPip, sectorPip, alpha_FD[1], alpha_CD[1]);
+    // event->Pim_HMom_corr(statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
     csv_data output;
 
