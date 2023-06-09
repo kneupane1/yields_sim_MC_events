@@ -32,6 +32,10 @@ struct csv_data {
   float pim_mom_mPim;
   float pim_theta_mPim;
   float pim_phi_mPim;
+  float pim_mom_mPim_cm;
+  float pim_theta_mPim_cm;
+  float pim_phi_mPim_cm;
+
   float mm2_mPim;
   float mm2_mPim_corr;
   float weight_mPim;
@@ -129,11 +133,11 @@ struct csv_data {
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     // Pim
-    // return "stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_mProt,"
-    //        "mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,weight";
-    // Pip
-    return "stp,pip_mom_miss,pip_theta_miss,pip_phi_miss,mm2_mProt,mm2_mPip,mm2_mPim,mm2_"
+    return "pim_mom_cm,pim_theta_cm,pim_phi_cm,mm2_mProt,mm2_mPip,mm2_mPim,mm2_"
            "exclusive_at_zero,energy_x_mu,weight";
+    // Pip
+    // return "pip_mom_miss_cm,pip_theta_miss_cm,pip_phi_miss_cm,mm2_mProt,mm2_mPip,mm2_mPim,mm2_"
+    //        "exclusive_at_zero,energy_x_mu,weight";
     // Prot
     // return "stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,mm2_mProt,mm2_mPip,mm2_mPim,mm2_"
     //        "exclusive_at_zero,energy_x_mu,weight";
@@ -188,7 +192,7 @@ struct csv_data {
     //  // os << data.elec_theta_mc << ",";
 
     //  // // os << data.corr_elec_mom << ",";
-    os << data.scalar_product << ",";
+    // os << data.scalar_product << ",";
     //  // // // // Generated
     //  // // // os << std::setprecision(5);
 
@@ -309,31 +313,35 @@ struct csv_data {
     //      os << std::setprecision(5);
     //      os << data.pim_theta_mPim << ",";
     //      os << data.pim_phi_mPim << ",";
+    os << data.pim_mom_mPim_cm << ",";
+    os << data.pim_theta_mPim_cm << ",";
+    os << data.pim_phi_mPim_cm << ",";
 
-    //      // // // measured
-    //      os << std::setprecision(7);
-    //      os << data.pim_mom_exclusive << ",";
-    //      os << std::setprecision(5);
-    //      os << data.pim_theta_exclusive << ",";
-    //      os << data.pim_phi_exclusive << ",";
-    //      os << data.mm2_mProt << ",";
-    //      os << data.mm2_mPip << ",";
-    //      os << data.mm2_mPim << ",";
-    //      // os << data.mm2_mPim_corr << ",";
-    //      os << std::setprecision(7);
-    //      os << data.mm2_exclusive_at_zero << ",";
-    //      os << data.energy_x_mu << ",";
-    //      os << data.weight_exclusive << ",";
+        //  // // // measured
+        //  os << std::setprecision(7);
+        //  os << data.pim_mom_exclusive << ",";
+        //  os << std::setprecision(5);
+        //  os << data.pim_theta_exclusive << ",";
+        //  os << data.pim_phi_exclusive << ",";
+         os << data.mm2_mProt << ",";
+         os << data.mm2_mPip << ",";
+         os << data.mm2_mPim << ",";
+         // os << data.mm2_mPim_corr << ",";
+         os << std::setprecision(7);
+         os << data.mm2_exclusive_at_zero << ",";
+         os << data.energy_x_mu << ",";
+         os << data.weight_exclusive << ",";
 
     //     //  // for pip eff check
 
     //  os << std::setprecision(7);
     //  os << data.scalar_product << ",";
 
-     // missing
-     os << data.pip_mom_mPip << ",";
-     os << data.pip_theta_mPip << ",";
-     os << data.pip_phi_mPip << ",";
+    //  // missing
+    //  os << data.pip_mom_mPip << ",";
+    //  os << data.pip_theta_mPip << ",";
+    //  os << data.pip_phi_mPip << ",";
+
 
     //  // // // measured
     //  os << data.pip_mom_exclusive << ",";
@@ -356,12 +364,12 @@ struct csv_data {
     //  os << data.prot_mom_exclusive << ",";
     //  os << data.prot_theta_exclusive << ",";
     //  os << data.prot_phi_exclusive << ",";
-    os << data.mm2_mProt << ",";
-    os << data.mm2_mPip << ",";
-    os << data.mm2_mPim << ",";
-    os << data.mm2_exclusive_at_zero << ",";
-    os << data.energy_x_mu << ",";
-    os << data.weight_exclusive << ",";
+    // os << data.mm2_mProt << ",";
+    // os << data.mm2_mPip << ",";
+    // os << data.mm2_mPim << ",";
+    // os << data.mm2_exclusive_at_zero << ",";
+    // os << data.energy_x_mu << ",";
+    // os << data.weight_exclusive << ",";
 
     //  ///.......................................
 

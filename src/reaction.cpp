@@ -143,48 +143,6 @@ void Reaction::SetProton(int i) {
   _pz_prime_prot_E = _data->pz(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
 
   _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P); // energy loss corrected
-  // // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
-
-  // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-  // if (_is_FD) {
-  //   fpro = mom_corr::dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
-  // } else {
-  //   fpro = 1.0;
-  // }
-
-  // // // // _px_prime_prot_E = _data->px(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // // // _py_prime_prot_E = _data->py(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // // // _pz_prime_prot_E = _data->pz(i) * fpro * ((_prot_mom_tmt) / (_prot_mom_uncorr));
-  // // // // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
-
-  // _prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro,
-  //                MASS_P);  // energy loss + FD had corr
-
-  // // /// our version of hadron mom corrections
-
-  //   _prot_mom = _prot->P();
-
-  //   if (_prot->Phi() > 0)
-  //     _prot_phi = _prot->Phi() * 180 / PI;
-  //   else if (_prot->Phi() < 0)
-  //     _prot_phi = (_prot->Phi() + 2 * PI) * 180 / PI;
-
-  //   if (_is_CD) {
-  //     _prot_mom_prime = mom_corr::CD_prot_Hmom_corr(_prot_mom, _prot_phi);
-  //   }
-  //   if (_is_FD) {
-  //     if (_is_lower_band) {
-  //       _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_lower(_prot_mom, _sectorProt);
-  //     } else {
-  //       _prot_mom_prime = mom_corr::FD_prot_Hmom_corr_upper(_prot_mom, _sectorProt);
-  //     }
-  //   }
-
-  //   _px_prime_prot_mom = _prot->Px() * ((_prot_mom_prime) / (_prot_mom));
-  //   _py_prime_prot_mom = _prot->Py() * ((_prot_mom_prime) / (_prot_mom));
-  //   _pz_prime_prot_mom = _prot->Pz() * ((_prot_mom_prime) / (_prot_mom));
-  //   _mom_corr_prot->SetXYZM(_px_prime_prot_mom, _py_prime_prot_mom, _pz_prime_prot_mom, MASS_P);
-
 }
 void Reaction::SetPip(int i) {
   _numPip++;
@@ -252,41 +210,6 @@ void Reaction::SetPip(int i) {
 
   _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
-  // // // // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
-
-  // if (_is_FD) {
-  //   // _sectorPip = _data->dc_sec(i);
-  //   // fpip = mom_corr::dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
-  //   fpip = mom_corr::dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
-
-  // } else {
-  //   fpip = 1.0;
-  // }
-  // // _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
-  // _pip->SetXYZM(_data->px(i) * fpip, _data->py(i) * fpip, _data->pz(i) * fpip, MASS_PIP);
-
-  // // // _pip_mom = _pip->P();
-
-  // // // if (_pip->Phi() > 0)
-  // // //   _pip_phi = _pip->Phi() * 180 / PI;
-  // // // else if (_pip->Phi() < 0)
-  // // //   _pip_phi = (_pip->Phi() + 2 * PI) * 180 / PI;
-
-  // // // if (_is_CD) {
-  // // //   _pip_mom_prime = mom_corr::CD_pip_Hmom_corr(_pip_mom, _pip_phi);
-  // // // }
-  // // // if (_is_FD) {
-  // // //   if (_is_lower_band) {
-  // // //     _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_lower(_pip_mom, _sectorPip);
-  // // //   } else {
-  // // //     _pip_mom_prime = mom_corr::FD_pip_Hmom_corr_upper(_pip_mom, _sectorPip);
-  // // //   }
-  // // // }
-
-  // // // _px_prime_pip_mom = _pip->Px() * ((_pip_mom_prime) / (_pip_mom));
-  // // // _py_prime_pip_mom = _pip->Py() * ((_pip_mom_prime) / (_pip_mom));
-  // // // _pz_prime_pip_mom = _pip->Pz() * ((_pip_mom_prime) / (_pip_mom));
-  // // // _mom_corr_pip->SetXYZM(_px_prime_pip_mom, _py_prime_pip_mom, _pz_prime_pip_mom, MASS_PIP);
 
 }
 
@@ -349,43 +272,6 @@ void Reaction::SetPim(int i) {
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
   _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
-
-  // // // // _mom_corr_pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
-
-  // if (_is_FD) {
-  //   // fpim = mom_corr::dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
-  //   fpim = mom_corr::dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
-
-  // } else {
-  //   fpim = 1.0;
-  // }
-  // // _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
-  // _pim->SetXYZM(_data->px(i) * fpim, _data->py(i) * fpim, _data->pz(i) * fpim, MASS_PIM);
-
-  // // // // our hadron mom corrections
-  // //   _pim_mom = _pim->P();
-
-  // //   if (_pim->Phi() > 0)
-  // //     _pim_phi = _pim->Phi() * 180 / PI;
-  // //   else if (_pim->Phi() < 0)
-  // //     _pim_phi = (_pim->Phi() + 2 * PI) * 180 / PI;
-
-  // //   if (_is_CD) {
-  // //     _pim_mom_prime = mom_corr::CD_pim_Hmom_corr(_pim_mom, _pim_phi);
-  // //   }
-  // //   if (_is_FD) {
-  // //     if (_is_lower_band) {
-  // //       _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_lower(_pim_mom, _sectorPim);
-  // //     } else {
-  // //       _pim_mom_prime = mom_corr::FD_pim_Hmom_corr_upper(_pim_mom, _sectorPim);
-  // //     }
-  // //   }
-
-  // //   _px_prime_pim_mom = _pim->Px() * ((_pim_mom_prime) / (_pim_mom));
-  // //   _py_prime_pim_mom = _pim->Py() * ((_pim_mom_prime) / (_pim_mom));
-  // //   _pz_prime_pim_mom = _pim->Pz() * ((_pim_mom_prime) / (_pim_mom));
-  // //   _mom_corr_pim->SetXYZM(_px_prime_pim_mom, _py_prime_pim_mom, _pz_prime_pim_mom, MASS_PIM);
-
 
 }
 
@@ -538,46 +424,6 @@ float Reaction::MM2_mProt() {
   return _MM2_mProt;
 }
 
-// float Reaction::MM2_mPim_corr() {
-//   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
-
-//   // if (TwoPion_missingPim()) {
-//     if (TwoPion_exclusive()) {
-//     auto missingpim_ = std::make_unique<TLorentzVector>();
-//     // *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-//     *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
-
-//     return missingpim_->M2();
-//     // return _rec_pim_mom;
-
-//   } else
-//     return NAN;
-// }
-
-// float Reaction::MM2_mPip_corr() {
-//   // if (TwoPion_missingPip()) {
-//   if (TwoPion_exclusive()) {
-//     auto missingpip_ = std::make_unique<TLorentzVector>();
-//     // *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-//     *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
-
-//     return missingpip_->M2();
-//   } else
-//     return NAN;
-// }
-
-// float Reaction::MM2_mProt_corr() {
-//   // if (TwoPion_missingProt()) {
-//   if (TwoPion_exclusive()) {
-//     auto missingprot_ = std::make_unique<TLorentzVector>();
-//     // *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-//     *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
-
-//     return missingprot_->M2();
-//   } else
-//     return NAN;
-// }
-
 float Reaction::Energy_excl() {
   if (_excl_Energy != _excl_Energy) CalcMissMass();
   //  std::cout << "_x_mu_p  " << _x_mu->E() << '\n';
@@ -593,7 +439,6 @@ float Reaction::pim_momentum() {
   if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
     return missingpim_->P();
     // return _rec_pim_mom;
@@ -608,7 +453,6 @@ float Reaction::pim_theta_lab() {
   if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
     return missingpim_->Theta() * 180.0 / PI;
     // return _rec_pim_theta;
@@ -622,7 +466,6 @@ float Reaction::pim_Phi_lab() {
   if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
-    // *missingpim_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip;
 
     if (missingpim_->Phi() > 0)
       return missingpim_->Phi() * 180 / PI;
@@ -680,20 +523,6 @@ float Reaction::w_hadron() {
 //     return NAN;
 // }
 
-// float Reaction::w_hadron_corr() {
-//   if (TwoPion_exclusive())
-//     return ((*_mom_corr_prot) + (*_mom_corr_pip) + (*_mom_corr_pim)).Mag();
-//   else
-//     return NAN;
-// }
-// float Reaction::w_difference_corr() {
-//   if (TwoPion_exclusive())
-//     return (physics::W_calc(*_beam, *_mom_corr_elec) -
-//             ((*_mom_corr_prot) + (*_mom_corr_pip) + (*_mom_corr_pim)).Mag());
-//   else
-//     return NAN;
-// }
-
 // float Reaction::pim_theta_corrected() {
 //   if (TwoPion_exclusive())
 //     return _mom_corr_pim->Theta() * 180.0 / PI;
@@ -718,7 +547,6 @@ float Reaction::pip_momentum() {
   if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
 
     return missingpip_->P();
   } else
@@ -729,7 +557,6 @@ float Reaction::pip_theta_lab() {
   if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
     return missingpip_->Theta() * 180.0 / PI;
   } else
     return NAN;
@@ -739,7 +566,6 @@ float Reaction::pip_Phi_lab() {
   if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
-    // *missingpip_ += *_gamma + *_target - *_mom_corr_prot - *_mom_corr_pim;
 
     if (missingpip_->Phi() > 0)
       return missingpip_->Phi() * 180 / PI;
@@ -776,30 +602,6 @@ float Reaction::pip_Phi_lab_measured() {
     return NAN;
 }
 
-// float Reaction::pip_momentum_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_pip->P();
-//   else
-//     return NAN;
-// }
-// float Reaction::pip_theta_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_pip->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
-
-// float Reaction::pip_Phi_corrected() {
-//   if (TwoPion_exclusive()) {
-//     if (_mom_corr_pip->Phi() > 0)
-//       return _mom_corr_pip->Phi() * 180 / PI;
-//     else if (_mom_corr_pip->Phi() < 0)
-//       return (_mom_corr_pip->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
 
 ////////////////mProt
 float Reaction::prot_momentum() {
@@ -807,7 +609,6 @@ float Reaction::prot_momentum() {
   if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
     return missingprot_->P();
   } else
@@ -818,7 +619,6 @@ float Reaction::prot_theta_lab() {
   if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
     return missingprot_->Theta() * 180.0 / PI;
   } else
@@ -829,7 +629,6 @@ float Reaction::prot_Phi_lab() {
   if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
-    // *missingprot_ += *_gamma + *_target - *_mom_corr_pip - *_mom_corr_pim;
 
     if (missingprot_->Phi() > 0)
       return missingprot_->Phi() * 180 / PI;
@@ -865,31 +664,6 @@ float Reaction::prot_Phi_lab_measured() {
   } else
     return NAN;
 }
-
-// float Reaction::prot_momentum_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_prot->P();
-//   else
-//     return NAN;
-// }
-// float Reaction::prot_theta_corrected() {
-//   if (TwoPion_exclusive())
-//     return _mom_corr_prot->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
-
-// float Reaction::prot_Phi_corrected() {
-//   if (TwoPion_exclusive()) {
-//     if (_mom_corr_prot->Phi() > 0)
-//       return _mom_corr_prot->Phi() * 180 / PI;
-//     else if (_mom_corr_prot->Phi() < 0)
-//       return (_mom_corr_prot->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
 
 /////////////////////
 
@@ -992,65 +766,65 @@ float_t Reaction::scalar_triple_product() {
     return NAN;
 }
 
-// // float Reaction::pim_momentum_cm() {
-// //         if (!_is_boosted)
-// //                 boost();
-// //         if (TwoPion_missingPim())
-// //                 return _boosted_pim->P();
-// //         else
-// //                 return NAN;
-// // }
+float Reaction::pim_momentum_cm() {
+        if (!_is_boosted)
+                boost();
+        if (TwoPion_exclusive())
+          return _boosted_pim->P();
+        else
+                return NAN;
+}
 
-// float Reaction::pim_theta_cm() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_missingPim())
-//     return _rotated_pim->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
+float Reaction::pim_theta_cm() {
+  if (!_is_boosted) boost();
+  if (TwoPion_exclusive())
+    return _rotated_pim->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
 
-// float Reaction::pim_Phi_cm() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_missingPim()) {
-//     if (_rotated_pim->Phi() > 0)
-//       return _rotated_pim->Phi() * 180 / PI;
-//     else if (_rotated_pim->Phi() < 0)
-//       return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
+float Reaction::pim_Phi_cm() {
+  if (!_is_boosted) boost();
+  if (TwoPion_exclusive()) {
+    if (_rotated_pim->Phi() > 0)
+      return _rotated_pim->Phi() * 180 / PI;
+    else if (_rotated_pim->Phi() < 0)
+      return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 
-// // float Reaction::pim_momentum_cm_measured() {
-// //         if (!_is_boosted)
-// //                 boost();
-// //         if (TwoPion_exclusive())
-// //                 return _boosted_pim_measured->P();
-// //         else
-// //                 return NAN;
-// // }
+float Reaction::pim_momentum_cm_measured() {
+        if (!_is_boosted)
+                boost();
+        if (TwoPion_exclusive())
+                return _boosted_pim_measured->P();
+        else
+                return NAN;
+}
 
-// float Reaction::pim_theta_cm_measured() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_exclusive())
-//     return _rotated_pim_measured->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
+float Reaction::pim_theta_cm_measured() {
+  if (!_is_boosted) boost();
+  if (TwoPion_exclusive())
+    return _rotated_pim_measured->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
 
-// float Reaction::pim_Phi_cm_measured() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_exclusive()) {
-//     if (_rotated_pim_measured->Phi() > 0)
-//       return _rotated_pim_measured->Phi() * 180 / PI;
-//     else if (_rotated_pim_measured->Phi() < 0)
-//       return (_rotated_pim_measured->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
+float Reaction::pim_Phi_cm_measured() {
+  if (!_is_boosted) boost();
+  if (TwoPion_exclusive()) {
+    if (_rotated_pim_measured->Phi() > 0)
+      return _rotated_pim_measured->Phi() * 180 / PI;
+    else if (_rotated_pim_measured->Phi() < 0)
+      return (_rotated_pim_measured->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 
 MCReaction::MCReaction(const std::shared_ptr<Branches12>& data, float beam_enrgy) {
   _data = data;

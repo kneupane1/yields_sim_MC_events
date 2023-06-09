@@ -148,7 +148,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // output.elec_energy = event->elec_En();
       // output.elec_theta = event->Theta_Elec();
       // output.corr_elec_mom = event->Corr_elec_mom();
-      output.scalar_product = event->scalar_triple_product();
+      // output.scalar_product = event->scalar_triple_product();
 
       // // //   // // for generated case
       //   output.w_mc = mc_event->W_mc();
@@ -177,13 +177,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // output.prot_theta_mProt = event->prot_theta_lab();
       // output.prot_phi_mProt = event->prot_Phi_lab();
 
-      output.pip_mom_mPip = event->pip_momentum();
-      output.pip_theta_mPip = event->pip_theta_lab();
-      output.pip_phi_mPip = event->pip_Phi_lab();
+      // output.pip_mom_mPip = event->pip_momentum();
+      // output.pip_theta_mPip = event->pip_theta_lab();
+      // output.pip_phi_mPip = event->pip_Phi_lab();
 
       // output.pim_mom_mPim = event->pim_momentum();
       // output.pim_theta_mPim = event->pim_theta_lab();
       // output.pim_phi_mPim = event->pim_Phi_lab();
+
+      output.pim_mom_mPim_cm = event->pim_momentum_cm();
+      output.pim_theta_mPim_cm = event->pim_theta_cm();
+      output.pim_phi_mPim_cm = event->pim_Phi_cm();
 
       // // // // recon mes
       // // output.prot_mom_exclusive = event->prot_momentum_corrected();
