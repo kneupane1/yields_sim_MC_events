@@ -130,7 +130,7 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
 
   // Make a reaction class from the data given
   auto event = std::make_shared<Reaction>(data, beam_energy);
-  // event->SetMomCorrElec();
+  event->SetMomCorrElec();
 
   // // For each particle in the event
   for (int part = 1; part < data->gpart(); part++) {
@@ -174,11 +174,11 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       // // abs(event->Energy_excl()) < 0.3) {
 
 
-    // // //############# THESE ARE OUR MOM CORRECTIONS ####################
+    // //############# THESE ARE OUR MOM CORRECTIONS ####################
 
-    // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-    // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-    // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+    event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
+    event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
+    event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
     // // //############# THESE ARE OUR MOM CORRECTIONS in wider W range with Twopion skim  ####################
 
