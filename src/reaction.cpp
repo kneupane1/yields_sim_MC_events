@@ -743,16 +743,27 @@ std::string Reaction::ReacToCsv() {
 
 void Reaction::boost() {
   _is_boosted = true;
-  _boosted_prot = std::make_unique<TLorentzVector>(*_prot);
-  _boosted_pip = std::make_unique<TLorentzVector>(*_pip);
-  _boosted_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_prot - *_pip);  //(*_pim);
-  _boosted_gamma = std::make_unique<TLorentzVector>(*_gamma);
-  _boosted_pim_measured = std::make_unique<TLorentzVector>(*_pim);
+  // _boosted_prot = std::make_unique<TLorentzVector>(*_prot);
+  // _boosted_pip = std::make_unique<TLorentzVector>(*_pip);
+  // _boosted_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_prot - *_pip);  //(*_pim);
+  // _boosted_gamma = std::make_unique<TLorentzVector>(*_gamma);
+  // _boosted_pim_measured = std::make_unique<TLorentzVector>(*_pim);
 
-  _rotated_prot = std::make_unique<TLorentzVector>(*_prot);
-  _rotated_pip = std::make_unique<TLorentzVector>(*_pip);
-  _rotated_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_prot - *_pip);  //(*_pim);
-  _rotated_pim_measured = std::make_unique<TLorentzVector>(*_pim);
+  // _rotated_prot = std::make_unique<TLorentzVector>(*_prot);
+  // _rotated_pip = std::make_unique<TLorentzVector>(*_pip);
+  // _rotated_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_prot - *_pip);  //(*_pim);
+  // _rotated_pim_measured = std::make_unique<TLorentzVector>(*_pim);
+
+  _boosted_prot = std::make_unique<TLorentzVector>(*_mom_corr_prot);
+  _boosted_pip = std::make_unique<TLorentzVector>(*_mom_corr_pip);
+  _boosted_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip);  //(*_pim);
+  _boosted_gamma = std::make_unique<TLorentzVector>(*_gamma);
+  _boosted_pim_measured = std::make_unique<TLorentzVector>(*_mom_corr_pim);
+
+  _rotated_prot = std::make_unique<TLorentzVector>(*_mom_corr_prot);
+  _rotated_pip = std::make_unique<TLorentzVector>(*_mom_corr_pip);
+  _rotated_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip);  //(*_pim);
+  _rotated_pim_measured = std::make_unique<TLorentzVector>(*_mom_corr_pim);
 
   TRotation rot;
   _boosted_gamma->Transform(rot);
@@ -783,44 +794,44 @@ void Reaction::boost() {
   // samma value aauchha nattra aaudyna)
 }
 
-// // float Reaction::pim_momentum_cm() {
-// //         if (!_is_boosted)
-// //                 boost();
-// //         if (TwoPion_missingPim())
-// //                 return _boosted_pim->P();
-// //         else
-// //                 return NAN;
-// // }
+float Reaction::pim_momentum_cm() {
+        if (!_is_boosted)
+                boost();
+        if (TwoPion_missingPim())
+                return _boosted_pim->P();
+        else
+                return NAN;
+}
 
-// float Reaction::pim_theta_cm() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_missingPim())
-//     return _rotated_pim->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
+float Reaction::pim_theta_cm() {
+  if (!_is_boosted) boost();
+  if (TwoPion_missingPim())
+    return _rotated_pim->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
+
+float Reaction::pim_Phi_cm() {
+  if (!_is_boosted) boost();
+  if (TwoPion_missingPim()) {
+    if (_rotated_pim->Phi() > 0)
+      return _rotated_pim->Phi() * 180 / PI;
+    else if (_rotated_pim->Phi() < 0)
+      return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
+
+// float Reaction::pim_momentum_cm_measured() {
+//         if (!_is_boosted)
+//                 boost();
+//         if (TwoPion_exclusive())
+//                 return _boosted_pim_measured->P();
+//         else
+//                 return NAN;
 // }
-
-// float Reaction::pim_Phi_cm() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_missingPim()) {
-//     if (_rotated_pim->Phi() > 0)
-//       return _rotated_pim->Phi() * 180 / PI;
-//     else if (_rotated_pim->Phi() < 0)
-//       return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
-
-// // float Reaction::pim_momentum_cm_measured() {
-// //         if (!_is_boosted)
-// //                 boost();
-// //         if (TwoPion_exclusive())
-// //                 return _boosted_pim_measured->P();
-// //         else
-// //                 return NAN;
-// // }
 
 // float Reaction::pim_theta_cm_measured() {
 //   if (!_is_boosted) boost();

@@ -1417,7 +1417,6 @@ float mom_corr::FD_pip_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, f
 double CDPim[3][5] = {{-0.06088, 0.2715, -0.355, 0.1799, -0.03076},
                       {-0.01833, 0.08844, -0.1082, 0.08466, -0.01088},
                       {-0.1163, 0.4768, -0.616, 0.2512, -0.03062}};
-
 float mom_corr::CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim_mom_corr_CD[3]) {
   if (phi_ > 270 || phi_ <= 30) {
     return mom_ - alpha_pim_mom_corr_CD[0] * (CDPim[0][0] * pow(mom_, 4) + CDPim[0][1] * pow(mom_, 3) +
