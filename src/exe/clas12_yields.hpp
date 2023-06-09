@@ -17,11 +17,11 @@ using namespace std;
 // float alpha_CD[3][3] = {{1.0, 0.95, 0.95}, {0.95, 0.9, 0.95}, {0.45, 0.75, 0.7}};
 // float alpha_FD[3] = {0.4, 0.3,  0.2};
 
-float alpha_CD[3][3] = {{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}};
-float alpha_FD[3] = {0.5, 0.5, 0.5};
+// float alpha_CD[3][3] = {{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}};
+// float alpha_FD[3] = {0.5, 0.5, 0.5};
 
-// float alpha_CD[3][3] = {{0.9, 0.9, 0.95}, {0.8, 0.4, 0.8}, {0.5, 1.0, 0.5}};
-// float alpha_FD[3][4] = {{0.5, 0.6, 0.5, 0.5}, {0.1, 0.15, 0.5, 0.5}, {0.5, 0.15, 0.3, 0.3}};
+float alpha_CD[3][3] = {{0.9, 0.9, 0.95}, {0.8, 0.4, 0.8}, {0.5, 1.0, 0.5}};
+float alpha_FD[3][4] = {{0.5, 0.6, 0.5, 0.5}, {0.1, 0.15, 0.5, 0.5}, {0.5, 0.15, 0.3, 0.3}};
 
 // float alpha_CD[3][3];
 // float alpha_FD[3][4];
@@ -169,8 +169,8 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
   // if (event->TwoPion_missingPim()) {
   // if (event->TwoPion_missingPip()) {
   // if (event->TwoPion_missingProt()) {
-  if (event->TwoPion_exclusive()) {{
-    // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
+  if (event->TwoPion_exclusive()) {
+    if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
       // // abs(event->Energy_excl()) < 0.3) {
       // float deltapCom = NAN;
       // float min_deltapCom = 9999.9;
@@ -242,9 +242,9 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
 
     // //############# THESE ARE OUR MOM CORRECTIONS ####################
 
-    // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-    // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-    // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+    event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
+    event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
+    event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
     // //############# THESE ARE OUR MOM CORRECTIONS in wider W range with Twopion skim  ####################
 
