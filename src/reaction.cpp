@@ -661,35 +661,35 @@ void Reaction::boost() {
   // samma value aauchha nattra aaudyna)
 }
 
-// // float Reaction::pim_momentum_cm() {
-// //         if (!_is_boosted)
-// //                 boost();
-// //         if (TwoPion_missingPim())
-// //                 return _boosted_pim->P();
-// //         else
-// //                 return NAN;
-// // }
+float Reaction::pim_momentum_cm() {
+        if (!_is_boosted)
+                boost();
+        if (TwoPion_missingPim())
+                return _boosted_pim->P();
+        else
+                return NAN;
+}
 
-// float Reaction::pim_theta_cm() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_missingPim())
-//     return _rotated_pim->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
+float Reaction::pim_theta_cm() {
+  if (!_is_boosted) boost();
+  if (TwoPion_missingPim())
+    return _rotated_pim->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
 
-// float Reaction::pim_Phi_cm() {
-//   if (!_is_boosted) boost();
-//   if (TwoPion_missingPim()) {
-//     if (_rotated_pim->Phi() > 0)
-//       return _rotated_pim->Phi() * 180 / PI;
-//     else if (_rotated_pim->Phi() < 0)
-//       return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
+float Reaction::pim_Phi_cm() {
+  if (!_is_boosted) boost();
+  if (TwoPion_missingPim()) {
+    if (_rotated_pim->Phi() > 0)
+      return _rotated_pim->Phi() * 180 / PI;
+    else if (_rotated_pim->Phi() < 0)
+      return (_rotated_pim->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 
 // // float Reaction::pim_momentum_cm_measured() {
 // //         if (!_is_boosted)
