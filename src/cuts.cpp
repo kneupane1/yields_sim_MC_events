@@ -3,7 +3,6 @@
 #include "TFile.h"
 #include "histogram.hpp"
 #include "reaction.hpp"
-
 Cuts::Cuts(const std::shared_ptr<Branches12> &data) : _data(data) { _dt = std::make_shared<Delta_T>(data); }
 Cuts::Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : _data(data), _dt(dt) {}
 // size_t run(std::shared_ptr<TChain> _chain, std::shared_ptr<Histogram> _hists,
