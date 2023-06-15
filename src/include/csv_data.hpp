@@ -30,6 +30,9 @@ struct csv_data {
 
 
   float scalar_product;
+  float scalar_product_lab;
+  float scalar_product_rot;
+
   float pim_mom_mPim;
   float pim_theta_mPim;
   float pim_phi_mPim;
@@ -192,6 +195,9 @@ struct csv_data {
 
     // // os << data.corr_elec_mom << ",";
     os << data.scalar_product << ",";
+    // os << data.scalar_product_rot << ",";
+    // os << data.scalar_product_lab << ",";
+
     // // // // Generated
     // // // os << std::setprecision(7);
 

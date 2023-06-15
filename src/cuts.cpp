@@ -1,8 +1,4 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
+
 #include "cuts.hpp"
 #include <iostream>
 #include "TFile.h"

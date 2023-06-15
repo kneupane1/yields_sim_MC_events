@@ -130,7 +130,7 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
 
   // Make a reaction class from the data given
   auto event = std::make_shared<Reaction>(data, beam_energy);
-  event->SetMomCorrElec();
+  // event->SetMomCorrElec();
 
   // // For each particle in the event
   for (int part = 1; part < data->gpart(); part++) {
@@ -169,8 +169,8 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
   // if (event->TwoPion_missingPim()) {
   // if (event->TwoPion_missingPip()) {
   // if (event->TwoPion_missingProt()) {
-  if (event->TwoPion_exclusive()) {
-    if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
+  if (event->TwoPion_exclusive()) {{
+    // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
       // // abs(event->Energy_excl()) < 0.3) {
       // float deltapCom = NAN;
       // float min_deltapCom = 9999.9;
@@ -240,17 +240,17 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
       // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, minimum_alphapim);
 
 
-    // //############# THESE ARE OUR MOM CORRECTIONS ####################
+    // // //############# THESE ARE OUR MOM CORRECTIONS ####################
 
-    event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-    event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-    event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+    // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
+    // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
+    // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
-    // //############# THESE ARE OUR MOM CORRECTIONS in wider W range with Twopion skim  ####################
+    // // //############# THESE ARE OUR MOM CORRECTIONS in wider W range with Twopion skim  ####################
 
-    // event->Prot_HMom_corr(statusProt, sectorProt, alpha_FD[0], alpha_CD[0]);
-    // event->Pip_HMom_corr(statusPip, sectorPip, alpha_FD[1], alpha_CD[1]);
-    // event->Pim_HMom_corr(statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
+    // // event->Prot_HMom_corr(statusProt, sectorProt, alpha_FD[0], alpha_CD[0]);
+    // // event->Pip_HMom_corr(statusPip, sectorPip, alpha_FD[1], alpha_CD[1]);
+    // // event->Pim_HMom_corr(statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
 
     csv_data output;
 
@@ -272,6 +272,8 @@ for (size_t current_event = 0; current_event < num_of_events; current_event++) {
     // output.elec_theta = event->Theta_Elec();
     // output.corr_elec_mom = event->Corr_elec_mom();
     output.scalar_product = event->scalar_triple_product();
+    // output.scalar_product_rot = event->scalar_triple_product_rot();
+    // output.scalar_product_lab = event->scalar_triple_product_lab();
 
     // // //   // // for generated case
     //   output.w_mc = mc_event->W_mc();

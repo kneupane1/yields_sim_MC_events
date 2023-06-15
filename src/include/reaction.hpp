@@ -52,6 +52,14 @@ class Reaction {
   TVector3 _pip_Vect3;
   TVector3 _pim_Vect3;
 
+  TVector3 _rot_prot_Vect3;
+  TVector3 _rot_pip_Vect3;
+  TVector3 _rot_pim_Vect3;
+
+  TVector3 _lab_prot_Vect3;
+  TVector3 _lab_pip_Vect3;
+  TVector3 _lab_pim_Vect3;
+
   // std::unique_ptr<TLorentzVector> _missingPim;
   std::unique_ptr<TLorentzVector> _boosted_pim_measured;
 
@@ -757,6 +765,8 @@ class Reaction {
   inline float W_after() { return _W_after; }
 
   float_t scalar_triple_product();
+  float_t scalar_triple_product_rot();
+  float_t scalar_triple_product_lab();
 
   inline short sec() { return _data->dc_sec(0); }
   inline short pimSec() { return _sectorPim; }
