@@ -168,8 +168,11 @@ void Reaction::SetProton(int i) {
 
   // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
   if (_is_FD_Prot) {
+  //  std::cout<<" here is is fd  "<<_is_FD_Prot<<std::endl;
     fpro = objMomCorr->dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
   } else {
+    // std::cout << " here is is cd  " << _is_CD_Prot << std::endl;
+
     fpro = 1.0;
   }
   // // one question here are these corrections good for all FD protons or just for FD prot with FD pip, FD pim???
@@ -248,11 +251,15 @@ void Reaction::SetPip(int i) {
   // _mom_corr_pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
   if (_is_FD_Pip) {
+    // std::cout << "  pip fd  " << _is_FD_Pip << std::endl;
+
     // _sectorPip = _data->dc_sec(i);
     fpip = objMomCorr->dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
     // fpip = objMomCorr->dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 1) + 1;
 
   } else {
+    // std::cout << "  pip cd  " << _is_CD_Pip << std::endl;
+
     fpip = 1.0;
   }
   _pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
@@ -327,9 +334,13 @@ void Reaction::SetPim(int i) {
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
   if (_is_FD_Pim) {
+    // std::cout << " pim fd  " << _is_FD_Pim << std::endl;
+
     fpim = objMomCorr->dppC(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, _data->dc_sec(i), 2) + 1;
     // fpim = objMomCorr->dppC(_data->px(i), _data->py(i), _data->pz(i), _data->dc_sec(i), 2) + 1;
   } else {
+    // std::cout << " pim cd  " << _is_CD_Pim << std::endl;
+
     fpim = 1.0;
   }
   _pim->SetXYZM(_px_prime_pim_E * fpim, _py_prime_pim_E * fpim, _pz_prime_pim_E * fpim, MASS_PIM);
