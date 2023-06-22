@@ -82,8 +82,6 @@ class Reaction {
 
   bool _is_FD_Pim = false;
   bool _is_CD_Pim = false;
-  bool _is_FD = false;
-  bool _is_CD = false;
 
   bool _is_lower_band = false;
 
