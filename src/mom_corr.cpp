@@ -375,14 +375,14 @@ float mom_corr::FD_pim_Eph_corr_upper(float mom_, float theta_, float phi_) {
 }
 // //////////////////// Task FORCE mom correction start Aug 2022 Version
 double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
-// auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec) {
-// ivec = 0 --> Electron Corrections
-// ivec = 1 --> Pi+ Corrections
-// ivec = 2 --> Pi- Corrections
-// ivec = 3 --> Proton Corrections
+  // auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec) {
+  // ivec = 0 --> Electron Corrections
+  // ivec = 1 --> Pi+ Corrections
+  // ivec = 2 --> Pi- Corrections
+  // ivec = 3 --> Proton Corrections
 
-// Momentum Magnitude
-double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
+  // Momentum Magnitude
+  double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 
   // Initializing the correction factor
   double dp = 0;
@@ -573,7 +573,6 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 
   return dp / pp;
 }
-
 
 // /////////////////////////////////////////// new Momentum Corrections Last Updated: December 23, 2022 (Not Finalized)
 
@@ -773,8 +772,8 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 //     }
 //     if (sec == 2) {
 //       dp = (1.4819E-06 * phi * phi + -3.7222E-05 * phi + 1.3426E-03) * pp * pp +
-//            (-1.4990E-06 * phi * phi + 9.6467E-05 * phi + -1.9363E-02) * pp + 1.1426E-06 * phi * phi + 4.5750E-05 * phi +
-//            3.7193E-02 - 0.005;
+//            (-1.4990E-06 * phi * phi + 9.6467E-05 * phi + -1.9363E-02) * pp + 1.1426E-06 * phi * phi + 4.5750E-05 *
+//            phi + 3.7193E-02 - 0.005;
 //     }
 
 //     if (sec == 3) {
@@ -785,8 +784,8 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 
 //     if (sec == 4) {
 //       dp = (-4.6480E-07 * phi * phi + -1.7373E-06 * phi + 3.4723E-03) * pp * pp +
-//            (6.8267E-07 * phi * phi + 1.3368E-04 * phi + -2.4534E-02) * pp + 9.9275E-06 * phi * phi + -1.5813E-04 * phi +
-//            4.0981E-02 - 0.004;
+//            (6.8267E-07 * phi * phi + 1.3368E-04 * phi + -2.4534E-02) * pp + 9.9275E-06 * phi * phi + -1.5813E-04 *
+//            phi + 4.0981E-02 - 0.004;
 //     }
 
 //     if (sec == 5) {
@@ -830,12 +829,14 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 //       dp =
 //           ((1 + TMath::Sign(1, (pp - 1.05))) / 2) * ((-4.7052e-03) * pp + (1.2410e-03)) +
 //           ((1 + TMath::Sign(1, -(pp - 1.05))) / 2) * ((-0.22721) * (pp - 1.05) * (pp - 1.05) +
-//                                                       (-0.09702) * (pp - 1.05) + ((-4.7052e-03) * 1.05 + (1.2410e-03)));
+//                                                       (-0.09702) * (pp - 1.05) + ((-4.7052e-03) * 1.05 +
+//                                                       (1.2410e-03)));
 //     }
 //     if (sec == 4) {
 //       dp = ((1 + TMath::Sign(1, (pp - 1.4))) / 2) * ((-1.0900e-03) * pp + (-4.0573e-03)) +
 //            ((1 + TMath::Sign(1, -(pp - 1.4))) / 2) *
-//                ((-0.09236) * (pp - 1.4) * (pp - 1.4) + (-0.073) * (pp - 1.4) + ((-1.0900e-03) * 1.4 + (-4.0573e-03)));
+//                ((-0.09236) * (pp - 1.4) * (pp - 1.4) + (-0.073) * (pp - 1.4) + ((-1.0900e-03) * 1.4 +
+//                (-4.0573e-03)));
 //     }
 //     if (sec == 5) {
 //       dp = ((1 + TMath::Sign(1, (pp - 1.5))) / 2) * ((7.3965e-03) * pp + (-0.02428)) +
@@ -846,7 +847,8 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 //       dp =
 //           ((1 + TMath::Sign(1, (pp - 1.15))) / 2) * ((-7.6214e-03) * pp + (8.1014e-03)) +
 //           ((1 + TMath::Sign(1, -(pp - 1.15))) / 2) * ((-0.12718) * (pp - 1.15) * (pp - 1.15) +
-//                                                       (-0.06626) * (pp - 1.15) + ((-7.6214e-03) * 1.15 + (8.1014e-03)));
+//                                                       (-0.06626) * (pp - 1.15) + ((-7.6214e-03) * 1.15 +
+//                                                       (8.1014e-03)));
 //     }
 //   }
 
@@ -860,149 +862,151 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 //   return dp / pp;
 // };
 
-// // // The following code is for the Energy Loss Corrections for the proton
-// // double dE_loss = 0;
-// // // Inbending Energy Loss Correction //
-// // if (proth < 27) {
-// //   dE_loss = exp(-2.739 - 3.932 * pro) + 0.002907;
-// // }
-// // if (proth > 27) {
-// //   dE_loss = exp(-1.2 - 4.228 * pro) + 0.007502;
-// // }
-// // double feloss = (pro + dE_loss) / pro;
-
-// // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
-// // auto fe = dppC(ex, ey, ez, esec, 0) + 1;
-// // auto fpip = dppC(pipx, pipy, pipz, pipsec, 1) + 1;
-// // auto fpim = dppC(pimx, pimy, pimz, pimsec, 2) + 1;
-// // auto fpro = dppC(prox * feloss, proy* feloss, proz* feloss, prosec, 3) + 1;
-
-// // auto eleC = ROOT::Math::PxPyPzMVector(ex * fe, ey* fe, ez* fe, 0);
-// // auto pipC = ROOT::Math::PxPyPzMVector(pipx * fpip, pipy* fpip, pipz* fpip, 0.13957);
-// // auto pimC = ROOT::Math::PxPyPzMVector(pimx * fpim, pimy* fpim, pimz* fpim, 0.13957);
-// // auto proC = ROOT::Math::PxPyPzMVector(prox * feloss * fpro, proy* feloss* fpro, proz* feloss* fpro, 0.938);
-
-// //// NEW method FOR ALL W RANGE USING TWOPION skim data
-// double CDProt[3][5] = {{-0.1469, 0.7793, -1.339, 0.8013, -0.1791},
-//                        {0.03082, -0.01495, -0.1974, 0.2642, -0.0895},
-//                        {-0.02351, 0.2006, -0.4646, 0.43, -0.1278}};
-
-// float mom_corr::CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot_mom_corr_CD[3]) {
-//   if (phi_ > 270 || phi_ <= 30) {
-//     return mom_ - alpha_prot_mom_corr_CD[0] * (CDProt[0][0] * pow(mom_, 4) + CDProt[0][1] * pow(mom_, 3) +
-//                                                CDProt[0][2] * pow(mom_, 2) + CDProt[0][3] * mom_ + CDProt[0][4]);
-//   } else if (phi_ > 30 && phi_ <= 150) {
-//     return mom_ - alpha_prot_mom_corr_CD[1] * (CDProt[1][0] * pow(mom_, 4) + CDProt[1][1] * pow(mom_, 3) +
-//                                                CDProt[1][2] * pow(mom_, 2) + CDProt[1][3] * mom_ + CDProt[1][4]);
-//   } else if (phi_ > 150 && phi_ <= 270) {
-//     return mom_ - alpha_prot_mom_corr_CD[2] * (CDProt[2][0] * pow(mom_, 4) + CDProt[2][1] * pow(mom_, 3) +
-//                                                CDProt[2][2] * pow(mom_, 2) + CDProt[2][3] * mom_ + CDProt[2][4]);
-//   } else
-//     return NAN;
+// // The following code is for the Energy Loss Corrections for the proton
+// double dE_loss = 0;
+// // Inbending Energy Loss Correction //
+// if (proth < 27) {
+//   dE_loss = exp(-2.739 - 3.932 * pro) + 0.002907;
 // }
-
-// float FDProt[6][2] = {{-0.005096, 0.002893}, {-0.005005, 0.010056}, {-0.007, 0.01459},
-//                       {-0.006756, 0.01022},  {-0.004307, 0.003967}, {-0.010124, 0.006184}};
-
-// float mom_corr::FD_prot_Hmom_corr(float mom_, float dc_sec, float alpha_prot) {
-//   if (dc_sec == 1) {
-//     return mom_ - alpha_prot * (FDProt[0][0] * pow(mom_, 1) + FDProt[0][1]);
-//   } else if (dc_sec == 2) {
-//     return mom_ - alpha_prot * (FDProt[1][0] * pow(mom_, 1) + FDProt[1][1]);
-//   } else if (dc_sec == 3) {
-//     return mom_ - alpha_prot * (FDProt[2][0] * pow(mom_, 1) + FDProt[2][1]);
-//   } else if (dc_sec == 4) {
-//     return mom_ - alpha_prot * (FDProt[3][0] * pow(mom_, 1) + FDProt[3][1]);
-//   } else if (dc_sec == 5) {
-//     return mom_ - alpha_prot * (FDProt[4][0] * pow(mom_, 1) + FDProt[4][1]);
-//   } else if (dc_sec == 6) {
-//     return mom_ - alpha_prot * (FDProt[5][0] * pow(mom_, 1) + FDProt[5][1]);
-//   } else
-//     return NAN;
+// if (proth > 27) {
+//   dE_loss = exp(-1.2 - 4.228 * pro) + 0.007502;
 // }
+// double feloss = (pro + dE_loss) / pro;
 
-// ///// pip
-// double CDPip[3][5] = {{0.02008, -0.01386, -0.02003, -0.0848, 0.01132},
-//                       {0.003, 0.03384, -0.09216, 0.0508, -0.004814},
-//                       {-0.0642, 0.2113, -0.1926, 0.0702, -0.01304}};
+// // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+// auto fe = dppC(ex, ey, ez, esec, 0) + 1;
+// auto fpip = dppC(pipx, pipy, pipz, pipsec, 1) + 1;
+// auto fpim = dppC(pimx, pimy, pimz, pimsec, 2) + 1;
+// auto fpro = dppC(prox * feloss, proy* feloss, proz* feloss, prosec, 3) + 1;
 
-// float mom_corr::CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip_mom_corr_CD[3]) {
-//   if (phi_ > 270 || phi_ <= 30) {
-//     return mom_ - alpha_pip_mom_corr_CD[0] * (CDPip[0][0] * pow(mom_, 4) + CDPip[0][1] * pow(mom_, 3) +
-//                                               CDPip[0][2] * pow(mom_, 2) + CDPip[0][3] * mom_ + CDPip[0][4]);
-//   } else if (phi_ > 30 && phi_ <= 150) {
-//     return mom_ - alpha_pip_mom_corr_CD[1] * (CDPip[1][0] * pow(mom_, 4) + CDPip[1][1] * pow(mom_, 3) +
-//                                               CDPip[1][2] * pow(mom_, 2) + CDPip[1][3] * mom_ + CDPip[1][4]);
-//   } else if (phi_ > 150 && phi_ <= 270) {
-//     return mom_ - alpha_pip_mom_corr_CD[2] * (CDPip[2][0] * pow(mom_, 4) + CDPip[2][1] * pow(mom_, 3) +
-//                                               CDPip[2][2] * pow(mom_, 2) + CDPip[2][3] * mom_ + CDPip[2][4]);
-//   } else
-//     return NAN;
-// }
+// auto eleC = ROOT::Math::PxPyPzMVector(ex * fe, ey* fe, ez* fe, 0);
+// auto pipC = ROOT::Math::PxPyPzMVector(pipx * fpip, pipy* fpip, pipz* fpip, 0.13957);
+// auto pimC = ROOT::Math::PxPyPzMVector(pimx * fpim, pimy* fpim, pimz* fpim, 0.13957);
+// auto proC = ROOT::Math::PxPyPzMVector(prox * feloss * fpro, proy* feloss* fpro, proz* feloss* fpro, 0.938);
 
-// float FDPip[6][3] = {{-0.000578, 0.004654, -0.01345},  {-0.0001847, 0.002308, -0.007244},
-//                      {-0.000411, 0.001353, -0.000333}, {0.000643, -0.006462, 0.007042},
-//                      {0.002375, -0.01843, 0.02043},    {0.001001, -0.00788, 0.004395}};
+// //// Our delta p corrections : NEW method FOR ALL W RANGE USING TWOPION skim data
+double CDProt[3][5] = {{-0.1449, 0.769, -1.321, 0.791, -0.1771},
+                       {0.0229, 0.02892, -0.27, 0.309, -0.09827},
+                       {0.005405, 0.07715, -0.2913, 0.3364, -0.11163}};
 
-// float mom_corr::FD_pip_Hmom_corr(float mom_, float dc_sec, float alpha_pip) {
-//   if (dc_sec == 1) {
-//     return mom_ - alpha_pip * (FDPip[0][0] * pow(mom_, 2) + FDPip[0][1] * mom_ + FDPip[0][2]);
-//   } else if (dc_sec == 2) {
-//     return mom_ - alpha_pip * (FDPip[1][0] * pow(mom_, 2) + FDPip[1][1] * mom_ + FDPip[1][2]);
-//   } else if (dc_sec == 3) {
-//     return mom_ - alpha_pip * (FDPip[2][0] * pow(mom_, 2) + FDPip[2][1] * mom_ + FDPip[2][2]);
-//   } else if (dc_sec == 4) {
-//     return mom_ - alpha_pip * (FDPip[3][0] * pow(mom_, 2) + FDPip[3][1] * mom_ + FDPip[3][2]);
-//   } else if (dc_sec == 5) {
-//     return mom_ - alpha_pip * (FDPip[4][0] * pow(mom_, 2) + FDPip[4][1] * mom_ + FDPip[4][2]);
-//   } else if (dc_sec == 6) {
-//     return mom_ - alpha_pip * (FDPip[5][0] * pow(mom_, 2) + FDPip[5][1] * mom_ + FDPip[5][2]);
-//   } else
-//     return NAN;
-// }
-// ///// pim
-// double CDPim[3][5] = {{-0.09753, 0.394, -0.4932, 0.2395, -0.03833},
-//                       {-0.03668, 0.1414, -0.1572, 0.09827, -0.011246},
-//                       {-0.1105, 0.4443, -0.566, 0.2224, -0.02582}};
+float mom_corr::CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot_mom_corr_CD[3]) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_prot_mom_corr_CD[0] * (CDProt[0][0] * pow(mom_, 4) + CDProt[0][1] * pow(mom_, 3) +
+                                               CDProt[0][2] * pow(mom_, 2) + CDProt[0][3] * mom_ + CDProt[0][4]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_prot_mom_corr_CD[1] * (CDProt[1][0] * pow(mom_, 4) + CDProt[1][1] * pow(mom_, 3) +
+                                               CDProt[1][2] * pow(mom_, 2) + CDProt[1][3] * mom_ + CDProt[1][4]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_prot_mom_corr_CD[2] * (CDProt[2][0] * pow(mom_, 4) + CDProt[2][1] * pow(mom_, 3) +
+                                               CDProt[2][2] * pow(mom_, 2) + CDProt[2][3] * mom_ + CDProt[2][4]);
+  } else
+    return NAN;
+}
 
-// float mom_corr::CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim_mom_corr_CD[3]) {
-//   if (phi_ > 270 || phi_ <= 30) {
-//     return mom_ - alpha_pim_mom_corr_CD[0] * (CDPim[0][0] * pow(mom_, 4) + CDPim[0][1] * pow(mom_, 3) +
-//                                               CDPim[0][2] * pow(mom_, 2) + CDPim[0][3] * mom_ + CDPim[0][4]);
-//   } else if (phi_ > 30 && phi_ <= 150) {
-//     return mom_ - alpha_pim_mom_corr_CD[1] * (CDPim[1][0] * pow(mom_, 4) + CDPim[1][1] * pow(mom_, 3) +
-//                                               CDPim[1][2] * pow(mom_, 2) + CDPim[1][3] * mom_ + CDPim[1][4]);
-//   } else if (phi_ > 150 && phi_ <= 270) {
-//     return mom_ - alpha_pim_mom_corr_CD[2] * (CDPim[2][0] * pow(mom_, 4) + CDPim[2][1] * pow(mom_, 3) +
-//                                               CDPim[2][2] * pow(mom_, 2) + CDPim[2][3] * mom_ + CDPim[2][4]);
-//   } else
-//     return NAN;
-// }
+float FDProt[6][3] = {{-0.000822, -0.005142, 0.002436}, {-0.003582, 0.00762, -0.001777},
+                      {-0.001756, -0.001797, 0.00825},  {-0.000622, -0.005707, 0.008},
+                      {0.000246, -0.011154, 0.009926},  {0.0001667, -0.01593, 0.01091}};
 
-// float FDPim[6][3] = {{0.002954, -0.01746, 0.01444},     {-0.0002172, -0.0009136, 0.0006347},
-//                      {-0.0009513, 0.004047, -0.003483}, {0.00122, -0.006836, 0.002924},
-//                      {0.001049, -0.002333, -0.00816},   {0.0010195, -0.00813, 0.00096}};
+float mom_corr::FD_prot_Hmom_corr(float mom_, float dc_sec, float alpha_prot) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_prot * (FDProt[0][0] * pow(mom_, 2) + FDProt[0][1] * mom_ + FDProt[0][2]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_prot * (FDProt[1][0] * pow(mom_, 2) + FDProt[1][1] * mom_ + FDProt[1][2]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_prot * (FDProt[2][0] * pow(mom_, 2) + FDProt[2][1] * mom_ + FDProt[2][2]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_prot * (FDProt[3][0] * pow(mom_, 2) + FDProt[3][1] * mom_ + FDProt[3][2]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_prot * (FDProt[4][0] * pow(mom_, 2) + FDProt[4][1] * mom_ + FDProt[4][2]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_prot * (FDProt[5][0] * pow(mom_, 2) + FDProt[5][1] * mom_ + FDProt[5][2]);
+  } else
+    return NAN;
+}
 
-// float mom_corr::FD_pim_Hmom_corr(float mom_, float dc_sec, float alpha_pim) {
-//   if (dc_sec == 1) {
-//     return mom_ - alpha_pim * (FDPim[0][0] * pow(mom_, 2) + FDPim[0][1] * mom_ + FDPim[0][2]);
-//   } else if (dc_sec == 2) {
-//     return mom_ - alpha_pim * (FDPim[1][0] * pow(mom_, 2) + FDPim[1][1] * mom_ + FDPim[1][2]);
-//   } else if (dc_sec == 3) {
-//     return mom_ - alpha_pim * (FDPim[2][0] * pow(mom_, 2) + FDPim[2][1] * mom_ + FDPim[2][2]);
-//   } else if (dc_sec == 4) {
-//     return mom_ - alpha_pim * (FDPim[3][0] * pow(mom_, 2) + FDPim[3][1] * mom_ + FDPim[3][2]);
-//   } else if (dc_sec == 5) {
-//     return mom_ - alpha_pim * (FDPim[4][0] * pow(mom_, 2) + FDPim[4][1] * mom_ + FDPim[4][2]);
-//   } else if (dc_sec == 6) {
-//     return mom_ - alpha_pim * (FDPim[5][0] * pow(mom_, 2) + FDPim[5][1] * mom_ + FDPim[5][2]);
-//   } else
-//     return NAN;
-// }
+///// pip
+double CDPip[3][5] = {{0.03192, -0.0557, 0.03348, -0.114, 0.01524},
+                      {-0.0009522, 0.04947, -0.1141, 0.06122, -0.00693},
+                      {-0.06082, 0.1921, -0.1583, 0.0446, -0.008736}};
 
-// // our hadron momentum correction come from here:
+float mom_corr::CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip_mom_corr_CD[3]) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_pip_mom_corr_CD[0] * (CDPip[0][0] * pow(mom_, 4) + CDPip[0][1] * pow(mom_, 3) +
+                                              CDPip[0][2] * pow(mom_, 2) + CDPip[0][3] * mom_ + CDPip[0][4]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_pip_mom_corr_CD[1] * (CDPip[1][0] * pow(mom_, 4) + CDPip[1][1] * pow(mom_, 3) +
+                                              CDPip[1][2] * pow(mom_, 2) + CDPip[1][3] * mom_ + CDPip[1][4]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_pip_mom_corr_CD[2] * (CDPip[2][0] * pow(mom_, 4) + CDPip[2][1] * pow(mom_, 3) +
+                                              CDPip[2][2] * pow(mom_, 2) + CDPip[2][3] * mom_ + CDPip[2][4]);
+  } else
+    return NAN;
+}
 
-// // ////////////// ###########  These are the corrections we used for our w< 2.55 , FD seperated in theta angle cases, as
+float FDPip[6][3] = {{-0.001234, 0.00964, -0.02257},  {-0.0011, 0.00877, -0.01706},     {-0.001352, 0.00768, -0.00938},
+                     {-0.00066, 0.002325, -0.005512}, {0.0003505, -0.005337, 0.003468}, {-0.0006557, 0.0032, -0.01096}};
+
+float mom_corr::FD_pip_Hmom_corr(float mom_, float dc_sec, float alpha_pip) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_pip * (FDPip[0][0] * pow(mom_, 2) + FDPip[0][1] * mom_ + FDPip[0][2]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_pip * (FDPip[1][0] * pow(mom_, 2) + FDPip[1][1] * mom_ + FDPip[1][2]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_pip * (FDPip[2][0] * pow(mom_, 2) + FDPip[2][1] * mom_ + FDPip[2][2]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_pip * (FDPip[3][0] * pow(mom_, 2) + FDPip[3][1] * mom_ + FDPip[3][2]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_pip * (FDPip[4][0] * pow(mom_, 2) + FDPip[4][1] * mom_ + FDPip[4][2]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_pip * (FDPip[5][0] * pow(mom_, 2) + FDPip[5][1] * mom_ + FDPip[5][2]);
+  } else
+    return NAN;
+}
+///// pim
+double CDPim[3][5] = {{-0.091, 0.3647, -0.4446, 0.203, -0.03232},
+                      {-0.032, 0.1193, -0.1193, 0.068, -0.00587},
+                      {-0.07874, 0.3186, -0.3936, 0.1239, -0.01014}};
+
+float mom_corr::CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim_mom_corr_CD[3]) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_pim_mom_corr_CD[0] * (CDPim[0][0] * pow(mom_, 4) + CDPim[0][1] * pow(mom_, 3) +
+                                              CDPim[0][2] * pow(mom_, 2) + CDPim[0][3] * mom_ + CDPim[0][4]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_pim_mom_corr_CD[1] * (CDPim[1][0] * pow(mom_, 4) + CDPim[1][1] * pow(mom_, 3) +
+                                              CDPim[1][2] * pow(mom_, 2) + CDPim[1][3] * mom_ + CDPim[1][4]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_pim_mom_corr_CD[2] * (CDPim[2][0] * pow(mom_, 4) + CDPim[2][1] * pow(mom_, 3) +
+                                              CDPim[2][2] * pow(mom_, 2) + CDPim[2][3] * mom_ + CDPim[2][4]);
+  } else
+    return NAN;
+}
+
+float FDPim[6][3] = {{0.003057, -0.01822, 0.01533},     {-0.0001692, -0.001254, 0.001167},
+                     {-0.0008836, 0.003536, -0.002728}, {0.001284, -0.00736, 0.003693},
+                     {0.001097, -0.002653, -0.00792},   {0.001005, -0.007996, 0.00063}};
+
+float mom_corr::FD_pim_Hmom_corr(float mom_, float dc_sec, float alpha_pim) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_pim * (FDPim[0][0] * pow(mom_, 2) + FDPim[0][1] * mom_ + FDPim[0][2]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_pim * (FDPim[1][0] * pow(mom_, 2) + FDPim[1][1] * mom_ + FDPim[1][2]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_pim * (FDPim[2][0] * pow(mom_, 2) + FDPim[2][1] * mom_ + FDPim[2][2]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_pim * (FDPim[3][0] * pow(mom_, 2) + FDPim[3][1] * mom_ + FDPim[3][2]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_pim * (FDPim[4][0] * pow(mom_, 2) + FDPim[4][1] * mom_ + FDPim[4][2]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_pim * (FDPim[5][0] * pow(mom_, 2) + FDPim[5][1] * mom_ + FDPim[5][2]);
+  } else
+    return NAN;
+}
+
+///////////////////////////// our hadron momentum correction come from here:
+//////////////////////////////////////////////////
+
+// // ////////////// ###########  These are the corrections we used for our w< 2.55 , FD seperated in theta angle cases,
+// as
 // // // June 04 2023
 
 // double CDProt[3][5] = {{-0.2578, 1.334, -2.3, 1.489, -0.3545},
@@ -1426,7 +1430,8 @@ double pp = sqrt(Px * Px + Py * Py + Pz * Pz);
 //     return NAN;
 // }
 
-// // ////////////// ###########  These are the corrections we used for our w< 2.55 , FD seperated in theta angle cases, as
+// // ////////////// ###########  These are the corrections we used for our w< 2.55 , FD seperated in theta angle cases,
+// as
 // // /// June 04 2023   DONE AT THIS POINT
 
 // //// oour final hadron momentum  dp corrections finished

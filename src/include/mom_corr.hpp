@@ -94,34 +94,34 @@ class mom_corr {
   // float FD_pim_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_pim);
 
 
-//######## these are final corrected w< 2.55 GeV
-  float CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot_CD[3]);
-  float FD_prot_Hmom_corr_lower_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
-  float FD_prot_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
-  float FD_prot_Hmom_corr_upper_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
-  float FD_prot_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
+// //######## these are final corrected w< 2.55 GeV
+//   float CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot_CD[3]);
+//   float FD_prot_Hmom_corr_lower_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
+//   float FD_prot_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
+//   float FD_prot_Hmom_corr_upper_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
+//   float FD_prot_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_prot_FD);
 
-  float CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip_CD[3]);
-  float FD_pip_Hmom_corr_lower_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
-  float FD_pip_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
-  float FD_pip_Hmom_corr_upper_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
-  float FD_pip_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
+//   float CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip_CD[3]);
+//   float FD_pip_Hmom_corr_lower_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
+//   float FD_pip_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
+//   float FD_pip_Hmom_corr_upper_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
+//   float FD_pip_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_pip_FD);
 
-  float CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim_CD[3]);
-  float FD_pim_Hmom_corr_lower_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
-  float FD_pim_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
-  float FD_pim_Hmom_corr_upper_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
-  float FD_pim_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
+//   float CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim_CD[3]);
+//   float FD_pim_Hmom_corr_lower_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
+//   float FD_pim_Hmom_corr_lower_Except_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
+//   float FD_pim_Hmom_corr_upper_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
+//   float FD_pim_Hmom_corr_upper_Except_All_FD(float mom_, float dc_sec, float alpha_pim_FD);
 
   // // New method dp corrections without seperating fd theta angles:
-  // float CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot[3]);
-  // float CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip[3]);
-  // float CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim[3]);
+  float CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot[3]);
+  float CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip[3]);
+  float CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim[3]);
 
-  // float FD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot);
-  // float FD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip);
-  // float FD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim);
-  // float alpha_prot_mom_corr_FD[4] = {0.5, 0.6, 0.5, 0.5};
+  float FD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot);
+  float FD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip);
+  float FD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim);
+  float alpha_prot_mom_corr_FD[4] = {0.5, 0.6, 0.5, 0.5};
 
   // void random_no_gen() {
   //   std::srand(std::time(nullptr));  // seed the random number generator

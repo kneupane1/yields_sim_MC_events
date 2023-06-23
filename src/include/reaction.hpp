@@ -616,14 +616,14 @@ class Reaction {
   void SetNeutron(int i);
 
 // ///// this is for only fd cd , all w range
-//   void Prot_HMom_corr(int status_prot, int sector_Prot, float alFD, float alCD[3]);
-//   void Pip_HMom_corr(int ststus_pip,  int sector_Pip, float alFD, float alCD[3]);
-//   void Pim_HMom_corr( int ststus_pim, int sector_Pim, float alFD, float alCD[3]);
+  void Prot_HMom_corr(int status_prot, int sector_Prot, float alFD, float alCD[3]);
+  void Pip_HMom_corr(int ststus_pip,  int sector_Pip, float alFD, float alCD[3]);
+  void Pim_HMom_corr( int ststus_pim, int sector_Pim, float alFD, float alCD[3]);
 
-/// this is for only w< 2.55 and different fd cd cases
-  void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alFD[4], float alCD[3]);
-  void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alFD[4], float alCD[3]);
-  void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alFD[4], float alCD[3]);
+// /// this is for only w< 2.55 and different fd cd cases
+//   void Prot_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Prot, float alFD[4], float alCD[3]);
+//   void Pip_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pip, float alFD[4], float alCD[3]);
+//   void Pim_HMom_corr(int status_prot, int ststus_pip, int ststus_pim, int sector_Pim, float alFD[4], float alCD[3]);
 
   float rec_pim_px();
   float rec_pim_py();
