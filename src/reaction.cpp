@@ -431,35 +431,35 @@ float Reaction::Energy_excl() {
 float Reaction::pim_momentum() {
   // if (_rec_pim_mom != _rec_pim_mom) CalcMissMass();
 
-  // if (TwoPion_missingPim()) {
-  if (TwoPion_exclusive()) {
+  // // if (TwoPion_missingPim()) {
+  // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
 
     return missingpim_->P();
     // return _rec_pim_mom;
 
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::pim_theta_lab() {
   // if (_rec_pim_theta != _rec_pim_theta) CalcMissMass();
 
-  // if (TwoPion_missingPim()) {
-  if (TwoPion_exclusive()) {
+  // // if (TwoPion_missingPim()) {
+  // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
 
     return missingpim_->Theta() * 180.0 / PI;
-    // return _rec_pim_theta;
-  } else
-    return NAN;
+  //   // return _rec_pim_theta;
+  // } else
+  //   return NAN;
 }
 float Reaction::pim_Phi_lab() {
   // if (_rec_pim_phi != _rec_pim_phi) CalcMissMass();
 
-  // if (TwoPion_missingPim()) {
-  if (TwoPion_exclusive()) {
+  // // if (TwoPion_missingPim()) {
+  // if (TwoPion_exclusive()) {
     auto missingpim_ = std::make_unique<TLorentzVector>();
     *missingpim_ += *_gamma + *_target - *_prot - *_pip;
 
@@ -469,26 +469,26 @@ float Reaction::pim_Phi_lab() {
       return (missingpim_->Phi() + 2 * PI) * 180 / PI;
     else
       return NAN;
-    // return _rec_pim_phi;
-  } else
-    return NAN;
+  //   // return _rec_pim_phi;
+  // } else
+  //   return NAN;
 }
 float Reaction::pim_momentum_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _pim->P();
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float Reaction::pim_theta_lab_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _pim->Theta() * 180.0 / PI;
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float Reaction::pim_Phi_lab_measured() {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     if (_pim->Phi() > 0) {
       // std::cout << "phi root >0 is " << _pim->Phi() * 180 / PI << std::endl;
       return _pim->Phi() * 180 / PI;
@@ -497,8 +497,8 @@ float Reaction::pim_Phi_lab_measured() {
       return (_pim->Phi() + 2 * PI) * 180 / PI;
     } else
       return NAN;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 // float Reaction::pim_momentum_corrected() {
 //   if (TwoPion_exclusive())
@@ -540,26 +540,26 @@ float Reaction::w_hadron() {
 ////////////////mPip
 float Reaction::pip_momentum() {
   // if (TwoPion_missingPip()) {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
 
     return missingpip_->P();
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::pip_theta_lab() {
   // if (TwoPion_missingPip()) {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
     return missingpip_->Theta() * 180.0 / PI;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::pip_Phi_lab() {
   // if (TwoPion_missingPip()) {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     auto missingpip_ = std::make_unique<TLorentzVector>();
     *missingpip_ += *_gamma + *_target - *_prot - *_pim;
 
@@ -569,60 +569,60 @@ float Reaction::pip_Phi_lab() {
       return (missingpip_->Phi() + 2 * PI) * 180 / PI;
     else
       return NAN;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::pip_momentum_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _pip->P();
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float Reaction::pip_theta_lab_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _pip->Theta() * 180.0 / PI;
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float Reaction::pip_Phi_lab_measured() {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     if (_pip->Phi() > 0)
       return _pip->Phi() * 180 / PI;
     else if (_pip->Phi() < 0)
       return (_pip->Phi() + 2 * PI) * 180 / PI;
     else
       return NAN;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 
 
 ////////////////mProt
 float Reaction::prot_momentum() {
   // if (TwoPion_missingProt()) {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
 
     return missingprot_->P();
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::prot_theta_lab() {
   // if (TwoPion_missingProt()) {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
 
     return missingprot_->Theta() * 180.0 / PI;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::prot_Phi_lab() {
   // if (TwoPion_missingProt()) {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     auto missingprot_ = std::make_unique<TLorentzVector>();
     *missingprot_ += *_gamma + *_target - *_pip - *_pim;
 
@@ -632,33 +632,33 @@ float Reaction::prot_Phi_lab() {
       return (missingprot_->Phi() + 2 * PI) * 180 / PI;
     else
       return NAN;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 float Reaction::prot_momentum_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _prot->P();
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float Reaction::prot_theta_lab_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
     return _prot->Theta() * 180.0 / PI;
-  else
-    return NAN;
+  // else
+  //   return NAN;
 }
 
 float Reaction::prot_Phi_lab_measured() {
-  if (TwoPion_exclusive()) {
+  // if (TwoPion_exclusive()) {
     if (_prot->Phi() > 0)
       return _prot->Phi() * 180 / PI;
     else if (_prot->Phi() < 0)
       return (_prot->Phi() + 2 * PI) * 180 / PI;
     else
       return NAN;
-  } else
-    return NAN;
+  // } else
+  //   return NAN;
 }
 
 /////////////////////
