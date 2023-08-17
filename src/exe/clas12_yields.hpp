@@ -126,23 +126,30 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   // total++;
         csv_data output;
 
+        //   // // for generated case
+        output.w_mc = mc_event->W_mc();
+        output.q2_mc = mc_event->Q2_mc();
+
+        output.w = event->W();
+        output.q2 = event->Q2();
         // // mPim .......................................
 
-          // output.pim_mom_mPim = event->pim_momentum();
-          // output.pim_theta_mPim = event->pim_theta_lab();
-          // output.pim_phi_mPim = event->pim_Phi_lab();
+        //   // output.pim_mom_mPim = event->pim_momentum();
+        //   // output.pim_theta_mPim = event->pim_theta_lab();
+        //   // output.pim_phi_mPim = event->pim_Phi_lab();
 
-        output.pim_mom_mPim_cm = event->pim_momentum_cm();
-        output.pim_theta_mPim_cm = event->pim_theta_cm();
-        output.pim_phi_mPim_cm = event->pim_Phi_cm();
+        // output.pim_mom_mPim_cm = event->pim_momentum_cm();
+        // output.pim_theta_mPim_cm = event->pim_theta_cm();
+        // output.pim_phi_mPim_cm = event->pim_Phi_cm();
 
-        output.mm2_mPim = event->MM2_mPim();
-        // output.mm2_mPim_corr = event->MM2_mPim_corr();
+        // output.mm2_mPim = event->MM2_mPim();
+        // // output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-        // output.status_Pim = statusPim;
-        // output.status_Pip = statusPip;
-        // output.status_Prot = statusProt;
-        output.weight_mPim = event->weight();
+        // // output.status_Pim = statusPim;
+        // // output.status_Pip = statusPip;
+        // // output.status_Prot = statusProt;
+        // output.weight_mPim = event->weight();
+        output.weight_mPim = mc_event->weight();
 
         // // mPip .......................................
 
