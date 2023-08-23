@@ -5,6 +5,13 @@
 #include <string>
 
 struct csv_data {
+  short electron_sector;
+  short pim_sec;
+  short pip_sec;
+  short prot_sec;
+  float w;
+  float q2;
+
   float pim_mom_mPim;
   float pim_theta_mPim;
   float pim_phi_mPim;
@@ -42,9 +49,10 @@ struct csv_data {
   float weight_mProt;
   // Static functions can be called without making a new struct
   static std::string header() {
+    return "elec_sec,w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
     // Make a string for the header of the csv file mPim case
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,mm2_mPim_corr,"
-           "weight";
+    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,mm2_mPim_corr,"
+    //        "weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
     // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
   }
@@ -52,13 +60,23 @@ struct csv_data {
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
 
     // // mPim
+    os << std::setprecision(1);
+    os << data.electron_sector << ",";
+    // os << data.pim_sec << ",";
+    // os << data.pip_sec << ",";
+    // os << data.prot_sec << ",";
+
     os << std::setprecision(7);
+
+    os << data.w << ",";
+    os << data.q2 << ",";
+
     os << data.pim_mom_mPim << ",";
     os << data.pim_theta_mPim << ",";
     os << data.pim_phi_mPim << ",";
-    os << data.pim_mom_mPim_cm << ",";
-    os << data.pim_theta_mPim_cm << ",";
-    os << data.pim_phi_mPim_cm << ",";
+    // os << data.pim_mom_mPim_cm << ",";
+    // os << data.pim_theta_mPim_cm << ",";
+    // os << data.pim_phi_mPim_cm << ",";
     // os << std::setprecision(7);
     os << data.mm2_mPim << ",";
      os << data.mm2_mPim_corr << ",";
