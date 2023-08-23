@@ -1,8 +1,4 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
+
 #include "reaction.hpp"
 
 Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
