@@ -728,6 +728,37 @@ float Reaction::prot_Phi_lab() {
     return NAN;
 }
 
+// void Reaction::invMassPpim() {
+//   auto inv_Ppim = std::make_unique<TLorentzVector>();
+//   *inv_Ppim += *_mom_corr_prot;
+//   *inv_Ppim += *_mom_corr_pim;
+//   if (TwoPion_missingPip()) _inv_Ppim = inv_Ppim->M();
+// }
+// void Reaction::invMasspippim() {
+//   auto inv_pip_pim = std::make_unique<TLorentzVector>();
+//   *inv_pip_pim += *_mom_corr_pip;
+//   *inv_pip_pim += *_mom_corr_pim;
+//   if (TwoPion_missingProt()) _inv_pip_pim = inv_pip_pim->M();
+// }
+void Reaction::invMassPpip() {
+  auto inv_Ppip = std::make_unique<TLorentzVector>();
+  *inv_Ppip += *_mom_corr_prot;
+  *inv_Ppip += *_mom_corr_pip;
+  if (TwoPion_missingPim()) _inv_Ppip = inv_Ppip->M();
+}
+float Reaction::inv_Ppip() {
+  if (_inv_Ppip != _inv_Ppip) invMassPpip();
+  return _inv_Ppip;
+}
+// float Reaction::inv_Ppim() {
+//   if (_inv_Ppim != _inv_Ppim) invMassPpim();
+//   return _inv_Ppim;
+// }
+// float Reaction::inv_Pippim() {
+//   if (_inv_pip_pim != _inv_pip_pim) invMasspippim();
+//   return _inv_pip_pim;
+// }
+
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }
 std::string Reaction::ReacToCsv() {

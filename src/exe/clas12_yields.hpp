@@ -262,7 +262,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.status_Pim = statusPim;
         // output.status_Pip = statusPip;
         // output.status_Prot = statusProt;
-        output.weight_mPim = event->weight();
 
         // // mpip .......................................
 
@@ -281,6 +280,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.mm2_mProt = event->MM2_mProt();
         // output.mm2_mProt_corr = event->MM2_mProt_corr();
         // output.weight_mProt = event->weight();
+
+
+        output.inv_ppip = event->inv_Ppip();
+        // output.inv_ppim = event->inv_Ppim();
+        // output.inv_pip_pim = event->inv_Pippim();
+
+        output.weight_mPim = event->weight();
 
         _sync->write(output);
       }
