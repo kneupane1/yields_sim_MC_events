@@ -5,6 +5,8 @@
 #include <string>
 
 struct csv_data {
+  short electron_sector;
+
   float w;
   float q2;
   float w_mc;
@@ -48,10 +50,14 @@ struct csv_data {
   float mm2_mProt_corr;
   float weight_mProt;
 
+  float inv_ppip;
+  float inv_ppim;
+  float inv_pip_pim;
+
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "w_gen,q2_gen,w_rec,q2_rec,weight";
+    return "elec_sec,w_rec,q2_rec,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,inv_pPip,weight ";
 
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
@@ -60,30 +66,31 @@ struct csv_data {
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
+    os << std::setprecision(1);
 
-    os << data.w_mc << ",";
-    os << data.q2_mc << ",";
+    os << data.electron_sector << ",";
+    os << std::setprecision(7);
+
+    // os << data.w_mc << ",";
+    // os << data.q2_mc << ",";
     os << data.w << ",";
     os << data.q2 << ",";
     // mPim
-    // os << std::setprecision(7);
-    // os << data.pim_mom_mPim << ",";
-    // os << data.pim_theta_mPim << ",";
-    // os << data.pim_phi_mPim << ",";
+    os << data.pim_mom_mPim << ",";
+    os << data.pim_theta_mPim << ",";
+    os << data.pim_phi_mPim << ",";
 
     // os << data.pim_mom_mPim_cm << ",";
     // os << data.pim_theta_mPim_cm << ",";
     // os << data.pim_phi_mPim_cm << ",";
     // os << std::setprecision(7);
-    // os << data.mm2_mPim << ",";
+    os << data.mm2_mPim << ",";
     // //  os << data.mm2_mPim_corr << ",";
     // // os << std::setprecision(1);
 
     // // os << data.status_Pim << ",";
     // // os << data.status_Pip << ",";
     // // os << data.status_Prot << ",";
-    os << std::setprecision(7);
-    os << data.weight_mPim << ",";
 
     // // mPip
     // os << std::setprecision(7);
@@ -108,6 +115,12 @@ struct csv_data {
     // // os << std::setprecision(1);
     // os << std::setprecision(7);
     // os << data.weight_mProt << ",";
+
+    os << data.inv_ppip << ",";
+    // os << data.inv_ppim << ",";
+    // os << data.inv_pip_pim << ",";
+    os << std::setprecision(7);
+    os << data.weight_mPim << ",";
 
     return os;
   }
