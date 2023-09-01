@@ -797,12 +797,13 @@ void Reaction::boost() {
   _rotated_pim_measured = std::make_unique<TLorentzVector>(*_mom_corr_pim);
 
   TRotation rot;
-  _boosted_gamma->Transform(rot);
   float_t beta_1 = ((sqrt(_boosted_gamma->E() * _boosted_gamma->E() + _Q2)) / (_boosted_gamma->E() + MASS_P));
   TVector3 uz = _boosted_gamma->Vect().Unit();                  // uit vector along virtual photon
   TVector3 ux = ((_beam->Vect()).Cross(_elec->Vect())).Unit();  // unit vector along e cross e'
   ux.Rotate(3. * PI / 2, uz);                                   // rotating ux by 3pi/2 with uz as axis of roration
   rot.SetZAxis(uz, ux).Invert();                                // setting TRotation rot
+
+  _boosted_gamma->Transform(rot);
 
   _boosted_prot->Transform(rot);
   _rotated_prot->Transform(rot);
