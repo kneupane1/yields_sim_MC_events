@@ -170,7 +170,7 @@ struct csv_data {
     //  os << data.pip_sec << ",";
     //  os << data.prot_sec << ",";
 
-    os << std::setprecision(3);
+    os << std::setprecision(5);
 
      os << data.w << ",";
      os << data.q2 << ",";
@@ -257,7 +257,7 @@ struct csv_data {
      // os << data.inv_ppim << ",";
      // os << data.inv_pip_pim << ",";
 
-     os << std::setprecision(3);
+     os << std::setprecision(7);
 
      os << data.weight_exclusive << ",";
 
