@@ -92,20 +92,23 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
       // Check particle ID's and fill the reaction class
       if (cuts->IsProton(part)) {
-        if (cuts->HadronsCuts(part)) {
+        //if (cuts->HadronsCuts(part))
+        {
           event->SetProton(part);
           statusProt = abs(data->status(part));
           // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
         }
 
       } else if (cuts->IsPip(part)) {
-        if (cuts->HadronsCuts(part)) {
+        //if (cuts->HadronsCuts(part))
+        {
           event->SetPip(part);
           statusPip = abs(data->status(part));
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
       } else if (cuts->IsPim(part)) {
-        if (cuts->HadronsCuts(part)) {
+        //if (cuts->HadronsCuts(part))
+        {
           event->SetPim(part);
           statusPim = abs(data->status(part));
           // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
