@@ -123,6 +123,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       if (event->TwoPion_missingPim()) {
     // if (event->TwoPion_missingProt()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+
+std::cout<<"ecal time tot :  "<< data->ec_pcal_time(0)<<std::endl;
+
         //   // total++;
         csv_data output;
         output.electron_sector = event->sec();
