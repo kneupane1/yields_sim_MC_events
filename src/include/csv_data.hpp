@@ -57,7 +57,7 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "elec_sec,w_rec,q2_rec,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,inv_pPip,weight ";
+    return "elec_sec,w_rec,q2_rec,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,inv_pPip,weight";
 
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";

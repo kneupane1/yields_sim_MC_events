@@ -91,6 +91,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
+      if (!isnan(data->sc_ctof_time(part))) std::cout << "sc ctof time part :  " << data->sc_ctof_time(part) << std::endl;
 
       // Check particle ID's and fill the reaction class
       if (cuts->IsProton(part)) {
@@ -116,6 +117,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         event->SetOther(part);
       }
     }
+    // std::cout << "sc ctof time elec :  " << data->sc_ctof_time(0) << std::endl;
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     //     event->TwoPion_exclusive()) {
@@ -124,7 +126,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingProt()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
 
-std::cout<<"ecal time tot :  "<< data->ec_pcal_time(0)<<std::endl;
 
         //   // total++;
         csv_data output;
