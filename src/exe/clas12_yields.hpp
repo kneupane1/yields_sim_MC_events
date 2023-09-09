@@ -17,11 +17,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
-  float beam_energy = 10.6;
+  float beam_energy = 10.6041;
   if (std::is_same<CutType, rga_Cuts>::value) {
-    beam_energy = 10.6;
+    beam_energy = 10.6041;
   } else if (std::is_same<CutType, uconn_Cuts>::value) {
-    beam_energy = 10.6;
+    beam_energy = 10.6041;
     // } else if (std::is_same<CutType, rgf_Cuts>::value) {
     //         beam_energy = rgf_E0;
     // }
@@ -43,6 +43,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Total number of events "Processed"
   size_t total = 0;
+  int twoPion_excl = 0;
+  int twoPion_mPim = 0;
+  int twoPion_mPip = 0;
+  int twoPion_mProt = 0;
+
+  int numElec = 0;
+  int numPip = 0;
+  int numProt = 0;
+  int numPim = 0;
+
+  int numElec_mc = 0;
+  int numPip_mc = 0;
+  int numProt_mc = 0;
+  int numPim_mc = 0;
   // For each event
   for (size_t current_event = 0; current_event < num_of_events; current_event++) {
     // for (size_t current_event = 0; current_event < 350; current_event++) {
@@ -58,6 +72,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int statusProt = -9999;
 
     if (data->mc_npart() < 1) continue;
+    numElec_mc++;
 
     // If we pass electron cuts the event is processed
     total++;
@@ -69,10 +84,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // Check particle ID's and fill the reaction class
 
       if (data->mc_pid(part) == PIP) {
+        numPip_mc++;
+
         mc_event->SetMCPip(part);
       } else if (data->mc_pid(part) == PROTON) {
+        numProt_mc++;
+
         mc_event->SetMCProton(part);
       } else if (data->mc_pid(part) == PIM) {
+        numPim_mc++;
+
         mc_event->SetMCPim(part);
         // } else {
         //   mc_event->SetMCOther(part);
@@ -84,31 +105,45 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // auto cuts = std::make_shared<rga_Cuts>(data);
     if (!cuts->ElectronCuts()) continue;
 
+    numElec++;
+    // if (!isnan(data->ec_ecout_time(0))) std::cout << " for elec time  " << data->ec_ecout_time(0) << std::endl;
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
+      // if (!isnan(data->ec_ecout_time(part)))
+        std::cout << " for hadron at part " << data->sc_ftof_1b_time(part) << std::endl;
 
       // Check particle ID's and fill the reaction class
-      if (cuts->IsProton(part)) {
-        //if (cuts->HadronsCuts(part))
-        {
-          event->SetProton(part);
-          statusProt = abs(data->status(part));
-          // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
-        }
 
-      } else if (cuts->IsPip(part)) {
-        //if (cuts->HadronsCuts(part))
+      if (cuts->IsPip(part)) {
+        if (cuts->HadronsCuts(part))
         {
+          numPip++;
+
           event->SetPip(part);
           statusPip = abs(data->status(part));
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
-      } else if (cuts->IsPim(part)) {
-        //if (cuts->HadronsCuts(part))
+      }
+
+      else if (cuts->IsProton(part)) {
+        if (cuts->HadronsCuts(part))
         {
+          numProt++;
+
+          event->SetProton(part);
+
+          statusProt = abs(data->status(part));
+          // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
+        }
+      }
+      else if (cuts->IsPim(part)) {
+        if (cuts->HadronsCuts(part))
+        {
+          numPim++;
+
           event->SetPim(part);
           statusPim = abs(data->status(part));
           // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
@@ -119,13 +154,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     }
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
-        // event->TwoPion_exclusive()) {
+    // event->TwoPion_exclusive()) {
     // if (event->TwoPion_missingPim()) {
     // if (event->TwoPion_missingPip()) {
     // if (event->TwoPion_missingProt()) {
     if (event->TwoPion_exclusive()) {
-
-    // if (event->Inclusive()) {
+      twoPion_excl++;
+      // if (event->Inclusive()) {
       {
         // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5){
         // &&
@@ -420,6 +455,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // Return the total number of events
+  std::cout << " number of events = " << total << "   exclusive twoPion = " << twoPion_excl << std::endl;
+  // std::cout << " number of mc elec = " << numElec_mc << "  mc  prot = " << numProt_mc << "  mc pip = " << numPip_mc
+  //           << "  mc pim  = " << numPim_mc << std::endl;
+
+  std::cout << " number of elec = " << numElec << "   prot = " << numProt << "  pip = " << numPip
+            << "  pim  = " << numPim << std::endl;
+  // std::cout << numElec << " " << numProt << " " << numPip << " " << numPim << " " << total
+  //           << " " << twoPion_excl << std::endl;
   return num_of_events;
 }
 #endif
