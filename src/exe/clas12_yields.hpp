@@ -104,6 +104,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     auto cuts = std::make_shared<uconn_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
     if (!cuts->ElectronCuts()) continue;
+    // std::cout << " chi2pid at 0 " << data->chi2pid(0) << std::endl;
 
     numElec++;
     // if (!isnan(data->ec_ecout_time(0))) std::cout << " for elec time  " << data->ec_ecout_time(0) << std::endl;
@@ -113,24 +114,23 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
       // if (!isnan(data->ec_ecout_time(part)))
-        std::cout << " for hadron at part " << data->sc_ftof_1b_time(part) << std::endl;
 
-      // Check particle ID's and fill the reaction class
+        // Check particle ID's and fill the reaction class
 
-      if (cuts->IsPip(part)) {
-        if (cuts->HadronsCuts(part))
-        {
-          numPip++;
+        if (cuts->IsPip(part)) {
 
-          event->SetPip(part);
-          statusPip = abs(data->status(part));
-          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
-        }
+          if (cuts->HadronsCuts(part)) {
+            numPip++;
+
+            event->SetPip(part);
+            statusPip = abs(data->status(part));
+            // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
+          }
       }
 
       else if (cuts->IsProton(part)) {
-        if (cuts->HadronsCuts(part))
-        {
+        if (cuts->HadronsCuts(part)) {
+
           numProt++;
 
           event->SetProton(part);
@@ -149,6 +149,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
         }
       } else {
+        // std::cout << " chi2pid at part " << data->chi2pid(part) << std::endl;
+
         event->SetOther(part);
       }
     }
@@ -461,8 +463,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   std::cout << " number of elec = " << numElec << "   prot = " << numProt << "  pip = " << numPip
             << "  pim  = " << numPim << std::endl;
-  // std::cout << numElec << " " << numProt << " " << numPip << " " << numPim << " " << total
-  //           << " " << twoPion_excl << std::endl;
+
   return num_of_events;
 }
 #endif
