@@ -57,36 +57,36 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "elec_sec,w_rec,q2_rec,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,inv_pPip,weight";
+    // return "elec_sec,w_rec,q2_rec,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,inv_pPip,weight";
 
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
-    // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,weight";
+    return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,weight,inv_pip_pim";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
-    os << std::setprecision(1);
+    // os << std::setprecision(1);
 
-    os << data.electron_sector << ",";
-    os << std::setprecision(7);
-
-    // os << data.w_mc << ",";
-    // os << data.q2_mc << ",";
-    os << data.w << ",";
-    os << data.q2 << ",";
-    // mPim
-    os << data.pim_mom_mPim << ",";
-    os << data.pim_theta_mPim << ",";
-    os << data.pim_phi_mPim << ",";
-
-    // os << data.pim_mom_mPim_cm << ",";
-    // os << data.pim_theta_mPim_cm << ",";
-    // os << data.pim_phi_mPim_cm << ",";
+    // os << data.electron_sector << ",";
     // os << std::setprecision(7);
-    os << data.mm2_mPim << ",";
-    // //  os << data.mm2_mPim_corr << ",";
-    // // os << std::setprecision(1);
+
+    // // os << data.w_mc << ",";
+    // // os << data.q2_mc << ",";
+    // os << data.w << ",";
+    // os << data.q2 << ",";
+    // // mPim
+    // os << data.pim_mom_mPim << ",";
+    // os << data.pim_theta_mPim << ",";
+    // os << data.pim_phi_mPim << ",";
+
+    // // os << data.pim_mom_mPim_cm << ",";
+    // // os << data.pim_theta_mPim_cm << ",";
+    // // os << data.pim_phi_mPim_cm << ",";
+    // // os << std::setprecision(7);
+    // os << data.mm2_mPim << ",";
+    // // //  os << data.mm2_mPim_corr << ",";
+    // // // os << std::setprecision(1);
 
     // // os << data.status_Pim << ",";
     // // os << data.status_Pip << ",";
@@ -105,22 +105,22 @@ struct csv_data {
     // os << data.weight_mPip << ",";
 
     // // mProt
-    // os << std::setprecision(7);
-    // os << data.prot_mom_mProt << ",";
-    // os << data.prot_theta_mProt << ",";
-    // os << data.prot_phi_mProt << ",";
-    // os << std::setprecision(7);
-    // os << data.mm2_mProt << ",";
-    // //  os << data.mm2_mProt_corr << ",";
-    // // os << std::setprecision(1);
-    // os << std::setprecision(7);
-    // os << data.weight_mProt << ",";
-
-    os << data.inv_ppip << ",";
-    // os << data.inv_ppim << ",";
-    // os << data.inv_pip_pim << ",";
     os << std::setprecision(7);
-    os << data.weight_mPim << ",";
+    os << data.prot_mom_mProt << ",";
+    os << data.prot_theta_mProt << ",";
+    os << data.prot_phi_mProt << ",";
+    os << std::setprecision(7);
+    os << data.mm2_mProt << ",";
+    //  os << data.mm2_mProt_corr << ",";
+    // os << std::setprecision(1);
+    os << std::setprecision(7);
+    os << data.weight_mProt << ",";
+
+    // os << data.inv_ppip << ",";
+    // os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
+    // os << std::setprecision(7);
+    // os << data.weight_mPim << ",";
 
     return os;
   }
