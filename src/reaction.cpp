@@ -683,14 +683,14 @@ float Reaction::inv_Ppip() {
   if (_inv_Ppip != _inv_Ppip) invMassPpip();
   return _inv_Ppip;
 }
-// float Reaction::inv_Ppim() {
-//   if (_inv_Ppim != _inv_Ppim) invMassPpim();
-//   return _inv_Ppim;
-// }
-// float Reaction::inv_Pippim() {
-//   if (_inv_pip_pim != _inv_pip_pim) invMasspippim();
-//   return _inv_pip_pim;
-// }
+float Reaction::inv_Ppim() {
+  if (_inv_Ppim != _inv_Ppim) invMassPpim();
+  return _inv_Ppim;
+}
+float Reaction::inv_Pippim() {
+  if (_inv_pip_pim != _inv_pip_pim) invMasspippim();
+  return _inv_pip_pim;
+}
 
 float Reaction::pim_momentum_cm() {
   if (!_is_boosted) boost();
