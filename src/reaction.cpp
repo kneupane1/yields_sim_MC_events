@@ -47,6 +47,10 @@ void Reaction::SetElec() {
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
+
+  _elec_mom = _elec->P();
+  _elec_E = _elec->E();
+  _theta_e = _elec->Theta() * 180 / PI;
 }
 
 void Reaction::SetProton(int i) {
