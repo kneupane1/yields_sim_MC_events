@@ -601,6 +601,31 @@ float Reaction::prot_Phi_lab() {
   } else
     return NAN;
 }
+float Reaction::prot_momentum_measured() {
+  if (TwoPion_exclusive())
+    return _prot->P();
+  else
+    return NAN;
+}
+
+float Reaction::prot_theta_lab_measured() {
+  if (TwoPion_exclusive())
+    return _prot->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
+
+float Reaction::prot_Phi_lab_measured() {
+  if (TwoPion_exclusive()) {
+    if (_prot->Phi() > 0)
+      return _prot->Phi() * 180 / PI;
+    else if (_prot->Phi() < 0)
+      return (_prot->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }

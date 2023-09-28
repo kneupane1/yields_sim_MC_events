@@ -50,6 +50,10 @@ struct csv_data {
   float mm2_mProt_corr;
   float weight_mProt;
 
+  float prot_mom_mes;
+  float prot_theta_mes;
+  float prot_phi_mes;
+
   float inv_ppip;
   float inv_ppim;
   float inv_pip_pim;
@@ -62,7 +66,8 @@ struct csv_data {
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
-    return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,weight,inv_pip_pim";
+    return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,prot_mom_mes,prot_theta_mes,prot_phi_mes,mm2_mProt,"
+           "weight,inv_pip_pim";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -109,6 +114,11 @@ struct csv_data {
     os << data.prot_mom_mProt << ",";
     os << data.prot_theta_mProt << ",";
     os << data.prot_phi_mProt << ",";
+
+    os << data.prot_mom_mes << ",";
+    os << data.prot_theta_mes << ",";
+    os << data.prot_phi_mes << ",";
+
     os << std::setprecision(7);
     os << data.mm2_mProt << ",";
     //  os << data.mm2_mProt_corr << ",";
