@@ -12,7 +12,7 @@
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
-  double _beam_energy = 10.6;
+  double _beam_energy = 10.6041;
   std::unique_ptr<TLorentzVector> _beam;
   std::unique_ptr<TLorentzVector> _elec;
   std::unique_ptr<TLorentzVector> _gamma;
@@ -775,13 +775,13 @@ class Reaction {
     return _channelTwoPi;
   }
 
-  // inline bool TwoPion_exclusive() {
-  //   bool _channelTwoPi_excl = true;
+  inline bool TwoPion_exclusive() {
+    bool _channelTwoPi_excl = true;
 
-  //   _channelTwoPi_excl &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
-  //                          (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
-  //   return _channelTwoPi_excl;
-  // }
+    _channelTwoPi_excl &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
+                           (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
+    return _channelTwoPi_excl;
+  }
   inline bool TwoPion_missingPip() {
     bool _channelTwoPi_mpip = true;
     _channelTwoPi_mpip &=((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&& !_hasOther*/));

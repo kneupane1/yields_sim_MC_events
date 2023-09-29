@@ -727,6 +727,37 @@ float Reaction::prot_Phi_lab() {
   } else
     return NAN;
 }
+float Reaction::prot_momentum_measured() {
+  if (TwoPion_exclusive())
+    return _prot->P();
+  else
+    return NAN;
+}
+
+float Reaction::prot_theta_lab_measured() {
+  if (TwoPion_exclusive())
+    return _prot->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
+
+float Reaction::prot_Phi_lab_measured() {
+  if (TwoPion_exclusive()) {
+    if (_prot->Phi() > 0)
+      return _prot->Phi() * 180 / PI;
+    else if (_prot->Phi() < 0)
+      return (_prot->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
+float Reaction::prot_momentum_corrected() {
+  if (TwoPion_exclusive())
+    return _mom_corr_prot->P();
+  else
+    return NAN;
+}
 
 // void Reaction::invMassPpim() {
 //   auto inv_Ppim = std::make_unique<TLorentzVector>();

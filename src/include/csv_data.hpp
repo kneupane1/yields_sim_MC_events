@@ -47,6 +47,10 @@ struct csv_data {
   float mm2_mProt;
   float mm2_mProt_corr;
   float weight_mProt;
+  float prot_mom_exclusive;
+  float prot_theta_exclusive;
+  float prot_phi_exclusive;
+  float prot_mom_corr;
 
   float inv_ppip;
   float inv_ppim;
@@ -54,48 +58,49 @@ struct csv_data {
 
   // Static functions can be called without making a new struct
   static std::string header() {
-    return "elec_sec,w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,inv_pPip,weight";
+    // return "elec_sec,w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,inv_pPip,weight";
     // Make a string for the header of the csv file mPim case
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,mm2_mPim_corr,"
     //        "weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,mm2_mPip_corr,weight";
-    // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,mm2_mProt_corr,weight";
+    return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,prot_mom_mes,prot_theta_mes,prot_phi_mes,prot_mom_corr,mm2_"
+           "mProt,mm2_mProt_corr,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
 
-    // // mPim
-    os << std::setprecision(1);
-    os << data.electron_sector << ",";
-    // os << data.pim_sec << ",";
-    // os << data.pip_sec << ",";
-    // os << data.prot_sec << ",";
+    // // // mPim
+    // os << std::setprecision(1);
+    // os << data.electron_sector << ",";
+    // // os << data.pim_sec << ",";
+    // // os << data.pip_sec << ",";
+    // // os << data.prot_sec << ",";
 
-    os << std::setprecision(7);
-
-    os << data.w << ",";
-    os << data.q2 << ",";
-
-    os << data.pim_mom_mPim << ",";
-    os << data.pim_theta_mPim << ",";
-    os << data.pim_phi_mPim << ",";
-    // os << data.pim_mom_mPim_cm << ",";
-    // os << data.pim_theta_mPim_cm << ",";
-    // os << data.pim_phi_mPim_cm << ",";
     // os << std::setprecision(7);
-    os << data.mm2_mPim << ",";
-     os << data.mm2_mPim_corr << ",";
-    // os << data.status_Pim << ",";
-    // os << data.status_Pip << ",";
-    // os << data.status_Prot << ",";
 
-     // os << std::setprecision(7);
-     os << data.inv_ppip << ",";
-     // os << data.inv_ppim << ",";
-     // os << data.inv_pip_pim << ",";
+    // os << data.w << ",";
+    // os << data.q2 << ",";
 
-     os << std::setprecision(1);
-     os << data.weight_mPim << ",";
+    // os << data.pim_mom_mPim << ",";
+    // os << data.pim_theta_mPim << ",";
+    // os << data.pim_phi_mPim << ",";
+    // // os << data.pim_mom_mPim_cm << ",";
+    // // os << data.pim_theta_mPim_cm << ",";
+    // // os << data.pim_phi_mPim_cm << ",";
+    // // os << std::setprecision(7);
+    // os << data.mm2_mPim << ",";
+    //  os << data.mm2_mPim_corr << ",";
+    // // os << data.status_Pim << ",";
+    // // os << data.status_Pip << ",";
+    // // os << data.status_Prot << ",";
+
+    //  // os << std::setprecision(7);
+    //  os << data.inv_ppip << ",";
+    //  // os << data.inv_ppim << ",";
+    //  // os << data.inv_pip_pim << ",";
+
+    //  os << std::setprecision(1);
+    //  os << data.weight_mPim << ",";
 
      // // mPip
      // os << std::setprecision(7);
@@ -108,17 +113,18 @@ struct csv_data {
      // os << data.weight_mPip << ",";
 
      // // mProt
-     // os << std::setprecision(7);
-     // os << data.prot_mom_mProt << ",";
-     // os << data.prot_theta_mProt << ",";
-     // os << data.prot_phi_mProt << ",";
-     // os << data.prot_mom_mProt_cm << ",";
-     // os << data.prot_theta_mProt_cm << ",";
-     // os << data.prot_phi_mProt_cm << ",";
-     // os << data.mm2_mProt << ",";
-     // os << data.mm2_mProt_corr << ",";
-     // os << std::setprecision(1);
-     // os << data.weight_mProt << ",";
+     os << std::setprecision(7);
+     os << data.prot_mom_mProt << ",";
+     os << data.prot_theta_mProt << ",";
+     os << data.prot_phi_mProt << ",";
+     os << data.prot_mom_exclusive << ",";
+     os << data.prot_theta_exclusive << ",";
+     os << data.prot_phi_exclusive << ",";
+     os << data.prot_mom_corr << ",";
+     os << data.mm2_mProt << ",";
+     os << data.mm2_mProt_corr << ",";
+     os << std::setprecision(1);
+     os << data.weight_mProt << ",";
      return os;
   }
 };

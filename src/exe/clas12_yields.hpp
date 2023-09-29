@@ -51,11 +51,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
-  float beam_energy = 10.6;
+  float beam_energy = 10.6041;
   if (std::is_same<CutType, rga_Cuts>::value) {
-    beam_energy = 10.6;
+    beam_energy = 10.6041;
   } else if (std::is_same<CutType, uconn_Cuts>::value) {
-    beam_energy = 10.6;
+    beam_energy = 10.6041;
     // } else if (std::is_same<CutType, rgf_Cuts>::value) {
     //         beam_energy = rgf_E0;
     // }
@@ -235,9 +235,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     // if (event->TwoPion_exclusive()) {
-    if (event->TwoPion_missingPim()) {
+    // if (event->TwoPion_missingPim()) {
       // if (event->TwoPion_missingPip()) {
-    // if (event->TwoPion_missingProt()) {
+    if (event->TwoPion_missingProt()) {
       if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
         event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
         event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
@@ -246,22 +246,22 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   // total++;
         csv_data output;
 
-        // // // mPim .......................................
-        output.electron_sector = event->sec();
-        output.w = event->W();
-        output.q2 = event->Q2();
+        // // // // mPim .......................................
+        // output.electron_sector = event->sec();
+        // output.w = event->W();
+        // output.q2 = event->Q2();
 
-        output.pim_mom_mPim = event->pim_momentum();
-        output.pim_theta_mPim = event->pim_theta_lab();
-        output.pim_phi_mPim = event->pim_Phi_lab();
-        // output.pim_mom_mPim_cm = event->pim_momentum_cm();
-        // output.pim_theta_mPim_cm = event->pim_theta_cm();
-        // output.pim_phi_mPim_cm = event->pim_Phi_cm();
-        output.mm2_mPim = event->MM2_mPim();
-        output.mm2_mPim_corr = event->MM2_mPim_corr();
-        // output.status_Pim = statusPim;
-        // output.status_Pip = statusPip;
-        // output.status_Prot = statusProt;
+        // output.pim_mom_mPim = event->pim_momentum();
+        // output.pim_theta_mPim = event->pim_theta_lab();
+        // output.pim_phi_mPim = event->pim_Phi_lab();
+        // // output.pim_mom_mPim_cm = event->pim_momentum_cm();
+        // // output.pim_theta_mPim_cm = event->pim_theta_cm();
+        // // output.pim_phi_mPim_cm = event->pim_Phi_cm();
+        // output.mm2_mPim = event->MM2_mPim();
+        // output.mm2_mPim_corr = event->MM2_mPim_corr();
+        // // output.status_Pim = statusPim;
+        // // output.status_Pip = statusPip;
+        // // output.status_Prot = statusProt;
 
         // // mpip .......................................
 
@@ -274,19 +274,24 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // mProt .......................................
 
-        // output.prot_mom_mProt = event->prot_momentum();
-        // output.prot_theta_mProt = event->prot_theta_lab();
-        // output.prot_phi_mProt = event->prot_Phi_lab();
-        // output.mm2_mProt = event->MM2_mProt();
-        // output.mm2_mProt_corr = event->MM2_mProt_corr();
-        // output.weight_mProt = event->weight();
+        output.prot_mom_mProt = event->prot_momentum();
+        output.prot_theta_mProt = event->prot_theta_lab();
+        output.prot_phi_mProt = event->prot_Phi_lab();
+        output.prot_mom_exclusive = event->prot_momentum_measured();
+        output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+        output.prot_mom_corr = event->prot_momentum_corrected();
+
+        output.mm2_mProt = event->MM2_mProt();
+        output.mm2_mProt_corr = event->MM2_mProt_corr();
+        output.weight_mProt = event->weight();
 
 
-        output.inv_ppip = event->inv_Ppip();
+        // output.inv_ppip = event->inv_Ppip();
         // output.inv_ppim = event->inv_Ppim();
         // output.inv_pip_pim = event->inv_Pippim();
 
-        output.weight_mPim = event->weight();
+        // output.weight_mPim = event->weight();
 
         _sync->write(output);
       }
