@@ -123,8 +123,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     //     event->TwoPion_exclusive()) {
     // if (event->TwoPion_missingPip()) {
       // if (event->TwoPion_missingPim()) {
-    if (event->TwoPion_missingProt()) {{
-      // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+    if (event->TwoPion_missingProt()) {
+      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
 
 
         //   // total++;
@@ -170,9 +170,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.prot_theta_mProt = event->prot_theta_lab();
         output.prot_phi_mProt = event->prot_Phi_lab();
 
-        output.prot_mom_mes = event->prot_momentum_measured();
-        output.prot_theta_mes = event->prot_theta_lab_measured();
-        output.prot_phi_mes = event->prot_Phi_lab_measured();
+        // output.prot_mom_mes = event->prot_momentum_measured();
+        // output.prot_theta_mes = event->prot_theta_lab_measured();
+        // output.prot_phi_mes = event->prot_Phi_lab_measured();
 
         output.mm2_mProt = event->MM2_mProt();
         // output.mm2_mProt_corr = event->MM2_mProt_corr();
@@ -180,7 +180,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // output.inv_ppip = event->inv_Ppip();
         // output.inv_ppim = event->inv_Ppim();
-        output.inv_pip_pim = event->inv_Pippim();
+        // output.inv_pip_pim = event->inv_Pippim();
         // output.weight_mPim = mc_event->weight();
 
         _sync->write(output);
