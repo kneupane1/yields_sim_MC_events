@@ -47,6 +47,7 @@ void Reaction::SetElec() {
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
+  _elec_mom = _elec->P();
 }
 // void Reaction::SetMomCorrElec() {
 //   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
@@ -1145,6 +1146,114 @@ float Reaction::inv_Pippim() {
   if (_inv_pip_pim != _inv_pip_pim) invMasspippim();
   return _inv_pip_pim;
 }
+
+// Function to rotate a point around Z and Y
+TVector3 Reaction::getRotTiltPoint(TVector3& point, int sec) {
+  TRotation rotationZ;
+  TRotation rotationY;
+  rotationZ.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
+  rotationY.RotateY(-TMath::Pi() / 180.0 * 25);
+
+  TVector3 rotatedPoint = rotationY * (rotationZ * point);
+  return rotatedPoint;
+}
+// Function to get the residual as a TVector3
+void Reaction::calculateResidualpcal() {
+  int sec = _data->dc_sec(0);
+  Double_t hx = _data->ec_pcal_hx(0);
+  Double_t hy = _data->ec_pcal_hy(0);
+  Double_t hz = _data->ec_pcal_hz(0);
+
+  TVector3 xyz(hx - _data->ec_pcal_x(0), hy - _data->ec_pcal_y(0), hz - _data->ec_pcal_z(0));
+  TVector3 residual = getRotTiltPoint(xyz, sec);
+
+  _residualXpcal = residual.X();
+  _residualYpcal = residual.Y();
+  _residualZpcal = residual.Z();
+
+  TVector3 xyz_(_data->ec_pcal_x(0), _data->ec_pcal_y(0), _data->ec_pcal_z(0));
+  TVector3 xyz_rot = getRotTiltPoint(xyz_, sec);
+  _Xpcal_rot = xyz_rot.X();
+  _Ypcal_rot = xyz_rot.Y();
+  // return getRotTiltPoint(xyz, sec);
+}
+
+// Function to get the x value of the residual
+Double_t Reaction::getResidualXpcal() {
+  if (std::isnan(_residualXpcal)) calculateResidualpcal();
+  return _residualXpcal;
+}
+Double_t Reaction::getResidualYpcal() {
+  if (std::isnan(_residualYpcal)) calculateResidualpcal();
+  return _residualYpcal;
+}
+Double_t Reaction::getResidualZpcal() {
+  if (std::isnan(_residualZpcal)) calculateResidualpcal();
+  return _residualZpcal;
+}
+// Function to get the x value of the residual
+Double_t Reaction::Xpcal() { return _data->ec_pcal_x(0); }
+Double_t Reaction::Ypcal() { return _data->ec_pcal_y(0); }
+
+Double_t Reaction::Xpcal_rot() {
+  if (std::isnan(_Xpcal_rot)) calculateResidualpcal();
+  return _Xpcal_rot;
+}
+Double_t Reaction::Ypcal_rot() {
+  if (std::isnan(_Ypcal_rot)) calculateResidualpcal();
+  return _Ypcal_rot;
+}
+
+// Function to get the residual as a TVector3
+void Reaction::calculateResidualecin() {
+  int sec = _data->dc_sec(0);
+  Double_t hx = _data->ec_ecin_hx(0);
+  Double_t hy = _data->ec_ecin_hy(0);
+  Double_t hz = _data->ec_ecin_hz(0);
+
+  TVector3 xyz_ecin(hx - _data->ec_ecin_x(0), hy - _data->ec_ecin_y(0), hz - _data->ec_ecin_z(0));
+  TVector3 residual_ecin = getRotTiltPoint(xyz_ecin, sec);
+
+  _residualXecin = residual_ecin.X();
+  _residualYecin = residual_ecin.Y();
+  _residualZecin = residual_ecin.Z();
+
+  TVector3 xyz_ecin_(_data->ec_ecin_x(0), _data->ec_ecin_y(0), _data->ec_ecin_z(0));
+  TVector3 xyz_rot_ecin = getRotTiltPoint(xyz_ecin_, sec);
+
+  _Xecin_rot = xyz_rot_ecin.X();
+  _Yecin_rot = xyz_rot_ecin.Y();
+  // return getRotTiltPoint(xyz, sec);
+}
+
+// Function to get the x value of the residual
+Double_t Reaction::getResidualXecin() {
+  if (std::isnan(_residualXecin)) calculateResidualecin();
+  return _residualXecin;
+}
+Double_t Reaction::getResidualYecin() {
+  if (std::isnan(_residualYecin)) calculateResidualecin();
+  return _residualYecin;
+}
+Double_t Reaction::getResidualZecin() {
+  if (std::isnan(_residualZecin)) calculateResidualecin();
+  return _residualZecin;
+}
+
+// Function to get the x value of the residual
+Double_t Reaction::Xecin() { return _data->ec_ecin_x(0); }
+Double_t Reaction::Yecin() { return _data->ec_ecin_y(0); }
+
+Double_t Reaction::Xecin_rot() {
+  if (std::isnan(_Xecin_rot)) calculateResidualecin();
+  return _Xecin_rot;
+}
+Double_t Reaction::Yecin_rot() {
+  if (std::isnan(_Yecin_rot)) calculateResidualecin();
+  return _Yecin_rot;
+}
+
+float Reaction::sampling_fraction() { return _data->ec_tot_energy(0) / _data->p(0); }
 
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }

@@ -579,6 +579,19 @@ class Reaction {
       -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1,
   };
 
+  /////////////////
+  double _residualXpcal = NAN;
+  double _residualYpcal = NAN;
+  double _residualZpcal = NAN;
+  double _Xpcal_rot = NAN;
+  double _Ypcal_rot = NAN;
+
+  double _residualXecin = NAN;
+  double _residualYecin = NAN;
+  double _residualZecin = NAN;
+  double _Xecin_rot = NAN;
+  double _Yecin_rot = NAN;
+
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -800,6 +813,37 @@ class Reaction {
   const TLorentzVector &e_mu() { return *_beam; }
   const TLorentzVector &e_mu_prime() { return *_elec; }
   const TLorentzVector &gamma() { return *_gamma; }
+
+  //////////////////////////////////////////////////
+  // Function to rotate a point around Z and Y
+  TVector3 getRotTiltPoint(TVector3 &point, int sec);
+
+  // Function to get the residual
+  void calculateResidualpcal();
+
+  // Function to get the x,y,z value of the residual
+  Double_t getResidualXpcal();
+  Double_t getResidualYpcal();
+  Double_t getResidualZpcal();
+
+  Double_t Xpcal();
+  Double_t Ypcal();
+  Double_t Xpcal_rot();
+  Double_t Ypcal_rot();
+  // Function to get the residual as a TVector3
+  void calculateResidualecin();
+
+  // Function to get the x,y,z value of the residual
+  Double_t getResidualXecin();
+  Double_t getResidualYecin();
+  Double_t getResidualZecin();
+  Double_t Xecin();
+  Double_t Yecin();
+  Double_t Xecin_rot();
+  Double_t Yecin_rot();
+
+  float sampling_fraction();
+
 };
 
 class MCReaction : public Reaction {
@@ -838,6 +882,7 @@ class MCReaction : public Reaction {
   void SetMCPip(int i);
   void SetMCPim(int i);
   void SetMCOther(int i);
+
 
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   void SetMCElec();
