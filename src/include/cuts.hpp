@@ -1,9 +1,4 @@
-// /**************************************/
-// /*																		*/
-// /*  Created by Nick Tyler             */
-// /*	University Of South Carolina      */
-// /**************************************/
-//
+
 // #ifndef CUTS_H_GUARD
 // #define CUTS_H_GUARD
 // #include "branches.hpp"

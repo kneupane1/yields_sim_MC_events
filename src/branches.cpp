@@ -1,9 +1,3 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
-
 #include "branches.hpp"
 
 Branches12::Branches12(const std::shared_ptr<TChain> &tree) {
