@@ -165,8 +165,11 @@ float sf;
 
   // Static functions can be called without making a new struct
   static std::string header() {
-    return "elec_sec,sf,elec_mom,ResiXpcal,ResiYpcal,pcalX,pcalY,pcalX_rot,pcalY_rot,ResiXecin,"
-           "ResiYecin,ecinX,ecinY,ecinX_rot,ecinY_rot,weight";
+    // return "elec_sec,sf,elec_mom,ResiXpcal,ResiYpcal,pcalX,pcalY,pcalX_rot,pcalY_rot,ResiXecin,"
+    //        "ResiYecin,ecinX,ecinY,ecinX_rot,ecinY_rot,weight";
+
+    return "elec_sec,sf,elec_mom,ResiXecin,"
+           "ResiYecin,ecinX_rot,ecinY_rot,weight";
 
     // return "sec_elec,sec_pim,sec_pip,sec_prot,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_"
     //        "miss,pip_mom_miss,pip_"
@@ -201,21 +204,21 @@ float sf;
     // os << data.w << ",";
     // os << data.q2 << ",";
 
-    os << data.residualXpcal << ",";
-    os << data.residualYpcal << ",";
-    // os << data.residualZpcal << ",";
+    // os << data.residualXpcal << ",";
+    // os << data.residualYpcal << ",";
+    // // os << data.residualZpcal << ",";
 
-    os << data.Xpcal << ",";
-    os << data.Ypcal << ",";
+    // os << data.Xpcal << ",";
+    // os << data.Ypcal << ",";
 
-    os << data.Xpcal_rot << ",";
-    os << data.Ypcal_rot << ",";
+    // os << data.Xpcal_rot << ",";
+    // os << data.Ypcal_rot << ",";
 
     os << data.residualXecin << ",";
     os << data.residualYecin << ",";
     // os << data.residualZecin << ",";
-    os << data.Xecin << ",";
-    os << data.Yecin << ",";
+    // os << data.Xecin << ",";
+    // os << data.Yecin << ",";
 
     os << data.Xecin_rot << ",";
     os << data.Yecin_rot << ",";

@@ -57,11 +57,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
-  float beam_energy = 10.6;
+  float beam_energy = 10.6041;
   if (std::is_same<CutType, rga_Cuts>::value) {
-    beam_energy = 10.6;
+    beam_energy = 10.6041;
   } else if (std::is_same<CutType, uconn_Cuts>::value) {
-    beam_energy = 10.6;
+    beam_energy = 10.6041;
     // } else if (std::is_same<CutType, rgf_Cuts>::value) {
     //         beam_energy = rgf_E0;
     // }
@@ -77,16 +77,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  // auto data = std::make_shared<Branches12>(_chain, true);
+  auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  auto data = std::make_shared<Branches12>(_chain);
+  // auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
   // For each event
 
-  for (size_t current_event = 0; current_event < num_of_events; current_event++) {
-    // for (size_t current_event = 0; current_event < 350; current_event++) {
+  // for (size_t current_event = 0; current_event < num_of_events; current_event++) {
+    for (size_t current_event = 0; current_event < 1000; current_event++) {
     // Get current event
     _chain->GetEntry(current_event);
 
@@ -101,27 +101,27 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int sectorPip = -1;
     int sectorProt = -1;
 
-    // if (data->mc_npart() < 1) continue;
+    if (data->mc_npart() < 1) continue;
 
     // // If we pass electron cuts the event is processed
     total++;
 
-    // // Make a reaction class from the data given
-    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // Make a reaction class from the data given
+    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
 
-    // for (int part = 1; part < data->mc_npart(); part++) {
-    //   // Check particle ID's and fill the reaction class
+    for (int part = 1; part < data->mc_npart(); part++) {
+      // Check particle ID's and fill the reaction class
 
-    //   if (data->mc_pid(part) == PIP) {
-    //     mc_event->SetMCPip(part);
-    //   } else if (data->mc_pid(part) == PROTON) {
-    //     mc_event->SetMCProton(part);
-    //   } else if (data->mc_pid(part) == PIM) {
-    //     mc_event->SetMCPim(part);
-    //     // } else {
-    //     //   mc_event->SetMCOther(part);
-    //   }
-    // }
+      if (data->mc_pid(part) == PIP) {
+        mc_event->SetMCPip(part);
+      } else if (data->mc_pid(part) == PROTON) {
+        mc_event->SetMCProton(part);
+      } else if (data->mc_pid(part) == PIM) {
+        mc_event->SetMCPim(part);
+        // } else {
+        //   mc_event->SetMCOther(part);
+      }
+    }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -171,7 +171,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_missingProt()) {
     // if (event->TwoPion_exclusive()) {
     if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-      {  // if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+      if (event->sec() ==1) {  // if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+        // std::cout << "pid at zero is " << data->pid(0) << std::endl;
 
         //   // // abs(event->Energy_excl()) < 0.3) {
 
@@ -200,22 +201,22 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.w_mc = mc_event->W_mc();
         // // output.q2_mc = mc_event->Q2_mc();
 
-        // output.w = event->W();
-        // output.q2 = event->Q2();
+        // // output.w = event->W();
+        // // output.q2 = event->Q2();
         output.residualXpcal = event->getResidualXpcal();
-        output.residualYpcal = event->getResidualYpcal();
-        // output.residualZpcal = event->getResidualZpcal();
-        output.Xpcal = event->Xpcal();
-        output.Ypcal = event->Ypcal();
-        output.Xpcal_rot = event->Xpcal_rot();
-        output.Ypcal_rot = event->Ypcal_rot();
+        // output.residualYpcal = event->getResidualYpcal();
+        // // output.residualZpcal = event->getResidualZpcal();
+        // output.Xpcal = event->Xpcal();
+        // output.Ypcal = event->Ypcal();
+        // output.Xpcal_rot = event->Xpcal_rot();
+        // output.Ypcal_rot = event->Ypcal_rot();
 
-        output.residualXecin = event->getResidualXecin();
+        // output.residualXecin = event->getResidualXecin();
         output.residualYecin = event->getResidualYecin();
         // output.residualZecin = event->getResidualZecin();
 
-        output.Xecin = event->Xecin();
-        output.Yecin = event->Yecin();
+        // output.Xecin = event->Xecin();
+        // output.Yecin = event->Yecin();
         output.Xecin_rot = event->Xecin_rot();
         output.Yecin_rot = event->Yecin_rot();
         output.weight_exclusive = event->weight();

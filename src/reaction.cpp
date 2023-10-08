@@ -1151,11 +1151,15 @@ float Reaction::inv_Pippim() {
 TVector3 Reaction::getRotTiltPoint(TVector3& point, int sec) {
   TRotation rotationZ;
   TRotation rotationY;
-  rotationZ.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
-  rotationY.RotateY(-TMath::Pi() / 180.0 * 25);
+  // rotationZ.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
+  // rotationY.RotateY(-TMath::Pi() / 180.0 * 25);
 
-  TVector3 rotatedPoint = rotationY * (rotationZ * point);
-  return rotatedPoint;
+  // point.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
+  // point.RotateY(-TMath::Pi() / 180.0 * 25);
+  return point;
+
+  // TVector3 rotatedPoint = rotationY * (rotationZ * point);
+  // return rotatedPoint;
 }
 // Function to get the residual as a TVector3
 void Reaction::calculateResidualpcal() {
@@ -1165,11 +1169,15 @@ void Reaction::calculateResidualpcal() {
   Double_t hz = _data->ec_pcal_hz(0);
 
   TVector3 xyz(hx - _data->ec_pcal_x(0), hy - _data->ec_pcal_y(0), hz - _data->ec_pcal_z(0));
-  TVector3 residual = getRotTiltPoint(xyz, sec);
+  // TVector3 residual = getRotTiltPoint(xyz, sec);
+  TVector3 residual = xyz;
 
   _residualXpcal = residual.X();
   _residualYpcal = residual.Y();
   _residualZpcal = residual.Z();
+
+  std::cout << " hx_pcal " << hx << " x_pcal " << _data->ec_pcal_x(0) << "  residual_pcal.X() "
+            << residual.X() << std::endl;
 
   TVector3 xyz_(_data->ec_pcal_x(0), _data->ec_pcal_y(0), _data->ec_pcal_z(0));
   TVector3 xyz_rot = getRotTiltPoint(xyz_, sec);
@@ -1207,17 +1215,19 @@ Double_t Reaction::Ypcal_rot() {
 // Function to get the residual as a TVector3
 void Reaction::calculateResidualecin() {
   int sec = _data->dc_sec(0);
-  Double_t hx = _data->ec_ecin_hx(0);
-  Double_t hy = _data->ec_ecin_hy(0);
-  Double_t hz = _data->ec_ecin_hz(0);
+  Double_t hx_ecin = _data->ec_ecin_hx(0);
+  Double_t hy_ecin = _data->ec_ecin_hy(0);
+  Double_t hz_ecin = _data->ec_ecin_hz(0);
 
-  TVector3 xyz_ecin(hx - _data->ec_ecin_x(0), hy - _data->ec_ecin_y(0), hz - _data->ec_ecin_z(0));
-  TVector3 residual_ecin = getRotTiltPoint(xyz_ecin, sec);
-
+  TVector3 xyz_ecin(hx_ecin - _data->ec_ecin_x(0), hy_ecin - _data->ec_ecin_y(0), hz_ecin - _data->ec_ecin_z(0));
+  // TVector3 residual_ecin = getRotTiltPoint(xyz_ecin, sec);
+  TVector3 residual_ecin = xyz_ecin;
   _residualXecin = residual_ecin.X();
   _residualYecin = residual_ecin.Y();
   _residualZecin = residual_ecin.Z();
-
+  std::cout << " hx_ecin " << hx_ecin << " x_ecin " << _data->ec_ecin_x(0) << "  residual_ecin.X() "
+            << residual_ecin.X() << std::endl
+            << std::endl;
   TVector3 xyz_ecin_(_data->ec_ecin_x(0), _data->ec_ecin_y(0), _data->ec_ecin_z(0));
   TVector3 xyz_rot_ecin = getRotTiltPoint(xyz_ecin_, sec);
 
@@ -1240,9 +1250,9 @@ Double_t Reaction::getResidualZecin() {
   return _residualZecin;
 }
 
-// Function to get the x value of the residual
-Double_t Reaction::Xecin() { return _data->ec_ecin_x(0); }
-Double_t Reaction::Yecin() { return _data->ec_ecin_y(0); }
+// // Function to get the x value of the residual
+// Double_t Reaction::Xecin() { return _data->ec_ecin_x(0); }
+// Double_t Reaction::Yecin() { return _data->ec_ecin_y(0); }
 
 Double_t Reaction::Xecin_rot() {
   if (std::isnan(_Xecin_rot)) calculateResidualecin();
