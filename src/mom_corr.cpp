@@ -379,7 +379,6 @@ float mom_corr::FD_pim_Eph_corr_upper(float mom_, float theta_, float phi_) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////..................................................////////////////
 
-
 // //////////////////// Task FORCE mom correction start Aug 2022 Version
 double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
   // auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec) {
@@ -581,7 +580,8 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
   return dp / pp;
 }
 
-// // /////////////////////////////////////////// new Momentum Corrections Last Updated: December 23, 2022 (Not Finalized)
+// // /////////////////////////////////////////// new Momentum Corrections Last Updated: December 23, 2022 (Not
+// Finalized)
 
 // // ////// These corrections have not been fully updated yet as the π - pion corrections
 // // ////// are still under development as of 12 -23 -2022
@@ -779,8 +779,8 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
 //     }
 //     if (sec == 2) {
 //       dp = (1.4819E-06 * phi * phi + -3.7222E-05 * phi + 1.3426E-03) * pp * pp +
-//            (-1.4990E-06 * phi * phi + 9.6467E-05 * phi + -1.9363E-02) * pp + 1.1426E-06 * phi * phi + 4.5750E-05 * phi +
-//            3.7193E-02 - 0.005;
+//            (-1.4990E-06 * phi * phi + 9.6467E-05 * phi + -1.9363E-02) * pp + 1.1426E-06 * phi * phi + 4.5750E-05 *
+//            phi + 3.7193E-02 - 0.005;
 //     }
 
 //     if (sec == 3) {
@@ -791,8 +791,8 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
 
 //     if (sec == 4) {
 //       dp = (-4.6480E-07 * phi * phi + -1.7373E-06 * phi + 3.4723E-03) * pp * pp +
-//            (6.8267E-07 * phi * phi + 1.3368E-04 * phi + -2.4534E-02) * pp + 9.9275E-06 * phi * phi + -1.5813E-04 * phi +
-//            4.0981E-02 - 0.004;
+//            (6.8267E-07 * phi * phi + 1.3368E-04 * phi + -2.4534E-02) * pp + 9.9275E-06 * phi * phi + -1.5813E-04 *
+//            phi + 4.0981E-02 - 0.004;
 //     }
 
 //     if (sec == 5) {
@@ -836,12 +836,14 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
 //       dp =
 //           ((1 + TMath::Sign(1, (pp - 1.05))) / 2) * ((-4.7052e-03) * pp + (1.2410e-03)) +
 //           ((1 + TMath::Sign(1, -(pp - 1.05))) / 2) * ((-0.22721) * (pp - 1.05) * (pp - 1.05) +
-//                                                       (-0.09702) * (pp - 1.05) + ((-4.7052e-03) * 1.05 + (1.2410e-03)));
+//                                                       (-0.09702) * (pp - 1.05) + ((-4.7052e-03) * 1.05 +
+//                                                       (1.2410e-03)));
 //     }
 //     if (sec == 4) {
 //       dp = ((1 + TMath::Sign(1, (pp - 1.4))) / 2) * ((-1.0900e-03) * pp + (-4.0573e-03)) +
 //            ((1 + TMath::Sign(1, -(pp - 1.4))) / 2) *
-//                ((-0.09236) * (pp - 1.4) * (pp - 1.4) + (-0.073) * (pp - 1.4) + ((-1.0900e-03) * 1.4 + (-4.0573e-03)));
+//                ((-0.09236) * (pp - 1.4) * (pp - 1.4) + (-0.073) * (pp - 1.4) + ((-1.0900e-03) * 1.4 +
+//                (-4.0573e-03)));
 //     }
 //     if (sec == 5) {
 //       dp = ((1 + TMath::Sign(1, (pp - 1.5))) / 2) * ((7.3965e-03) * pp + (-0.02428)) +
@@ -852,7 +854,8 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
 //       dp =
 //           ((1 + TMath::Sign(1, (pp - 1.15))) / 2) * ((-7.6214e-03) * pp + (8.1014e-03)) +
 //           ((1 + TMath::Sign(1, -(pp - 1.15))) / 2) * ((-0.12718) * (pp - 1.15) * (pp - 1.15) +
-//                                                       (-0.06626) * (pp - 1.15) + ((-7.6214e-03) * 1.15 + (8.1014e-03)));
+//                                                       (-0.06626) * (pp - 1.15) + ((-7.6214e-03) * 1.15 +
+//                                                       (8.1014e-03)));
 //     }
 //   }
 
@@ -887,8 +890,6 @@ double mom_corr::dppC(float Px, float Py, float Pz, int sec, int ivec) {
 // auto pipC = ROOT::Math::PxPyPzMVector(pipx * fpip, pipy* fpip, pipz* fpip, 0.13957);
 // auto pimC = ROOT::Math::PxPyPzMVector(pimx * fpim, pimy* fpim, pimz* fpim, 0.13957);
 // auto proC = ROOT::Math::PxPyPzMVector(prox * feloss * fpro, proy* feloss* fpro, proz* feloss* fpro, 0.938);
-
-
 
 ////=======================//=======================//
 //=====================================================================================================================================//

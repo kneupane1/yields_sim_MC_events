@@ -13,9 +13,7 @@ class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
   //fall data
-  // double _beam_energy = 10.6041;
-  // spring data
-  double _beam_energy = 10.2;
+  double _beam_energy = 10.6041;
 
   std::unique_ptr<TLorentzVector> _beam;
   std::unique_ptr<TLorentzVector> _elec;
