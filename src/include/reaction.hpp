@@ -2,7 +2,9 @@
 #ifndef REACTION_H_GUARD
 #define REACTION_H_GUARD
 
+#include <cmath>
 #include <iostream>
+
 #include "TLorentzRotation.h"
 #include "TLorentzVector.h"
 #include "branches.hpp"
@@ -597,8 +599,8 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    return _data->mc_weight();
-    // return 1.0;
+    // return _data->mc_weight();
+    return 1.0;
   }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
@@ -817,7 +819,7 @@ class Reaction {
   //////////////////////////////////////////////////
   // Function to rotate a point around Z and Y
   TVector3 getRotTiltPoint(TVector3 &point, int sec);
-
+  TVector3 getRotTiltPoint_ecin(TVector3 &point, int sec);
   // Function to get the residual
   void calculateResidualpcal();
 
@@ -830,6 +832,8 @@ class Reaction {
   Double_t Ypcal();
   Double_t Xpcal_rot();
   Double_t Ypcal_rot();
+
+  TVector3 getRotTiltPointEcin(TVector3 &point, int sec);
   // Function to get the residual as a TVector3
   void calculateResidualecin();
 
@@ -843,7 +847,6 @@ class Reaction {
   Double_t Yecin_rot();
 
   float sampling_fraction();
-
 };
 
 class MCReaction : public Reaction {
@@ -882,7 +885,6 @@ class MCReaction : public Reaction {
   void SetMCPip(int i);
   void SetMCPim(int i);
   void SetMCOther(int i);
-
 
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   void SetMCElec();

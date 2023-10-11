@@ -87,7 +87,8 @@ void Reaction::SetProton(int i) {
   _prot_status = abs(_data->status(i));
   _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
 
-  // _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
+  // _thetaDC_r1_Prot = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)),
+  // _data->dc_r1_z(i)));
 
   _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
   _mom_corr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
@@ -135,8 +136,10 @@ void Reaction::SetProton(int i) {
   //   //     _prot_mom_tmt = objMomCorr->FD_prot_Emom_corr_lower(_prot_mom_uncorr, _prot_theta_uncorr);
   //   //   else
   //   //     _prot_mom_tmt =
-  //   //         _prot_mom_uncorr + objMomCorr->A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-  //   //         objMomCorr->B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
+  //   //         _prot_mom_uncorr + objMomCorr->A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot,
+  //   _sectorProt) +
+  //   //         objMomCorr->B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) /
+  //   _prot_mom_uncorr;
 
   //   // } else {
   //   //   _prot_theta_tmt = objMomCorr->FD_prot_Eth_corr_upper(_prot_mom_uncorr, _prot_theta_uncorr);
@@ -146,8 +149,10 @@ void Reaction::SetProton(int i) {
   //   //     _prot_mom_tmt = objMomCorr->FD_prot_Emom_corr_upper(_prot_mom_uncorr, _prot_theta_uncorr);
   //   //   else
   //   //     _prot_mom_tmt =
-  //   //         _prot_mom_uncorr + objMomCorr->A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-  //   //         objMomCorr->B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
+  //   //         _prot_mom_uncorr + objMomCorr->A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot,
+  //   _sectorProt) +
+  //   //         objMomCorr->B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) /
+  //   _prot_mom_uncorr;
   //   // }
   // }
   // // _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) *
@@ -190,7 +195,8 @@ void Reaction::SetPip(int i) {
   _hasPip = true;
   _pip_status = abs(_data->status(i));
   _sectorPip = _data->dc_sec(i);
-  // _thetaDC_r1_Pip = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)), _data->dc_r1_z(i)));
+  // _thetaDC_r1_Pip = RAD2DEG * (atan2(sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i), 2)),
+  // _data->dc_r1_z(i)));
 
   _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
@@ -438,8 +444,8 @@ void Reaction::SetOther(int i) {
 
 // // // // //// Now Our version of Momentum corrections based on Aug task fc mom corr
 
-void Reaction::Prot_HMom_corr(int status_prot, int status_pip, int status_pim, int sector_Prot, float alPFD[4], float
-alPCD[3]) {
+void Reaction::Prot_HMom_corr(int status_prot, int status_pip, int status_pim, int sector_Prot, float alPFD[4],
+                              float alPCD[3]) {
   auto uncorr_prot = std::make_unique<TLorentzVector>();
 
   *uncorr_prot += (*_prot);
@@ -1149,13 +1155,17 @@ float Reaction::inv_Pippim() {
 
 // Function to rotate a point around Z and Y
 TVector3 Reaction::getRotTiltPoint(TVector3& point, int sec) {
-  TRotation rotationZ;
-  TRotation rotationY;
+  // TRotation rotationZ;
+  // TRotation rotationY;
   // rotationZ.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
   // rotationY.RotateY(-TMath::Pi() / 180.0 * 25);
 
-  // point.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
-  // point.RotateY(-TMath::Pi() / 180.0 * 25);
+  point.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
+  // if (sec == 1) {
+  // std::cout << " before X = " << point.X() << " Y = " << point.Y() << " Z = " << point.Z() << std::endl;
+  point.RotateY(-TMath::Pi() / 180.0 * 25);
+  // std::cout << " after X = " << point.X() << " Y = " << point.Y() << " Z = " << point.Z() << std::endl;
+  // }
   return point;
 
   // TVector3 rotatedPoint = rotationY * (rotationZ * point);
@@ -1164,28 +1174,31 @@ TVector3 Reaction::getRotTiltPoint(TVector3& point, int sec) {
 // Function to get the residual as a TVector3
 void Reaction::calculateResidualpcal() {
   int sec = _data->dc_sec(0);
+  // if (sec == 1) {
   Double_t hx = _data->ec_pcal_hx(0);
   Double_t hy = _data->ec_pcal_hy(0);
   Double_t hz = _data->ec_pcal_hz(0);
 
   TVector3 xyz(hx - _data->ec_pcal_x(0), hy - _data->ec_pcal_y(0), hz - _data->ec_pcal_z(0));
-  // TVector3 residual = getRotTiltPoint(xyz, sec);
-  TVector3 residual = xyz;
+  TVector3 residual = getRotTiltPoint(xyz, sec);
+  // TVector3 residual = xyz;
 
   _residualXpcal = residual.X();
   _residualYpcal = residual.Y();
   _residualZpcal = residual.Z();
 
-  std::cout << " hx_pcal " << hx << " x_pcal " << _data->ec_pcal_x(0) << "  residual_pcal.X() "
-            << residual.X() << std::endl;
+  // std::cout << " sector " << sec << "   hx_pcal " << hx << " x_pcal " << _data->ec_pcal_x(0) << "  residual_pcal.X()"
+  //           << residual.X() << " non rot diff " << _data->ec_pcal_hx(0) - _data->ec_pcal_x(0) << " ratio "
+  //           << residual.X() / (_data->ec_pcal_hx(0) - _data->ec_pcal_x(0)) << std::endl
+  //           << std::endl;
 
   TVector3 xyz_(_data->ec_pcal_x(0), _data->ec_pcal_y(0), _data->ec_pcal_z(0));
   TVector3 xyz_rot = getRotTiltPoint(xyz_, sec);
   _Xpcal_rot = xyz_rot.X();
   _Ypcal_rot = xyz_rot.Y();
   // return getRotTiltPoint(xyz, sec);
+  // }
 }
-
 // Function to get the x value of the residual
 Double_t Reaction::getResidualXpcal() {
   if (std::isnan(_residualXpcal)) calculateResidualpcal();
@@ -1212,30 +1225,48 @@ Double_t Reaction::Ypcal_rot() {
   return _Ypcal_rot;
 }
 
+TVector3 Reaction::getRotTiltPoint_ecin(TVector3& point, int sec) {
+  // Rotate the original point around the Z-axis by -TMath::Pi() / 3.0 * (sec - 1) radians
+  point.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
+  // Rotate the updated point around the Y-axis by -TMath::Pi() / 180.0 * 25 radians
+  point.RotateY(-TMath::Pi() / 180.0 * 25);
+
+  // Return the updated point
+  return point;
+}
 // Function to get the residual as a TVector3
 void Reaction::calculateResidualecin() {
-  int sec = _data->dc_sec(0);
+  // int sec_ecin = _data->ec_ecin_sec(0);
+  int sec_ecin = _data->dc_sec(0);
+
+  // if (sec_ecin == 1) {
   Double_t hx_ecin = _data->ec_ecin_hx(0);
   Double_t hy_ecin = _data->ec_ecin_hy(0);
   Double_t hz_ecin = _data->ec_ecin_hz(0);
 
   TVector3 xyz_ecin(hx_ecin - _data->ec_ecin_x(0), hy_ecin - _data->ec_ecin_y(0), hz_ecin - _data->ec_ecin_z(0));
-  // TVector3 residual_ecin = getRotTiltPoint(xyz_ecin, sec);
-  TVector3 residual_ecin = xyz_ecin;
+  // TVector3 residual_ecin = getRotTiltPoint_ecin(xyz_ecin, sec_ecin);
+  TVector3 residual_ecin = getRotTiltPoint_ecin(xyz_ecin, sec_ecin);
+
+  // TVector3 residual_ecin = xyz_ecin;
   _residualXecin = residual_ecin.X();
   _residualYecin = residual_ecin.Y();
   _residualZecin = residual_ecin.Z();
-  std::cout << " hx_ecin " << hx_ecin << " x_ecin " << _data->ec_ecin_x(0) << "  residual_ecin.X() "
-            << residual_ecin.X() << std::endl
-            << std::endl;
+
+  // std::cout << " sec_ecin " << _data->ec_ecin_sec(0) << " hx_ecin " << hx_ecin << " x ecin " << _data->ec_ecin_x(0)
+  //           << " not rotated diff :" << _data->ec_ecin_hx(0) - _data->ec_ecin_x(0) << "  rotated diff  "
+  //           << _residualXecin << " ratio " << _residualXecin / (_data->ec_ecin_hx(0) - _data->ec_ecin_x(0)) <<
+  //           std::endl
+  //           << std::endl;
+
   TVector3 xyz_ecin_(_data->ec_ecin_x(0), _data->ec_ecin_y(0), _data->ec_ecin_z(0));
-  TVector3 xyz_rot_ecin = getRotTiltPoint(xyz_ecin_, sec);
+  TVector3 xyz_rot_ecin = getRotTiltPoint_ecin(xyz_ecin_, sec_ecin);
 
   _Xecin_rot = xyz_rot_ecin.X();
   _Yecin_rot = xyz_rot_ecin.Y();
   // return getRotTiltPoint(xyz, sec);
+  // }
 }
-
 // Function to get the x value of the residual
 Double_t Reaction::getResidualXecin() {
   if (std::isnan(_residualXecin)) calculateResidualecin();
@@ -1296,13 +1327,17 @@ void Reaction::boost() {
 
   _boosted_prot = std::make_unique<TLorentzVector>(*_mom_corr_prot);
   _boosted_pip = std::make_unique<TLorentzVector>(*_mom_corr_pip);
-  _boosted_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip);  //(*_pim); // careful here because it is not in exclusive set up sa says by git branch
+  _boosted_pim = std::make_unique<TLorentzVector>(
+      *_gamma + *_target - *_mom_corr_prot -
+      *_mom_corr_pip);  //(*_pim); // careful here because it is not in exclusive set up sa says by git branch
   _boosted_gamma = std::make_unique<TLorentzVector>(*_gamma);
   _boosted_pim_measured = std::make_unique<TLorentzVector>(*_mom_corr_pim);
 
   _rotated_prot = std::make_unique<TLorentzVector>(*_mom_corr_prot);
   _rotated_pip = std::make_unique<TLorentzVector>(*_mom_corr_pip);
-  _rotated_pim = std::make_unique<TLorentzVector>(*_gamma + *_target - *_mom_corr_prot - *_mom_corr_pip);  //(*_pim);// careful here because it is not in exclusive set up sa says by git branch
+  _rotated_pim = std::make_unique<TLorentzVector>(
+      *_gamma + *_target - *_mom_corr_prot -
+      *_mom_corr_pip);  //(*_pim);// careful here because it is not in exclusive set up sa says by git branch
   _rotated_pim_measured = std::make_unique<TLorentzVector>(*_mom_corr_pim);
 
   TRotation rot;
