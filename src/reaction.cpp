@@ -48,6 +48,7 @@ void Reaction::SetElec() {
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
   _elec_mom = _elec->P();
+  _theta_e = _elec->Theta() * 180 / PI;
 }
 // void Reaction::SetMomCorrElec() {
 //   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
@@ -1163,7 +1164,7 @@ TVector3 Reaction::getRotTiltPoint(TVector3& point, int sec) {
   point.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
   // if (sec == 1) {
   // std::cout << " before X = " << point.X() << " Y = " << point.Y() << " Z = " << point.Z() << std::endl;
-  point.RotateY(-TMath::Pi() / 180.0 * 25);
+  point.RotateY(TMath::Pi() / 180.0 * (-25));
   // std::cout << " after X = " << point.X() << " Y = " << point.Y() << " Z = " << point.Z() << std::endl;
   // }
   return point;
@@ -1173,7 +1174,9 @@ TVector3 Reaction::getRotTiltPoint(TVector3& point, int sec) {
 }
 // Function to get the residual as a TVector3
 void Reaction::calculateResidualpcal() {
-  int sec = _data->dc_sec(0);
+  int sec = _data->ec_pcal_sec(0);
+  // int sec = _data->dc_sec(0);
+
   // if (sec == 1) {
   Double_t hx = _data->ec_pcal_hx(0);
   Double_t hy = _data->ec_pcal_hy(0);
@@ -1229,15 +1232,15 @@ TVector3 Reaction::getRotTiltPoint_ecin(TVector3& point, int sec) {
   // Rotate the original point around the Z-axis by -TMath::Pi() / 3.0 * (sec - 1) radians
   point.RotateZ(-TMath::Pi() / 3.0 * (sec - 1));
   // Rotate the updated point around the Y-axis by -TMath::Pi() / 180.0 * 25 radians
-  point.RotateY(-TMath::Pi() / 180.0 * 25);
+  point.RotateY(TMath::Pi() / 180.0 * (-25));
 
   // Return the updated point
   return point;
 }
 // Function to get the residual as a TVector3
 void Reaction::calculateResidualecin() {
-  // int sec_ecin = _data->ec_ecin_sec(0);
-  int sec_ecin = _data->dc_sec(0);
+  int sec_ecin = _data->ec_ecin_sec(0);
+  // int sec_ecin = _data->dc_sec(0);
 
   // if (sec_ecin == 1) {
   Double_t hx_ecin = _data->ec_ecin_hx(0);

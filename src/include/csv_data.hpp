@@ -163,7 +163,7 @@ struct csv_data {
 
   // Static functions can be called without making a new struct
   static std::string header() {
-    return "elec_sec,sf,elec_mom,ResiXpcal,ResiYpcal,pcalX_rot,pcalY_rot,ResiXecin,"
+    return "elec_sec,sf,elec_mom,elec_theta,ResiXpcal,ResiYpcal,pcalX_rot,pcalY_rot,ResiXecin,"
            "ResiYecin,ecinX_rot,ecinY_rot,weight";
 
     // return "elec_sec,sf,elec_mom,ResiXecin,"
@@ -197,7 +197,7 @@ struct csv_data {
     os << data.sf << ",";
     os << data.elec_mom << ",";
     // os << data.elec_energy << ",";
-    // os << data.elec_theta << ",";
+    os << data.elec_theta << ",";
 
     // // os << data.w_mc << ",";
     // // os << data.q2_mc << ",";

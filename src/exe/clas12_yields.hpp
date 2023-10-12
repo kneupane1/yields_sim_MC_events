@@ -38,16 +38,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  // auto data = std::make_shared<Branches12>(_chain, true);
+  auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  auto data = std::make_shared<Branches12>(_chain);
+  // auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
   // For each event
 
-  // for (size_t current_event = 0; current_event < num_of_events; current_event++) {
-  for (size_t current_event = 0; current_event < 100; current_event++) {
+  for (size_t current_event = 0; current_event < num_of_events; current_event++) {
+    // for (size_t current_event = 0; current_event < 100; current_event++) {
     // Get current event
     _chain->GetEntry(current_event);
 
@@ -62,7 +62,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int sectorPip = -1;
     int sectorProt = -1;
 
-    // if (data->mc_npart() < 1) continue;
+    if (data->mc_npart() < 1) continue;
 
     // // If we pass electron cuts the event is processed
     total++;
@@ -136,7 +136,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // if (event->sec() ==
       //     1)
       {  // if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-        std::cout << "hx pacl " << data->ec_pcal_hx(0) << "hx ecin " << data->ec_ecin_hx(0) << std::endl;
+        // std::cout << "hx pacl " << data->ec_pcal_hx(0) << "hx ecin " << data->ec_ecin_hx(0) << std::endl;
 
         csv_data output;
 
@@ -146,7 +146,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.elec_mom = event->elec_mom();
 
         // // output.elec_energy = event->elec_En();
-        // // output.elec_theta = event->Theta_Elec();
+        output.elec_theta = event->Theta_Elec();
         // // // //   // // for generated case
         // // // output.w_mc = mc_event->W_mc();
         // // // output.q2_mc = mc_event->Q2_mc();
@@ -185,7 +185,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // output.elec_mom = event->elec_mom();
         // // // output.elec_energy = event->elec_En();
-        // // // output.elec_theta = event->Theta_Elec();
+        // // output.elec_theta = event->Theta_Elec();
         // // // output.corr_elec_mom = event->Corr_elec_mom();
         // output.scalar_product = event->scalar_triple_product();
 
