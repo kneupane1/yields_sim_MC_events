@@ -79,54 +79,55 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       }
     }
 
-    auto dt = std::make_shared<Delta_T>(data);
-    auto cuts = std::make_shared<uconn_Cuts>(data);
-    // auto cuts = std::make_shared<rga_Cuts>(data);
-    if (!cuts->ElectronCuts()) continue;
+    // auto dt = std::make_shared<Delta_T>(data);
+    // auto cuts = std::make_shared<uconn_Cuts>(data);
+    // // auto cuts = std::make_shared<rga_Cuts>(data);
+    // if (!cuts->ElectronCuts()) continue;
 
-    // Make a reaction class from the data given
-    auto event = std::make_shared<Reaction>(data, beam_energy);
-    // event->SetMomCorrElec();
+    // // Make a reaction class from the data given
+    // auto event = std::make_shared<Reaction>(data, beam_energy);
+    // // event->SetMomCorrElec();
 
-    // // For each particle in the event
-    for (int part = 1; part < data->gpart(); part++) {
-      dt->dt_calc(part);
-      // if (!isnan(data->sc_ctof_time(part))) std::cout << "sc ctof time part :  " << data->sc_ctof_time(part) <<
-      // std::endl;
+    // // // For each particle in the event
+    // for (int part = 1; part < data->gpart(); part++) {
+    //   dt->dt_calc(part);
+    //   // if (!isnan(data->sc_ctof_time(part))) std::cout << "sc ctof time part :  " << data->sc_ctof_time(part) <<
+    //   // std::endl;
 
-      // Check particle ID's and fill the reaction class
-      if (cuts->IsProton(part)) {
-        if (cuts->HadronsCuts(part)) {
-          event->SetProton(part);
-          statusProt = abs(data->status(part));
-          // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
-        }
+    //   // Check particle ID's and fill the reaction class
+    //   if (cuts->IsProton(part)) {
+    //     if (cuts->HadronsCuts(part)) {
+    //       event->SetProton(part);
+    //       statusProt = abs(data->status(part));
+    //       // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
+    //     }
 
-      } else if (cuts->IsPip(part)) {
-        if (cuts->HadronsCuts(part)) {
-          event->SetPip(part);
-          statusPip = abs(data->status(part));
-          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
-        }
-      } else if (cuts->IsPim(part)) {
-        if (cuts->HadronsCuts(part)) {
-          event->SetPim(part);
-          statusPim = abs(data->status(part));
-          // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
-        }
-      } else {
-        event->SetOther(part);
-      }
-    }
-    // std::cout << " ec_pcal_x :  " << data->ec_pcal_x(0) << std::endl;
+    //   } else if (cuts->IsPip(part)) {
+    //     if (cuts->HadronsCuts(part)) {
+    //       event->SetPip(part);
+    //       statusPip = abs(data->status(part));
+    //       // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
+    //     }
+    //   } else if (cuts->IsPim(part)) {
+    //     if (cuts->HadronsCuts(part)) {
+    //       event->SetPim(part);
+    //       statusPim = abs(data->status(part));
+    //       // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
+    //     }
+    //   } else {
+    //     event->SetOther(part);
+    //   }
+    // }
+    // // std::cout << " ec_pcal_x :  " << data->ec_pcal_x(0) << std::endl;
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     //     event->TwoPion_exclusive()) {
     // if (event->TwoPion_missingPip()) {
-    if (event->TwoPion_missingPim()) {
-      // if (event->TwoPion_missingProt()) {
-      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-        // {
+    // if (event->TwoPion_missingPim()) {
+    // if (event->TwoPion_missingProt()) {
+    // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
+    if (mc_event->W_mc() > 1.25 && mc_event->W_mc() < 2.55 && mc_event->Q2_mc() > 1.5 && mc_event->Q2_mc() < 10.5) {
+      {
         //   // total++;
         csv_data output;
         // output.electron_sector = event->sec();
@@ -139,8 +140,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.w_mc = mc_event->W_mc();
         output.q2_mc = mc_event->Q2_mc();
 
-        output.w = event->W();
-        output.q2 = event->Q2();
+        // output.w = event->W();
+        // output.q2 = event->Q2();
         // output.residualXpcal = event->getResidualXpcal();
         // output.residualYpcal = event->getResidualYpcal();
         // // output.residualZpcal = event->getResidualZpcal();
