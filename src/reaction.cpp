@@ -706,7 +706,6 @@ void Reaction::calculateResidualecin() {
   TVector3 xyz_ecin(hx - _data->ec_ecin_x(0), hy - _data->ec_ecin_y(0), hz - _data->ec_ecin_z(0));
   TVector3 residual_ecin = getRotTiltPoint(xyz_ecin, sec);
 
-
   _residualXecin = residual_ecin.X();
   _residualYecin = residual_ecin.Y();
   _residualZecin = residual_ecin.Z();
