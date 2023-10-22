@@ -131,8 +131,6 @@ class Reaction {
 
   void SetElec();
 
-
-
   /// finished momentum corrections earlier
 
   double _elec_mom_corrected = NAN;
@@ -149,9 +147,12 @@ class Reaction {
   double fpro = NAN;
   double fpip = NAN;
   double fpim = NAN;
-  float _thetaDC_r1_Prot = NAN;;
-  float _thetaDC_r1_Pip = NAN;;
-  float _thetaDC_r1_Pim = NAN;;
+  float _thetaDC_r1_Prot = NAN;
+  ;
+  float _thetaDC_r1_Pip = NAN;
+  ;
+  float _thetaDC_r1_Pim = NAN;
+  ;
 
   //
   static const int CD_SEC = 3;
@@ -368,9 +369,11 @@ class Reaction {
   // double pip_mom_corr_FD[2][FD_SEC][Pip_mom_bins_FD] = {
   //     {{-0.0144, -0.0144, -0.0048, -0.0048, -0.0048, -0.005, -0.005, -0.005, -0.006, -0.006, -0.006, -0.007, -0.007,
   //       -0.007, 0.007, 0.007, 0.007, 0.021},
-  //      {0.0048, 0.0048, 0.0048, 0.0048, 0.0048, -0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.007, 0.007, 0.007, 0.007,
+  //      {0.0048, 0.0048, 0.0048, 0.0048, 0.0048, -0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.007, 0.007, 0.007,
+  //      0.007,
   //       0.007, 0.007, 0.021},
-  //      {-0.0048, 0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.005, 0.006, 0.018, 0.006, 0.007, 0.007, 0.007, 0.021,
+  //      {-0.0048, 0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.005, 0.006, 0.018, 0.006, 0.007, 0.007, 0.007,
+  //      0.021,
   //       0.021, 0.021, 0.021},
   //      {0.0048, 0.0048, 0.0048, 0.0048, 0.0048, 0.005, 0.005, 0.005, 0.018, 0.006, 0.006, 0.007, 0.007, 0.007, 0.007,
   //       0.007, 0.007, 0.007},
@@ -383,13 +386,16 @@ class Reaction {
   //       0.021, 0.021, 0.021, 0.021},
   //      {-0.021, -0.015, -0.0144, -0.0144, -0.0048, -0.0048, -0.0048, 0.005, 0.015, 0.015, 0.006, 0.018, 0.006, 0.006,
   //       0.021, 0.021, 0.021, 0.021},
-  //      {-0.009, -0.003, -0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.015, 0.015, 0.018, 0.018, 0.018, 0.03, 0.021,
+  //      {-0.009, -0.003, -0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.015, 0.015, 0.018, 0.018, 0.018, 0.03,
+  //      0.021,
   //       0.021, 0.035, 0.035},
-  //      {-0.009, 0.009, -0.0144, -0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.015, 0.006, 0.006, 0.018, 0.018, 0.021,
+  //      {-0.009, 0.009, -0.0144, -0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.015, 0.006, 0.006, 0.018, 0.018,
+  //      0.021,
   //       0.021, 0.021, 0.021},
   //      {0.003, 0.009, 0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.015, 0.005, 0.025, 0.018, 0.018, 0.018, 0.03, 0.021,
   //       0.021, 0.021, 0.035},
-  //      {-0.015, -0.003, 0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.018, 0.007,
+  //      {-0.015, -0.003, 0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.018,
+  //      0.007,
   //       0.021, 0.021, 0.035}}};
 
   static const int Pip_theta_bins = 10;
@@ -481,11 +487,13 @@ class Reaction {
   //     {-0.0096, -0.0032, -0.0032, -0.0032, -0.0096, -0.0096, -0.0036, -0.0036, -0.0036, -0.0036, -0.0108, -0.0108,
   //      -0.012, -0.012, -0.012, -0.005, 0.021}};
 
-  // float min_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0,    0.85, 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85,
+  // float min_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0,    0.85,
+  // 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85,
   //                                                     1.95, 2.05, 2.15, 2.25, 2.35, 2.45, 2.6,  2.75, 3.0,  3.4},
   //                                                    {0.5,  0.7,  0.8,  0.9, 1.0, 1.08, 1.164, 1.25, 1.32, 1.4, 1.48,
   //                                                     1.56, 1.64, 1.72, 1.8, 1.9, 2.05, 2.2,   2.4,  2.6,  2.8}};
-  // float max_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0.85, 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95,
+  // float max_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0.85,
+  // 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95,
   //                                                     2.05, 2.15, 2.25, 2.35, 2.45, 2.6,  2.75, 3.0,  3.4,  5.0},
   //                                                    {0.7,  0.8,  0.9, 1.0, 1.08, 1.164, 1.25, 1.32, 1.4, 1.48, 1.56,
   //                                                     1.64, 1.72, 1.8, 1.9, 2.05, 2.2,   2.4,  2.6,  2.8, 5.0}};
@@ -573,11 +581,22 @@ class Reaction {
   double _residualXecin;
   double _residualYecin;
   double _residualZecin;
-  double _Xecin_rot =NAN;
-  double _Yecin_rot =NAN;
+  double _Xecin_rot = NAN;
+  double _Yecin_rot = NAN;
 
   /////////////////////
 
+  // mm2 cuts sim
+  std::vector<float> mmsq_low = {-0.01578006, -0.0200282,  -0.02613627, -0.03127399, -0.03242353,
+                                 -0.03743036, -0.04180088, -0.04231708, -0.04231708, -0.04231708};
+  std::vector<float> mmsq_high = {0.0557954,  0.06455306, 0.07456556, 0.080926,   0.08299776,
+                                  0.08875182, 0.09215273, 0.09346989, 0.09346989, 0.09346989};
+  int bin_val = -1;
+
+  // Define q2 bin ranges
+  std::vector<float> q2_bins = {2.0, 2.4, 3.0, 3.5, 4.2, 5.0, 6.2, 7.4, 8.6, 9.8, 12.0};
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -729,7 +748,7 @@ class Reaction {
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
 
-  inline float thetaDCr1Prot(){ return _thetaDC_r1_Prot;}
+  inline float thetaDCr1Prot() { return _thetaDC_r1_Prot; }
   inline float thetaDCr1Pip() { return _thetaDC_r1_Pip; }
   inline float thetaDCr1Pim() { return _thetaDC_r1_Pim; }
 
@@ -768,7 +787,8 @@ class Reaction {
   }
   inline bool TwoPion_missingPip() {
     bool _channelTwoPi_mpip = true;
-    _channelTwoPi_mpip &=((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /* !_hasNeutron && !_hasOther*/));
+    _channelTwoPi_mpip &=
+        ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /* !_hasNeutron && !_hasOther*/));
     return _channelTwoPi_mpip;
   }
   inline bool TwoPion_missingProt() {
@@ -811,6 +831,38 @@ class Reaction {
   Double_t Yecin_rot();
 
   float sampling_fraction();
+
+  /////////////////////////////////////////// mm2 cuts /////////////
+  int q2_bining(float q2) {
+    for (int i = 1; i < q2_bins.size(); ++i) {
+      if (q2 < q2_bins[i]) {
+        bin_val = i;
+        // std::cout <<"  confirm .???????? = " << q2_bin_val << std::endl;
+
+        break;
+      }
+    }
+    return bin_val;
+  }
+
+  int q2_bin_val = -1;
+
+  bool MM_cut(float q2, float mm2) {
+    for (int i = 1; i < q2_bins.size(); ++i) {
+      if (q2 < q2_bins[i]) {
+        q2_bin_val = i;
+        // std::cout << " q2 is " << q2 << "  q2 bin val ............ = " << q2_bin_val <<" mm2 "<<mm2<< std::endl;
+
+        break;
+      }
+    }
+    if ((mm2 > mmsq_low[q2_bin_val - 1]) && (mm2 < mmsq_high[q2_bin_val - 1])) {
+      // std::cout << "q2 bin val for mmsq sould be 1 less = " << q2_bin_val - 1 << " mm2 low = " << mmsq_low[q2_bin_val
+      // - 1] << " mm2 high = " << mmsq_high[q2_bin_val - 1]<<std::endl;
+      return true;
+    } else
+      return false;
+  }
 };
 
 //////////////////////////////////////////////////

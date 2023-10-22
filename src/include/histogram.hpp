@@ -1,8 +1,3 @@
-/************************************************************************/
-/*  Created by Nick Tyler*/
-/*	University Of South Carolina*/
-/************************************************************************/
-
 #ifndef HIST_H_GUARD
 #define HIST_H_GUARD
 #include "TCanvas.h"
