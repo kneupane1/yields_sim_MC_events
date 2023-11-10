@@ -7,8 +7,10 @@
 #include "TLorentzVector.h"
 #include "branches.hpp"
 #include "constants.hpp"
+#include "eff_corr.hpp"
 #include "mom_corr.hpp"
 #include "physics.hpp"
+
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
@@ -131,9 +133,9 @@ class Reaction {
   float _pip_status = NAN;
   float _pim_status = NAN;
 
-  int _sectorPim = -1;
-  int _sectorPip = -1;
-  int _sectorProt = -1;
+  int _sectorPim = -99;
+  int _sectorPip = -99;
+  int _sectorProt = -99;
 
   float _inv_Ppip = NAN;
   float _inv_Ppim = NAN;
@@ -579,14 +581,39 @@ class Reaction {
       -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1,
   };
 
+  // eff corr
+  bool _is_eff_corrected = false;
+
+  float _pr_p = NAN;
+  float _pr_th = NAN;
+  float _pr_ph_eff = NAN;
+
+  float _pip_p = NAN;
+  float _pip_th = NAN;
+  float _pip_ph_eff = NAN;
+
+  float _pim_p = NAN;
+  float _pim_th = NAN;
+  float _pim_ph_eff = NAN;
+
+  float _eff_corr_fact_Prot = NAN;
+  float _eff_corr_fact_Pip = NAN;
+
+  float _eff_corr_fact_mPim = NAN;
+  float _eff_corr_fact_Excl = NAN;
+
+  ///////////////////////////////
+
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
-  inline float weight() {
-    // return _data->mc_weight();
-    return 1.0;
-  }
+  float weight();
+
+  // inline float weight() {
+  //   // return _data->mc_weight();
+  //   return 1.0;
+  // }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
   // 2. gamma, _w, _q2 and dpp function in electron four vector set up at reaction.cpp because of momentum corrections
@@ -784,7 +811,7 @@ class Reaction {
   }
   inline bool TwoPion_missingPip() {
     bool _channelTwoPi_mpip = true;
-    _channelTwoPi_mpip &=((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&& !_hasOther*/));
+    _channelTwoPi_mpip &= ((_numProt == 1 && _numPim == 1) && (_hasE && _hasP && _hasPim /*&& !_hasOther*/));
     return _channelTwoPi_mpip;
   }
   inline bool TwoPion_missingProt() {
@@ -797,6 +824,10 @@ class Reaction {
   const TLorentzVector &e_mu() { return *_beam; }
   const TLorentzVector &e_mu_prime() { return *_elec; }
   const TLorentzVector &gamma() { return *_gamma; }
+
+  float EffCorrFactor();
+  float eff_Prot();
+  float eff_Pip();
 };
 
 class MCReaction : public Reaction {

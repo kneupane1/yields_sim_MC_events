@@ -248,6 +248,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // // mPim .......................................
         // output.electron_sector = event->sec();
+        output.pim_sec = event->pimSec();
+        output.pip_sec = event->pipSec();
+        output.prot_sec = event->protSec();
+
         // output.w = event->W();
         // output.q2 = event->Q2();
 
@@ -259,9 +263,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pim_phi_mPim_cm = event->pim_Phi_cm();
         output.mm2_mPim = event->MM2_mPim();
         output.mm2_mPim_corr = event->MM2_mPim_corr();
-        // output.status_Pim = statusPim;
-        // output.status_Pip = statusPip;
-        // output.status_Prot = statusProt;
+        output.status_Pim = statusPim;
+        output.status_Pip = statusPip;
+        output.status_Prot = statusProt;
 
         // // mpip .......................................
 
@@ -292,6 +296,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.inv_ppip = event->inv_Ppip();
         // output.inv_ppim = event->inv_Ppim();
         // output.inv_pip_pim = event->inv_Pippim();
+        output.prot_eff = event->eff_Prot();
+        output.pip_eff = event->eff_Pip();
 
         output.weight_mPim = event->weight();
 
