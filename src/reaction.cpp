@@ -38,7 +38,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
 
 Reaction::~Reaction() {}
 auto objMomCorr = std::make_shared<mom_corr>();
-auto objEffCorr = std::make_shared<EffCorr>();
+// auto objEffCorr = std::make_shared<EffCorr>();
 
 void Reaction::SetElec() {
   _hasE = true;
@@ -810,118 +810,121 @@ float Reaction::inv_Ppip() {
 //   return _inv_pip_pim;
 // }
 
-float Reaction::EffCorrFactor() {
-  _is_eff_corrected = true;
+// float Reaction::EffCorrFactor() {
+//   _is_eff_corrected = true;
 
-  _pr_p = _mom_corr_prot->P();
+//   _pr_p = _mom_corr_prot->P();
 
-  _pr_th = _mom_corr_prot->Theta() * 180 / PI;
+//   _pr_th = _mom_corr_prot->Theta() * 180 / PI;
 
-  if (_mom_corr_prot->Phi() >= 0)
-    _pr_ph_eff = _mom_corr_prot->Phi() * 180 / PI;
-  else if (_mom_corr_prot->Phi() < 0)
-    _pr_ph_eff = (_mom_corr_prot->Phi() + 2 * PI) * 180 / PI;
+//   if (_mom_corr_prot->Phi() >= 0)
+//     _pr_ph_eff = _mom_corr_prot->Phi() * 180 / PI;
+//   else if (_mom_corr_prot->Phi() < 0)
+//     _pr_ph_eff = (_mom_corr_prot->Phi() + 2 * PI) * 180 / PI;
 
-  if (_pr_th >= 40 && _pr_th <= 180) {
-    _pr_ph_eff = _pr_ph_eff - 270;
+//   if (_pr_th >= 40 && _pr_th <= 180) {
+//     _pr_ph_eff = _pr_ph_eff - 270;
 
-    if (_pr_ph_eff < 0) {
-      _pr_ph_eff = _pr_ph_eff + 360;
-    }
+//     if (_pr_ph_eff < 0) {
+//       _pr_ph_eff = _pr_ph_eff + 360;
+//     }
 
-    else {
-      _pr_ph_eff = _pr_ph_eff + 0;
-    }
-  } else {
-    _pr_ph_eff = _pr_ph_eff + 0;
-  }
+//     else {
+//       _pr_ph_eff = _pr_ph_eff + 0;
+//     }
+//   } else {
+//     _pr_ph_eff = _pr_ph_eff + 0;
+//   }
 
-  _pip_p = _mom_corr_pip->P();
+//   _pip_p = _mom_corr_pip->P();
 
-  _pip_th = _mom_corr_pip->Theta() * 180 / PI;
+//   _pip_th = _mom_corr_pip->Theta() * 180 / PI;
 
-  if (_mom_corr_pip->Phi() >= 0)
-    _pip_ph_eff = _mom_corr_pip->Phi() * 180 / PI;
-  else if (_mom_corr_pip->Phi() < 0)
-    _pip_ph_eff = (_mom_corr_pip->Phi() + 2 * PI) * 180 / PI;
-  // std::cout << "  pip_phi 1.  :  " << _pip_ph_eff << std::endl;
-  if (_pip_th >= 40 && _pip_th <= 180) {
-    _pip_ph_eff = _pip_ph_eff - 270;
+//   if (_mom_corr_pip->Phi() >= 0)
+//     _pip_ph_eff = _mom_corr_pip->Phi() * 180 / PI;
+//   else if (_mom_corr_pip->Phi() < 0)
+//     _pip_ph_eff = (_mom_corr_pip->Phi() + 2 * PI) * 180 / PI;
+//   // std::cout << "  pip_phi 1.  :  " << _pip_ph_eff << std::endl;
+//   if (_pip_th >= 40 && _pip_th <= 180) {
+//     _pip_ph_eff = _pip_ph_eff - 270;
 
-    if (_pip_ph_eff < 0) {
-      _pip_ph_eff = _pip_ph_eff + 360;
-    } else {
-      _pip_ph_eff = _pip_ph_eff + 0;
-    }
-  } else {
-    _pip_ph_eff = _pip_ph_eff + 0;
-  }
+//     if (_pip_ph_eff < 0) {
+//       _pip_ph_eff = _pip_ph_eff + 360;
+//     } else {
+//       _pip_ph_eff = _pip_ph_eff + 0;
+//     }
+//   } else {
+//     _pip_ph_eff = _pip_ph_eff + 0;
+//   }
 
-  _pim_p = _mom_corr_pim->P();
+//   _pim_p = _mom_corr_pim->P();
 
-  _pim_th = _mom_corr_pim->Theta() * 180 / PI;
+//   _pim_th = _mom_corr_pim->Theta() * 180 / PI;
 
-  if (_mom_corr_pim->Phi() >= 0)
-    _pim_ph_eff = _mom_corr_pim->Phi() * 180 / PI;
-  else if (_mom_corr_pim->Phi() < 0)
-    _pim_ph_eff = (_mom_corr_pim->Phi() + 2 * PI) * 180 / PI;
+//   if (_mom_corr_pim->Phi() >= 0)
+//     _pim_ph_eff = _mom_corr_pim->Phi() * 180 / PI;
+//   else if (_mom_corr_pim->Phi() < 0)
+//     _pim_ph_eff = (_mom_corr_pim->Phi() + 2 * PI) * 180 / PI;
 
-  if (_pim_th >= 40 && _pim_th <= 180) {
-    _pim_ph_eff = _pim_ph_eff - 270;
+//   if (_pim_th >= 40 && _pim_th <= 180) {
+//     _pim_ph_eff = _pim_ph_eff - 270;
 
-    if (_pim_ph_eff < 0) {
-      _pim_ph_eff = _pim_ph_eff + 360;
-    } else {
-      _pim_ph_eff = _pim_ph_eff + 0;
-    }
-  } else {
-    _pim_ph_eff = _pim_ph_eff + 0;
-  }
-  // _eff_corr_fact_Excl = objEffCorr->EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff, _pip_p, _pip_th, _pip_ph_eff, _pim_p,
-  // _pim_th, _pim_ph_eff);
-  _eff_corr_fact_Prot = objEffCorr->PROT_EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff);
-  _eff_corr_fact_Pip = objEffCorr->PIP_EFF_CORR_FACT(_pip_p, _pip_th, _pip_ph_eff);
-  _eff_corr_fact_mPim = objEffCorr->EFF_CORR_FACT1(_pr_p, _pr_th, _pr_ph_eff, _pip_p, _pip_th, _pip_ph_eff);
-  // if (_eff_corr_fact_mPim == 1.0 )
-  // {
-  //         std::cout << "  pr_p :  " << _pr_p << "  pr_th :  " << _pr_th << "  pr_phi :  " << _pr_ph_eff << std::endl;
-  //         std::cout << "  pip_p :  " << _pip_p << "  pip_th :  " << _pip_th << "  pip_phi 2 :  " << _pip_ph_eff <<
-  //         std::endl; std::cout << "  pim_p :  " << _pim_p << "  pim_th :  " << _pim_th << "  pim_phi 2 :  " <<
-  //         _pim_ph_eff << std::endl;
+//     if (_pim_ph_eff < 0) {
+//       _pim_ph_eff = _pim_ph_eff + 360;
+//     } else {
+//       _pim_ph_eff = _pim_ph_eff + 0;
+//     }
+//   } else {
+//     _pim_ph_eff = _pim_ph_eff + 0;
+//   }
+//   // _eff_corr_fact_Excl = objEffCorr->EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff, _pip_p, _pip_th, _pip_ph_eff, _pim_p,
+//   // _pim_th, _pim_ph_eff);
+//   _eff_corr_fact_Prot = objEffCorr->PROT_EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff);
+//   _eff_corr_fact_Pip = objEffCorr->PIP_EFF_CORR_FACT(_pip_p, _pip_th, _pip_ph_eff);
+//   _eff_corr_fact_mPim = objEffCorr->EFF_CORR_FACT1(_pr_p, _pr_th, _pr_ph_eff, _pip_p, _pip_th, _pip_ph_eff);
+//   // if (_eff_corr_fact_mPim == 1.0 )
+//   // {
+//   //         std::cout << "  pr_p :  " << _pr_p << "  pr_th :  " << _pr_th << "  pr_phi :  " << _pr_ph_eff <<
+//   std::endl;
+//   //         std::cout << "  pip_p :  " << _pip_p << "  pip_th :  " << _pip_th << "  pip_phi 2 :  " << _pip_ph_eff <<
+//   //         std::endl; std::cout << "  pim_p :  " << _pim_p << "  pim_th :  " << _pim_th << "  pim_phi 2 :  " <<
+//   //         _pim_ph_eff << std::endl;
 
-  //         // std::cout << "  pr_fact :  " << objEffCorr->PROT_EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff) << std::endl;
-  //         // std::cout << "  pip_fact :  " << objEffCorr->PIP_EFF_CORR_FACT(_pip_p, _pip_th, _pip_ph_eff) <<
-  //         std::endl;
-  //         // std::cout << "  pr_fact * pip_fact :  " << objEffCorr->PROT_EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff) *
-  //         objEffCorr->PIP_EFF_CORR_FACT(_pip_p, _pip_th, _pip_ph_eff) << std::endl;
-  // }
+//   //         // std::cout << "  pr_fact :  " << objEffCorr->PROT_EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff) <<
+//   std::endl;
+//   //         // std::cout << "  pip_fact :  " << objEffCorr->PIP_EFF_CORR_FACT(_pip_p, _pip_th, _pip_ph_eff) <<
+//   //         std::endl;
+//   //         // std::cout << "  pr_fact * pip_fact :  " << objEffCorr->PROT_EFF_CORR_FACT(_pr_p, _pr_th, _pr_ph_eff)
+//   *
+//   //         objEffCorr->PIP_EFF_CORR_FACT(_pip_p, _pip_th, _pip_ph_eff) << std::endl;
+//   // }
 
-  // std::cout << " the factor is:  " << 1 / _eff_corr_fact_mPim << std::endl;
+//   // std::cout << " the factor is:  " << 1 / _eff_corr_fact_mPim << std::endl;
 
-  return (1 / _eff_corr_fact_mPim);
-}
+//   return (1 / _eff_corr_fact_mPim);
+// }
 
-// momentum distribution of prot, pip, pim.
-// distrn of missing with and without radiative effects mmsq distributions
-// proton measure is not effected radiative effects
-// measured signal and missing signal in one bin is same or ddifferent, radiative eeffect would be main reason.
+// // momentum distribution of prot, pip, pim.
+// // distrn of missing with and without radiative effects mmsq distributions
+// // proton measure is not effected radiative effects
+// // measured signal and missing signal in one bin is same or ddifferent, radiative eeffect would be main reason.
 
-float Reaction::eff_Prot() {
-  if (!_is_eff_corrected) EffCorrFactor();
-  return (1 / _eff_corr_fact_Prot);
-  // return 1.0;
-}
-float Reaction::eff_Pip() {
-  if (!_is_eff_corrected) EffCorrFactor();
-  return (1 / _eff_corr_fact_Pip);
-  // return 1.0;
-}
+// float Reaction::eff_Prot() {
+//   if (!_is_eff_corrected) EffCorrFactor();
+//   return (1 / _eff_corr_fact_Prot);
+//   // return 1.0;
+// }
+// float Reaction::eff_Pip() {
+//   if (!_is_eff_corrected) EffCorrFactor();
+//   return (1 / _eff_corr_fact_Pip);
+//   // return 1.0;
+// }
 
-float Reaction::weight() {
-  if (!_is_eff_corrected) EffCorrFactor();
-  return (1 / _eff_corr_fact_mPim);
-  // return 1.0;
-};
+// float Reaction::weight() {
+//   if (!_is_eff_corrected) EffCorrFactor();
+//   return (1 / _eff_corr_fact_mPim);
+//   // return 1.0;
+// };
 
 //////////////////////////
 std::string Reaction::CsvHeader() { return "e_rec_p,e_rec_theta,e_rec_phi,e_sec\n"; }
