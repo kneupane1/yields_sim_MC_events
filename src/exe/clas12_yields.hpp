@@ -199,7 +199,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         output.elec_mom_rec = event->elec_mom();
         // // output.elec_energy_rec = event->elec_En();
-        // // output.elec_theta_rec = event->Theta_Elec();
+        output.elec_theta_rec = event->Theta_Elec();
 
         //   // output.weight_exclusive = mc_event->weight();
 
@@ -236,17 +236,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // // // recon mes
 
         output.prot_mom_exclusive = event->prot_momentum_measured();
-        // output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        output.prot_theta_exclusive = event->prot_theta_lab_measured();
         // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
         // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
         output.pip_mom_exclusive = event->pip_momentum_measured();
-        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        output.pip_theta_exclusive = event->pip_theta_lab_measured();
         // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
         // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
         output.pim_mom_exclusive = event->pim_momentum_measured();
-        // output.pim_theta_exclusive = event->pim_theta_lab_measured();
+        output.pim_theta_exclusive = event->pim_theta_lab_measured();
         // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
         // // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
