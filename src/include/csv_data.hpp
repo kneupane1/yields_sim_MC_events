@@ -164,9 +164,9 @@ struct csv_data {
     // return "pip_mom_miss_cm,pip_theta_miss_cm,pip_phi_miss_cm,mm2_mProt,mm2_mPip,mm2_mPim,mm2_"
     //        "exclusive_at_zero,energy_x_mu,weight";
     // Prot
-    return "elec_sec,prot_sec,pip_sec,pim_sec,elec_mom_gen,elec_mom_rec,elec_theta_rec,prot_mom_gen,pip_mom_gen,pim_"
-           "mom_gen,prot_mom_rec,prot_theta_rec,pip_mom_rec,pip_theta_rec,pim_mom_rec,pim_theta_rec,mm2_"
-           "mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,weight";
+    return "prot_mom_gen,pip_mom_gen,pim_mom_gen,prot_mom_rec,prot_theta_rec,pip_mom_rec,pip_theta_rec,pim_mom_rec,pim_"
+           "theta_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,status_Prot,status_Pip,status_Pim,"
+           "weight";
 
     // return "w_rec,q2_rec,prot_mom_gen,prot_theta_gen,prot_phi_gen,pip_mom_gen,pip_theta_gen,pip_phi_gen,"
     //        "pim_mom_gen,pim_theta_gen,pim_phi_gen,prot_mom_miss,prot_theta_miss,prot_phi_"
@@ -187,14 +187,14 @@ struct csv_data {
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-    os << std::setprecision(1);
+    // os << std::setprecision(1);
 
-    // // For excl case
+    // // // For excl case
 
-    os << data.electron_sector << ",";
-    os << data.pim_sec << ",";
-    os << data.pip_sec << ",";
-    os << data.prot_sec << ",";
+    // // os << data.electron_sector << ",";
+    // os << data.pim_sec << ",";
+    // os << data.pip_sec << ",";
+    // os << data.prot_sec << ",";
 
     os << std::setprecision(7);
 
@@ -215,13 +215,13 @@ struct csv_data {
     //  os << data.w_mc << ",";
     //  os << data.q2_mc << ",";
 
-    os << data.elec_mom_mc << ",";
+    // os << data.elec_mom_mc << ",";
     //  os << data.elec_energy_mc << ",";
     // os << data.elec_theta_mc << ",";
 
-    os << data.elec_mom_rec << ",";
+    // os << data.elec_mom_rec << ",";
     //  os << data.elec_energy_rec << ",";
-    os << data.elec_theta_rec << ",";
+    // os << data.elec_theta_rec << ",";
 
     // //  //  // // os << data.corr_elec_mom << ",";
     //  os << data.scalar_product << ",";
@@ -278,9 +278,9 @@ struct csv_data {
 
     //  os << std::setprecision(1);
 
-    //  os << data.status_Pim << ",";
-    //  os << data.status_Pip << ",";
-    //  os << data.status_Prot << ",";
+    os << data.status_Pim << ",";
+    os << data.status_Pip << ",";
+    os << data.status_Prot << ",";
 
     // //  // os << std::setprecision(7);
     // //  // os << data.inv_ppip << ",";

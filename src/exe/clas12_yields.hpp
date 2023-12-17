@@ -172,10 +172,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // // //// using exclusive topology ...................................
 
-        output.electron_sector = event->sec();
-        output.pim_sec = event->pimSec();
-        output.pip_sec = event->pipSec();
-        output.prot_sec = event->protSec();
+        // output.electron_sector = event->sec();
+        // output.pim_sec = event->pimSec();
+        // output.pip_sec = event->pipSec();
+        // output.prot_sec = event->protSec();
         // output.w = event->W();
         // output.q2 = event->Q2();
         // // // output.w_had = event->w_hadron();
@@ -193,13 +193,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.w_mc = mc_event->W_mc();
         // // output.q2_mc = mc_event->Q2_mc();
 
-        output.elec_mom_mc = mc_event->elec_mom_mc();
+        // output.elec_mom_mc = mc_event->elec_mom_mc();
         // // output.elec_energy_mc = mc_event->elec_En_mc();
         // // output.elec_theta_mc = mc_event->Theta_Elec_mc();
 
-        output.elec_mom_rec = event->elec_mom();
+        // output.elec_mom_rec = event->elec_mom();
         // // output.elec_energy_rec = event->elec_En();
-        output.elec_theta_rec = event->Theta_Elec();
+        // output.elec_theta_rec = event->Theta_Elec();
 
         //   // output.weight_exclusive = mc_event->weight();
 
@@ -261,8 +261,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.mm2_mPim = event->MM2_mPim();
         // output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-        output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        output.energy_x_mu = event->Energy_excl();
+        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        // output.energy_x_mu = event->Energy_excl();
 
         // output.status_Pim = statusPim;
         // output.status_Pip = statusPip;
