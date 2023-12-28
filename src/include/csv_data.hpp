@@ -165,7 +165,7 @@ struct csv_data {
     //        "exclusive_at_zero,energy_x_mu,weight";
     // Prot
     return "prot_mom_gen,pip_mom_gen,pim_mom_gen,prot_mom_rec,prot_theta_rec,pip_mom_rec,pip_theta_rec,pim_mom_rec,pim_"
-           "theta_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,status_Prot,status_Pip,status_Pim,"
+           "theta_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,status_Pim,status_Pip,status_Prot,"
            "weight";
 
     // return "w_rec,q2_rec,prot_mom_gen,prot_theta_gen,prot_phi_gen,pip_mom_gen,pip_theta_gen,pip_phi_gen,"
