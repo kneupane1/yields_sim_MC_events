@@ -176,8 +176,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pim_sec = event->pimSec();
         // output.pip_sec = event->pipSec();
         // output.prot_sec = event->protSec();
-        // output.w = event->W();
-        // output.q2 = event->Q2();
+        output.w = event->W();
+        output.q2 = event->Q2();
         // // // output.w_had = event->w_hadron();
         // // // // output.w_diff = event->w_difference();
         // // // output.w_had_corr = event->w_hadron_corr();
@@ -267,9 +267,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.status_Pim = statusPim;
         output.status_Pip = statusPip;
         output.status_Prot = statusProt;
-        // // // output.inv_ppip = event->inv_Ppip();
-        // // // output.inv_ppim = event->inv_Ppim();
-        // // // output.inv_pip_pim = event->inv_Pippim();
+        output.inv_ppip = event->inv_Ppip();
+        output.inv_ppim = event->inv_Ppim();
+        output.inv_pip_pim = event->inv_Pippim();
 
         output.weight_exclusive = event->weight();
 

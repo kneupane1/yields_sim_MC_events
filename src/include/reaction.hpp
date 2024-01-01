@@ -2,13 +2,16 @@
 #ifndef REACTION_H_GUARD
 #define REACTION_H_GUARD
 
+#include <TRandom3.h>
+#include <cmath>
 #include <iostream>
 #include "TLorentzRotation.h"
 #include "TLorentzVector.h"
 #include "branches.hpp"
 #include "constants.hpp"
+#include "mom_corr.hpp"
 #include "physics.hpp"
-#include"mom_corr.hpp"
+
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
@@ -41,8 +44,16 @@ class Reaction {
   std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_pim;
   std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_pip;
   std::unique_ptr<TLorentzVector> _Energy_loss_uncorr_prot;
-  std::unique_ptr<TLorentzVector> _pim_tmt;
-  std::unique_ptr<TLorentzVector> _pip_tmt;
+
+  std::unique_ptr<TLorentzVector> _elecUnSmear;
+  std::unique_ptr<TLorentzVector> _protUnSmear;
+  std::unique_ptr<TLorentzVector> _pipUnSmear;
+  std::unique_ptr<TLorentzVector> _pimUnSmear;
+
+  std::unique_ptr<TLorentzVector> _elecSmear;
+  std::unique_ptr<TLorentzVector> _protSmear;
+  std::unique_ptr<TLorentzVector> _pipSmear;
+  std::unique_ptr<TLorentzVector> _pimSmear;
 
   std::unique_ptr<TLorentzVector> _rotated_prot;
   std::unique_ptr<TLorentzVector> _rotated_pip;
@@ -128,8 +139,6 @@ class Reaction {
 
   void SetElec();
 
-
-
   /// finished momentum corrections earlier
 
   double _elec_mom_corrected = NAN;
@@ -146,9 +155,12 @@ class Reaction {
   double fpro = NAN;
   double fpip = NAN;
   double fpim = NAN;
-  float _thetaDC_r1_Prot = NAN;;
-  float _thetaDC_r1_Pip = NAN;;
-  float _thetaDC_r1_Pim = NAN;;
+  float _thetaDC_r1_Prot = NAN;
+  ;
+  float _thetaDC_r1_Pip = NAN;
+  ;
+  float _thetaDC_r1_Pim = NAN;
+  ;
 
   //
   static const int CD_SEC = 3;
@@ -365,9 +377,11 @@ class Reaction {
   // double pip_mom_corr_FD[2][FD_SEC][Pip_mom_bins_FD] = {
   //     {{-0.0144, -0.0144, -0.0048, -0.0048, -0.0048, -0.005, -0.005, -0.005, -0.006, -0.006, -0.006, -0.007, -0.007,
   //       -0.007, 0.007, 0.007, 0.007, 0.021},
-  //      {0.0048, 0.0048, 0.0048, 0.0048, 0.0048, -0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.007, 0.007, 0.007, 0.007,
+  //      {0.0048, 0.0048, 0.0048, 0.0048, 0.0048, -0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.007, 0.007, 0.007,
+  //      0.007,
   //       0.007, 0.007, 0.021},
-  //      {-0.0048, 0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.005, 0.006, 0.018, 0.006, 0.007, 0.007, 0.007, 0.021,
+  //      {-0.0048, 0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.005, 0.006, 0.018, 0.006, 0.007, 0.007, 0.007,
+  //      0.021,
   //       0.021, 0.021, 0.021},
   //      {0.0048, 0.0048, 0.0048, 0.0048, 0.0048, 0.005, 0.005, 0.005, 0.018, 0.006, 0.006, 0.007, 0.007, 0.007, 0.007,
   //       0.007, 0.007, 0.007},
@@ -380,13 +394,16 @@ class Reaction {
   //       0.021, 0.021, 0.021, 0.021},
   //      {-0.021, -0.015, -0.0144, -0.0144, -0.0048, -0.0048, -0.0048, 0.005, 0.015, 0.015, 0.006, 0.018, 0.006, 0.006,
   //       0.021, 0.021, 0.021, 0.021},
-  //      {-0.009, -0.003, -0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.015, 0.015, 0.018, 0.018, 0.018, 0.03, 0.021,
+  //      {-0.009, -0.003, -0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.015, 0.015, 0.018, 0.018, 0.018, 0.03,
+  //      0.021,
   //       0.021, 0.035, 0.035},
-  //      {-0.009, 0.009, -0.0144, -0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.015, 0.006, 0.006, 0.018, 0.018, 0.021,
+  //      {-0.009, 0.009, -0.0144, -0.0048, 0.0048, 0.0048, 0.0048, 0.015, 0.015, 0.015, 0.006, 0.006, 0.018, 0.018,
+  //      0.021,
   //       0.021, 0.021, 0.021},
   //      {0.003, 0.009, 0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.015, 0.005, 0.025, 0.018, 0.018, 0.018, 0.03, 0.021,
   //       0.021, 0.021, 0.035},
-  //      {-0.015, -0.003, 0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.018, 0.007,
+  //      {-0.015, -0.003, 0.0048, 0.0048, 0.0048, 0.0048, 0.0144, 0.005, 0.005, 0.005, 0.006, 0.006, 0.006, 0.018,
+  //      0.007,
   //       0.021, 0.021, 0.035}}};
 
   static const int Pip_theta_bins = 10;
@@ -478,11 +495,13 @@ class Reaction {
   //     {-0.0096, -0.0032, -0.0032, -0.0032, -0.0096, -0.0096, -0.0036, -0.0036, -0.0036, -0.0036, -0.0108, -0.0108,
   //      -0.012, -0.012, -0.012, -0.005, 0.021}};
 
-  // float min_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0,    0.85, 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85,
+  // float min_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0,    0.85,
+  // 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85,
   //                                                     1.95, 2.05, 2.15, 2.25, 2.35, 2.45, 2.6,  2.75, 3.0,  3.4},
   //                                                    {0.5,  0.7,  0.8,  0.9, 1.0, 1.08, 1.164, 1.25, 1.32, 1.4, 1.48,
   //                                                     1.56, 1.64, 1.72, 1.8, 1.9, 2.05, 2.2,   2.4,  2.6,  2.8}};
-  // float max_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0.85, 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95,
+  // float max_pim_mom_values_FD[2][Pim_mom_bins_FD] = {{0.85,
+  // 0.95, 1.1,  1.25, 1.35, 1.45, 1.55, 1.65, 1.75, 1.85, 1.95,
   //                                                     2.05, 2.15, 2.25, 2.35, 2.45, 2.6,  2.75, 3.0,  3.4,  5.0},
   //                                                    {0.7,  0.8,  0.9, 1.0, 1.08, 1.164, 1.25, 1.32, 1.4, 1.48, 1.56,
   //                                                     1.64, 1.72, 1.8, 1.9, 2.05, 2.2,   2.4,  2.6,  2.8, 5.0}};
@@ -577,6 +596,23 @@ class Reaction {
   // 4. clas12_yields: auto data = std::make_shared<Branches12>(_chain, true);  turn off true for data
   // 5. from if (data->mc_npart() < 1) to all particle set up im mc events.
   // 6. all mc bank related (generated) output parameters will not work in exp data
+
+  /// smearing fx's function
+  void SmearingFunc(double p, double theta, double phi, double &pNew, double &thetaNew, double &phiNew) {
+    // Constants
+    const double pS1 = 0.0184291 - 0.0110083 * theta + 0.00227667 * pow(theta, 2) - 0.000140152 * pow(theta, 3) +
+                       3.07424e-6 * pow(theta, 4);
+    const double pR = 0.02 * sqrt(pow(pS1 * p, 2) + pow(0.02 * theta, 2));
+    const double thetaR = 2.5 * sqrt(pow((0.004 * theta + 0.1) * (pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2));
+    const double phiS1 = 0.85 - 0.015 * theta;
+    const double phiS2 = 0.17 - 0.003 * theta;
+    const double phiR = 3.5 * sqrt(pow(phiS1 * sqrt(pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2) + pow(phiS2, 2));
+
+    // Generate new values
+    phiNew = phi + phiR * gRandom->Gaus(0, 1);
+    thetaNew = theta + thetaR * gRandom->Gaus(0, 1);
+    pNew = p + pR * gRandom->Gaus(0, 1) * p;
+  }
 
   // momentum correction
   void SetMomCorrElec();
@@ -712,7 +748,7 @@ class Reaction {
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
 
-  inline float thetaDCr1Prot(){ return _thetaDC_r1_Prot;}
+  inline float thetaDCr1Prot() { return _thetaDC_r1_Prot; }
   inline float thetaDCr1Pip() { return _thetaDC_r1_Pip; }
   inline float thetaDCr1Pim() { return _thetaDC_r1_Pim; }
 
@@ -745,7 +781,8 @@ class Reaction {
   inline bool TwoPion_exclusive() {
     bool _channelTwoPi_excl = true;
 
-     /////////_channelTwoPi_excl &= (_hasE && (_hasP || _hasPip || _hasPim )); // just a trick to see everything reconstructed dont use it in normal condition
+    /////////_channelTwoPi_excl &= (_hasE && (_hasP || _hasPip || _hasPim )); // just a trick to see everything
+    /// reconstructed dont use it in normal condition
 
     _channelTwoPi_excl &= ((_numProt == 1 && _numPip == 1 && _numPim == 1) &&
                            (_hasE && _hasP && _hasPip && _hasPim /*&& !_hasNeutron && !_hasOther*/));
@@ -847,4 +884,3 @@ class MCReaction : public Reaction {
 };
 
 #endif
-
