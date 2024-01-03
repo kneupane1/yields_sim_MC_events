@@ -50,48 +50,8 @@ Reaction::~Reaction() {}
 
 void Reaction::SetElec() {
   _hasE = true;
-  // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+  _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
 
-  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
-
-  // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  // _W = physics::W_calc(*_beam, *_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_elec);
-
-  // _elec_mom = _elec->P();
-  // _elec_E = _elec->E();
-  // _theta_e = _elec->Theta() * 180 / PI;
-
-  //////////////////////////////////////////////////////////////
-
-  _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-
-  double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
-
-  pUnSmear = _elecUnSmear->P();
-
-  thetaUnSmear = _elecUnSmear->Theta() * 180 / PI;
-
-  if (_elecUnSmear->Phi() > 0)
-    phiUnSmear = _elecUnSmear->Phi() * 180 / PI;
-  else if (_elecUnSmear->Phi() < 0)
-    phiUnSmear = (_elecUnSmear->Phi() + 2 * PI) * 180 / PI;
-
-  // Generate new values
-  Reaction::SmearingFunc(pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
-
-  _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
-  _pyPrimeSmear = _elecUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
-  _pzPrimeSmear =
-      _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
-
-  // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
-  _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
-  // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // smeared
-
-  //////////////////////////////////////////////////////////////
   *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
@@ -101,6 +61,59 @@ void Reaction::SetElec() {
   _elec_mom = _elec->P();
   _elec_E = _elec->E();
   _theta_e = _elec->Theta() * 180 / PI;
+
+  //////////////////////////////////////////////////////////////
+
+  // _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+
+  // double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+  // phiSmear;
+
+  // pUnSmear = _elecUnSmear->P();
+
+  // thetaUnSmear = _elecUnSmear->Theta() * 180 / PI;
+
+  // if (_elecUnSmear->Phi() > 0)
+  //   phiUnSmear = _elecUnSmear->Phi() * 180 / PI;
+  // else if (_elecUnSmear->Phi() < 0)
+  //   phiUnSmear = (_elecUnSmear->Phi() + 2 * PI) * 180 / PI;
+
+  //////////////////////////////////////////////////////////////////
+
+  // // Generate new values
+  // Reaction::SmearingFunc(pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+
+  // _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+  // _pyPrimeSmear = _elecUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+  // _pzPrimeSmear =
+  //     _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+
+  // // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
+  // _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
+  // // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // smeared
+
+  //////////////////////////////////////////////////////////////
+
+  // double pGen, pUnSmear, pSmear;
+  // Reaction::SmearingFunc1(pGen, pUnSmear, pSmear, 0.5);
+  // _pxPrimeSmear = _data->px(0) * ((pSmear) / (pUnSmear));
+  // _pyPrimeSmear = _data->py(0) * ((pSmear) / (pUnSmear));
+  // _pzPrimeSmear = _data->pz(0) * ((pSmear) / (pUnSmear));
+
+  // _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
+
+  // //////////////////////////////////////////////////////////////
+  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+
+  // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // _W = physics::W_calc(*_beam, *_elec);
+  // _Q2 = physics::Q2_calc(*_beam, *_elec);
+
+  // _elec_mom = _elec->P();
+  // _elec_E = _elec->E();
+  // _theta_e = _elec->Theta() * 180 / PI;
 }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////

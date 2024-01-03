@@ -614,6 +614,12 @@ class Reaction {
     pNew = p + pR * gRandom->Gaus(0, 1) * p;
   }
 
+  // /// smearing valerii's function
+  // void SmearingFunc1(double p_gen, double p_rec, double &pNew, double frac) {
+  //   // Generate new rec momentum
+  //   pNew = p_rec + frac * (p_rec - p_gen);
+  // }
+
   // momentum correction
   void SetMomCorrElec();
   double dpp(float px, float py, float pz, int sec_mom_corr, int ivec);
