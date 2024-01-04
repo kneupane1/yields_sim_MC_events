@@ -293,9 +293,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.mm2_mProt_corr = event->MM2_mProt_corr();
         // // output.weight_mProt = event->weight();
 
-        // // output.inv_ppip = event->inv_Ppip();
-        // // output.inv_ppim = event->inv_Ppim();
-        // // output.inv_pip_pim = event->inv_Pippim();
+        output.inv_ppip = event->inv_Ppip();
+        output.inv_ppim = event->inv_Ppim();
+        output.inv_pip_pim = event->inv_Pippim();
+
+        output.prot_theta = event->prot_theta_cm();
+        output.pip_theta = event->pip_theta_cm();
+        output.pim_theta = event->pim_theta_cm();
+
+        output.prot_alpha = event->alpha_pippim_pipf();
+        output.pip_alpha = event->alpha_ppim_pipip();
+        output.pim_alpha = event->alpha_ppip_pipim();
+
         // output.prot_eff = event->eff_Prot();
         // output.pip_eff = event->eff_Pip();
 

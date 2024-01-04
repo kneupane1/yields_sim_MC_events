@@ -602,6 +602,11 @@ class Reaction {
   float _eff_corr_fact_mPim = NAN;
   float _eff_corr_fact_Excl = NAN;
 
+  ////////////// boosted system ////////
+
+  float _alpha_ppip_pipim = NAN;
+  float _alpha_pippim_pipf = NAN;
+  float _alpha_ppim_pipip = NAN;
   ///////////////////////////////
 
  public:
@@ -710,7 +715,7 @@ class Reaction {
   float pim_theta_lab_measured();
   float pim_Phi_lab_measured();
 
-  float pim_theta_cm();
+  // float pim_theta_cm();
   float pim_Phi_cm();
   float pim_momentum_cm();
   float pim_theta_cm_measured();
@@ -768,6 +773,16 @@ class Reaction {
   void invMassPpip();
   void invMassPpim();
   void invMasspippim();
+
+  float prot_theta_cm();
+  float pip_theta_cm();
+  float pim_theta_cm();
+
+  void AlphaCalc();
+
+  float alpha_ppip_pipim();
+  float alpha_pippim_pipf();
+  float alpha_ppim_pipip();
 
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
@@ -835,13 +850,20 @@ class MCReaction : public Reaction {
   float _weight_mc = NAN;
   float _W_mc = NAN;
   float _Q2_mc = NAN;
-
+  std::unique_ptr<TLorentzVector> _beam_mc;
   std::unique_ptr<TLorentzVector> _elec_mc;
   std::unique_ptr<TLorentzVector> _gamma_mc;
   std::unique_ptr<TLorentzVector> _prot_mc;
   std::unique_ptr<TLorentzVector> _pip_mc;
   std::unique_ptr<TLorentzVector> _pim_mc;
   std::unique_ptr<TLorentzVector> _other_mc;
+
+  std::unique_ptr<TLorentzVector> _boosted_gamma_mc;
+  std::unique_ptr<TLorentzVector> _boosted_prot_mc;
+  std::unique_ptr<TLorentzVector> _boosted_pip_mc;
+  std::unique_ptr<TLorentzVector> _boosted_pim_mc;
+
+  bool _is_boosted_mc = false;
 
   float _MM2_exclusive_mc = NAN;
   float _excl_Energy_mc = NAN;
@@ -860,6 +882,18 @@ class MCReaction : public Reaction {
   float _elec_mom_mc = NAN;
   float _elec_E_mc = NAN;
   float _theta_e_mc = NAN;
+
+  float _MCinv_Ppip = NAN;
+  float _MCinv_Ppim = NAN;
+  float _MCinv_pip_pim = NAN;
+
+  float _alpha_ppip_pipim_mc = NAN;
+  float _alpha_pippim_pipf_mc = NAN;
+  float _alpha_ppim_pipip_mc = NAN;
+
+  float _alpha_ppip_pipim_thrown_mc = NAN;
+  float _alpha_pippim_pipf_thrown_mc = NAN;
+  float _alpha_ppim_pipip_thrown_mc = NAN;
 
  public:
   void SetMCProton(int i);
@@ -900,6 +934,20 @@ class MCReaction : public Reaction {
   float x_mu_momentum_mc();
   float x_mu_theta_lab_mc();
   float x_mu_Phi_lab_mc();
+
+  void boost_mc();
+  void MCinvMassPpip();
+  void MCinvMassPpim();
+  void MCinvMasspippim();
+  float MCinv_Ppip();
+  float MCinv_Ppim();
+  float MCinv_pip_pim();
+
+  void MCAlphaCalc();
+
+  float MCalpha_ppip_pipim_thrown();
+  float MCalpha_pippim_pipf_thrown();
+  float MCalpha_ppim_pipip_thrown();
 
   std::string CsvHeader();
   std::string ReacToCsv();

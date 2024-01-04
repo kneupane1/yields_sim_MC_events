@@ -59,12 +59,21 @@ struct csv_data {
   float inv_ppim;
   float inv_pip_pim;
 
+  float prot_theta;
+  float pip_theta;
+  float pim_theta;
+
+  float prot_alpha;
+  float pip_alpha;
+  float pim_alpha;
+
   float prot_eff;
   float pip_eff;
 
   // Static functions can be called without making a new struct
   static std::string header() {
-    return "w_rec,q2_rec,mm2_mPim_corr,weight";
+    return "w_rec,q2_rec,mm2_mPim_corr,inv_pPip,inv_pPim,inv_pip_pim,theta_Prot,theta_Pip,theta_Pim,alpha_Prot,alpha_"
+           "Pip,alpha_Pim,weight";
     // return "elec_sec,w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,inv_pPip,weight";
     // Make a string for the header of the csv file mPim case
     // return
@@ -106,9 +115,17 @@ struct csv_data {
     // os << data.status_Prot << ",";
 
     // // os << std::setprecision(7);
-    // // os << data.inv_ppip << ",";
-    // // os << data.inv_ppim << ",";
-    // // os << data.inv_pip_pim << ",";
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
+
+    os << data.prot_theta << ",";
+    os << data.pip_theta << ",";
+    os << data.pim_theta << ",";
+
+    os << data.prot_alpha << ",";
+    os << data.pip_alpha << ",";
+    os << data.pim_alpha << ",";
 
     // // // mPip
     // os << std::setprecision(7);
