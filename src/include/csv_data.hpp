@@ -135,6 +135,14 @@ struct csv_data {
   float inv_ppim;
   float inv_pip_pim;
 
+  float prot_theta_cm;
+  float pip_theta_cm;
+  float pim_theta_cm;
+
+  float prot_alpha;
+  float pip_alpha;
+  float pim_alpha;
+
   float min_alphaP;
   float min_alphaPip;
   float min_alphaPim;
@@ -151,7 +159,8 @@ struct csv_data {
     //        "mm2_exclusive_at_zero,energy_x_mu,"
     //        "status_Pim,status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pip_pim,weight";
     return "w_rec,q2_rec,stp,mm2_mProt_corr,mm2_mPip_corr,mm2_mPim_corr,mm2_exclusive_at_zero_corr,energy_x_mu_corr,"
-           "weight";
+           "inv_pPip,inv_pPim,inv_pip_pim,theta_Prot,theta_Pip,theta_Pim,alpha_Prot,alpha_"
+           "Pip,alpha_Pim,weight";
 
     // return
     // "stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_mom_miss_cm,pim_theta_miss_cm,pim_phi_miss_cm,pim_"
@@ -285,10 +294,17 @@ struct csv_data {
     // os << data.status_Prot << ",";
 
     // os << std::setprecision(7);
-    // os << data.inv_ppip << ",";
-    // os << data.inv_ppim << ",";
-    // os << data.inv_pip_pim << ",";
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
 
+    os << data.prot_theta_cm << ",";
+    os << data.pip_theta_cm << ",";
+    os << data.pim_theta_cm << ",";
+
+    os << data.prot_alpha << ",";
+    os << data.pip_alpha << ",";
+    os << data.pim_alpha << ",";
     // // // os << data.min_alphaP << ",";
     // // // os << data.min_alphaPip << ",";
     // // // os << data.min_alphaPim << ",";
