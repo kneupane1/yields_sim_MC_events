@@ -106,6 +106,7 @@ class Reaction {
   float _elec_mom = NAN;
   float _elec_E = NAN;
   float _theta_e = NAN;
+  float _phi_e = NAN;
 
   float _W_after = NAN;
 
@@ -414,6 +415,7 @@ class Reaction {
   inline float elec_mom() { return _elec_mom; }
   inline float elec_En() { return _elec_E; }
   inline float Theta_Elec() { return _theta_e; }
+  inline float Phi_Elec() { return _phi_e; }
 
   float beam_px();
   float beam_py();

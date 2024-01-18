@@ -190,10 +190,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // // // //// using exclusive topology ...................................
 
-        // output.electron_sector = event->sec();
-        // output.pim_sec = event->pimSec();
-        // output.pip_sec = event->pipSec();
-        // output.prot_sec = event->protSec();
+        output.electron_sector = event->sec();
+        output.pim_sec = event->pimSec();
+        output.pip_sec = event->pipSec();
+        output.prot_sec = event->protSec();
 
         output.w = event->W();
         output.q2 = event->Q2();
@@ -202,10 +202,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.w_had_corr = event->w_hadron_corr();
         // // // output.w_diff_corr = event->w_difference_corr();
 
-        // // output.elec_mom = event->elec_mom();
-        // // output.elec_energy = event->elec_En();
-        // // output.elec_theta = event->Theta_Elec();
-        // // output.corr_elec_mom = event->Corr_elec_mom();
+        output.elec_mom = event->Corr_elec_mom();
+        // output.elec_energy = event->elec_En();
+        output.elec_theta = event->Theta_Elec();
+        output.elec_phi = event->Phi_Elec();
+        // output.corr_elec_mom = event->Corr_elec_mom();
         output.scalar_product = event->scalar_triple_product();
 
         // // // //   // // for generated case
@@ -247,28 +248,28 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // // output.prot_mom_exclusive = event->prot_momentum_corrected();
         // // // // output.prot_theta_exclusive = event->prot_theta_corrected();
         // // // // output.prot_phi_exclusive = event->prot_Phi_corrected();
-        // output.prot_mom_exclusive = event->prot_momentum_measured();
-        // output.prot_theta_exclusive = event->prot_theta_lab_measured();
-        // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-        // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+        output.prot_mom_exclusive = event->prot_momentum_corrected();
+        output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+        // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
-        // // output.prot_mom_corr = event->prot_momentum_corrected();
-        // // // output.prot_theta_corr = event->prot_theta_corrected();
-        // // // output.prot_phi_corr = event->prot_Phi_corrected();
+        // output.prot_mom_corr = event->prot_momentum_corrected();
+        // // output.prot_theta_corr = event->prot_theta_corrected();
+        // // output.prot_phi_corr = event->prot_Phi_corrected();
 
-        // output.pip_mom_exclusive = event->pip_momentum_measured();
-        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-        // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+        output.pip_mom_exclusive = event->pip_momentum_corrected();
+        output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
         // // output.pip_mom_corr = event->pip_momentum_corrected();
         // // // // output.pip_theta_corr = event->pip_theta_corrected();
         // // // // output.pip_phi_corr = event->pip_Phi_corrected();
 
-        // output.pim_mom_exclusive = event->pim_momentum_measured();
-        // output.pim_theta_exclusive = event->pim_theta_lab_measured();
-        // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-        // // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+        output.pim_mom_exclusive = event->pim_momentum_corrected();
+        output.pim_theta_exclusive = event->pim_theta_lab_measured();
+        output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+        // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
         // // output.pim_mom_corr = event->pim_momentum_corrected();
         // // // // output.pim_theta_corr = event->pim_theta_corrected();
@@ -294,9 +295,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.energy_x_mu_corr = event->Energy_excl_corr();
         // // // output.mom_x_mu_corr = event->Mom_excl_corr();
 
-        // output.status_Pim = statusPim;
-        // output.status_Pip = statusPip;
-        // output.status_Prot = statusProt;
+        output.status_Pim = statusPim;
+        output.status_Pip = statusPip;
+        output.status_Prot = statusProt;
 
         output.inv_ppip = event->inv_Ppip();
         output.inv_ppim = event->inv_Ppim();
