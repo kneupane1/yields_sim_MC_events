@@ -104,6 +104,7 @@ class Reaction {
   float _elec_mom = NAN;
   float _elec_E = NAN;
   float _theta_e = NAN;
+  float _phi_elec = NAN;
 
   float _W_after = NAN;
 
@@ -132,6 +133,7 @@ class Reaction {
   int _sectorPim = -1;
   int _sectorPip = -1;
   int _sectorProt = -1;
+  int _sectorElec = -1;
 
   float _inv_Ppip = NAN;
   float _inv_Ppim = NAN;
@@ -353,7 +355,8 @@ class Reaction {
   // 6. all mc bank related (generated) output parameters will not work in exp data
 
   /// smearing fx's function
-  void SmearingFunc(double p, double theta, double phi, double &pNew, double &thetaNew, double &phiNew) {
+  void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
+                    double &phiNew) {
     // Constants
     const double pS1 = 0.0184291 - 0.0110083 * theta + 0.00227667 * pow(theta, 2) - 0.000140152 * pow(theta, 3) +
                        3.07424e-6 * pow(theta, 4);
@@ -364,11 +367,54 @@ class Reaction {
     const double phiR = 3.5 * sqrt(pow(phiS1 * sqrt(pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2) + pow(phiS2, 2));
 
     // Generate new values
-    phiNew = phi + phiR * gRandom->Gaus(0, 1);
-    thetaNew = theta + thetaR * gRandom->Gaus(0, 1);
-    pNew = p + pR * gRandom->Gaus(0, 1) * p;
-  }
+    if (part_id == ELECTRON) {
+      phiNew = phi + 0.38 * phiR * gRandom->Gaus(0, 1);
+      thetaNew = theta + 0.38 * thetaR * gRandom->Gaus(0, 1);
+      pNew = p + 0.38 * pR * gRandom->Gaus(0, 1) * p;
+    } else if (part_id == PROTON) {
+      if (status_part > 4000) {
+        phiNew = phi + 1 / (0.8622 * pow(p, 2) + (3.4953) * p + 16.0969) * phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (0.8622 * pow(p, 2) + (3.4953) * p + 16.0969) * thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (0.8622 * pow(p, 2) + (3.4953) * p + 16.0969) * pR * gRandom->Gaus(0, 1) * p;
+      } else if (status_part <= 4000) {
+        phiNew =
+            phi + 1 / (0.0055 * pow(p, 3) + (-0.4178) * pow(p, 2) + (8.473) * p + 17.0) * phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta +
+                   1 / (0.0055 * pow(p, 3) + (-0.4178) * pow(p, 2) + (8.473) * p + 17.0) * thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (0.0055 * pow(p, 3) + (-0.4178) * pow(p, 2) + (8.473) * p + 17.0) * pR * gRandom->Gaus(0, 1) * p;
+      }
+    }
 
+    else if (part_id == PIP) {
+      if (status_part > 4000) {
+        phiNew = phi + 1 / ((-0.0414) * pow(p, 2) + (3.8539) * p + 35.5856) * phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / ((-0.0414) * pow(p, 2) + (3.8539) * p + 35.5856) * thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / ((-0.0414) * pow(p, 2) + (3.8539) * p + 35.5856) * pR * gRandom->Gaus(0, 1) * p;
+      } else if (status_part <= 4000) {
+        phiNew = phi + 1 / (0.0075 * pow(p, 3) + (-0.0582) * pow(p, 2) + (-1.5386) * p + 77.2866) * phiR *
+                           gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (0.0075 * pow(p, 3) + (-0.0582) * pow(p, 2) + (-1.5386) * p + 77.2866) * thetaR *
+                               gRandom->Gaus(0, 1);
+        pNew = p + 1 / (0.0075 * pow(p, 3) + (-0.0582) * pow(p, 2) + (-1.5386) * p + 77.2866) * pR *
+                       gRandom->Gaus(0, 1) * p;
+      }
+    }
+
+    else if (part_id == PIM) {
+      if (status_part > 4000) {
+        phiNew = phi + 1 / (0.2389 * pow(p, 2) + (0.7391) * p + 32.2767) * phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (0.2389 * pow(p, 2) + (0.7391) * p + 32.2767) * thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (0.2389 * pow(p, 2) + (0.7391) * p + 32.2767) * pR * gRandom->Gaus(0, 1) * p;
+      } else if (status_part <= 4000) {
+        phiNew = phi +
+                 1 / (0.0266 * pow(p, 3) + (-0.7222) * pow(p, 2) + (5.8862) * p + 54.4308) * phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (0.0266 * pow(p, 3) + (-0.7222) * pow(p, 2) + (5.8862) * p + 54.4308) * thetaR *
+                               gRandom->Gaus(0, 1);
+        pNew = p +
+               1 / (0.0266 * pow(p, 3) + (-0.7222) * pow(p, 2) + (5.8862) * p + 54.4308) * pR * gRandom->Gaus(0, 1) * p;
+      }
+    }
+  }
   // /// smearing valerii's function
   // void SmearingFunc1(double p_gen, double p_rec, double &pNew, double frac) {
   //   // Generate new rec momentum
@@ -423,6 +469,7 @@ class Reaction {
   inline float elec_mom() { return _elec_mom; }
   inline float elec_En() { return _elec_E; }
   inline float Theta_Elec() { return _theta_e; }
+  inline float Phi_Elec() { return _phi_elec; }
 
   float beam_px();
   float beam_py();

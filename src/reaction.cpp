@@ -50,6 +50,8 @@ Reaction::~Reaction() {}
 
 void Reaction::SetElec() {
   _hasE = true;
+  _sectorElec = _data->dc_sec(0);
+
   // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
 
   // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
@@ -80,7 +82,7 @@ void Reaction::SetElec() {
   ////////////////////////////////////////////////////////////////
 
   // Generate new values
-  Reaction::SmearingFunc(pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+  Reaction::SmearingFunc(ELECTRON, _sectorElec, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
   _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
                   sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
@@ -113,6 +115,11 @@ void Reaction::SetElec() {
   _elec_mom = _elec->P();
   _elec_E = _elec->E();
   _theta_e = _elec->Theta() * 180 / PI;
+
+  if (_elec->Phi() > 0)
+    _phi_elec = _elec->Phi() * 180 / PI;
+  else if (_elec->Phi() < 0)
+    _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
 }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -230,7 +237,8 @@ void Reaction::SetProton(int i) {
     phiUnSmear = (_protUnSmear->Phi() + 2 * PI) * 180 / PI;
 
   // Generate new values
-  Reaction::SmearingFunc(pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+
+  Reaction::SmearingFunc(PROTON, _sectorProt, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
   _pxPrimeSmear = _protUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
                   sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
@@ -329,7 +337,7 @@ void Reaction::SetPip(int i) {
     phiUnSmear = (_pipUnSmear->Phi() + 2 * PI) * 180 / PI;
 
   // Generate new values
-  Reaction::SmearingFunc(pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+  Reaction::SmearingFunc(PIP, _sectorPip, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
   _pxPrimeSmear = _pipUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
                   sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
@@ -423,7 +431,7 @@ void Reaction::SetPim(int i) {
     phiUnSmear = (_pimUnSmear->Phi() + 2 * PI) * 180 / PI;
 
   // Generate new values
-  Reaction::SmearingFunc(pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+  Reaction::SmearingFunc(PIM, _sectorPim, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
   _pxPrimeSmear = _pimUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
                   sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
