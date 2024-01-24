@@ -371,47 +371,66 @@ class Reaction {
       phiNew = phi + 0.38 * phiR * gRandom->Gaus(0, 1);
       thetaNew = theta + 0.38 * thetaR * gRandom->Gaus(0, 1);
       pNew = p + 0.38 * pR * gRandom->Gaus(0, 1) * p;
+
     } else if (part_id == PROTON) {
+      double fact_cd = 0;
+      double fact_fd = 0;
       if (status_part > 4000) {
-        phiNew = phi + 1 / (0.8622 * pow(p, 2) + (3.4953) * p + 16.0969) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (0.8622 * pow(p, 2) + (3.4953) * p + 16.0969) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (0.8622 * pow(p, 2) + (3.4953) * p + 16.0969) * pR * gRandom->Gaus(0, 1) * p;
+        fact_cd = (0.008622 * pow(p, 2) + (0.034953) * p + 0.160969);
+
+        phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
+        std::cout << "mom " << p << "prot fact_cd : " << 1 / fact_cd << std::endl;
+
       } else if (status_part <= 4000) {
-        phiNew =
-            phi + 1 / (0.0055 * pow(p, 3) + (-0.4178) * pow(p, 2) + (8.473) * p + 17.0) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta +
-                   1 / (0.0055 * pow(p, 3) + (-0.4178) * pow(p, 2) + (8.473) * p + 17.0) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (0.0055 * pow(p, 3) + (-0.4178) * pow(p, 2) + (8.473) * p + 17.0) * pR * gRandom->Gaus(0, 1) * p;
+        fact_fd = (0.000055 * pow(p, 3) + (-0.004178) * pow(p, 2) + (0.08473) * p + 0.170);
+
+        phiNew = phi + 1 / (fact_fd)*phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (fact_fd)*thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (fact_fd)*pR * gRandom->Gaus(0, 1) * p;
+
+        std::cout << "mom " << p << "prot fact_fd : " << 1 / fact_fd << std::endl;
       }
     }
 
     else if (part_id == PIP) {
+      double fact_cd = 0;
+      double fact_fd = 0;
       if (status_part > 4000) {
-        phiNew = phi + 1 / ((-0.0414) * pow(p, 2) + (3.8539) * p + 35.5856) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / ((-0.0414) * pow(p, 2) + (3.8539) * p + 35.5856) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / ((-0.0414) * pow(p, 2) + (3.8539) * p + 35.5856) * pR * gRandom->Gaus(0, 1) * p;
+        fact_cd = (-0.000414) * pow(p, 2) + (0.038539) * p + 0.355856;
+        std::cout << "mom " << p << "pip fact_cd : " << 1 / fact_cd << std::endl;
+
+        phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
       } else if (status_part <= 4000) {
-        phiNew = phi + 1 / (0.0075 * pow(p, 3) + (-0.0582) * pow(p, 2) + (-1.5386) * p + 77.2866) * phiR *
-                           gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (0.0075 * pow(p, 3) + (-0.0582) * pow(p, 2) + (-1.5386) * p + 77.2866) * thetaR *
-                               gRandom->Gaus(0, 1);
-        pNew = p + 1 / (0.0075 * pow(p, 3) + (-0.0582) * pow(p, 2) + (-1.5386) * p + 77.2866) * pR *
-                       gRandom->Gaus(0, 1) * p;
+        fact_fd = 0.000075 * pow(p, 3) + (-0.000582) * pow(p, 2) + (-0.015386) * p + 0.772866;
+        std::cout << "mom " << p << "pip fact_fd : " << 1 / fact_fd << std::endl;
+
+        phiNew = phi + 1 / (fact_fd)*phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (fact_fd)*thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (fact_fd)*pR * gRandom->Gaus(0, 1) * p;
       }
     }
 
     else if (part_id == PIM) {
+      double fact_cd = 0;
+      double fact_fd = 0;
       if (status_part > 4000) {
-        phiNew = phi + 1 / (0.2389 * pow(p, 2) + (0.7391) * p + 32.2767) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (0.2389 * pow(p, 2) + (0.7391) * p + 32.2767) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (0.2389 * pow(p, 2) + (0.7391) * p + 32.2767) * pR * gRandom->Gaus(0, 1) * p;
+        fact_cd = 0.002389 * pow(p, 2) + (0.007391) * p + 0.322767;
+        std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_cd << std::endl;
+
+        phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
       } else if (status_part <= 4000) {
-        phiNew = phi +
-                 1 / (0.0266 * pow(p, 3) + (-0.7222) * pow(p, 2) + (5.8862) * p + 54.4308) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (0.0266 * pow(p, 3) + (-0.7222) * pow(p, 2) + (5.8862) * p + 54.4308) * thetaR *
-                               gRandom->Gaus(0, 1);
-        pNew = p +
-               1 / (0.0266 * pow(p, 3) + (-0.7222) * pow(p, 2) + (5.8862) * p + 54.4308) * pR * gRandom->Gaus(0, 1) * p;
+        fact_fd = 0.000266 * pow(p, 3) + (-0.007222) * pow(p, 2) + (0.058862) * p + 0.544308;
+        std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_fd << std::endl;
+
+        phiNew = phi + 1 / (fact_fd)*phiR * gRandom->Gaus(0, 1);
+        thetaNew = theta + 1 / (fact_fd)*thetaR * gRandom->Gaus(0, 1);
+        pNew = p + 1 / (fact_fd)*pR * gRandom->Gaus(0, 1) * p;
       }
     }
   }
