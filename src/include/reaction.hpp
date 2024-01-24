@@ -376,21 +376,21 @@ class Reaction {
       double fact_cd = 0;
       double fact_fd = 0;
       if (status_part > 4000) {
-        fact_cd = (0.008622 * pow(p, 2) + (0.034953) * p + 0.160969);
+        fact_cd = (0.017090 * pow(p, 2) + (0.029752) * p + 1.176805);
 
         phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
         pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
-        std::cout << "mom " << p << "prot fact_cd : " << 1 / fact_cd << std::endl;
+        // std::cout << "mom " << p << "prot fact_cd : " << 1 / fact_cd << std::endl;
 
       } else if (status_part <= 4000) {
-        fact_fd = (0.000055 * pow(p, 3) + (-0.004178) * pow(p, 2) + (0.08473) * p + 0.170);
+        fact_fd = ((-0.000093) * pow(p, 3) + (-0.001989) * pow(p, 2) + (0.108305) * p + 1.180840);
 
         phiNew = phi + 1 / (fact_fd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_fd)*thetaR * gRandom->Gaus(0, 1);
         pNew = p + 1 / (fact_fd)*pR * gRandom->Gaus(0, 1) * p;
 
-        std::cout << "mom " << p << "prot fact_fd : " << 1 / fact_fd << std::endl;
+        // std::cout << "mom " << p << "prot fact_fd : " << 1 / fact_fd << std::endl;
       }
     }
 
@@ -398,15 +398,15 @@ class Reaction {
       double fact_cd = 0;
       double fact_fd = 0;
       if (status_part > 4000) {
-        fact_cd = (-0.000414) * pow(p, 2) + (0.038539) * p + 0.355856;
-        std::cout << "mom " << p << "pip fact_cd : " << 1 / fact_cd << std::endl;
+        fact_cd = (0.001451) * pow(p, 2) + (0.051093) * p + 1.440886;
+        // std::cout << "mom " << p << "pip fact_cd : " << 1 / fact_cd << std::endl;
 
         phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
         pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
       } else if (status_part <= 4000) {
-        fact_fd = 0.000075 * pow(p, 3) + (-0.000582) * pow(p, 2) + (-0.015386) * p + 0.772866;
-        std::cout << "mom " << p << "pip fact_fd : " << 1 / fact_fd << std::endl;
+        fact_fd = 0.000145 * pow(p, 3) + (-0.000559) * pow(p, 2) + (-0.041870) * p + 2.260641;
+        // std::cout << "mom " << p << "pip fact_fd : " << 1 / fact_fd << std::endl;
 
         phiNew = phi + 1 / (fact_fd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_fd)*thetaR * gRandom->Gaus(0, 1);
@@ -418,15 +418,15 @@ class Reaction {
       double fact_cd = 0;
       double fact_fd = 0;
       if (status_part > 4000) {
-        fact_cd = 0.002389 * pow(p, 2) + (0.007391) * p + 0.322767;
-        std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_cd << std::endl;
+        fact_cd = 0.005654 * pow(p, 2) + (-0.002519) * p + 1.397302;
+        // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_cd << std::endl;
 
         phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
         pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
       } else if (status_part <= 4000) {
-        fact_fd = 0.000266 * pow(p, 3) + (-0.007222) * pow(p, 2) + (0.058862) * p + 0.544308;
-        std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_fd << std::endl;
+        fact_fd = 0.000580 * pow(p, 3) + (-0.015592) * pow(p, 2) + (0.126140) * p + 1.741579;
+        // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_fd << std::endl;
 
         phiNew = phi + 1 / (fact_fd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_fd)*thetaR * gRandom->Gaus(0, 1);
