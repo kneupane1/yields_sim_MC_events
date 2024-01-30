@@ -379,7 +379,7 @@ class Reaction {
       double fact_fd1 = 0;
       if (status_part > 4000) {
         fact_cd = (0.000821) * pow(p, 3) + (-0.016500) * pow(p, 2) + (0.103611) * p + (1.393237);
-        fact_cd1 = (0.001536) * pow(p, 3) + (-0.024778) * pow(p, 2) + (0.119853) * p + (0.832939);
+        fact_cd1 = 1.0;  //(0.001536) * pow(p, 3) + (-0.024778) * pow(p, 2) + (0.119853) * p + (0.832939);
 
         phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
@@ -388,7 +388,7 @@ class Reaction {
 
       } else if (status_part <= 4000) {
         fact_fd = (0.000264) * pow(p, 3) + (-0.006454) * pow(p, 2) + (0.032683) * p + (1.658142);
-        fact_fd1 = (0.000051) * pow(p, 3) + (-0.001569) * pow(p, 2) + (0.015891) * p + (0.966351);
+        fact_fd1 = 1.0;  //(0.000051) * pow(p, 3) + (-0.001569) * pow(p, 2) + (0.015891) * p + (0.966351);
 
         phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
         thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
@@ -405,7 +405,7 @@ class Reaction {
       double fact_fd1 = 0;
       if (status_part > 4000) {
         fact_cd = (0.000981) * pow(p, 3) + (-0.016882) * pow(p, 2) + (0.046752) * p + (1.720426);
-        fact_cd1 = (-0.000104) * pow(p, 3) + (0.000998) * pow(p, 2) + (-0.008019) * p + (1.105314);
+        fact_cd1 = 1.0;  //(-0.000104) * pow(p, 3) + (0.000998) * pow(p, 2) + (-0.008019) * p + (1.105314);
 
         // std::cout << "mom " << p << "pip fact_cd : " << 1 / fact_cd << std::endl;
 
@@ -414,7 +414,7 @@ class Reaction {
         pNew = p + 1 / (fact_cd * fact_cd1) * pR * gRandom->Gaus(0, 1) * p;
       } else if (status_part <= 4000) {
         fact_fd = (0.000085) * pow(p, 3) + (-0.003096) * pow(p, 2) + (0.023553) * p + (1.509910);
-        fact_fd1 = (-0.000006) * pow(p, 3) + (-0.001310) * pow(p, 2) + (0.023171) * p + (0.890554);
+        fact_fd1 = 1.0;  //(-0.000006) * pow(p, 3) + (-0.001310) * pow(p, 2) + (0.023171) * p + (0.890554);
 
         // std::cout << "mom " << p << "pip fact_fd : " << 1 / fact_fd << std::endl;
 
@@ -431,7 +431,7 @@ class Reaction {
       double fact_fd1 = 0;
       if (status_part > 4000) {
         fact_cd = (-0.001788) * pow(p, 3) + (0.025796) * pow(p, 2) + (-0.136577) * p + (2.007917);
-        fact_cd1 = (-0.001327) * pow(p, 3) + (0.019826) * pow(p, 2) + (-0.097667) * p + (1.308904);
+        fact_cd1 = 1.0;  //(-0.001327) * pow(p, 3) + (0.019826) * pow(p, 2) + (-0.097667) * p + (1.308904);
         // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_cd << std::endl;
 
         phiNew = phi + 1 / (fact_cd * fact_cd1) * phiR * gRandom->Gaus(0, 1);
@@ -439,7 +439,7 @@ class Reaction {
         pNew = p + 1 / (fact_cd * fact_cd1) * pR * gRandom->Gaus(0, 1) * p;
       } else if (status_part <= 4000) {
         fact_fd = (0.000760) * pow(p, 3) + (-0.021295) * pow(p, 2) + (0.171180) * p + (1.238299);
-        fact_fd1 = (0.000249) * pow(p, 3) + (-0.007461) * pow(p, 2) + (0.067686) * p + (0.817653);
+        fact_fd1 = 1.0;  //(0.000249) * pow(p, 3) + (-0.007461) * pow(p, 2) + (0.067686) * p + (0.817653);
 
         // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_fd << std::endl;
 
