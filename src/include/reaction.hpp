@@ -126,6 +126,7 @@ class Reaction {
   float _diff_beam_x_mu_theta = NAN;
   float _diff_beam_x_mu_phi = NAN;
 
+  float _elec_status = NAN;
   float _prot_status = NAN;
   float _pip_status = NAN;
   float _pim_status = NAN;
