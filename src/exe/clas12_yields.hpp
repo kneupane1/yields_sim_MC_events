@@ -183,11 +183,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // // output.w_had_corr = event->w_hadron_corr();
         // // // // // output.w_diff_corr = event->w_difference_corr();
 
-        output.elec_mom_rec = event->elec_mom();
-        // // // // output.elec_energy = event->elec_En();
-        // output.corr_elec_mom = event->Corr_elec_mom();
-        output.elec_theta_rec = event->Theta_Elec();
-        output.elec_phi_rec = event->Phi_Elec();
+        // output.elec_mom_rec = event->elec_mom();
+        // // // // // output.elec_energy = event->elec_En();
+        // // output.corr_elec_mom = event->Corr_elec_mom();
+        // output.elec_theta_rec = event->Theta_Elec();
+        // output.elec_phi_rec = event->Phi_Elec();
 
         // output.scalar_product_thrown = mc_event->scalar_triple_product_thrown();
         output.scalar_product = event->scalar_triple_product();
@@ -220,17 +220,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
         // // // // // // // // // missing
-        // // output.prot_mom_mProt = event->prot_momentum();
-        // // output.prot_theta_mProt = event->prot_theta_lab();
-        // // output.prot_phi_mProt = event->prot_Phi_lab();
+        output.prot_mom_mProt = event->prot_momentum();
+        output.prot_theta_mProt = event->prot_theta_lab();
+        output.prot_phi_mProt = event->prot_Phi_lab();
 
-        // // output.pip_mom_mPip = event->pip_momentum();
-        // // output.pip_theta_mPip = event->pip_theta_lab();
-        // // output.pip_phi_mPip = event->pip_Phi_lab();
+        output.pip_mom_mPip = event->pip_momentum();
+        output.pip_theta_mPip = event->pip_theta_lab();
+        output.pip_phi_mPip = event->pip_Phi_lab();
 
-        // // output.pim_mom_mPim = event->pim_momentum();
-        // // output.pim_theta_mPim = event->pim_theta_lab();
-        // // output.pim_phi_mPim = event->pim_Phi_lab();
+        output.pim_mom_mPim = event->pim_momentum();
+        output.pim_theta_mPim = event->pim_theta_lab();
+        output.pim_phi_mPim = event->pim_Phi_lab();
 
         // // // output.pim_mom_mPim_cm = event->pim_momentum_cm();
         // // // output.pim_theta_mPim_cm = event->pim_theta_cm();
@@ -238,20 +238,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // // // // // // recon mes
 
-        output.prot_mom_exclusive = event->prot_momentum_measured();
-        output.prot_theta_exclusive = event->prot_theta_lab_measured();
-        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-        // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+        // output.prot_mom_exclusive = event->prot_momentum_measured();
+        // output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+        // // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
-        output.pip_mom_exclusive = event->pip_momentum_measured();
-        output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-        // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+        // output.pip_mom_exclusive = event->pip_momentum_measured();
+        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        // // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
-        output.pim_mom_exclusive = event->pim_momentum_measured();
-        output.pim_theta_exclusive = event->pim_theta_lab_measured();
-        output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-        // // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+        // output.pim_mom_exclusive = event->pim_momentum_measured();
+        // output.pim_theta_exclusive = event->pim_theta_lab_measured();
+        // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+        // // // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
         // // // // output.pim_mom_corr = event->pim_momentum_corrected();
         // // // // // output.pim_theta_corr = event->pim_theta_corrected();
