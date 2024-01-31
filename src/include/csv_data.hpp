@@ -87,10 +87,10 @@ struct csv_data {
     // Make a string for the header of the csv file mPim case
     // return "elec_sec,sf,elec_mom,ResiXpcal,ResiYpcal,pcalX,pcalY,pcalX_rot,pcalY_rot,ResiXecin,"
     //        "ResiYecin,ecinX,ecinY,ecinX_rot,ecinY_rot,weight";
-    return "w_mc,q2_mc,w_ec,q2_rec,mm2_mPim,weight";
+    // return "w_mc,q2_mc,w_ec,q2_rec,mm2_mPim,weight";
 
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
-    // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
     // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,"
     //        "weight";
@@ -106,10 +106,10 @@ struct csv_data {
     // // os << data.elec_energy << ",";
     // // os << data.elec_theta << ",";
 
-    os << data.w_mc << ",";
-    os << data.q2_mc << ",";
-    os << data.w << ",";
-    os << data.q2 << ",";
+    // os << data.w_mc << ",";
+    // os << data.q2_mc << ",";
+    // os << data.w << ",";
+    // os << data.q2 << ",";
 
     // os << data.residualXpcal << ",";
     // os << data.residualYpcal << ",";
@@ -130,9 +130,9 @@ struct csv_data {
     // os << data.Xecin_rot << ",";
     // os << data.Yecin_rot << ",";
     // // // mPim
-    // // os << data.pim_mom_mPim << ",";
-    // // os << data.pim_theta_mPim << ",";
-    // // os << data.pim_phi_mPim << ",";
+    os << data.pim_mom_mPim << ",";
+    os << data.pim_theta_mPim << ",";
+    os << data.pim_phi_mPim << ",";
 
     // // // os << data.pim_mom_mPim_cm << ",";
     // // // os << data.pim_theta_mPim_cm << ",";
