@@ -14,38 +14,6 @@
 #include "syncfile.hpp"
 using namespace std;
 
-float alpha_CD[3][3] = {{0.9, 0.9, 0.95}, {0.8, 0.4, 0.8}, {0.5, 1.0, 0.5}};
-float alpha_FD[3][4] = {{0.5, 0.6, 0.5, 0.5}, {0.1, 0.15, 0.5, 0.5}, {0.5, 0.15, 0.3, 0.3}};
-
-// // float alpha_CD[3][3];
-// // float alpha_FD[3][4];
-
-// void initialize_alphas() {
-//   std::srand(std::chrono::duration_cast<std::chrono::milliseconds>(
-//                  std::chrono::high_resolution_clock::now().time_since_epoch())
-//                  .count());
-
-//   for (int i = 0; i < 3; i++) {
-//     for (int j = 0; j < 4; j++) {
-//       float rand_no = static_cast<float>(std::rand()) / RAND_MAX;
-//       alpha_FD[i][j] += alpha_FD[i][j] * (rand_no - 0.5) * 0.1;
-//       // alpha_FD[i][j] = rand_no;
-
-//       std::cout << "fd rand no: " << rand_no << "  alpha : " << alpha_FD[i][j] << std::endl;
-//     }
-//   }
-
-//   for (int i = 0; i < 3; i++) {
-//     for (int j = 0; j < 3; j++) {
-//       float rand_no = static_cast<float>(std::rand()) / RAND_MAX;
-//       alpha_CD[i][j] += alpha_CD[i][j] * (rand_no - 0.5) * 0.1;
-//       // alpha_CD[i][j] = rand_no;
-
-//       std::cout << " cd rand no: " << rand_no << "  alpha : " << alpha_CD[i][j] << std::endl;
-//     }
-//   }
-// }
-
 template <class CutType>
 size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
   // Get the number of events in this thread
@@ -95,27 +63,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int sectorPip = -1;
     int sectorProt = -1;
 
-    // if (data->mc_npart() < 1) continue;
-
     // // If we pass electron cuts the event is processed
     total++;
-
-    // // Make a reaction class from the data given
-    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-
-    // for (int part = 1; part < data->mc_npart(); part++) {
-    //   // Check particle ID's and fill the reaction class
-
-    //   if (data->mc_pid(part) == PIP) {
-    //     mc_event->SetMCPip(part);
-    //   } else if (data->mc_pid(part) == PROTON) {
-    //     mc_event->SetMCProton(part);
-    //   } else if (data->mc_pid(part) == PIM) {
-    //     mc_event->SetMCPim(part);
-    //     // } else {
-    //     //   mc_event->SetMCOther(part);
-    //   }
-    // }
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -124,7 +73,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
-    event->SetMomCorrElec();
+    // event->SetMomCorrElec();
 
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -159,93 +108,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     }
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
-    //     event->TwoPion_exclusive()) {
-    // if (event->TwoPion_missingPim()) {
-    // if (event->TwoPion_missingPip()) {
-    // if (event->TwoPion_missingProt()) {
-    // if (event->TwoPion_exclusive()) {
-    // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
-    // // abs(event->Energy_excl()) < 0.3) {
-    // float deltapCom = NAN;
-    // float min_deltapCom = 9999.9;
-    // float minimum_alphap = NAN;
-    // float minimum_alphapip = NAN;
-    // float minimum_alphapim = NAN;
-    // // float alpha_universe[30] = {-5.0, -4.0, -3.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.1, 0, 0.05, 0.10, 0.15,
-    // // 0.25, 0.4, 0.5, 0.65, 0.75, 0.85, 0.95, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0, 5.0};
-
-    // // float alpha_universe[11] = {-10.0, -7.0, -4.0, -1.0, -0.5,  0,  0.5, 1.0, 4.0, 7.0, 10};
-    // float alpha_universe[20] = {-15.0, -10.0, -5.0, -2.0, -1.0, -0.75, -0.5, -0.25, -0.15, 0.0,
-    //                             0.15,  0.25,  0.5,   0.75,  1.0,  2.0,  5.0, 7.0,  10.0,  15.0};
-
-    // // float alpha_universe[20] = {-1.0, -0.9, -0.75, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0,
-    // //                             0.1,  0.2,  0.3,   0.4,  0.5,  0.6,  0.7,  0.8,  0.9,  1.0};
-
-    // float alpha_proton = NAN;
-    // float deltapP = NAN;
-    // float deltapInitialP = NAN;
-    // float alpha_pip = NAN;
-    // float deltapPip = NAN;
-    // float deltapInitialPip = NAN;
-    // float alpha_pim = NAN;
-    // float deltapPim = NAN;
-    // float deltapInitialPim = NAN;
-
-    // for (int alpha_countP = 0; alpha_countP < 20; alpha_countP++) {
-    //   for (int alpha_countPip = 0; alpha_countPip < 20; alpha_countPip++) {
-    //     for (int alpha_countPim = 0; alpha_countPim < 20; alpha_countPim++) {
-    //       alpha_proton = alpha_universe[alpha_countP];
-    //       alpha_pip = alpha_universe[alpha_countPip];
-    //       alpha_pim = alpha_universe[alpha_countPim];
-
-    //       event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_proton);
-    //       event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_pip);
-    //       event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_pim);
-
-    //       deltapCom = pow((event->prot_momentum_corrected() - event->prot_momentum()), 2) +
-    //                   pow((event->pip_momentum_corrected() - event->pip_momentum()), 2) +
-    //                   pow((event->pim_momentum_corrected() - event->pim_momentum()), 2);
-
-    //       if (deltapCom < min_deltapCom) {
-    //         minimum_alphap = alpha_proton;
-    //         minimum_alphapip = alpha_pip;
-    //         minimum_alphapim = alpha_pim;
-    //         min_deltapCom = deltapCom;
-    //       } else
-    //         continue;
-
-    //       // if (deltapInitialP < deltapP)
-    //       //   deltapInitialP = deltapP;
-    //       // else
-    //       //   continue;
-    //       // if (deltapInitialPip < deltapPip)
-    //       //   deltapInitialPip = deltapPip;
-    //       // else
-    //       //   continue;
-    //       // if (deltapInitialPim < deltapPim)
-    //       //   deltapInitialPim = deltapPim;
-    //       // else
-    //       //   continue;
-    //     }
-    //   }
-    // }
-    // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, minimum_alphap);
-    // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, minimum_alphapip);
-    // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, minimum_alphapim);
-
-    // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     // if (event->TwoPion_exclusive()) {
     if (event->TwoPion_missingPim()) {
-      if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-        event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-
-        // std::cout << "alpha when called: 0  " << alpha_PFD[0] << " 1:  " << alpha_PFD[1] << " 2:  " <<
-        // alpha_PFD[2]
-        //           << " 3:  " << alpha_PFD[3] << std::endl;ss
-
-        event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-        event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
-
+      if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.5 && event->Q2() < 10.5) {
         //   // total++;
         csv_data output;
 
@@ -256,9 +121,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.pim_phi_mPim = event->pim_Phi_lab();
         output.mm2_mPim = event->MM2();
         // output.mm2_mPim_corr = event->MM2_mPim_corr();
-        output.status_Pim = statusPim;
-        output.status_Pip = statusPip;
-        output.status_Prot = statusProt;
+        // output.status_Pim = statusPim;
+        // output.status_Pip = statusPip;
+        // output.status_Prot = statusProt;
         output.weight_mPim = event->weight();
 
         _sync->write(output);
