@@ -181,7 +181,7 @@ struct csv_data {
            "mProt,mm2_mPip,mm2_mPim,mm2_"
            "exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
-           "status_Pip,status_Prot,weight";
+           "status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pipPim,weight";
 
     // for cross-section checks
     // return "w,q2,w_had,w_had_corr_1st_iter,mm2_exclusive_at_zero,energy_x_mu,weight";
@@ -288,10 +288,10 @@ struct csv_data {
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    // // os << std::setprecision(7);
-    // os << data.inv_ppip << ",";
-    // os << data.inv_ppim << ",";
-    // os << data.inv_pip_pim << ",";
+    // os << std::setprecision(7);
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
 
     os << std::setprecision(7);
 
