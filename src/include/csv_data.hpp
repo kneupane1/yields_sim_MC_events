@@ -288,7 +288,7 @@ struct csv_data {
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    // os << std::setprecision(7);
+    os << std::setprecision(7);
     os << data.inv_ppip << ",";
     os << data.inv_ppim << ",";
     os << data.inv_pip_pim << ",";
