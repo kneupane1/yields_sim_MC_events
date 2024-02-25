@@ -12,7 +12,7 @@
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
-  double _beam_energy = 10.6;
+  double _beam_energy = 10.6041;
   std::unique_ptr<TLorentzVector> _beam;
   std::unique_ptr<TLorentzVector> _elec;
   std::unique_ptr<TLorentzVector> _gamma;
@@ -134,10 +134,6 @@ class Reaction {
   int _sectorPim = -1;
   int _sectorPip = -1;
   int _sectorProt = -1;
-
-  float _inv_Ppip = NAN;
-  float _inv_Ppim = NAN;
-  float _inv_pip_pim = NAN;
 
   void SetElec();
 
@@ -329,6 +325,28 @@ class Reaction {
       -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1, 0.1, -0.1,
   };
 
+  ////////////////////////////////////////After BOOST, our physics variables
+  /////////////////////////////////////////////////
+
+  float _inv_Ppip = NAN;
+  float _inv_Ppim = NAN;
+  float _inv_pip_pim = NAN;
+  float _W_P2pi = NAN;
+
+  float _phi_gamma = NAN;
+  float _phi_prot = NAN;
+  float _phi_pip = NAN;
+  float _phi_pim = NAN;
+
+  float _alpha_ppip_pipim = NAN;
+  float _alpha_pippim_pipf = NAN;
+  float _alpha_ppim_pipip = NAN;
+
+  //////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////
+
  public:
   Reaction(){};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -448,8 +466,6 @@ class Reaction {
   float prot_theta_lab_measured();
   float prot_Phi_lab_measured();
 
-  void boost();
-
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }
 
@@ -476,13 +492,34 @@ class Reaction {
   float w_hadron_corr();
   float w_difference_corr();
 
+  void boost();
+
   float inv_Ppip();
   float inv_Ppim();
-  float inv_Pippim();
+  float inv_pip_pim();
+  float w_P2pi_rec();
 
+  void W_2pi_P();
   void invMassPpip();
   void invMassPpim();
   void invMasspippim();
+
+  float prot_theta();
+  float pip_theta();
+  float pim_theta();
+
+  void AlphaCalc();
+
+  float gamma_Phi();
+  float prot_Phi();
+  float pip_Phi();
+  float pim_Phi();
+
+  float alpha_ppip_pipim();
+  float alpha_pippim_pipf();
+  float alpha_ppim_pipip();
+
+  /////////////////////////////////////////////////
 
   virtual std::string CsvHeader();
   virtual std::string ReacToCsv();
@@ -550,12 +587,22 @@ class MCReaction : public Reaction {
   float _W_mc = NAN;
   float _Q2_mc = NAN;
 
+  float _MCinv_Ppip = NAN;
+  float _MCinv_Ppim = NAN;
+  float _MCinv_pip_pim = NAN;
+
+  std::unique_ptr<TLorentzVector> _beam_mc;
   std::unique_ptr<TLorentzVector> _elec_mc;
   std::unique_ptr<TLorentzVector> _gamma_mc;
   std::unique_ptr<TLorentzVector> _prot_mc;
   std::unique_ptr<TLorentzVector> _pip_mc;
   std::unique_ptr<TLorentzVector> _pim_mc;
   std::unique_ptr<TLorentzVector> _other_mc;
+
+  std::unique_ptr<TLorentzVector> _boosted_gamma_mc;
+  std::unique_ptr<TLorentzVector> _boosted_prot_mc;
+  std::unique_ptr<TLorentzVector> _boosted_pip_mc;
+  std::unique_ptr<TLorentzVector> _boosted_pim_mc;
 
   float _MM2_exclusive_mc = NAN;
   float _excl_Energy_mc = NAN;
@@ -574,6 +621,18 @@ class MCReaction : public Reaction {
   float _elec_mom_mc = NAN;
   float _elec_E_mc = NAN;
   float _theta_e_mc = NAN;
+
+  ///////
+
+  bool _is_boosted_mc = false;
+
+  float _alpha_ppip_pipim_mc = NAN;
+  float _alpha_pippim_pipf_mc = NAN;
+  float _alpha_ppim_pipip_mc = NAN;
+
+  float _alpha_ppip_pipim_thrown_mc = NAN;
+  float _alpha_pippim_pipf_thrown_mc = NAN;
+  float _alpha_ppim_pipip_thrown_mc = NAN;
 
  public:
   void SetMCProton(int i);
@@ -605,15 +664,42 @@ class MCReaction : public Reaction {
 
   void CalcMissMass_mc();
 
-  float Diff_elec_x_mu_theta_mc();
-  float Diff_elec_x_mu_phi_mc();
-  float Diff_beam_x_mu_theta_mc();
-  float Diff_beam_x_mu_phi_mc();
-  float MM2_exclusive_mc();
-  float Energy_excl_mc();
-  float x_mu_momentum_mc();
-  float x_mu_theta_lab_mc();
-  float x_mu_Phi_lab_mc();
+  // float Diff_elec_x_mu_theta_mc();
+  // float Diff_elec_x_mu_phi_mc();
+  // float Diff_beam_x_mu_theta_mc();
+  // float Diff_beam_x_mu_phi_mc();
+  // float MM2_exclusive_mc();
+  // float Energy_excl_mc();
+  // float x_mu_momentum_mc();
+  // float x_mu_theta_lab_mc();
+  // float x_mu_Phi_lab_mc();
+
+  //////////////////////////////////////////
+  void boost_mc();
+  void MCinvMassPpip();
+  void MCinvMassPpim();
+  void MCinvMasspippim();
+  float MCinv_Ppip();
+  float MCinv_Ppim();
+  float MCinv_pip_pim();
+
+  float prot_momentum_thrown();
+  float pip_momentum_thrown();
+  float pim_momentum_thrown();
+
+  float MCprot_theta_thrown();
+  float MCpip_theta_thrown();
+  float MCpim_theta_thrown();
+
+  float MCgamma_Phi_thrown();
+  float MCprot_Phi_thrown();
+  float MCpip_Phi_thrown();
+  float MCpim_Phi_thrown();
+  void MCAlphaCalc();
+
+  float MCalpha_ppip_pipim_thrown();
+  float MCalpha_pippim_pipf_thrown();
+  float MCalpha_ppim_pipip_thrown();
 
   std::string CsvHeader();
   std::string ReacToCsv();

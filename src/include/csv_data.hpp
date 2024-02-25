@@ -5,6 +5,10 @@
 #include <string>
 
 struct csv_data {
+  float w;
+  float q2;
+  float w_mc;
+  float q2_mc;
   float pim_mom_mPim;
   float pim_theta_mPim;
   float pim_phi_mPim;
@@ -27,12 +31,17 @@ struct csv_data {
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     // return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,mm2_mPim_corr,weight";
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    return "w,q2,pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
-    // mPim
     os << std::setprecision(7);
+
+    os << data.w << ",";
+    os << data.q2 << ",";
+
+    // mPim
+
     os << data.pim_mom_mPim << ",";
     os << data.pim_theta_mPim << ",";
     os << data.pim_phi_mPim << ",";

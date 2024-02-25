@@ -39,9 +39,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  // auto data = std::make_shared<Branches12>(_chain, true);
+  auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  auto data = std::make_shared<Branches12>(_chain);
+  // auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -62,6 +62,29 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     int sectorPim = -1;
     int sectorPip = -1;
     int sectorProt = -1;
+
+    if (data->mc_npart() < 1) continue;
+    // numElec_mc++;
+
+    // If we pass electron cuts the event is processed
+    total++;
+
+    // Make a reaction class from the data given
+    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+
+    for (int part = 1; part < data->mc_npart(); part++) {
+      // Check particle ID's and fill the reaction class
+
+      if (data->mc_pid(part) == PIP) {
+        mc_event->SetMCPip(part);
+      } else if (data->mc_pid(part) == PROTON) {
+        mc_event->SetMCProton(part);
+      } else if (data->mc_pid(part) == PIM) {
+        mc_event->SetMCPim(part);
+        // } else {
+        //   mc_event->SetMCOther(part);
+      }
+    }
 
     // // If we pass electron cuts the event is processed
     total++;
@@ -114,9 +137,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   // total++;
         csv_data output;
 
+        output.w = event->W();
+        output.q2 = event->Q2();
         // mPim .......................................
-
         output.pim_mom_mPim = event->pim_momentum();
+        mc_event->pim_momentum();
         output.pim_theta_mPim = event->pim_theta_lab();
         output.pim_phi_mPim = event->pim_Phi_lab();
         output.mm2_mPim = event->MM2();
