@@ -14,44 +14,6 @@
 #include "syncfile.hpp"
 using namespace std;
 
-// float alpha_CD[3][3] = {{1.0, 0.95, 0.95}, {0.95, 0.9, 0.95}, {0.45, 0.75, 0.7}};
-// float alpha_FD[3] = {0.4, 0.3,  0.2};
-
-// float alpha_CD[3][3] = {{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}};
-// float alpha_FD[3] = {0.5, 0.5, 0.5};
-
-float alpha_CD[3][3] = {{0.9, 0.9, 0.95}, {0.8, 0.4, 0.8}, {0.5, 1.0, 0.5}};
-float alpha_FD[3][4] = {{0.5, 0.6, 0.5, 0.5}, {0.1, 0.15, 0.5, 0.5}, {0.5, 0.15, 0.3, 0.3}};
-
-// float alpha_CD[3][3];
-// float alpha_FD[3][4];
-
-// void initialize_alphas() {
-//   std::srand(std::chrono::duration_cast<std::chrono::milliseconds>(
-//                  std::chrono::high_resolution_clock::now().time_since_epoch())
-//                  .count());
-
-//   for (int i = 0; i < 3; i++) {
-//     for (int j = 0; j < 4; j++) {
-//       float rand_no = static_cast<float>(std::rand()) / RAND_MAX;
-//       alpha_FD[i][j] += alpha_FD[i][j] * (rand_no - 0.5) * 0.1;
-//       // alpha_FD[i][j] = rand_no;
-
-//       std::cout << "fd rand no: " << rand_no << "  alpha : " << alpha_FD[i][j] << std::endl;
-//     }
-//   }
-
-//   for (int i = 0; i < 3; i++) {
-//     for (int j = 0; j < 3; j++) {
-//       float rand_no = static_cast<float>(std::rand()) / RAND_MAX;
-//       alpha_CD[i][j] += alpha_CD[i][j] * (rand_no - 0.5) * 0.1;
-//       // alpha_CD[i][j] = rand_no;
-
-//       std::cout << " cd rand no: " << rand_no << "  alpha : " << alpha_CD[i][j] << std::endl;
-//     }
-//   }
-// }
-
 template <class CutType>
 size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
   // Get the number of events in this thread
@@ -172,20 +134,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     if (event->TwoPion_exclusive()) {
       // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
       if (event->W() > 1.0 && event->W() < 3.0 && event->Q2() > 1.5 && event->Q2() < 10.5) {
-        //   // // abs(event->Energy_excl()) < 0.3) {
-
-        // // //############# THESE ARE OUR MOM CORRECTIONS ####################
-
-        // event->Prot_HMom_corr(statusProt, statusPip, statusPim, sectorProt, alpha_FD[0], alpha_CD[0]);
-        // event->Pip_HMom_corr(statusProt, statusPip, statusPim, sectorPip, alpha_FD[1], alpha_CD[1]);
-        // event->Pim_HMom_corr(statusProt, statusPip, statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
-
-        // // // //############# THESE ARE OUR MOM CORRECTIONS in wider W range with Twopion skim  ####################
-
-        // // // event->Prot_HMom_corr(statusProt, sectorProt, alpha_FD[0], alpha_CD[0]);
-        // // // event->Pip_HMom_corr(statusPip, sectorPip, alpha_FD[1], alpha_CD[1]);
-        // // // event->Pim_HMom_corr(statusPim, sectorPim, alpha_FD[2], alpha_CD[2]);
-
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
@@ -300,7 +248,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         output.inv_ppip = event->inv_Ppip();
         output.inv_ppim = event->inv_Ppim();
-        output.inv_pip_pim = event->inv_Pippim();
+        output.inv_pip_pim = event->inv_pip_pim();
 
         // // output.min_alphaP = minimum_alphap;
         // // output.min_alphaPip = minimum_alphapip;

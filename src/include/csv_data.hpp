@@ -28,7 +28,6 @@ struct csv_data {
 
   float corr_elec_mom;
 
-
   float scalar_product;
   float pim_mom_mPim;
   float pim_theta_mPim;
@@ -42,12 +41,11 @@ struct csv_data {
   float pim_theta_corr;
   float pim_phi_corr;
 
-//cm system
+  // cm system
   float pim_mom_mPim_cm;
   float pim_theta_mPim_cm;
   float pim_phi_mPim_cm;
   float pim_mom_exclusive_cm;
-
 
   float pip_mom_corr;
   float pip_theta_corr;
@@ -153,17 +151,19 @@ struct csv_data {
            "mm2_exclusive_at_zero,energy_x_mu,"
            "status_Pim,status_Pip,status_Prot,inv_pPip,inv_pPim,inv_pip_pim,weight";
 
-    // return "stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_mom_miss_cm,pim_theta_miss_cm,pim_phi_miss_cm,pim_"
+    // return
+    // "stp,pim_mom_miss,pim_theta_miss,pim_phi_miss,pim_mom_mes,pim_mom_miss_cm,pim_theta_miss_cm,pim_phi_miss_cm,pim_"
     //        "mom_mes_cm,mm2_mProt,mm2_mPip,mm2_mPim,"
     //        "mm2_exclusive_at_zero,energy_x_mu,weight";
 
-    // return "sec_pim,sec_pip,sec_prot,prot_mom_mes,prot_mom_corr,pip_mom_mes,pip_mom_corr,pim_mom_mes,pim_mom_corr,mm2_"
+    // return
+    // "sec_pim,sec_pip,sec_prot,prot_mom_mes,prot_mom_corr,pip_mom_mes,pip_mom_corr,pim_mom_mes,pim_mom_corr,mm2_"
     //        "mProt,mm2_mProt_corr,mm2_mPip,mm2_mPip_corr,mm2_mPim,mm2_mPim_corr";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-     os << std::setprecision(1);
+    os << std::setprecision(1);
 
     os << data.electron_sector << ",";
     os << data.pim_sec << ",";
@@ -180,7 +180,6 @@ struct csv_data {
     // // // // // os << data.w_diff << ",";
     // // os << data.w_had_corr << ",";
     // // // // // os << data.w_diff_corr << ",";
-
 
     // // // // // os << data.w_after << ",";
     // // // os << data.elec_mom << ",";
@@ -401,33 +400,33 @@ struct csv_data {
     // // os << std::setprecision(10);
     // os << data.weight_exclusive<<",";
 
-     // mPip .......................................
-   /*    os << data.pip_mom_mPip << ",";
-       os << data.pip_theta_mPip << ",";
-       os << data.pip_phi_mPip << ",";
-       os << data.mm2_mPip << ",";
-       os << data.mm2_mPip_corr << ",";
-       os << std::setprecision(1);
-       os << data.weight_mPip << ",";
-*/
+    // mPip .......................................
+    /*    os << data.pip_mom_mPip << ",";
+        os << data.pip_theta_mPip << ",";
+        os << data.pip_phi_mPip << ",";
+        os << data.mm2_mPip << ",";
+        os << data.mm2_mPip_corr << ",";
+        os << std::setprecision(1);
+        os << data.weight_mPip << ",";
+ */
 
-     /*  os << data.scalar_product << ",";
-       os << data.pip_mom_exclusive << ",";
-       os << data.pip_theta_exclusive << ",";
-       os << data.pip_phi_exclusive << ",";
-       os << data.mm2_exclusive << ",";
-       os << std::setprecision(7);
-       os << data.weight_exclusive << ",";
+    /*  os << data.scalar_product << ",";
+      os << data.pip_mom_exclusive << ",";
+      os << data.pip_theta_exclusive << ",";
+      os << data.pip_phi_exclusive << ",";
+      os << data.mm2_exclusive << ",";
+      os << std::setprecision(7);
+      os << data.weight_exclusive << ",";
+  */
+    // mProt .......................................
+    /*    os << data.prot_mom_mProt << ",";
+        os << data.prot_theta_mProt << ",";
+        os << data.prot_phi_mProt << ",";
+        os << data.mm2_mProt << ",";
+        os << data.mm2_mProt_corr << ",";
+        os << std::setprecision(1);
+        os << data.weight_mProt << ",";
    */
-     // mProt .......................................
- /*    os << data.prot_mom_mProt << ",";
-     os << data.prot_theta_mProt << ",";
-     os << data.prot_phi_mProt << ",";
-     os << data.mm2_mProt << ",";
-     os << data.mm2_mProt_corr << ",";
-     os << std::setprecision(1);
-     os << data.weight_mProt << ",";
-*/
     /*      os << data.scalar_product << ",";
           os << data.prot_mom_exclusive << ",";
           os << data.prot_theta_exclusive << ",";

@@ -113,6 +113,26 @@ bool Cuts::FiducialCuts() {
 
   return _fid_cut;
 }
+/////////////////////////// EXP data dt cuts ////////////// prot, pip, pim /////////////////
+
+double dt_cut_fd[3][6] = {
+    {-2.46098382e-03, 5.50052526e-02, -4.62941277e-01, 1.81269058e+00, -3.26981471e+00, 2.53628001e+00},
+    {-1.37230195e-03, 3.05561520e-02, -2.56302213e-01, 1.00260344e+00, -1.81912637e+00, 1.54216958e+00},
+    {-1.28173274e-03, 2.78960131e-02, -2.26379356e-01, 8.41779657e-01, -1.40649467e+00, 1.13639326e+00}};
+
+double dt_cut_cd[3][3] = {{0.06046542, -0.37050291, 0.83190914},
+                          {0.01848491, -0.08887598, 0.44818322},
+                          {0.02421193, -0.10836307, 0.44539544}};
+
+// ///////////////////////// SIM data dt cuts ////////////// prot, pip, pim /////////////////
+// double dt_cut_fd[3][6] = {
+//     {-1.75409746e-03, 3.93868741e-02, -3.33545338e-01, 1.32093252e+00, -2.44830422e+00, 2.15632989e+00},
+//     {-4.34008708e-04, 9.56377615e-03, -8.31534626e-02, 3.60812599e-01, -7.89520521e-01, 1.08811065e+00},
+//     {0.0, 0.0, 0.0, 0.00309318, -0.05048557, 0.50591481}};
+
+// double dt_cut_cd[3][3] = {
+//     {0.08992734, -0.50475099, 0.96629123}, {0.01654657, -0.0938437, 0.45075823}, {0.01747117, -0.07756261,
+//     0.4276971}};
 
 bool Cuts::IsPip(int i) {
   if (_data->gpart() <= i) return false;
@@ -120,23 +140,23 @@ bool Cuts::IsPip(int i) {
   //   _pip &= (_data->charge(i) == POSITIVE);
   _pip &= (_data->pid(i) == PIP);
   // _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
-  // // _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
-  // // _pip &= (_data->p(i) > 0.2);
+  _pip &=
+      (abs(_dt->dt_Pi(i)) < (dt_cut_cd[1][0] * pow(_data->p(i), 2) + dt_cut_cd[1][1] * _data->p(i) + dt_cut_cd[1][2]) ||
+       abs(_dt->dt_ctof_Pi(i)) < (dt_cut_fd[1][0] * pow(_data->p(i), 5) + dt_cut_fd[1][1] * pow(_data->p(i), 4) +
+                                  dt_cut_fd[1][2] * pow(_data->p(i), 3) + dt_cut_fd[1][3] * pow(_data->p(i), 2) +
+                                  dt_cut_fd[1][4] * pow(_data->p(i), 1) + dt_cut_fd[1][4]));
+  // _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
   _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
-  // // // min/max mom cuts
-  // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-  //   _pip &= (_data->p(i) > 0.5);
-  //   _pip &= (_data->p(i) < 4.6);
-  // } else if (abs(_data->status(i)) >= 4000) {
-  //   _pip &= (_data->p(i) > 0.2);
-  //   _pip &= (_data->p(i) < 1.7);
-  // }
-  // ////_pip &= (abs(_data->chi2pid(i)) < 0.5);
-
-  // //_pip &= DC_fiducial_cut_theta_phi(i);
-  // //_pip &= Hadron_Delta_vz_cut(i);
-  // //_pip&= Hadron_Chi2pid_cut(i);
+  // // min/max mom cuts
+  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
+    _pip &= (_data->p(i) > 0.5);
+    // _pip &= (_data->p(i) < 4.6);
+  } else if (abs(_data->status(i)) >= 4000) {
+    _pip &= (_data->p(i) > 0.2);
+    // _pip &= (_data->p(i) < 1.7);
+  }
+  // _pip &= (_data->p(i) > 0.2);
 
   return _pip;
 }
@@ -146,56 +166,52 @@ bool Cuts::IsProton(int i) {
   //   _proton &= (_data->charge(i) == POSITIVE);
   _proton &= (_data->pid(i) == PROTON);
   // _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
-  //// _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
+  // // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
+  _proton &=
+      (abs(_dt->dt_P(i)) < (dt_cut_cd[0][0] * pow(_data->p(i), 2) + dt_cut_cd[0][1] * _data->p(i) + dt_cut_cd[0][2]) ||
+       abs(_dt->dt_ctof_P(i)) < (dt_cut_fd[0][0] * pow(_data->p(i), 5) + dt_cut_fd[0][1] * pow(_data->p(i), 4) +
+                                 dt_cut_fd[0][2] * pow(_data->p(i), 3) + dt_cut_fd[0][3] * pow(_data->p(i), 2) +
+                                 dt_cut_fd[0][4] * pow(_data->p(i), 1) + dt_cut_fd[0][4]));
   _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
-  // // min/max mom cuts
-  // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-  //   _proton &= (_data->p(i) > 0.4);
-  //   _proton &= (_data->p(i) < 4.5);
-  // } else if (abs(_data->status(i)) >= 4000) {
-  //   _proton &= (_data->p(i) > 0.4);
-  //   _proton &= (_data->p(i) < 2.0);
-  // }
-  // // _proton &= (_data->p(i) > 0.2);
-  // // //_proton &= (abs(_data->chi2pid(i)) < 0.5);
+  // min/max mom cuts
+  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
+    _proton &= (_data->p(i) > 0.4);
+    // _proton &= (_data->p(i) < 4.5);
+  } else if (abs(_data->status(i)) >= 4000) {
+    _proton &= (_data->p(i) > 0.4);  /// this 0.4 look harse when we do missing Pim channel
+                                     // _proton &= (_data->p(i) < 2.0);
+  }
+  // _proton &= (_data->p(i) > 0.2);
+  //_proton &= (abs(_data->chi2pid(i)) < 0.5);
   return _proton;
 }
+
 bool Cuts::IsPim(int i) {
   if (_data->gpart() <= i) return false;
   bool _pim = true;
   //   _pim &= (_data->charge(i) == NEGATIVE);
   _pim &= (_data->pid(i) == PIM);
   // _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
-  _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
-  // // // min/max mom cuts
-  // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-  //   _pim &= (_data->p(i) > 0.5);
-  //   _pim &= (_data->p(i) < 4.5);
-  // } else if (abs(_data->status(i)) >= 4000) {
-  //   _pim &= (_data->p(i) > 0.2);
-  //   _pim &= (_data->p(i) < 1.9);
-  // }
-  // // //_pim &= (abs(_data->chi2pid(i)) < 0.5);
+  _pim &=
+      (abs(_dt->dt_Pi(i)) < (dt_cut_cd[2][0] * pow(_data->p(i), 2) + dt_cut_cd[2][1] * _data->p(i) + dt_cut_cd[2][2]) ||
+       abs(_dt->dt_ctof_Pi(i)) < (dt_cut_fd[2][0] * pow(_data->p(i), 5) + dt_cut_fd[2][1] * pow(_data->p(i), 4) +
+                                  dt_cut_fd[2][2] * pow(_data->p(i), 3) + dt_cut_fd[2][3] * pow(_data->p(i), 2) +
+                                  dt_cut_fd[2][4] * pow(_data->p(i), 1) + dt_cut_fd[2][4]));
 
-  // //_pim &= DC_fiducial_cut_theta_phi(i);
-  // //_pim &= Hadron_Delta_vz_cut(i);
-  // //_pim &= Hadron_Chi2pid_cut(i);
+  _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
+  // min / max mom cuts
+  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
+    _pim &= (_data->p(i) > 0.5);
+    // _pim &= (_data->p(i) < 4.5);
+  } else if (abs(_data->status(i)) >= 4000) {
+    _pim &= (_data->p(i) > 0.2);
+    // _pim &= (_data->p(i) < 1.9);
+  }
+  // _pim &= (_data->p(i) > 0.2);
 
   return _pim;
 }
 
-// // bool Cuts::IsmissingPim(int i) {
-// //   if (_data->gpart() <= i) return false;
-// //   bool _missingPim = true;
-// //   _missingPim &= (_data->charge(i) == NEGATIVE);
-// //   //_missingPim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) <
-// //   0.5);
-// //   //  _missingPim &= (_data->pid(i) != PIM);
-// //   _missingPim &= (_data->p(i) > 0.2);
-// //
-// //   //_pim &= (abs(_data->chi2pid(i)) < 0.5);
-// //   return _missingPim;
-// // }
 // /////////////////////// uconn_Cuts ///////////////////////
 bool uconn_Cuts::ElectronCuts() {
   bool cut = true;
@@ -209,19 +225,19 @@ bool uconn_Cuts::ElectronCuts() {
   cut &= (_data->p(0) > 1.50);
   cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
   cut &= (abs(_data->chi2pid(0)) < 3);  ////////////// check it.......
-  // cut &= CC_nphe_cut();
-  // cut &= EC_outer_vs_EC_inner_cut();
-  // cut &= EC_sampling_fraction_cut();
-  // cut &= EC_hit_position_fiducial_cut_homogeneous();
-  // cut &= DC_fiducial_cut_XY();
-  // cut &= DC_z_vertex_cut();
+  cut &= CC_nphe_cut();
+  cut &= EC_outer_vs_EC_inner_cut();
+  cut &= EC_sampling_fraction_cut();
+  cut &= EC_hit_position_fiducial_cut_homogeneous();
+  cut &= DC_fiducial_cut_XY();
+  cut &= DC_z_vertex_cut();
   return cut;
 }
 bool uconn_Cuts::HadronsCuts(int i) {
   bool cut = true;
-  // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) cut &= DC_fiducial_cut_theta_phi(i);
-  // cut &= Hadron_Delta_vz_cut(i);
-  // cut &= Hadron_Chi2pid_cut(i);
+  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) cut &= DC_fiducial_cut_theta_phi(i);
+  cut &= Hadron_Delta_vz_cut(i);
+  cut &= Hadron_Chi2pid_cut(i);
   return cut;
 }
 //
