@@ -109,14 +109,40 @@ bool Cuts::FiducialCuts() {
 
   return _fid_cut;
 }
+
+// /////////////////////////// EXP data dt cuts ////////////// prot, pip, pim /////////////////
+
+// double dt_cut_fd[3][6] = {{-2.46098382e-03, 5.50052526e-02, -4.62941277e-01, 1.81269058e+00,
+// -3.26981471e+00, 2.53628001e+00},
+//                           {-1.37230195e-03, 3.05561520e-02, -2.56302213e-01, 1.00260344e+00,
+//                           -1.81912637e+00, 1.54216958e+00},
+//                           {-1.28173274e-03, 2.78960131e-02, -2.26379356e-01, 8.41779657e-01,
+//                           -1.40649467e+00, 1.13639326e+00}};
+
+// double dt_cut_cd[3][3] = {{0.06046542, -0.37050291, 0.83190914},
+//                           {0.01848491, -0.08887598, 0.44818322},
+//                           {0.02421193, -0.10836307, 0.44539544}};
+
+///////////////////////// SIM data dt cuts ////////////// prot, pip, pim /////////////////
+double dt_cut_fd[3][6] = {
+    {-1.75409746e-03, 3.93868741e-02, -3.33545338e-01, 1.32093252e+00, -2.44830422e+00, 2.15632989e+00},
+    {-4.34008708e-04, 9.56377615e-03, -8.31534626e-02, 3.60812599e-01, -7.89520521e-01, 1.08811065e+00},
+    {0.0, 0.0, 0.0, 0.00309318, -0.05048557, 0.50591481}};
+
+double dt_cut_cd[3][3] = {
+    {0.08992734, -0.50475099, 0.96629123}, {0.01654657, -0.0938437, 0.45075823}, {0.01747117, -0.07756261, 0.4276971}};
+
 bool Cuts::IsPip(int i) {
   if (_data->gpart() <= i) return false;
   bool _pip = true;
-    _pip &= (_data->charge(i) == POSITIVE);
+  _pip &= (_data->charge(i) == POSITIVE);
   _pip &= (_data->pid(i) == PIP);
-  _pip &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.4);
-  // _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
-  // _pip &= (_data->p(i) > 0.2);
+  _pip &=
+      (abs(_dt->dt_Pi(i)) < (dt_cut_cd[1][0] * pow(_data->p(i), 2) + dt_cut_cd[1][1] * _data->p(i) + dt_cut_cd[1][2]) ||
+       abs(_dt->dt_ctof_Pi(i)) < (dt_cut_fd[1][0] * pow(_data->p(i), 5) + dt_cut_fd[1][1] * pow(_data->p(i), 4) +
+                                  dt_cut_fd[1][2] * pow(_data->p(i), 3) + dt_cut_fd[1][3] * pow(_data->p(i), 2) +
+                                  dt_cut_fd[1][4] * pow(_data->p(i), 1) + dt_cut_fd[1][4]));
+
   _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
   // // // min/max mom cuts
@@ -138,10 +164,15 @@ bool Cuts::IsPip(int i) {
 bool Cuts::IsProton(int i) {
   if (_data->gpart() <= i) return false;
   bool _proton = true;
-    _proton &= (_data->charge(i) == POSITIVE);
+  _proton &= (_data->charge(i) == POSITIVE);
   _proton &= (_data->pid(i) == PROTON);
-  _proton &= (abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.4);
-  // _proton &= !(abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.2);
+
+  _proton &=
+      (abs(_dt->dt_P(i)) < (dt_cut_cd[0][0] * pow(_data->p(i), 2) + dt_cut_cd[0][1] * _data->p(i) + dt_cut_cd[0][2]) ||
+       abs(_dt->dt_ctof_P(i)) < (dt_cut_fd[0][0] * pow(_data->p(i), 5) + dt_cut_fd[0][1] * pow(_data->p(i), 4) +
+                                 dt_cut_fd[0][2] * pow(_data->p(i), 3) + dt_cut_fd[0][3] * pow(_data->p(i), 2) +
+                                 dt_cut_fd[0][4] * pow(_data->p(i), 1) + dt_cut_fd[0][4]));
+
   _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
@@ -158,9 +189,15 @@ bool Cuts::IsProton(int i) {
 bool Cuts::IsPim(int i) {
   if (_data->gpart() <= i) return false;
   bool _pim = true;
-    _pim &= (_data->charge(i) == NEGATIVE);
+  _pim &= (_data->charge(i) == NEGATIVE);
   _pim &= (_data->pid(i) == PIM);
-  _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
+  // _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
+  _pim &=
+      (abs(_dt->dt_Pi(i)) < (dt_cut_cd[2][0] * pow(_data->p(i), 2) + dt_cut_cd[2][1] * _data->p(i) + dt_cut_cd[2][2]) ||
+       abs(_dt->dt_ctof_Pi(i)) < (dt_cut_fd[2][0] * pow(_data->p(i), 5) + dt_cut_fd[2][1] * pow(_data->p(i), 4) +
+                                  dt_cut_fd[2][2] * pow(_data->p(i), 3) + dt_cut_fd[2][3] * pow(_data->p(i), 2) +
+                                  dt_cut_fd[2][4] * pow(_data->p(i), 1) + dt_cut_fd[2][4]));
+
   _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
