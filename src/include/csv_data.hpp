@@ -90,7 +90,7 @@ struct csv_data {
     // return "w_mc,q2_mc,w_ec,q2_rec,mm2_mPim,weight";
 
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
-    return "pim_mom_mPim,pim_theta_mPim,pim_phi_mPim,mm2_mPim,weight";
+    return "w_rec,q2_rec,mm2_mPim,weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
     // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,"
     //        "weight";
@@ -108,36 +108,36 @@ struct csv_data {
 
     // os << data.w_mc << ",";
     // os << data.q2_mc << ",";
-    // os << data.w << ",";
-    // os << data.q2 << ",";
+    os << data.w << ",";
+    os << data.q2 << ",";
 
-    // os << data.residualXpcal << ",";
-    // os << data.residualYpcal << ",";
-    // // os << data.residualZpcal << ",";
+    // // os << data.residualXpcal << ",";
+    // // os << data.residualYpcal << ",";
+    // // // os << data.residualZpcal << ",";
 
-    // os << data.Xpcal << ",";
-    // os << data.Ypcal << ",";
+    // // os << data.Xpcal << ",";
+    // // os << data.Ypcal << ",";
 
-    // os << data.Xpcal_rot << ",";
-    // os << data.Ypcal_rot << ",";
+    // // os << data.Xpcal_rot << ",";
+    // // os << data.Ypcal_rot << ",";
 
-    // os << data.residualXecin << ",";
-    // os << data.residualYecin << ",";
-    // // os << data.residualZecin << ",";
-    // os << data.Xecin << ",";
-    // os << data.Yecin << ",";
+    // // os << data.residualXecin << ",";
+    // // os << data.residualYecin << ",";
+    // // // os << data.residualZecin << ",";
+    // // os << data.Xecin << ",";
+    // // os << data.Yecin << ",";
 
-    // os << data.Xecin_rot << ",";
-    // os << data.Yecin_rot << ",";
-    // // // mPim
-    os << data.pim_mom_mPim << ",";
-    os << data.pim_theta_mPim << ",";
-    os << data.pim_phi_mPim << ",";
+    // // os << data.Xecin_rot << ",";
+    // // os << data.Yecin_rot << ",";
+    // // // // mPim
+    // os << data.pim_mom_mPim << ",";
+    // os << data.pim_theta_mPim << ",";
+    // os << data.pim_phi_mPim << ",";
 
-    // // // os << data.pim_mom_mPim_cm << ",";
-    // // // os << data.pim_theta_mPim_cm << ",";
-    // // // os << data.pim_phi_mPim_cm << ",";
-    // // // os << std::setprecision(7);
+    // // // // os << data.pim_mom_mPim_cm << ",";
+    // // // // os << data.pim_theta_mPim_cm << ",";
+    // // // // os << data.pim_phi_mPim_cm << ",";
+    // // // // os << std::setprecision(7);
     os << data.mm2_mPim << ",";
     // // // //  os << data.mm2_mPim_corr << ",";
     // // // // os << std::setprecision(1);

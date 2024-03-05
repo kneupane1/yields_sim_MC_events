@@ -138,6 +138,15 @@ class Reaction {
   float _inv_Ppim = NAN;
   float _inv_pip_pim = NAN;
 
+  float _phi_gamma = NAN;
+  float _phi_prot = NAN;
+  float _phi_pip = NAN;
+  float _phi_pim = NAN;
+
+  float _alpha_ppip_pipim = NAN;
+  float _alpha_pippim_pipf = NAN;
+  float _alpha_ppim_pipip = NAN;
+
   void SetElec();
 
   /// finished momentum corrections earlier
@@ -157,11 +166,8 @@ class Reaction {
   double fpip = NAN;
   double fpim = NAN;
   float _thetaDC_r1_Prot = NAN;
-  ;
   float _thetaDC_r1_Pip = NAN;
-  ;
   float _thetaDC_r1_Pim = NAN;
-  ;
 
   //
   static const int CD_SEC = 3;
@@ -375,101 +381,101 @@ class Reaction {
   // 5. from if (data->mc_npart() < 1) to all particle set up im mc events.
   // 6. all mc bank related (generated) output parameters will not work in exp data
 
-  /// smearing fx's function
-  void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
-                    double &phiNew) {
-    // Constants
-    const double pS1 = 0.0184291 - 0.0110083 * theta + 0.00227667 * pow(theta, 2) - 0.000140152 * pow(theta, 3) +
-                       3.07424e-6 * pow(theta, 4);
-    const double pR = 0.02 * sqrt(pow(pS1 * p, 2) + pow(0.02 * theta, 2));
-    const double thetaR = 2.5 * sqrt(pow((0.004 * theta + 0.1) * (pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2));
-    const double phiS1 = 0.85 - 0.015 * theta;
-    const double phiS2 = 0.17 - 0.003 * theta;
-    const double phiR = 3.5 * sqrt(pow(phiS1 * sqrt(pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2) + pow(phiS2, 2));
+  // /// smearing fx's function
+  // void SmearingFunc(int part_id, int status_part, double p, double theta, double phi, double &pNew, double &thetaNew,
+  //                   double &phiNew) {
+  //   // Constants
+  //   const double pS1 = 0.0184291 - 0.0110083 * theta + 0.00227667 * pow(theta, 2) - 0.000140152 * pow(theta, 3) +
+  //                      3.07424e-6 * pow(theta, 4);
+  //   const double pR = 0.02 * sqrt(pow(pS1 * p, 2) + pow(0.02 * theta, 2));
+  //   const double thetaR = 2.5 * sqrt(pow((0.004 * theta + 0.1) * (pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2));
+  //   const double phiS1 = 0.85 - 0.015 * theta;
+  //   const double phiS2 = 0.17 - 0.003 * theta;
+  //   const double phiR = 3.5 * sqrt(pow(phiS1 * sqrt(pow(p, 2) + 0.13957 * 0.13957) / pow(p, 2), 2) + pow(phiS2, 2));
 
-    // Generate new values
-    if (part_id == ELECTRON) {
-      phiNew = phi + 0.4 * phiR * gRandom->Gaus(0, 1);
-      thetaNew = theta + 0.4 * thetaR * gRandom->Gaus(0, 1);
-      pNew = p + 0.4 * pR * gRandom->Gaus(0, 1) * p;
+  //   // Generate new values
+  //   if (part_id == ELECTRON) {
+  //     phiNew = phi + 0.4 * phiR * gRandom->Gaus(0, 1);
+  //     thetaNew = theta + 0.4 * thetaR * gRandom->Gaus(0, 1);
+  //     pNew = p + 0.4 * pR * gRandom->Gaus(0, 1) * p;
 
-    } else if (part_id == PROTON) {
-      double fact_cd = 0;
-      double fact_fd = 0;
-      double fact_cd1 = 0;
-      double fact_fd1 = 0;
-      if (status_part > 4000) {
-        fact_cd = (0.000821) * pow(p, 3) + (-0.016500) * pow(p, 2) + (0.103611) * p + (1.393237);
-        fact_cd1 = 1.0;  //(0.001536) * pow(p, 3) + (-0.024778) * pow(p, 2) + (0.119853) * p + (0.832939);
+  //   } else if (part_id == PROTON) {
+  //     double fact_cd = 0;
+  //     double fact_fd = 0;
+  //     double fact_cd1 = 0;
+  //     double fact_fd1 = 0;
+  //     if (status_part > 4000) {
+  //       fact_cd = (0.000821) * pow(p, 3) + (-0.016500) * pow(p, 2) + (0.103611) * p + (1.393237);
+  //       fact_cd1 = 1.0;  //(0.001536) * pow(p, 3) + (-0.024778) * pow(p, 2) + (0.119853) * p + (0.832939);
 
-        phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
-        // std::cout << "mom " << p << "prot fact_cd : " << 1 / fact_cd << std::endl;
+  //       phiNew = phi + 1 / (fact_cd)*phiR * gRandom->Gaus(0, 1);
+  //       thetaNew = theta + 1 / (fact_cd)*thetaR * gRandom->Gaus(0, 1);
+  //       pNew = p + 1 / (fact_cd)*pR * gRandom->Gaus(0, 1) * p;
+  //       // std::cout << "mom " << p << "prot fact_cd : " << 1 / fact_cd << std::endl;
 
-      } else if (status_part <= 4000) {
-        fact_fd = (0.000264) * pow(p, 3) + (-0.006454) * pow(p, 2) + (0.032683) * p + (1.658142);
-        fact_fd1 = 1.0;  //(0.000051) * pow(p, 3) + (-0.001569) * pow(p, 2) + (0.015891) * p + (0.966351);
+  //     } else if (status_part <= 4000) {
+  //       fact_fd = (0.000264) * pow(p, 3) + (-0.006454) * pow(p, 2) + (0.032683) * p + (1.658142);
+  //       fact_fd1 = 1.0;  //(0.000051) * pow(p, 3) + (-0.001569) * pow(p, 2) + (0.015891) * p + (0.966351);
 
-        phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (fact_fd * fact_fd1) * pR * gRandom->Gaus(0, 1) * p;
+  //       phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
+  //       thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
+  //       pNew = p + 1 / (fact_fd * fact_fd1) * pR * gRandom->Gaus(0, 1) * p;
 
-        // std::cout << "mom " << p << "prot fact_fd : " << 1 / fact_fd << std::endl;
-      }
-    }
+  //       // std::cout << "mom " << p << "prot fact_fd : " << 1 / fact_fd << std::endl;
+  //     }
+  //   }
 
-    else if (part_id == PIP) {
-      double fact_cd = 0;
-      double fact_fd = 0;
-      double fact_cd1 = 0;
-      double fact_fd1 = 0;
-      if (status_part > 4000) {
-        fact_cd = (0.000981) * pow(p, 3) + (-0.016882) * pow(p, 2) + (0.046752) * p + (1.720426);
-        fact_cd1 = 1.0;  //(-0.000104) * pow(p, 3) + (0.000998) * pow(p, 2) + (-0.008019) * p + (1.105314);
+  //   else if (part_id == PIP) {
+  //     double fact_cd = 0;
+  //     double fact_fd = 0;
+  //     double fact_cd1 = 0;
+  //     double fact_fd1 = 0;
+  //     if (status_part > 4000) {
+  //       fact_cd = (0.000981) * pow(p, 3) + (-0.016882) * pow(p, 2) + (0.046752) * p + (1.720426);
+  //       fact_cd1 = 1.0;  //(-0.000104) * pow(p, 3) + (0.000998) * pow(p, 2) + (-0.008019) * p + (1.105314);
 
-        // std::cout << "mom " << p << "pip fact_cd : " << 1 / fact_cd << std::endl;
+  //       // std::cout << "mom " << p << "pip fact_cd : " << 1 / fact_cd << std::endl;
 
-        phiNew = phi + 1 / (fact_cd * fact_cd1) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (fact_cd * fact_cd1) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (fact_cd * fact_cd1) * pR * gRandom->Gaus(0, 1) * p;
-      } else if (status_part <= 4000) {
-        fact_fd = (0.000085) * pow(p, 3) + (-0.003096) * pow(p, 2) + (0.023553) * p + (1.509910);
-        fact_fd1 = 1.0;  //(-0.000006) * pow(p, 3) + (-0.001310) * pow(p, 2) + (0.023171) * p + (0.890554);
+  //       phiNew = phi + 1 / (fact_cd * fact_cd1) * phiR * gRandom->Gaus(0, 1);
+  //       thetaNew = theta + 1 / (fact_cd * fact_cd1) * thetaR * gRandom->Gaus(0, 1);
+  //       pNew = p + 1 / (fact_cd * fact_cd1) * pR * gRandom->Gaus(0, 1) * p;
+  //     } else if (status_part <= 4000) {
+  //       fact_fd = (0.000085) * pow(p, 3) + (-0.003096) * pow(p, 2) + (0.023553) * p + (1.509910);
+  //       fact_fd1 = 1.0;  //(-0.000006) * pow(p, 3) + (-0.001310) * pow(p, 2) + (0.023171) * p + (0.890554);
 
-        // std::cout << "mom " << p << "pip fact_fd : " << 1 / fact_fd << std::endl;
+  //       // std::cout << "mom " << p << "pip fact_fd : " << 1 / fact_fd << std::endl;
 
-        phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (fact_fd * fact_fd1) * pR * gRandom->Gaus(0, 1) * p;
-      }
-    }
+  //       phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
+  //       thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
+  //       pNew = p + 1 / (fact_fd * fact_fd1) * pR * gRandom->Gaus(0, 1) * p;
+  //     }
+  //   }
 
-    else if (part_id == PIM) {
-      double fact_cd = 0;
-      double fact_fd = 0;
-      double fact_cd1 = 0;
-      double fact_fd1 = 0;
-      if (status_part > 4000) {
-        fact_cd = (-0.001788) * pow(p, 3) + (0.025796) * pow(p, 2) + (-0.136577) * p + (2.007917);
-        fact_cd1 = 1.0;  //(-0.001327) * pow(p, 3) + (0.019826) * pow(p, 2) + (-0.097667) * p + (1.308904);
-        // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_cd << std::endl;
+  //   else if (part_id == PIM) {
+  //     double fact_cd = 0;
+  //     double fact_fd = 0;
+  //     double fact_cd1 = 0;
+  //     double fact_fd1 = 0;
+  //     if (status_part > 4000) {
+  //       fact_cd = (-0.001788) * pow(p, 3) + (0.025796) * pow(p, 2) + (-0.136577) * p + (2.007917);
+  //       fact_cd1 = 1.0;  //(-0.001327) * pow(p, 3) + (0.019826) * pow(p, 2) + (-0.097667) * p + (1.308904);
+  //       // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_cd << std::endl;
 
-        phiNew = phi + 1 / (fact_cd * fact_cd1) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (fact_cd * fact_cd1) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (fact_cd * fact_cd1) * pR * gRandom->Gaus(0, 1) * p;
-      } else if (status_part <= 4000) {
-        fact_fd = (0.000760) * pow(p, 3) + (-0.021295) * pow(p, 2) + (0.171180) * p + (1.238299);
-        fact_fd1 = 1.0;  //(0.000249) * pow(p, 3) + (-0.007461) * pow(p, 2) + (0.067686) * p + (0.817653);
+  //       phiNew = phi + 1 / (fact_cd * fact_cd1) * phiR * gRandom->Gaus(0, 1);
+  //       thetaNew = theta + 1 / (fact_cd * fact_cd1) * thetaR * gRandom->Gaus(0, 1);
+  //       pNew = p + 1 / (fact_cd * fact_cd1) * pR * gRandom->Gaus(0, 1) * p;
+  //     } else if (status_part <= 4000) {
+  //       fact_fd = (0.000760) * pow(p, 3) + (-0.021295) * pow(p, 2) + (0.171180) * p + (1.238299);
+  //       fact_fd1 = 1.0;  //(0.000249) * pow(p, 3) + (-0.007461) * pow(p, 2) + (0.067686) * p + (0.817653);
 
-        // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_fd << std::endl;
+  //       // std::cout << "mom " << p << "pim fact_cd : " << 1 / fact_fd << std::endl;
 
-        phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
-        thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
-        pNew = p + 1 / (fact_fd * fact_fd1) * pR * gRandom->Gaus(0, 1) * p;
-      }
-    }
-  }
+  //       phiNew = phi + 1 / (fact_fd * fact_fd1) * phiR * gRandom->Gaus(0, 1);
+  //       thetaNew = theta + 1 / (fact_fd * fact_fd1) * thetaR * gRandom->Gaus(0, 1);
+  //       pNew = p + 1 / (fact_fd * fact_fd1) * pR * gRandom->Gaus(0, 1) * p;
+  //     }
+  //   }
+  // }
 
   // momentum correction
   void SetMomCorrElec();
@@ -574,6 +580,18 @@ class Reaction {
   float prot_Phi_lab_measured();
 
   void boost();
+  float prot_theta();
+  float pip_theta();
+  float pim_theta();
+  void AlphaCalc();
+  float gamma_Phi();
+  float prot_Phi();
+  float pip_Phi();
+  float pim_Phi();
+
+  float alpha_ppip_pipim();
+  float alpha_pippim_pipf();
+  float alpha_ppim_pipip();
 
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }
@@ -739,6 +757,10 @@ class MCReaction : public Reaction {
   std::unique_ptr<TLorentzVector> _pip_mc;
   std::unique_ptr<TLorentzVector> _pim_mc;
   std::unique_ptr<TLorentzVector> _other_mc;
+  std::unique_ptr<TLorentzVector> _boosted_gamma_mc;
+  std::unique_ptr<TLorentzVector> _boosted_prot_mc;
+  std::unique_ptr<TLorentzVector> _boosted_pip_mc;
+  std::unique_ptr<TLorentzVector> _boosted_pim_mc;
 
   float _MM2_exclusive_mc = NAN;
   float _excl_Energy_mc = NAN;
@@ -759,16 +781,25 @@ class MCReaction : public Reaction {
   float _elec_E_mc = NAN;
   float _theta_e_mc = NAN;
 
- public:
-  void SetMCProton(int i);
-  void SetMCPip(int i);
-  void SetMCPim(int i);
-  void SetMCOther(int i);
+  bool _is_boosted_mc = false;
 
+  float _alpha_ppip_pipim_mc = NAN;
+  float _alpha_pippim_pipf_mc = NAN;
+  float _alpha_ppim_pipip_mc = NAN;
+
+  float _alpha_ppip_pipim_thrown_mc = NAN;
+  float _alpha_pippim_pipf_thrown_mc = NAN;
+  float _alpha_ppim_pipip_thrown_mc = NAN;
+
+ public:
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   void SetMCElec();
   inline float weight() { return _data->mc_weight(); }
 
+  void SetMCProton(int i);
+  void SetMCPip(int i);
+  void SetMCPim(int i);
+  void SetMCOther(int i);
   inline float elec_mom_mc() { return _elec_mom_mc; }
   inline float elec_En_mc() { return _elec_E_mc; }
   inline float Theta_Elec_mc() { return _theta_e_mc; }

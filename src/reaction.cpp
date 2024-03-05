@@ -58,60 +58,61 @@ void Reaction::SetElec() {
   _sectorElec = _data->dc_sec(0);
   _elec_status = abs(_data->status(0));
 
-  ///////_elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  ///////*_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
-
-  // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  /////// _W = physics::W_calc(*_beam, *_elec);
-  /////// _Q2 = physics::Q2_calc(*_beam, *_elec);
-  /////// _elec_mom = _elec->P();
-
-  // //////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////
-
-  _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-
-  double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
-
-  pUnSmear = _elecUnSmear->P();
-
-  thetaUnSmear = _elecUnSmear->Theta() * 180 / PI;
-
-  if (_elecUnSmear->Phi() > 0)
-    phiUnSmear = _elecUnSmear->Phi() * 180 / PI;
-  else if (_elecUnSmear->Phi() < 0)
-    phiUnSmear = (_elecUnSmear->Phi() + 2 * PI) * 180 / PI;
-
-  ////////////////////////////////////////////////////////////////
-
-  // Generate new values
-  Reaction::SmearingFunc(ELECTRON, _elec_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
-
-  _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
-  _pyPrimeSmear = _elecUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
-  _pzPrimeSmear =
-      _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
-
-  // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
-  _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
-  // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // smeared
-
+  _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
   *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
-
   _elec_mom = _elec->P();
-  _elec_E = _elec->E();
-  _theta_e = _elec->Theta() * 180 / PI;
 
-  // if (_elec->Phi() > 0)
-  //   _phi_elec = _elec->Phi() * 180 / PI;
-  // else if (_elec->Phi() < 0)
-  //   _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
+  // // //////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////
+
+  // _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+
+  // double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+  // phiSmear;
+
+  // pUnSmear = _elecUnSmear->P();
+
+  // thetaUnSmear = _elecUnSmear->Theta() * 180 / PI;
+
+  // if (_elecUnSmear->Phi() > 0)
+  //   phiUnSmear = _elecUnSmear->Phi() * 180 / PI;
+  // else if (_elecUnSmear->Phi() < 0)
+  //   phiUnSmear = (_elecUnSmear->Phi() + 2 * PI) * 180 / PI;
+
+  // ////////////////////////////////////////////////////////////////
+
+  // // Generate new values
+  // Reaction::SmearingFunc(ELECTRON, _elec_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+
+  // _pxPrimeSmear = _elecUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+  // _pyPrimeSmear = _elecUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+  // _pzPrimeSmear =
+  //     _elecUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+
+  // // _elecSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
+  // _elec->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_E);  // smeared
+  // // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);  // smeared
+
+  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+
+  // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // _W = physics::W_calc(*_beam, *_elec);
+  // _Q2 = physics::Q2_calc(*_beam, *_elec);
+
+  // _elec_mom = _elec->P();
+  // _elec_E = _elec->E();
+  // _theta_e = _elec->Theta() * 180 / PI;
+
+  // // if (_elec->Phi() > 0)
+  // //   _phi_elec = _elec->Phi() * 180 / PI;
+  // // else if (_elec->Phi() < 0)
+  // //   _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
 }
 
 void Reaction::SetProton(int i) {
@@ -163,77 +164,45 @@ void Reaction::SetProton(int i) {
       // _prot_phi_tmt = _prot_phi_uncorr;
       _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
     }
-
-    // if (_is_lower_band) {
-    //   _prot_theta_tmt = mom_corr::FD_prot_Eth_corr_lower(_prot_mom_uncorr, _prot_theta_uncorr);
-    //   _prot_phi_tmt = mom_corr::FD_prot_Eph_corr_lower(_prot_mom_uncorr, _prot_theta_uncorr, _prot_phi_uncorr);
-    //   if (_prot_mom_uncorr >= 1.0)
-    //     _prot_mom_tmt = mom_corr::FD_prot_Emom_corr_lower(_prot_mom_uncorr, _prot_theta_uncorr);
-    //   else
-    //     _prot_mom_tmt =
-    //         _prot_mom_uncorr + mom_corr::A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-    //         mom_corr::B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
-
-    // } else {
-    //   _prot_theta_tmt = mom_corr::FD_prot_Eth_corr_upper(_prot_mom_uncorr, _prot_theta_uncorr);
-    //   _prot_phi_tmt = mom_corr::FD_prot_Eph_corr_upper(_prot_mom_uncorr, _prot_theta_uncorr, _prot_phi_uncorr);
-
-    //   if (_prot_mom_uncorr >= 1.0)
-    //     _prot_mom_tmt = mom_corr::FD_prot_Emom_corr_upper(_prot_mom_uncorr, _prot_theta_uncorr);
-    //   else
-    //     _prot_mom_tmt =
-    //         _prot_mom_uncorr + mom_corr::A_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) +
-    //         mom_corr::B_p(_prot_mom_uncorr, _prot_theta_uncorr, _thetaDC_r1_Prot, _sectorProt) / _prot_mom_uncorr;
-    // }
   }
-  // _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) * sin(DEG2RAD * _prot_theta_tmt) /
-  //  sin(DEG2RAD * _prot_theta_uncorr) * cos(DEG2RAD * _prot_phi_tmt) / cos(DEG2RAD * _prot_phi_uncorr);
-  // _py_prime_prot_E = _data->py(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) * sin(DEG2RAD * _prot_theta_tmt) /
-  //  sin(DEG2RAD * _prot_theta_uncorr) * sin(DEG2RAD * _prot_phi_tmt) / sin(DEG2RAD * _prot_phi_uncorr);
-
-  // _pz_prime_prot_E = _data->pz(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr)) * cos(DEG2RAD * _prot_theta_tmt) /
-  //  cos(DEG2RAD * _prot_theta_uncorr);
-
-  // _px_prime_prot_E = _prot_mom_tmt;// * TMath::Sin(_prot_theta_tmt) * TMath::Cos(_prot_phi_tmt);
-  // _py_prime_prot_E = _prot_mom_tmt;// * TMath::Sin(_prot_theta_tmt) * TMath::Sin(_prot_phi_tmt);
-  // _pz_prime_prot_E = _prot_mom_tmt;// * TMath::Cos(_prot_theta_tmt);
 
   _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
   _py_prime_prot_E = _data->py(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
   _pz_prime_prot_E = _data->pz(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
 
-  // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss corrected
-  // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
+  _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss corrected
+  // // _mom_corr_prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);
 
-  /////////////////// SMEARING PART ////////////////////////////////////////////////////////////////////////////
+  // /////////////////// SMEARING PART ////////////////////////////////////////////////////////////////////////////
 
-  _protUnSmear->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss corrected
+  // _protUnSmear->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss corrected
 
-  //////////////////////////////////////////////////////////////
-  double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
+  // //////////////////////////////////////////////////////////////
+  // double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+  // phiSmear;
 
-  pUnSmear = _protUnSmear->P();
+  // pUnSmear = _protUnSmear->P();
 
-  thetaUnSmear = _protUnSmear->Theta() * 180 / PI;
+  // thetaUnSmear = _protUnSmear->Theta() * 180 / PI;
 
-  if (_protUnSmear->Phi() > 0)
-    phiUnSmear = _protUnSmear->Phi() * 180 / PI;
-  else if (_protUnSmear->Phi() < 0)
-    phiUnSmear = (_protUnSmear->Phi() + 2 * PI) * 180 / PI;
+  // if (_protUnSmear->Phi() > 0)
+  //   phiUnSmear = _protUnSmear->Phi() * 180 / PI;
+  // else if (_protUnSmear->Phi() < 0)
+  //   phiUnSmear = (_protUnSmear->Phi() + 2 * PI) * 180 / PI;
 
-  // Generate new values
+  // // Generate new values
 
-  Reaction::SmearingFunc(PROTON, _prot_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+  // Reaction::SmearingFunc(PROTON, _prot_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
-  _pxPrimeSmear = _protUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
-  _pyPrimeSmear = _protUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
-  _pzPrimeSmear =
-      _protUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+  // _pxPrimeSmear = _protUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+  // _pyPrimeSmear = _protUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+  // _pzPrimeSmear =
+  //     _protUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
 
-  // _protSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_P);  // smeared
-  _prot->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_P);  // smeared
+  // // _protSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_P);  // smeared
+  // _prot->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_P);  // smeared
 }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -276,29 +245,7 @@ void Reaction::SetPip(int i) {
     _pip_mom_tmt = _pip_mom_uncorr;
     // _pip_theta_tmt = _pip_theta_uncorr;
     // _pip_phi_tmt = _pip_phi_uncorr;
-
-    //   // if (_is_lower_band) {
-    //   //   _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
-    //   //   _pip_phi_tmt = mom_corr::FD_pip_Eph_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
-    //   //   _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_lower(_pip_mom_uncorr, _pip_theta_uncorr);
-
-    //   // } else {
-    //   //   _pip_theta_tmt = mom_corr::FD_pip_Eth_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
-    //   //   _pip_phi_tmt = mom_corr::FD_pip_Eph_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr, _pip_phi_uncorr);
-    //   //   _pip_mom_tmt = mom_corr::FD_pip_Emom_corr_upper(_pip_mom_uncorr, _pip_theta_uncorr);
-    //   // }
   }
-  // _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));// * sin(DEG2RAD * _pip_theta_tmt) /
-  //                   // sin(DEG2RAD * _pip_theta_uncorr) * cos(DEG2RAD * _pip_phi_tmt) / cos(DEG2RAD *
-  //                   _pip_phi_uncorr);
-  // _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));// * sin(DEG2RAD * _pip_theta_tmt) /
-  //                   // sin(DEG2RAD * _pip_theta_uncorr) * sin(DEG2RAD * _pip_phi_tmt) / sin(DEG2RAD *
-  //                   _pip_phi_uncorr);
-  // _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));// * cos(DEG2RAD * _pip_theta_tmt) /
-  //                   // cos(DEG2RAD * _pip_theta_uncorr);
-
-  // // std::cout << " x now " << _px_prime_pip_E << " x before " << _data->px(i) << " diff percent "
-  // //           << abs(_px_prime_pip_E - _data->px(i)) / _data->px(i) *100 << std::endl;
 
   // // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_P);
 
@@ -306,34 +253,36 @@ void Reaction::SetPip(int i) {
   _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
   _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
 
-  // _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP); // cd eloss corrected
+  _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);  // cd eloss corrected
 
-  // /////////////////////////////////     SMEARING PART  /////////////////////////////
+  // // /////////////////////////////////     SMEARING PART  /////////////////////////////
 
-  _pipUnSmear->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
+  // _pipUnSmear->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);
 
-  double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
+  // double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+  // phiSmear;
 
-  pUnSmear = _pipUnSmear->P();
+  // pUnSmear = _pipUnSmear->P();
 
-  thetaUnSmear = _pipUnSmear->Theta() * 180 / PI;
+  // thetaUnSmear = _pipUnSmear->Theta() * 180 / PI;
 
-  if (_pipUnSmear->Phi() > 0)
-    phiUnSmear = _pipUnSmear->Phi() * 180 / PI;
-  else if (_pipUnSmear->Phi() < 0)
-    phiUnSmear = (_pipUnSmear->Phi() + 2 * PI) * 180 / PI;
+  // if (_pipUnSmear->Phi() > 0)
+  //   phiUnSmear = _pipUnSmear->Phi() * 180 / PI;
+  // else if (_pipUnSmear->Phi() < 0)
+  //   phiUnSmear = (_pipUnSmear->Phi() + 2 * PI) * 180 / PI;
 
-  // Generate new values
-  Reaction::SmearingFunc(PIP, _pip_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+  // // Generate new values
+  // Reaction::SmearingFunc(PIP, _pip_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
-  _pxPrimeSmear = _pipUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
-  _pyPrimeSmear = _pipUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
-  _pzPrimeSmear = _pipUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+  // _pxPrimeSmear = _pipUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+  // _pyPrimeSmear = _pipUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+  // _pzPrimeSmear = _pipUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD *
+  // thetaUnSmear);
 
-  // _pipSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIP);  // smeared
-  _pip->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIP);  // smeared
+  // // _pipSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIP);  // smeared
+  // _pip->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIP);  // smeared
 }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -375,62 +324,42 @@ void Reaction::SetPim(int i) {
     _pim_mom_tmt = _pim_mom_uncorr;
     // _pim_theta_tmt = _pim_theta_uncorr;
     // _pim_phi_tmt = _pim_phi_uncorr;
-
-    // // //   // if (_is_lower_band) {
-    // // //   //   _pim_theta_tmt = mom_corr::FD_pim_Eth_corr_lower(_pim_mom_uncorr, _pim_theta_uncorr);
-    // // //   //   _pim_phi_tmt = mom_corr::FD_pim_Eph_corr_lower(_pim_mom_uncorr, _pim_theta_uncorr,
-    // _pim_phi_uncorr);
-    // // //   //   _pim_mom_tmt = mom_corr::FD_pim_Emom_corr_lower(_pim_mom_uncorr, _pim_theta_uncorr);
-
-    // // //   // } else {
-    // // //   //   _pim_theta_tmt = mom_corr::FD_pim_Eth_corr_upper(_pim_mom_uncorr, _pim_theta_uncorr);
-    // // //   //   _pim_phi_tmt = mom_corr::FD_pim_Eph_corr_upper(_pim_mom_uncorr, _pim_theta_uncorr,
-    // _pim_phi_uncorr);
-    // // //   //   _pim_mom_tmt = mom_corr::FD_pim_Emom_corr_upper(_pim_mom_uncorr, _pim_theta_uncorr);
-    // // //   // }
   }
-  // // // _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));// * sin(DEG2RAD * _pim_theta_tmt) /
-  // // //                   // sin(DEG2RAD * _pim_theta_uncorr) * cos(DEG2RAD * _pim_phi_tmt) / cos(DEG2RAD *
-  // _pim_phi_uncorr);
-  // // // _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));// * sin(DEG2RAD * _pim_theta_tmt) /
-  // // //                   // sin(DEG2RAD * _pim_theta_uncorr) * sin(DEG2RAD * _pim_phi_tmt) / sin(DEG2RAD *
-  // _pim_phi_uncorr);
-
-  // // // _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));// * cos(DEG2RAD * _pim_theta_tmt) /
-  // // //                   // cos(DEG2RAD * _pim_theta_uncorr);
 
   _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
   _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
 
-  // _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+  _pim->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
-  // /////////////////////////////////     SMEARING PART  /////////////////////////////
+  // // /////////////////////////////////     SMEARING PART  /////////////////////////////
 
-  _pimUnSmear->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
+  // _pimUnSmear->SetXYZM(_px_prime_pim_E, _py_prime_pim_E, _pz_prime_pim_E, MASS_PIM);
 
-  double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear;
+  // double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+  // phiSmear;
 
-  pUnSmear = _pimUnSmear->P();
+  // pUnSmear = _pimUnSmear->P();
 
-  thetaUnSmear = _pimUnSmear->Theta() * 180 / PI;
+  // thetaUnSmear = _pimUnSmear->Theta() * 180 / PI;
 
-  if (_pimUnSmear->Phi() > 0)
-    phiUnSmear = _pimUnSmear->Phi() * 180 / PI;
-  else if (_pimUnSmear->Phi() < 0)
-    phiUnSmear = (_pimUnSmear->Phi() + 2 * PI) * 180 / PI;
+  // if (_pimUnSmear->Phi() > 0)
+  //   phiUnSmear = _pimUnSmear->Phi() * 180 / PI;
+  // else if (_pimUnSmear->Phi() < 0)
+  //   phiUnSmear = (_pimUnSmear->Phi() + 2 * PI) * 180 / PI;
 
-  // Generate new values
-  Reaction::SmearingFunc(PIM, _pim_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+  // // Generate new values
+  // Reaction::SmearingFunc(PIM, _pim_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
 
-  _pxPrimeSmear = _pimUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
-  _pyPrimeSmear = _pimUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
-                  sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
-  _pzPrimeSmear = _pimUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+  // _pxPrimeSmear = _pimUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+  // _pyPrimeSmear = _pimUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+  //                 sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+  // _pzPrimeSmear = _pimUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD *
+  // thetaUnSmear);
 
-  // _pimSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM);  // smeared
-  _pim->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM);  // smeared
+  // // _pimSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM);  // smeared
+  // _pim->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIM);  // smeared
 }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -1025,7 +954,7 @@ void Reaction::AlphaCalc() {
 
   _alpha_ppip_pipim = alpha_PPIp_piPIm;
   _alpha_pippim_pipf = alpha_PIpPIm_pipf;
-  _alpha_ppim_pipip
+  _alpha_ppim_pipip = alpha_PPIm_piPIp;
 }
 
 float Reaction::alpha_ppip_pipim() {  // pipim bhaneko proton initial  pim ho?
@@ -1085,11 +1014,11 @@ float Reaction::alpha_ppim_pipip() {  // alpha pip (proton initial pip)
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
-MCReaction::MCReaction(const std::shared_ptr<Branches12>& data, float beam_enrgy) {
+MCReaction::MCReaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _data = data;
   if (!_data->mc()) _data->mc_branches();
   _beam = std::make_unique<TLorentzVector>();
-  _beam_energy = beam_enrgy;
+  _beam_energy = beam_energy;
   _weight_mc = _data->mc_weight();
   _beam->SetPxPyPzE(0.0, 0.0, sqrt(_beam_energy * _beam_energy - MASS_E * MASS_E), _beam_energy);
 
@@ -1165,216 +1094,8 @@ float MCReaction::prot_phi_mc_gen() {
   else
     return NAN;
 }
-/// boost
-void MCReaction::boost_mc() {
-  _is_boosted_mc = true;
-  _boosted_prot_mc = std::make_unique<TLorentzVector>(*_prot_mc);
-  _boosted_pip_mc = std::make_unique<TLorentzVector>(*_pip_mc);
-  _boosted_pim_mc = std::make_unique<TLorentzVector>(*_gamma_mc + *_target - *_prot_mc - *_pip_mc);  //(*_pim);
-  // _boosted_pim_mc = std::make_unique<TLorentzVector>(*_pim_mc);
 
-  _boosted_gamma_mc = std::make_unique<TLorentzVector>(*_gamma_mc);
-  TRotation rot_mc;
-
-  TVector3 uz_mc = _boosted_gamma_mc->Vect().Unit();                     // uit vector along virtual photon
-  TVector3 ux_mc = ((_beam_mc->Vect()).Cross(_elec_mc->Vect())).Unit();  // unit vector along e cross e'
-  ux_mc.Rotate(3. * PI / 2, uz_mc);        // rotating ux by 3pi/2 with uz as axis of roration
-  rot_mc.SetZAxis(uz_mc, ux_mc).Invert();  // setting TRotation rot
-
-  _boosted_gamma_mc->Transform(rot_mc);
-  _boosted_prot_mc->Transform(rot_mc);
-  _boosted_pip_mc->Transform(rot_mc);
-  _boosted_pim_mc->Transform(rot_mc);
-
-  // beta is calculated only after transfer in gamma
-  float_t beta_1_mc =
-      ((sqrt(_boosted_gamma_mc->E() * _boosted_gamma_mc->E() + _Q2_mc)) / (_boosted_gamma_mc->E() + MASS_P));
-
-  _boosted_prot_mc->Boost(0, 0, -beta_1_mc);
-  _boosted_pip_mc->Boost(0, 0, -beta_1_mc);
-  _boosted_pim_mc->Boost(0, 0, -beta_1_mc);
-  _boosted_gamma_mc->Boost(0, 0, -beta_1_mc);  // -beta ko value (0.5 to -0.5 huda
-                                               // samma value aauchha nattra aaudyna)
-}
-
-void MCReaction::MCinvMassPpip() {
-  if (!_is_boosted_mc) boost_mc();
-  auto MCinv_Ppip = std::make_unique<TLorentzVector>();
-  *MCinv_Ppip += *_boosted_prot_mc;
-  *MCinv_Ppip += *_boosted_pip_mc;
-  _MCinv_Ppip = MCinv_Ppip->M();
-}
-
-void MCReaction::MCinvMassPpim() {
-  // std::cout << *_pim_mc->M() -  << std::endl;
-
-  if (!_is_boosted_mc) boost_mc();
-  auto MCinv_Ppim = std::make_unique<TLorentzVector>();
-  *MCinv_Ppim += *_boosted_prot_mc;
-  *MCinv_Ppim += *_boosted_pim_mc;
-  _MCinv_Ppim = MCinv_Ppim->M();
-}
-void MCReaction::MCinvMasspippim() {
-  if (!_is_boosted_mc) boost_mc();
-  auto MCinv_pip_pim = std::make_unique<TLorentzVector>();
-  *MCinv_pip_pim += *_boosted_pip_mc;
-  *MCinv_pip_pim += *_boosted_pim_mc;
-  _MCinv_pip_pim = MCinv_pip_pim->M();
-}
-float MCReaction::MCinv_Ppip() {
-  if (_MCinv_Ppip != _MCinv_Ppip) MCinvMassPpip();
-  // if (TwoPion_missingPim())
-  if (_MCinv_Ppip != NAN) return _MCinv_Ppip;
-  // else
-  return NAN;
-}
-float MCReaction::MCinv_Ppim() {
-  if (_MCinv_Ppim != _MCinv_Ppim) MCinvMassPpim();
-  // if (TwoPion_missingPim())
-  if (_MCinv_Ppim != NAN) return _MCinv_Ppim;
-  //  else
-  return NAN;
-}
-float MCReaction::MCinv_pip_pim() {
-  if (_MCinv_pip_pim != _MCinv_pip_pim) MCinvMasspippim();
-  // if (TwoPion_missingPim())
-  if (_MCinv_pip_pim != NAN) return _MCinv_pip_pim;
-  // else
-  return NAN;
-}
-float MCReaction::MCgamma_Phi_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-  if (_boosted_gamma_mc->Phi() > 0)
-    return _boosted_gamma_mc->Phi() * 180 / PI;
-  else if (_boosted_gamma_mc->Phi() < 0)
-    return (_boosted_gamma_mc->Phi() + 2 * PI) * 180 / PI;
-  // else
-  return NAN;
-}
-float MCReaction::MCprot_Phi_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-
-  if (_boosted_prot_mc->Phi() > 0)
-    return _boosted_prot_mc->Phi() * 180 / PI;
-  else if (_boosted_prot_mc->Phi() < 0)
-    return (_boosted_prot_mc->Phi() + 2 * PI) * 180 / PI;
-  // else
-  return NAN;
-}
-float MCReaction::MCpip_Phi_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-  if (_boosted_pip_mc->Phi() > 0)
-    return _boosted_pip_mc->Phi() * 180 / PI;
-  else if (_boosted_pip_mc->Phi() < 0)
-    return (_boosted_pip_mc->Phi() + 2 * PI) * 180 / PI;
-  // else
-  return NAN;
-}
-float MCReaction::MCpim_Phi_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-
-  if (_boosted_pim_mc->Phi() > 0)
-    return _boosted_pim_mc->Phi() * 180 / PI;
-  else if (_boosted_pim_mc->Phi() < 0)
-    return (_boosted_pim_mc->Phi() + 2 * PI) * 180 / PI;
-  // else
-  return NAN;
-}
-float MCReaction::MCprot_theta_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-  return _boosted_prot_mc->Theta() * 180.0 / PI;
-
-  return NAN;
-}
-float MCReaction::MCpip_theta_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-  return _boosted_pip_mc->Theta() * 180.0 / PI;
-  return NAN;
-}
-float MCReaction::MCpim_theta_thrown() {
-  if (!_is_boosted_mc) boost_mc();
-  return _boosted_pim_mc->Theta() * 180.0 / PI;
-
-  return NAN;
-}
-
-void MCReaction::MCAlphaCalc() {
-  //  Float_t m_proton, m_pip, beta;
-  Float_t a_gamma, b_gamma, a_beta, b_beta;
-  TVector3 Vect3_gamma, Vect3_beta, V3_anti_z(0, 0, -1);
-  float alpha_PPIp_piPIm_mc;
-  float alpha_pippim_pipf_mc;
-  float alpha_PPIm_piPIp_mc;
-
-  if (!_is_boosted_mc) boost_mc();
-  // 1 this one is used for
-  a_gamma = sqrt(1. / (1 - pow((_boosted_pim_mc->Vect().Unit() * V3_anti_z),
-                               2)));  // V3_anti_z(0,0,-1);
-  b_gamma = -(_boosted_pim_mc->Vect().Unit() * V3_anti_z) * a_gamma;
-  Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _boosted_pim_mc->Vect().Unit();
-
-  a_beta = sqrt(1. / (1 - pow((_boosted_pim_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()), 2)));
-  b_beta = -(_boosted_pim_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()) * a_beta;
-  Vect3_beta = a_beta * _boosted_pip_mc->Vect().Unit() + b_beta * _boosted_pim_mc->Vect().Unit();
-
-  alpha_PPIp_piPIm_mc = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
-  if (Vect3_gamma.Cross(Vect3_beta) * _boosted_pim_mc->Vect() < 0) alpha_PPIp_piPIm_mc = 360. - alpha_PPIp_piPIm_mc;
-
-  //α[pπ+][p'π−]
-  /// 2
-  a_gamma = sqrt(1. / (1 - pow((_boosted_prot_mc->Vect().Unit() * V3_anti_z), 2)));
-  b_gamma = -(_boosted_prot_mc->Vect().Unit() * V3_anti_z) * a_gamma;
-  Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _boosted_prot_mc->Vect().Unit();
-
-  a_beta = sqrt(1. / (1 - pow((_boosted_prot_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()), 2)));
-  b_beta = -(_boosted_prot_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()) * a_beta;
-  Vect3_beta = a_beta * _boosted_pip_mc->Vect().Unit() + b_beta * _boosted_prot_mc->Vect().Unit();
-
-  alpha_pippim_pipf_mc = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
-
-  if (Vect3_gamma.Cross(Vect3_beta) * _boosted_prot_mc->Vect() < 0) alpha_pippim_pipf_mc = 360. - alpha_pippim_pipf_mc;
-  //α[pp'][π+π−]
-
-  /// 3
-  a_gamma = sqrt(1. / (1 - pow((_boosted_pip_mc->Vect().Unit() * V3_anti_z), 2)));
-  b_gamma = -(_boosted_pip_mc->Vect().Unit() * V3_anti_z) * a_gamma;
-  Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _boosted_pip_mc->Vect().Unit();
-
-  a_beta = sqrt(1. / (1 - pow((_boosted_pip_mc->Vect().Unit() * _boosted_pim_mc->Vect().Unit()), 2)));
-  b_beta = -(_boosted_pip_mc->Vect().Unit() * _boosted_pim_mc->Vect().Unit()) * a_beta;
-  Vect3_beta = a_beta * _boosted_pim_mc->Vect().Unit() + b_beta * _boosted_pip_mc->Vect().Unit();
-
-  alpha_PPIm_piPIp_mc = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
-
-  if (Vect3_gamma.Cross(Vect3_beta) * _boosted_pip_mc->Vect() < 0) alpha_PPIm_piPIp_mc = 360. - alpha_PPIm_piPIp_mc;
-  //α[pπ−][p'π+]
-
-  _alpha_ppip_pipim_mc = alpha_PPIp_piPIm_mc;
-  _alpha_pippim_pipf_mc = alpha_pippim_pipf_mc;
-  _alpha_ppim_pipip_mc = alpha_PPIm_piPIp_mc;
-}
-
-float MCReaction::MCalpha_ppip_pipim_thrown() {  // pipim bhaneko proton
-  // initial pim ho?
-  if (_alpha_ppip_pipim_mc != _alpha_ppip_pipim_mc) MCAlphaCalc();
-
-  return _alpha_ppip_pipim_mc;
-  return NAN;
-}
-float MCReaction::MCalpha_pippim_pipf_thrown() {  // alpha P (proton initial
-  // proton final)
-  if (_alpha_pippim_pipf_mc != _alpha_pippim_pipf_mc) MCAlphaCalc();
-
-  return _alpha_pippim_pipf_mc;
-  return NAN;
-}
-float MCReaction::MCalpha_ppim_pipip_thrown() {  // alpha pip (proton initial
-  // pip)
-  if (_alpha_ppim_pipip_mc != _alpha_ppim_pipip_mc) MCAlphaCalc();
-
-  return _alpha_ppim_pipip_mc;
-  return NAN;
-}
+//// boost here ...
 
 std::string MCReaction::CsvHeader() {
   return "e_rec_p,e_rec_theta,e_rec_phi,e_sec,e_thrown_p,e_thrown_theta,e_thrown_phi\n";
