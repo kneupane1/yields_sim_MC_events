@@ -9,8 +9,28 @@ struct csv_data {
 
   float w;
   float q2;
-  float w_mc;
-  float q2_mc;
+  float w_gen;
+  float q2_gen;
+  float inv_ppip_gen;
+  float inv_ppim_gen;
+  float inv_pip_pim_gen;
+  float prot_theta_gen;
+  float prot_alpha_gen;
+  float pip_theta_gen;
+  float pip_alpha_gen;
+  float pim_theta_gen;
+  float pim_alpha_gen;
+
+  float inv_ppip_rec;
+  float inv_ppim_rec;
+  float inv_pip_pim_rec;
+  float prot_theta_rec;
+  float prot_alpha_rec;
+  float pip_theta_rec;
+  float pip_alpha_rec;
+  float pim_theta_rec;
+  float pim_alpha_rec;
+
   float elec_mom;
   float elec_energy;
   float elec_theta;
@@ -59,9 +79,9 @@ struct csv_data {
   float prot_theta_mes;
   float prot_phi_mes;
 
-  float inv_ppip;
-  float inv_ppim;
-  float inv_pip_pim;
+  // float inv_ppip;
+  // float inv_ppim;
+  // float inv_pip_pim;
 
   double residualXpcal;
   double residualYpcal;
@@ -87,10 +107,11 @@ struct csv_data {
     // Make a string for the header of the csv file mPim case
     // return "elec_sec,sf,elec_mom,ResiXpcal,ResiYpcal,pcalX,pcalY,pcalX_rot,pcalY_rot,ResiXecin,"
     //        "ResiYecin,ecinX,ecinY,ecinX_rot,ecinY_rot,weight";
-    // return "w_mc,q2_mc,w_ec,q2_rec,mm2_mPim,weight";
+    return "w_gen,q2_gen,inv_pPip,inv_pPim,inv_pipPim,theta_prot,theta_pip,theta_pim,alpha_prot,alpha_pip,alpha_pim,"
+           "weight";
 
     // return "pim_mom_mPim_cm,pim_theta_mPim_cm,pim_phi_mPim_cm,mm2_mPim,weight";
-    return "w_rec,q2_rec,mm2_mPim,weight";
+    // return "w_rec,q2_rec,mm2_mPim,weight";
     // return "pip_mom_mPip,pip_theta_mPip,pip_phi_mPip,mm2_mPip,weight";
     // return "prot_mom_mProt,prot_theta_mProt,prot_phi_mProt,mm2_mProt,"
     //        "weight";
@@ -106,10 +127,23 @@ struct csv_data {
     // // os << data.elec_energy << ",";
     // // os << data.elec_theta << ",";
 
-    // os << data.w_mc << ",";
-    // os << data.q2_mc << ",";
-    os << data.w << ",";
-    os << data.q2 << ",";
+    os << data.w_gen << ",";
+    os << data.q2_gen << ",";
+
+    os << data.inv_ppip_gen << ",";
+    os << data.inv_ppim_gen << ",";
+    os << data.inv_pip_pim_gen << ",";
+
+    os << data.prot_theta_gen << ",";
+    os << data.pip_theta_gen << ",";
+    os << data.pim_theta_gen << ",";
+
+    os << data.prot_alpha_gen << ",";
+    os << data.pip_alpha_gen << ",";
+    os << data.pim_alpha_gen << ",";
+
+    // os << data.w << ",";
+    // os << data.q2 << ",";
 
     // // os << data.residualXpcal << ",";
     // // os << data.residualYpcal << ",";
@@ -138,7 +172,7 @@ struct csv_data {
     // // // // os << data.pim_theta_mPim_cm << ",";
     // // // // os << data.pim_phi_mPim_cm << ",";
     // // // // os << std::setprecision(7);
-    os << data.mm2_mPim << ",";
+    // os << data.mm2_mPim << ",";
     // // // //  os << data.mm2_mPim_corr << ",";
     // // // // os << std::setprecision(1);
 

@@ -740,30 +740,27 @@ void Reaction::boost() {
   _rotated_pim_measured = std::make_unique<TLorentzVector>(*_pim);
 
   TRotation rot;
-  float_t beta_1 = ((sqrt(_boosted_gamma->E() * _boosted_gamma->E() + _Q2)) / (_boosted_gamma->E() + MASS_P));
   TVector3 uz = _boosted_gamma->Vect().Unit();                  // uit vector along virtual photon
   TVector3 ux = ((_beam->Vect()).Cross(_elec->Vect())).Unit();  // unit vector along e cross e'
   ux.Rotate(3. * PI / 2, uz);                                   // rotating ux by 3pi/2 with uz as axis of roration
   rot.SetZAxis(uz, ux).Invert();                                // setting TRotation rot
 
   _boosted_gamma->Transform(rot);
-
   _boosted_prot->Transform(rot);
   _rotated_prot->Transform(rot);
-  _boosted_prot->Boost(0, 0, -beta_1);
-
   _boosted_pip->Transform(rot);
   _rotated_pip->Transform(rot);
-  _boosted_pip->Boost(0, 0, -beta_1);
-
   _boosted_pim->Transform(rot);
   _rotated_pim->Transform(rot);
-  _boosted_pim->Boost(0, 0, -beta_1);
-
-  _boosted_gamma->Boost(0, 0, -beta_1);
-
   _boosted_pim_measured->Transform(rot);
   _rotated_pim_measured->Transform(rot);
+
+  float_t beta_1 = ((sqrt(_boosted_gamma->E() * _boosted_gamma->E() + _Q2)) / (_boosted_gamma->E() + MASS_P));
+
+  _boosted_prot->Boost(0, 0, -beta_1);
+  _boosted_pip->Boost(0, 0, -beta_1);
+  _boosted_pim->Boost(0, 0, -beta_1);
+  _boosted_gamma->Boost(0, 0, -beta_1);
   _boosted_pim_measured->Boost(0, 0, -beta_1);
   // -beta ko value (0.5 to -0.5 huda
   // samma value aauchha nattra aaudyna)
@@ -1017,10 +1014,10 @@ float Reaction::alpha_ppim_pipip() {  // alpha pip (proton initial pip)
 MCReaction::MCReaction(const std::shared_ptr<Branches12>& data, float beam_energy) {
   _data = data;
   if (!_data->mc()) _data->mc_branches();
-  _beam = std::make_unique<TLorentzVector>();
+  _beam_mc = std::make_unique<TLorentzVector>();
   _beam_energy = beam_energy;
   _weight_mc = _data->mc_weight();
-  _beam->SetPxPyPzE(0.0, 0.0, sqrt(_beam_energy * _beam_energy - MASS_E * MASS_E), _beam_energy);
+  _beam_mc->SetPxPyPzE(0.0, 0.0, sqrt(_beam_energy * _beam_energy - MASS_E * MASS_E), _beam_energy);
 
   //_gamma = std::make_unique<TLorentzVector>();  // do i need this?
   _gamma_mc = std::make_unique<TLorentzVector>();
@@ -1041,11 +1038,11 @@ void MCReaction::SetMCElec() {
   //  _hasE = true;  //??
   _elec_mc->SetXYZM(_data->mc_px(0), _data->mc_py(0), _data->mc_pz(0), MASS_E);
 
-  *_gamma_mc += *_beam - *_elec_mc;
+  *_gamma_mc += *_beam_mc - *_elec_mc;
 
   // Can calculate W and Q2 here
-  _W_mc = physics::W_calc(*_beam, *_elec_mc);
-  _Q2_mc = physics::Q2_calc(*_beam, *_elec_mc);
+  _W_mc = physics::W_calc(*_beam_mc, *_elec_mc);
+  _Q2_mc = physics::Q2_calc(*_beam_mc, *_elec_mc);
 
   _elec_mom_mc = _elec_mc->P();
   _elec_E_mc = _elec_mc->E();
@@ -1096,6 +1093,233 @@ float MCReaction::prot_phi_mc_gen() {
 }
 
 //// boost here ...
+void MCReaction::boost_mc() {
+  _is_boosted_mc = true;
+  _boosted_prot_mc = std::make_unique<TLorentzVector>(*_prot_mc);
+  _boosted_pip_mc = std::make_unique<TLorentzVector>(*_pip_mc);
+  _boosted_pim_mc = std::make_unique<TLorentzVector>(*_gamma_mc + *_target - *_prot_mc - *_pip_mc);  //(*_pim);
+  // _boosted_pim_mc = std::make_unique<TLorentzVector>(*_pim_mc);
+  // std::cout << " P_pz " << (_pim_mc->Pz()) << "    ";
+  // std::cout << (_boosted_pim_mc->Pz()) << std::endl;
+  // std::cout << " Pz_diff " << (_pim_mc->Pz()) - (_boosted_pim_mc->Pz()) << "    ";
+  // std::cout << " P " << (_pim_mc->P()) << "    ";
+  // std::cout << " P_cal " <<(_boosted_pim_mc->P()) << "    ";
+  // std::cout << " P_diff " << (_pim_mc->P()) - (_boosted_pim_mc->P()) << "    " << std::endl;
+
+  // // if ((_boosted_pim_mc->Pz()) > 0.000001)
+  // {
+  //         std::cout
+  //         //  << _beam_mc->Pz() << " " << _elec_mc->Pz() << " "
+  //         //           << _gamma_mc->Pz() << " " << _prot_mc->Pz() << " "
+  //         //           << _pip_mc->Pz() << " " << _pim_mc->Pz() << " "
+  //                   << _boosted_pim_mc->Px() - _pim_mc->Px() << " "
+  //                 //   << _boosted_pim_mc->P() - _pim_mc->P() << " "
+  //                 //   << _boosted_pim_mc->E() - _pim_mc->E() << " "
+  //                   << std::endl;
+  // }
+
+  _boosted_gamma_mc = std::make_unique<TLorentzVector>(*_gamma_mc);
+  TRotation rot_mc;
+
+  TVector3 uz_mc = _boosted_gamma_mc->Vect().Unit();                     // uit vector along virtual photon
+  TVector3 ux_mc = ((_beam_mc->Vect()).Cross(_elec_mc->Vect())).Unit();  // unit vector along e cross e'
+  ux_mc.Rotate(3. * PI / 2, uz_mc);        // rotating ux by 3pi/2 with uz as axis of roration
+  rot_mc.SetZAxis(uz_mc, ux_mc).Invert();  // setting TRotation rot
+
+  _boosted_gamma_mc->Transform(rot_mc);
+  _boosted_prot_mc->Transform(rot_mc);
+  _boosted_pip_mc->Transform(rot_mc);
+  _boosted_pim_mc->Transform(rot_mc);
+
+  // beta is calculated only after transfer in gamma
+  float_t beta_1_mc =
+      ((sqrt(_boosted_gamma_mc->E() * _boosted_gamma_mc->E() + _Q2_mc)) / (_boosted_gamma_mc->E() + MASS_P));
+
+  _boosted_prot_mc->Boost(0, 0, -beta_1_mc);
+  _boosted_pip_mc->Boost(0, 0, -beta_1_mc);
+  _boosted_pim_mc->Boost(0, 0, -beta_1_mc);
+  _boosted_gamma_mc->Boost(0, 0, -beta_1_mc);  // -beta ko value (0.5 to -0.5 huda
+                                               // samma value aauchha nattra aaudyna)
+}
+
+void MCReaction::MCinvMassPpip() {
+  if (!_is_boosted_mc) boost_mc();
+  auto MCinv_Ppip = std::make_unique<TLorentzVector>();
+  *MCinv_Ppip += *_boosted_prot_mc;
+  *MCinv_Ppip += *_boosted_pip_mc;
+  _MCinv_Ppip = MCinv_Ppip->M();
+}
+
+void MCReaction::MCinvMassPpim() {
+  // std::cout << *_pim_mc->M() -  << std::endl;
+
+  if (!_is_boosted_mc) boost_mc();
+  auto MCinv_Ppim = std::make_unique<TLorentzVector>();
+  *MCinv_Ppim += *_boosted_prot_mc;
+  *MCinv_Ppim += *_boosted_pim_mc;
+  _MCinv_Ppim = MCinv_Ppim->M();
+}
+void MCReaction::MCinvMasspippim() {
+  if (!_is_boosted_mc) boost_mc();
+  auto MCinv_pip_pim = std::make_unique<TLorentzVector>();
+  *MCinv_pip_pim += *_boosted_pip_mc;
+  *MCinv_pip_pim += *_boosted_pim_mc;
+  _MCinv_pip_pim = MCinv_pip_pim->M();
+}
+float MCReaction::MCinv_Ppip() {
+  if (_MCinv_Ppip != _MCinv_Ppip) MCinvMassPpip();
+  // if (TwoPion_missingPim())
+  if (_MCinv_Ppip != NAN) return _MCinv_Ppip;
+  // else
+  return NAN;
+}
+float MCReaction::MCinv_Ppim() {
+  if (_MCinv_Ppim != _MCinv_Ppim) MCinvMassPpim();
+  // if (TwoPion_missingPim())
+  if (_MCinv_Ppim != NAN) return _MCinv_Ppim;
+  //  else
+  return NAN;
+}
+float MCReaction::MCinv_pip_pim() {
+  if (_MCinv_pip_pim != _MCinv_pip_pim) MCinvMasspippim();
+  // if (TwoPion_missingPim())
+  if (_MCinv_pip_pim != NAN) return _MCinv_pip_pim;
+  // else
+  return NAN;
+}
+float MCReaction::MCgamma_Phi_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+  if (_boosted_gamma_mc->Phi() > 0)
+    return _boosted_gamma_mc->Phi() * 180 / PI;
+  else if (_boosted_gamma_mc->Phi() < 0)
+    return (_boosted_gamma_mc->Phi() + 2 * PI) * 180 / PI;
+  // else
+  return NAN;
+}
+float MCReaction::MCprot_Phi_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+
+  if (_boosted_prot_mc->Phi() > 0)
+    return _boosted_prot_mc->Phi() * 180 / PI;
+  else if (_boosted_prot_mc->Phi() < 0)
+    return (_boosted_prot_mc->Phi() + 2 * PI) * 180 / PI;
+  // else
+  return NAN;
+}
+float MCReaction::MCpip_Phi_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+  if (_boosted_pip_mc->Phi() > 0)
+    return _boosted_pip_mc->Phi() * 180 / PI;
+  else if (_boosted_pip_mc->Phi() < 0)
+    return (_boosted_pip_mc->Phi() + 2 * PI) * 180 / PI;
+  // else
+  return NAN;
+}
+float MCReaction::MCpim_Phi_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+
+  if (_boosted_pim_mc->Phi() > 0)
+    return _boosted_pim_mc->Phi() * 180 / PI;
+  else if (_boosted_pim_mc->Phi() < 0)
+    return (_boosted_pim_mc->Phi() + 2 * PI) * 180 / PI;
+  // else
+  return NAN;
+}
+float MCReaction::MCprot_theta_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+  return _boosted_prot_mc->Theta() * 180.0 / PI;
+
+  return NAN;
+}
+float MCReaction::MCpip_theta_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+  return _boosted_pip_mc->Theta() * 180.0 / PI;
+  return NAN;
+}
+float MCReaction::MCpim_theta_thrown() {
+  if (!_is_boosted_mc) boost_mc();
+  return _boosted_pim_mc->Theta() * 180.0 / PI;
+
+  return NAN;
+}
+
+void MCReaction::MCAlphaCalc() {
+  //  Float_t m_proton, m_pip, beta;
+  Float_t a_gamma, b_gamma, a_beta, b_beta;
+  TVector3 Vect3_gamma, Vect3_beta, V3_anti_z(0, 0, -1);
+  float alpha_PPIp_piPIm_mc;
+  float alpha_pippim_pipf_mc;
+  float alpha_PPIm_piPIp_mc;
+
+  if (!_is_boosted_mc) boost_mc();
+  // 1 this one is used for
+  a_gamma = sqrt(1. / (1 - pow((_boosted_pim_mc->Vect().Unit() * V3_anti_z),
+                               2)));  // V3_anti_z(0,0,-1);
+  b_gamma = -(_boosted_pim_mc->Vect().Unit() * V3_anti_z) * a_gamma;
+  Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _boosted_pim_mc->Vect().Unit();
+
+  a_beta = sqrt(1. / (1 - pow((_boosted_pim_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()), 2)));
+  b_beta = -(_boosted_pim_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()) * a_beta;
+  Vect3_beta = a_beta * _boosted_pip_mc->Vect().Unit() + b_beta * _boosted_pim_mc->Vect().Unit();
+
+  alpha_PPIp_piPIm_mc = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
+  if (Vect3_gamma.Cross(Vect3_beta) * _boosted_pim_mc->Vect() < 0) alpha_PPIp_piPIm_mc = 360. - alpha_PPIp_piPIm_mc;
+
+  //α[pπ+][p'π−]
+  /// 2
+  a_gamma = sqrt(1. / (1 - pow((_boosted_prot_mc->Vect().Unit() * V3_anti_z), 2)));
+  b_gamma = -(_boosted_prot_mc->Vect().Unit() * V3_anti_z) * a_gamma;
+  Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _boosted_prot_mc->Vect().Unit();
+
+  a_beta = sqrt(1. / (1 - pow((_boosted_prot_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()), 2)));
+  b_beta = -(_boosted_prot_mc->Vect().Unit() * _boosted_pip_mc->Vect().Unit()) * a_beta;
+  Vect3_beta = a_beta * _boosted_pip_mc->Vect().Unit() + b_beta * _boosted_prot_mc->Vect().Unit();
+
+  alpha_pippim_pipf_mc = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
+
+  if (Vect3_gamma.Cross(Vect3_beta) * _boosted_prot_mc->Vect() < 0) alpha_pippim_pipf_mc = 360. - alpha_pippim_pipf_mc;
+  //α[pp'][π+π−]
+
+  /// 3
+  a_gamma = sqrt(1. / (1 - pow((_boosted_pip_mc->Vect().Unit() * V3_anti_z), 2)));
+  b_gamma = -(_boosted_pip_mc->Vect().Unit() * V3_anti_z) * a_gamma;
+  Vect3_gamma = a_gamma * V3_anti_z + b_gamma * _boosted_pip_mc->Vect().Unit();
+
+  a_beta = sqrt(1. / (1 - pow((_boosted_pip_mc->Vect().Unit() * _boosted_pim_mc->Vect().Unit()), 2)));
+  b_beta = -(_boosted_pip_mc->Vect().Unit() * _boosted_pim_mc->Vect().Unit()) * a_beta;
+  Vect3_beta = a_beta * _boosted_pim_mc->Vect().Unit() + b_beta * _boosted_pip_mc->Vect().Unit();
+
+  alpha_PPIm_piPIp_mc = (180. / PI) * acos(Vect3_gamma * Vect3_beta);
+
+  if (Vect3_gamma.Cross(Vect3_beta) * _boosted_pip_mc->Vect() < 0) alpha_PPIm_piPIp_mc = 360. - alpha_PPIm_piPIp_mc;
+  //α[pπ−][p'π+]
+
+  _alpha_ppip_pipim_mc = alpha_PPIp_piPIm_mc;
+  _alpha_pippim_pipf_mc = alpha_pippim_pipf_mc;
+  _alpha_ppim_pipip_mc = alpha_PPIm_piPIp_mc;
+}
+
+float MCReaction::MCalpha_ppip_pipim_thrown() {  // pipim bhaneko proton
+  // initial pim ho?
+  if (_alpha_ppip_pipim_mc != _alpha_ppip_pipim_mc) MCAlphaCalc();
+
+  return _alpha_ppip_pipim_mc;
+  return NAN;
+}
+float MCReaction::MCalpha_pippim_pipf_thrown() {  // alpha P (proton initial
+  // proton final)
+  if (_alpha_pippim_pipf_mc != _alpha_pippim_pipf_mc) MCAlphaCalc();
+
+  return _alpha_pippim_pipf_mc;
+  return NAN;
+}
+float MCReaction::MCalpha_ppim_pipip_thrown() {  // alpha pip (proton initial
+  // pip)
+  if (_alpha_ppim_pipip_mc != _alpha_ppim_pipip_mc) MCAlphaCalc();
+
+  return _alpha_ppim_pipip_mc;
+  return NAN;
+}
 
 std::string MCReaction::CsvHeader() {
   return "e_rec_p,e_rec_theta,e_rec_phi,e_sec,e_thrown_p,e_thrown_theta,e_thrown_phi\n";

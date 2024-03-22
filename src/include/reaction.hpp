@@ -750,7 +750,7 @@ class MCReaction : public Reaction {
   float _weight_mc = NAN;
   float _W_mc = NAN;
   float _Q2_mc = NAN;
-
+  std::unique_ptr<TLorentzVector> _beam_mc;
   std::unique_ptr<TLorentzVector> _elec_mc;
   std::unique_ptr<TLorentzVector> _gamma_mc;
   std::unique_ptr<TLorentzVector> _prot_mc;
@@ -782,14 +782,17 @@ class MCReaction : public Reaction {
   float _theta_e_mc = NAN;
 
   bool _is_boosted_mc = false;
+  float _MCinv_Ppip = NAN;
+  float _MCinv_Ppim = NAN;
+  float _MCinv_pip_pim = NAN;
 
   float _alpha_ppip_pipim_mc = NAN;
   float _alpha_pippim_pipf_mc = NAN;
   float _alpha_ppim_pipip_mc = NAN;
 
-  float _alpha_ppip_pipim_thrown_mc = NAN;
-  float _alpha_pippim_pipf_thrown_mc = NAN;
-  float _alpha_ppim_pipip_thrown_mc = NAN;
+  // float _alpha_ppip_pipim_thrown_mc = NAN;
+  // float _alpha_pippim_pipf_thrown_mc = NAN;
+  // float _alpha_ppim_pipip_thrown_mc = NAN;
 
  public:
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
@@ -829,6 +832,31 @@ class MCReaction : public Reaction {
   float x_mu_momentum_mc();
   float x_mu_theta_lab_mc();
   float x_mu_Phi_lab_mc();
+
+  /// cm system
+
+  void boost_mc();
+  void MCinvMassPpip();
+  void MCinvMassPpim();
+  void MCinvMasspippim();
+  float MCinv_Ppip();
+  float MCinv_Ppim();
+  float MCinv_pip_pim();
+
+  float MCprot_theta_thrown();
+  float MCpip_theta_thrown();
+  float MCpim_theta_thrown();
+
+  float MCgamma_Phi_thrown();
+  float MCprot_Phi_thrown();
+  float MCpip_Phi_thrown();
+  float MCpim_Phi_thrown();
+
+  void MCAlphaCalc();
+
+  float MCalpha_ppip_pipim_thrown();
+  float MCalpha_pippim_pipf_thrown();
+  float MCalpha_ppim_pipip_thrown();
 
   std::string CsvHeader();
   std::string ReacToCsv();
