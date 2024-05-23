@@ -54,5 +54,19 @@ class uconn_Cuts : public Cuts {
   bool DC_fiducial_cut_theta_phi(int i);
   bool Hadron_Delta_vz_cut(int i);
   bool Hadron_Chi2pid_cut(int i);
+
+  // Function to get the momentum range index based on the value of p
+
+  int getMomRangeIndex(double p) {
+    const double boundaries[] = {2, 3, 4, 5, 6, 7, 8, 9};
+    const int numBoundaries = sizeof(boundaries) / sizeof(boundaries[0]);
+
+    for (int i = 0; i < numBoundaries; ++i) {
+      if (p < boundaries[i]) {
+        return i;
+      }
+    }
+    return numBoundaries;  // For p >= 9
+  }
 };
 #endif
