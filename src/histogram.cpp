@@ -1,8 +1,4 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
+
 #include "histogram.hpp"
 
 Histogram::Histogram(const std::string& output_file) {
@@ -343,7 +339,8 @@ void Histogram::makeHists_sector() {
     W_sec_MC[i] = std::make_shared<TH1D>(Form("w_sec_MC_%d", i + 1), Form("W Sector: %d", i + 1), bins, zero, w_max);
 
     // W_vs_q2_singlePip_sec[i] =
-    //     std::make_shared<TH2D>(Form("wvsq2_sec_singlePip_%d", i + 1), Form("W vs Q^{2} W_singlePip Sector: %d", i + 1),
+    //     std::make_shared<TH2D>(Form("wvsq2_sec_singlePip_%d", i + 1), Form("W vs Q^{2} W_singlePip Sector: %d", i +
+    //     1),
     //                            bins, zero, w_max, bins, zero, q2_max);
 
     // W_singlePip_sec[i] = std::make_shared<TH1D>(Form("w_sec_singlePip_%d", i + 1),
@@ -359,7 +356,8 @@ void Histogram::makeHists_sector() {
     // MM_neutron_sec[i] =
     //     std::make_shared<TH1D>(Form("MM_Sec_%d", i + 1), Form("MM neutron Sector: %d", i + 1), bins, zero, 4.0);
 
-    // MM_Npip_sec[i] = std::make_shared<TH1D>(Form("MM_Npip_Sec_%d", i + 1), Form("MM^{2} neutron pip Sector: %d", i + 1),
+    // MM_Npip_sec[i] = std::make_shared<TH1D>(Form("MM_Npip_Sec_%d", i + 1), Form("MM^{2} neutron pip Sector: %d", i +
+    // 1),
     //                                         bins, zero, 4.0);
     // W_vs_MM_singlePip[i] =
     //     std::make_shared<TH2D>(Form("W_vs_MM_singlePip_%d", i + 1), Form("W_vs_MM_singlePip_%d", i + 1), bins, zero,

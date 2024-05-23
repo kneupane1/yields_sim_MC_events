@@ -47,6 +47,84 @@ void Reaction::SetElec() {
   // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
+
+  _elec_mom = _elec->P();
+  // _E_elec = _elec->E();
+  _theta_e = _elec->Theta() * 180 / PI;
+  if (_elec->Phi() > 0)
+    _phi_e = _elec->Phi() * 180 / PI;
+  else if (_elec->Phi() < 0)
+    _phi_e = (_elec->Phi() + 2 * PI) * 180 / PI;
+}
+
+void Reaction::Rotate_dc_x_y() {
+  // std::cout << "  r1 x  before " << _x1 << std::endl;
+
+  short dc_sector = (_data->dc_sec(0) - 1);
+  _x1 = _data->dc_r1_x(0);
+  _y1 = _data->dc_r1_y(0);
+  // std::cout << "  r1 x " << _x1 << std::endl;
+  float _x1_new = _x1 * cos(DEG2RAD * (-60 * (dc_sector))) - _y1 * sin(DEG2RAD * (-60 * (dc_sector)));
+  _y1 = _x1 * sin(DEG2RAD * (-60 * (dc_sector))) + _y1 * cos(DEG2RAD * (-60 * (dc_sector)));
+
+  _x1 = _x1_new;
+  // std::cout << "  r1 x  new " << _x1 << std::endl;
+
+  _x2 = _data->dc_r2_x(0);
+  _y2 = _data->dc_r2_y(0);
+
+  float _x2_new = _x2 * cos(DEG2RAD * (-60 * (dc_sector))) - _y2 * sin(DEG2RAD * (-60 * (dc_sector)));
+  _y2 = _x2 * sin(DEG2RAD * (-60 * (dc_sector))) + _y2 * cos(DEG2RAD * (-60 * (dc_sector)));
+
+  _x2 = _x2_new;
+
+  _x3 = _data->dc_r3_x(0);
+  _y3 = _data->dc_r3_y(0);
+
+  float _x3_new = _x3 * cos(DEG2RAD * (-60 * (dc_sector))) - _y3 * sin(DEG2RAD * (-60 * (dc_sector)));
+  _y3 = _x3 * sin(DEG2RAD * (-60 * (dc_sector))) + _y3 * cos(DEG2RAD * (-60 * (dc_sector)));
+
+  _x3 = _x3_new;
+
+  /// for ec hx, hy
+  short ec_sector = (_data->ec_pcal_sec(0) - 1);
+  _pcal_hx = _data->ec_pcal_hx(0);
+  _pcal_hy = _data->ec_pcal_hy(0);
+  float _pcal_hx_new = _pcal_hx * cos(DEG2RAD * (-60 * (ec_sector))) - _pcal_hy * sin(DEG2RAD * (-60 * (ec_sector)));
+  _pcal_hy = _pcal_hx * sin(DEG2RAD * (-60 * (ec_sector))) + _pcal_hy * cos(DEG2RAD * (-60 * (ec_sector)));
+  _pcal_hx = _pcal_hx_new;
+}
+float Reaction::Elec_dc_r1_x() {
+  if (_x1 != _x1) Rotate_dc_x_y();
+  return _x1;
+}
+float Reaction::Elec_dc_r1_y() {
+  if (_y1 != _y1) Rotate_dc_x_y();
+  return _y1;
+}
+float Reaction::Elec_dc_r2_x() {
+  if (_x2 != _x2) Rotate_dc_x_y();
+  return _x2;
+}
+float Reaction::Elec_dc_r2_y() {
+  if (_y2 != _y2) Rotate_dc_x_y();
+  return _y2;
+}
+float Reaction::Elec_dc_r3_x() {
+  if (_x3 != _x3) Rotate_dc_x_y();
+  return _x3;
+}
+float Reaction::Elec_dc_r3_y() {
+  if (_y3 != _y3) Rotate_dc_x_y();
+  return _y3;
+}
+float Reaction::Elec_pcal_hx() {
+  if (_pcal_hx != _pcal_hx) Rotate_dc_x_y();
+  return _pcal_hx;
+}
+float Reaction::Elec_pcal_hy() {
+  if (_pcal_hy != _pcal_hy) Rotate_dc_x_y();
+  return _pcal_hy;
 }
 // void Reaction::SetMomCorrElec() {
 //   // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:

@@ -106,6 +106,7 @@ class Reaction {
   float _elec_mom = NAN;
   float _elec_E = NAN;
   float _theta_e = NAN;
+  float _phi_e = NAN;
 
   float _W_after = NAN;
 
@@ -151,6 +152,15 @@ class Reaction {
 
   void SetElec();
 
+  // electron cuts
+  float _x1 = NAN;
+  float _y1 = NAN;
+  float _x2 = NAN;
+  float _y2 = NAN;
+  float _x3 = NAN;
+  float _y3 = NAN;
+  float _pcal_hx = NAN;
+  float _pcal_hy = NAN;
   /// finished momentum corrections earlier
 
   double _elec_mom_corrected = NAN;
@@ -408,6 +418,27 @@ class Reaction {
   inline float elec_mom() { return _elec_mom; }
   inline float elec_En() { return _elec_E; }
   inline float Theta_Elec() { return _theta_e; }
+  inline float Phi_Elec() { return _phi_e; }
+  inline float Elec_htcc_nphe() { return _data->cc_htcc_nphe(0); }
+  inline float Elec_vz() { return _data->vz(0); }
+  inline float Elec_chi2pid() { return _data->chi2pid(0); }
+  inline float Elec_pcal_lu() { return _data->ec_pcal_lu(0); }
+  inline float Elec_pcal_lv() { return _data->ec_pcal_lv(0); }
+  inline float Elec_pcal_lw() { return _data->ec_pcal_lw(0); }
+  float Elec_pcal_hx();
+  float Elec_pcal_hy();
+
+  inline float Elec_sf() { return (_data->ec_tot_energy(0) / _data->p(0)); }
+  inline float Elec_pcal_sf() { return (_data->ec_pcal_energy(0) / _data->p(0)); }
+  inline float Elec_ecin_sf() { return (_data->ec_ecin_energy(0) / _data->p(0)); }
+
+  void Rotate_dc_x_y();
+  float Elec_dc_r1_x();
+  float Elec_dc_r1_y();
+  float Elec_dc_r2_x();
+  float Elec_dc_r2_y();
+  float Elec_dc_r3_x();
+  float Elec_dc_r3_y();
 
   float beam_px();
   float beam_py();

@@ -351,8 +351,8 @@ void Branches12::init() {
   // _tree->SetBranchAddress("ec_ecout_m3v", &_ec_ecout_m3v, &b_ec_ecout_m3v);
   // _tree->SetBranchAddress("ec_ecout_m3w", &_ec_ecout_m3w, &b_ec_ecout_m3w);
   _tree->SetBranchAddress("cc_nphe_tot", &_cc_nphe_tot, &b_cc_nphe_tot);
-  // _tree->SetBranchAddress("cc_ltcc_sec", &_cc_ltcc_sec, &b_cc_ltcc_sec);
-  // _tree->SetBranchAddress("cc_ltcc_nphe", &_cc_ltcc_nphe, &b_cc_ltcc_nphe);
+  _tree->SetBranchAddress("cc_ltcc_sec", &_cc_ltcc_sec, &b_cc_ltcc_sec);
+  _tree->SetBranchAddress("cc_ltcc_nphe", &_cc_ltcc_nphe, &b_cc_ltcc_nphe);
   // _tree->SetBranchAddress("cc_ltcc_time", &_cc_ltcc_time, &b_cc_ltcc_time);
   // _tree->SetBranchAddress("cc_ltcc_path", &_cc_ltcc_path, &b_cc_ltcc_path);
   // _tree->SetBranchAddress("cc_ltcc_theta", &_cc_ltcc_theta, &b_cc_ltcc_theta);
@@ -360,8 +360,8 @@ void Branches12::init() {
   // _tree->SetBranchAddress("cc_ltcc_x", &_cc_ltcc_x, &b_cc_ltcc_x);
   // _tree->SetBranchAddress("cc_ltcc_y", &_cc_ltcc_y, &b_cc_ltcc_y);
   // _tree->SetBranchAddress("cc_ltcc_z", &_cc_ltcc_z, &b_cc_ltcc_z);
-  // _tree->SetBranchAddress("cc_htcc_sec", &_cc_htcc_sec, &b_cc_htcc_sec);
-  // _tree->SetBranchAddress("cc_htcc_nphe", &_cc_htcc_nphe, &b_cc_htcc_nphe);
+  _tree->SetBranchAddress("cc_htcc_sec", &_cc_htcc_sec, &b_cc_htcc_sec);
+  _tree->SetBranchAddress("cc_htcc_nphe", &_cc_htcc_nphe, &b_cc_htcc_nphe);
   // _tree->SetBranchAddress("cc_htcc_time", &_cc_htcc_time, &b_cc_htcc_time);
   // _tree->SetBranchAddress("cc_htcc_path", &_cc_htcc_path, &b_cc_htcc_path);
   // _tree->SetBranchAddress("cc_htcc_theta", &_cc_htcc_theta, &b_cc_htcc_theta);
