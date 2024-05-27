@@ -1,8 +1,8 @@
 
 #ifndef CONSTANTS_H_GUARD
 #define CONSTANTS_H_GUARD
-#include <iostream>
 #include <ctime>
+#include <iostream>
 #include <unordered_map>
 #include "TMath.h"
 
@@ -75,6 +75,4 @@ static const float DCR3_HEIGHT = 49.0;
 static const float DCR1_SQUARE = DCR1_HEIGHT * DCR1_HEIGHT;
 static const float DCR2_SQUARE = DCR2_HEIGHT * DCR2_HEIGHT;
 static const float DCR3_SQUARE = DCR3_HEIGHT * DCR3_HEIGHT;
-
-
 #endif

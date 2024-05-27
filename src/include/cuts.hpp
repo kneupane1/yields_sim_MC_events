@@ -48,6 +48,7 @@ class uconn_Cuts : public Cuts {
   bool EC_sampling_fraction_cut();
   bool EC_hit_position_fiducial_cut_homogeneous();
   bool DC_fiducial_cut_XY();
+  bool PCAL_fiducial_cut_HX_HY();
   bool DC_z_vertex_cut();
 
   bool HadronsCuts(int i);

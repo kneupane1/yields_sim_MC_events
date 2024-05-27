@@ -217,17 +217,18 @@ bool uconn_Cuts::ElectronCuts() {
   cut &= (_data->gpart() < 20);
   // //
   cut &= (_data->charge(0) == NEGATIVE);
-  // cut &= (_data->pid(0) == ELECTRON);
-  // cut &= (_data->p(0) > 1.50);
-  // cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
-  // cut &= DC_z_vertex_cut();
+  cut &= (_data->pid(0) == ELECTRON);
+  cut &= (_data->p(0) > 1.50);
+  cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
+  cut &= DC_z_vertex_cut();
   // cut &= (abs(_data->chi2pid(0)) < 3);  ////////////// check it.......
-  // cut &= CC_nphe_cut();
-  // cut &= PCAL_Minimum_Energy_cut();
+  cut &= CC_nphe_cut();
+  cut &= PCAL_Minimum_Energy_cut();
+  cut &= PCAL_fiducial_cut_HX_HY();
   // cut &= EC_outer_vs_EC_inner_cut();
-  // cut &= EC_sampling_fraction_cut();
-  // cut &= EC_hit_position_fiducial_cut_homogeneous();
-  // cut &= DC_fiducial_cut_XY();
+  cut &= EC_sampling_fraction_cut();
+  cut &= EC_hit_position_fiducial_cut_homogeneous();
+  cut &= DC_fiducial_cut_XY();
   return cut;
 }
 bool uconn_Cuts::HadronsCuts(int i) {
@@ -259,6 +260,8 @@ bool uconn_Cuts::PCAL_Minimum_Energy_cut() {
   return (_data->ec_pcal_energy(0) > edep_medium);
 }
 /////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
 bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
   short isector = (_data->ec_pcal_sec(0) - 1);
 
@@ -320,34 +323,73 @@ bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
   // };
 }
 /////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
 bool uconn_Cuts::EC_sampling_fraction_cut() {
   int isec = (_data->ec_pcal_sec(0) - 1);
-
-  double p0mean[] = {0.112005, 0.113961, 0.111551, 0.114676, 0.112113, 0.112245};
-  double p1mean[] = {-0.103884, -0.0441433, -0.228211, 0.078763, -0.247011, -0.219538};
-  double p2mean[] = {0.00818948, 0.00792426, 0.0111649, 0.0072319, 0.00864546, 0.00970343};
-  double p3mean[] = {-0.000937046, -0.000921012, -0.00131273, -0.000757202, -0.00101063, -0.00122006};
-
-  double p0sigma[] = {0.0266184, 0.0410105, 0.0246484, 0.0210765, 0.0397108, 0.0200216};
-  double p1sigma[] = {-0.00287631, -0.0163519, -0.00037226, 0.0047182, -0.0149788, 0.00625846};
-  double p2sigma[] = {-0.00354911, -0.00645957, -0.00361653, -0.00303481, -0.00628577, -0.00319593};
-  double p3sigma[] = {0.00026367, 0.000507061, 0.000271306, 0.000234627, 0.000498977, 0.000290974};
-
-  double sigma_range = 3.5;
-  double mean = 0;
-  double sigma = 0;
   double upper_lim_total = 0;
   double lower_lim_total = 0;
 
+  double mean_minus_3_5_sigma[6][3] = {{-0.0001186, 0.0001892, 0.1942}, {-0.000856, 0.01084, 0.1637},
+                                       {-0.001184, 0.014046, 0.1593},   {-0.001268, 0.01918, 0.1287},
+                                       {-0.0002744, 0.003532, 0.1844},  {-0.001039, 0.012505, 0.1593}};
+
+  double mean_plus_3_5_sigma[6][3] = {{-0.0004027, 0.001746, 0.2903}, {-9.36e-05, -0.000999, 0.2979},
+                                      {-0.0003238, 0.00101, 0.2957},  {-4.303e-05, -0.0004702, 0.2954},
+                                      {-0.0001818, 0.003223, 0.2742}, {-0.0002906, 0.0015335, 0.2883}};
+
+  // mean -3 *sigma : {{-0.0001389 ,0.0003004 ,0.201 ,}, {-0.0008016 ,0.01 ,0.1733 ,}, {-0.001123 ,0.013115 ,0.169 ,},
+  // {-0.001181 ,0.01778 ,0.1405 ,}, {-0.0002677 ,0.00351 ,0.1908 ,}, {-0.000985 ,0.01172 ,0.1685 ,}, }
+  //  maen + 3*sigma : {{-0.0003824 ,0.001636 ,0.2834 ,}, {-0.000148 ,-0.0001535 ,0.2883 ,}, {-0.0003853 ,0.001941
+  //  ,0.286 ,}, {-0.0001305 ,0.0009336 ,0.2834 ,}, {-0.0001885 ,0.003246 ,0.2678 ,}, {-0.0003443 ,0.002317 ,0.279 ,}, }
+
+  // mean -4 *sigma : {{-9.835e-05 ,7.79e-05 ,0.1874 ,}, {-0.0009108 ,0.01169 ,0.1542 ,}, {-0.001246 ,0.01498 ,0.1495
+  // ,}, {-0.001355 ,0.02058 ,0.1167 ,}, {-0.000281 ,0.003553 ,0.178 ,}, {-0.001093 ,0.01329 ,0.15 ,}, }
+  //  maen + 4*sigma : {{-0.000423 ,0.001858 ,0.297 ,}, {-3.91e-05 ,-0.001845 ,0.3074 ,}, {-0.0002623 ,7.83e-05 ,0.3054
+  //  ,}, {4.447e-05 ,-0.001874 ,0.3074 ,}, {-0.0001752 ,0.003202 ,0.2808 ,}, {-0.0002373 ,0.0007496 ,0.2976 ,}, }
+
+  // ////////////////////////////simulations 3.5 sigma cuts ////////////////////////
+  // double mean_minus_3_5_sigma[6][3] = {{-0.00058, 0.00687, 0.19312}, {-0.00088, 0.01022, 0.18360},
+  //                                      {-0.00089, 0.00941, 0.18832}, {-0.00066, 0.00888, 0.18466},
+  //                                      {-0.00066, 0.00798, 0.18884}, {-0.00055, 0.00685, 0.19319}};
+
+  // double mean_plus_3_5_sigma[6][3] = {{-0.00002, -0.00078, 0.29991}, {0.00023, -0.00396, 0.31026},
+  //                                     {0.00010, -0.00156, 0.30077},  {0.00017, -0.00400, 0.31052},
+  //                                     {0.00018, -0.00342, 0.30823},  {0.00012, -0.00297, 0.30706}};
+
   for (Int_t k = 0; k < 6; k++) {
     if (isec == k) {
-      mean = p0mean[k] * (1 + _data->p(0) / sqrt(_data->p(0) * _data->p(0) + p1mean[k])) + p2mean[k] * _data->p(0) +
-             p3mean[k] * _data->p(0) * _data->p(0);
-      sigma = p0sigma[k] + p1sigma[k] / sqrt(_data->p(0)) + p2sigma[k] * _data->p(0) +
-              p3sigma[k] * _data->p(0) * _data->p(0);
-      upper_lim_total = mean + sigma_range * sigma;
-      lower_lim_total = mean - sigma_range * sigma;
+      upper_lim_total = mean_plus_3_5_sigma[k][0] * pow(_data->p(0), 2) + (mean_plus_3_5_sigma[k][1]) * _data->p(0) +
+                        mean_plus_3_5_sigma[k][2];
+
+      lower_lim_total = mean_minus_3_5_sigma[k][0] * pow(_data->p(0), 2) + (mean_minus_3_5_sigma[k][1]) * _data->p(0) +
+                        mean_minus_3_5_sigma[k][2];
+
+      // double p0mean[] = {0.112005, 0.113961, 0.111551, 0.114676, 0.112113, 0.112245};
+      // double p1mean[] = {-0.103884, -0.0441433, -0.228211, 0.078763, -0.247011, -0.219538};
+      // double p2mean[] = {0.00818948, 0.00792426, 0.0111649, 0.0072319, 0.00864546, 0.00970343};
+      // double p3mean[] = {-0.000937046, -0.000921012, -0.00131273, -0.000757202, -0.00101063, -0.00122006};
+
+      // double p0sigma[] = {0.0266184, 0.0410105, 0.0246484, 0.0210765, 0.0397108, 0.0200216};
+      // double p1sigma[] = {-0.00287631, -0.0163519, -0.00037226, 0.0047182, -0.0149788, 0.00625846};
+      // double p2sigma[] = {-0.00354911, -0.00645957, -0.00361653, -0.00303481, -0.00628577, -0.00319593};
+      // double p3sigma[] = {0.00026367, 0.000507061, 0.000271306, 0.000234627, 0.000498977, 0.000290974};
+
+      // double sigma_range = 3.5;
+      // double mean = 0;
+      // double sigma = 0;
+      // double upper_lim_total = 0;
+      // double lower_lim_total = 0;
+
+      // for (Int_t k = 0; k < 6; k++) {
+      //   if (isec == k) {
+      //     mean = p0mean[k] * (1 + _data->p(0) / sqrt(_data->p(0) * _data->p(0) + p1mean[k])) + p2mean[k] *
+      //     _data->p(0) +
+      //            p3mean[k] * _data->p(0) * _data->p(0);
+      //     sigma = p0sigma[k] + p1sigma[k] / sqrt(_data->p(0)) + p2sigma[k] * _data->p(0) +
+      //             p3sigma[k] * _data->p(0) * _data->p(0);
+      //     upper_lim_total = mean + sigma_range * sigma;
+      //     lower_lim_total = mean - sigma_range * sigma;
     }
   }
 
@@ -366,8 +408,12 @@ bool uconn_Cuts::EC_sampling_fraction_cut() {
   else
     return false;
 }
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
-bool uconn_Cuts::EC_hit_position_fiducial_cut_homogeneous() {
+bool uconn_Cuts::EC_hit_position_fiducial_cut_homogeneous() {  //// these are not updated because there is some question
+                                                               /// on houw to update
+
   // Cut using the natural directions of the scintillator bars/ fibers:
   ///////////////////////////////////////////////////////////////////
   /// inbending:
@@ -387,15 +433,42 @@ bool uconn_Cuts::EC_hit_position_fiducial_cut_homogeneous() {
   double max_w_tight_inb[6] = {400, 400, 400, 400, 400, 400};
   double max_w_med_inb[6] = {400, 400, 400, 400, 400, 400};
   double max_w_loose_inb[6] = {400, 400, 400, 400, 400, 400};
-  //////////////////////////////////////////////////////////////
+
   int isec = (_data->ec_pcal_sec(0) - 1);
-  double min_v = min_v_loose_inb[isec];
-  double max_v = max_v_loose_inb[isec];
-  double min_w = min_w_loose_inb[isec];
-  double max_w = max_w_loose_inb[isec];
+  double min_v = min_v_med_inb[isec];
+  double max_v = max_v_med_inb[isec];
+  double min_w = min_w_med_inb[isec];
+  double max_w = max_w_med_inb[isec];
   return (_data->ec_pcal_lv(0) > min_v && _data->ec_pcal_lv(0) < max_v && _data->ec_pcal_lw(0) > min_w &&
           _data->ec_pcal_lw(0) < max_w);
 }
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+bool uconn_Cuts::PCAL_fiducial_cut_HX_HY() {
+  double minparams_pcal_in[6][2] = {{-0.52452, 20.33242}, {-0.51548, 18.38758}, {-0.49609, 19.04455},
+                                    {-0.51318, 22.13909}, {-0.50361, 20.48697}, {-0.51821, 19.48394}};
+
+  double maxparams_pcal_in[6][2] = {{0.52494, -20.38030}, {0.50706, -22.01970}, {0.50900, -21.77000},
+                                    {0.51967, -19.31667}, {0.52082, -23.08091}, {0.52288, -20.65061}};
+
+  short pcal_sector = (_data->ec_pcal_sec(0) - 1);
+
+  double HX = _data->ec_pcal_hx(0);
+  double HY = _data->ec_pcal_hy(0);
+
+  float HX_new = HX * cos(DEG2RAD * (-60 * (pcal_sector))) - HY * sin(DEG2RAD * (-60 * (pcal_sector)));
+  HY = HX * sin(DEG2RAD * (-60 * (pcal_sector))) + HY * cos(DEG2RAD * (-60 * (pcal_sector)));
+
+  HX = HX_new;
+
+  double calc_min = minparams_pcal_in[pcal_sector][0] * HX + minparams_pcal_in[pcal_sector][1];
+  double calc_max = maxparams_pcal_in[pcal_sector][0] * HX + maxparams_pcal_in[pcal_sector][1];
+
+  return ((HY > calc_min) && (HY < calc_max));
+}
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
 bool uconn_Cuts::DC_fiducial_cut_XY() {
   // bool _dc_fid_cut = true;
@@ -404,20 +477,21 @@ bool uconn_Cuts::DC_fiducial_cut_XY() {
   // replace it in the function: bool DC_fiducial_cut_XY(int j, int region)
   // (optimized for electrons, do not use it for hadrons)
 
-  // maxparams_in[1][6][3][2] -> [pid][sec][regions][a,b]->a+b*x
+  // maxparams_in[1][6][3][2] -> [pid][sec][regions][a,b]->a*x+b
 
-  double maxparams_in[1][6][3][2] = {{{{-14.563, 0.60032}, {-19.6768, 0.58729}, {-22.2531, 0.544896}},
-                                      {{-12.7486, 0.587631}, {-18.8093, 0.571584}, {-19.077, 0.519895}},
-                                      {{-11.3481, 0.536385}, {-18.8912, 0.58099}, {-18.8584, 0.515956}},
-                                      {{-10.7248, 0.52678}, {-18.2058, 0.559429}, {-22.0058, 0.53808}},
-                                      {{-16.9644, 0.688637}, {-17.1012, 0.543961}, {-21.3974, 0.495489}},
-                                      {{-13.4454, 0.594051}, {-19.4173, 0.58875}, {-22.8771, 0.558029}}}};
-  double minparams_in[1][6][3][2] = {{{{12.2692, -0.583057}, {17.6233, -0.605722}, {19.7018, -0.518429}},
-                                      {{12.1191, -0.582662}, {16.8692, -0.56719}, {20.9153, -0.534871}},
-                                      {{11.4562, -0.53549}, {19.3201, -0.590815}, {20.1025, -0.511234}},
-                                      {{13.202, -0.563346}, {20.3542, -0.575843}, {23.6495, -0.54525}},
-                                      {{12.0907, -0.547413}, {17.1319, -0.537551}, {17.861, -0.493782}},
-                                      {{13.2856, -0.594915}, {18.5707, -0.597428}, {21.6804, -0.552287}}}};
+  double minparams_in[1][6][3][2] = {{{{-0.56964, 11.63393}, {-0.58683, 18.99917}, {-0.56401, 21.69753}},
+                                      {{-0.56179, 10.35179}, {-0.58000, 17.43889}, {-0.55588, 20.13489}},
+                                      {{-0.52107, 9.64821}, {-0.57333, 19.19444}, {-0.55379, 22.50467}},
+                                      {{-0.56571, 12.33571}, {-0.58350, 20.34917}, {-0.56077, 23.63846}},
+                                      {{-0.53714, 10.55000}, {-0.57667, 19.56667}, {-0.54082, 21.52995}},
+                                      {{-0.55929, 10.78929}, {-0.57817, 17.77583}, {-0.54918, 19.78929}}}};
+
+  double maxparams_in[1][6][3][2] = {{{{0.56679, -10.93393}, {0.58683, -18.22139}, {0.56231, -21.30000}},
+                                      {{0.54964, -11.43393}, {0.58650, -20.73417}, {0.53275, -21.52033}},
+                                      {{0.55536, -11.49107}, {0.57667, -19.56667}, {0.54588, -22.23874}},
+                                      {{0.57000, -11.27143}, {0.58983, -18.60639}, {0.56038, -21.00577}},
+                                      {{0.56893, -12.67321}, {0.58533, -20.64556}, {0.56434, -24.17720}},
+                                      {{0.57536, -11.69107}, {0.58683, -18.99917}, {0.56857, -22.52143}}}};
 
   // // BE CAREFUL HERE
 
@@ -438,8 +512,8 @@ bool uconn_Cuts::DC_fiducial_cut_XY() {
   X1 = X1_new;
   int region_1 = 1;
 
-  double calc_min1 = minparams_in[pid][dc_sector][region_1 - 1][0] + minparams_in[pid][dc_sector][region_1 - 1][1] * X1;
-  double calc_max1 = maxparams_in[pid][dc_sector][region_1 - 1][0] + maxparams_in[pid][dc_sector][region_1 - 1][1] * X1;
+  double calc_min1 = minparams_in[pid][dc_sector][region_1 - 1][0] * X1 + minparams_in[pid][dc_sector][region_1 - 1][1];
+  double calc_max1 = maxparams_in[pid][dc_sector][region_1 - 1][0] * X1 + maxparams_in[pid][dc_sector][region_1 - 1][1];
   // _dc_fid_cut &= (Y1 > calc_min1);
   // _dc_fid_cut &= (Y1 < calc_max1);
 
@@ -455,8 +529,8 @@ bool uconn_Cuts::DC_fiducial_cut_XY() {
   X2 = X2_new;
   int region_2 = 2;
 
-  double calc_min2 = minparams_in[pid][dc_sector][region_2 - 1][0] + minparams_in[pid][dc_sector][region_2 - 1][1] * X2;
-  double calc_max2 = maxparams_in[pid][dc_sector][region_2 - 1][0] + maxparams_in[pid][dc_sector][region_2 - 1][1] * X2;
+  double calc_min2 = minparams_in[pid][dc_sector][region_2 - 1][0] * X2 + minparams_in[pid][dc_sector][region_2 - 1][1];
+  double calc_max2 = maxparams_in[pid][dc_sector][region_2 - 1][0] * X2 + maxparams_in[pid][dc_sector][region_2 - 1][1];
   // _dc_fid_cut &= (Y2 > calc_min2);
   // _dc_fid_cut &= (Y2 < calc_max2);
 
@@ -472,8 +546,8 @@ bool uconn_Cuts::DC_fiducial_cut_XY() {
   X3 = X3_new;
   int region_3 = 3;
 
-  double calc_min3 = minparams_in[pid][dc_sector][region_3 - 1][0] + minparams_in[pid][dc_sector][region_3 - 1][1] * X3;
-  double calc_max3 = maxparams_in[pid][dc_sector][region_3 - 1][0] + maxparams_in[pid][dc_sector][region_3 - 1][1] * X3;
+  double calc_min3 = minparams_in[pid][dc_sector][region_3 - 1][0] * X3 + minparams_in[pid][dc_sector][region_3 - 1][1];
+  double calc_max3 = maxparams_in[pid][dc_sector][region_3 - 1][0] * X3 + maxparams_in[pid][dc_sector][region_3 - 1][1];
   // _dc_fid_cut &= (Y3 > calc_min3);
   // _dc_fid_cut &= (Y3 < calc_max3);
   // std::cout << "y2 " << Y2  << " calc_max2  " << calc_max2 <<'\n';
@@ -517,9 +591,9 @@ bool uconn_Cuts::DC_fiducial_cut_XY() {
   //         return false;
   // }
   // if(inbending == true) pid = 0; // use only for electrons in inbending case
-  // double calc_min = minparams[pid][dc_sector - 1][region - 1][0] + minparams[pid][dc_sector - 1][region - 1][1] * X;
-  // double calc_max = maxparams[pid][dc_sector - 1][region - 1][0] + maxparams[pid][dc_sector - 1][region - 1][1] * X;
-  // return (Y > calc_min) && (Y < calc_max);
+  // double calc_min = minparams[pid][dc_sector - 1][region - 1][0] + minparams[pid][dc_sector - 1][region - 1][1] *
+  // X; double calc_max = maxparams[pid][dc_sector - 1][region - 1][0] + maxparams[pid][dc_sector - 1][region -
+  // 1][1] * X; return (Y > calc_min) && (Y < calc_max);
 }
 
 bool uconn_Cuts::DC_z_vertex_cut() {
