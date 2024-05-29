@@ -161,8 +161,23 @@ class Reaction {
   float _y3 = NAN;
   float _pcal_hx = NAN;
   float _pcal_hy = NAN;
-  /// finished momentum corrections earlier
 
+  // hadron cuts
+  float _proton_vz = NAN;
+  float _prot_chi2pid = NAN;
+  float _pip_vz = NAN;
+  float _pip_chi2pid = NAN;
+  float _pim_vz = NAN;
+  float _pim_chi2pid = NAN;
+
+  float _thetaDCr1 = NAN;
+  float _thetaDCr2 = NAN;
+  float _thetaDCr3 = NAN;
+  float _phiDCr1 = NAN;
+  float _phiDCr2 = NAN;
+  float _phiDCr3 = NAN;
+
+  ////
   double _elec_mom_corrected = NAN;
 
   double _cx = NAN;
@@ -432,13 +447,32 @@ class Reaction {
   inline float Elec_pcal_sf() { return (_data->ec_pcal_energy(0) / _data->p(0)); }
   inline float Elec_ecin_sf() { return (_data->ec_ecin_energy(0) / _data->p(0)); }
 
-  void Rotate_dc_x_y();
-  float Elec_dc_r1_x();
-  float Elec_dc_r1_y();
-  float Elec_dc_r2_x();
-  float Elec_dc_r2_y();
-  float Elec_dc_r3_x();
-  float Elec_dc_r3_y();
+  void Rotate_dc_x_y(int i);
+  float Part_dc_r1_x();
+  float Part_dc_r1_y();
+  float Part_dc_r2_x();
+  float Part_dc_r2_y();
+  float Part_dc_r3_x();
+  float Part_dc_r3_y();
+
+  //// hadron pid cuts
+  float Prot_vz();
+  float Prot_chi2pid();
+  float Pip_vz();
+  float Pip_chi2pid();
+  float Pim_vz();
+  float Pim_chi2pid();
+
+  void DC_had_theta_phi_calc(int i);
+  float Part_dc_r1_theta();
+  float Part_dc_r2_theta();
+  float Part_dc_r3_theta();
+
+  float Part_dc_r1_phi();
+  float Part_dc_r2_phi();
+  float Part_dc_r3_phi();
+
+  /////////////////////////////
 
   float beam_px();
   float beam_py();

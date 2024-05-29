@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     // Add every file to the chain
     for (auto in : inputs) chain->Add(in.c_str());
     // Run the function over each thread
-    return run<uconn_Cuts>(std::move(chain), hists, thread_id);
+    return run<Pass2_Cuts>(std::move(chain), hists, thread_id);
   };
 
   // Make a set of threads (Futures are special threads which return a value)

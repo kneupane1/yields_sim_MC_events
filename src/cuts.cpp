@@ -208,8 +208,8 @@ bool Cuts::IsPim(int i) {
   return _pim;
 }
 
-// /////////////////////// uconn_Cuts ///////////////////////
-bool uconn_Cuts::ElectronCuts() {
+// /////////////////////// Pass2_Cuts ///////////////////////
+bool Pass2_Cuts::ElectronCuts() {
   bool cut = true;
   cut &= (_data->gpart() > 0);
   if (!cut) return false;
@@ -218,51 +218,40 @@ bool uconn_Cuts::ElectronCuts() {
   // //
   cut &= (_data->charge(0) == NEGATIVE);
   cut &= (_data->pid(0) == ELECTRON);
-  cut &= (_data->p(0) > 1.50);
-  cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
-  cut &= DC_z_vertex_cut();
-  // cut &= (abs(_data->chi2pid(0)) < 3);  ////////////// check it.......
-  cut &= CC_nphe_cut();
-  cut &= PCAL_Minimum_Energy_cut();
-  cut &= PCAL_fiducial_cut_HX_HY();
-  // cut &= EC_outer_vs_EC_inner_cut();
-  cut &= EC_sampling_fraction_cut();
-  cut &= EC_hit_position_fiducial_cut_homogeneous();
-  cut &= DC_fiducial_cut_XY();
+  // cut &= (_data->p(0) > 1.50);
+  // cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
+  // cut &= DC_z_vertex_cut();
+  // // cut &= (abs(_data->chi2pid(0)) < 3);  ////////////// check it.......
+  // cut &= CC_nphe_cut();
+  // cut &= PCAL_Minimum_Energy_cut();
+  // cut &= PCAL_fiducial_cut_HX_HY();
+  // // cut &= EC_outer_vs_EC_inner_cut();
+  // cut &= EC_sampling_fraction_cut();
+  // cut &= EC_hit_position_fiducial_cut_homogeneous();
+  // cut &= DC_fiducial_cut_XY();
   return cut;
 }
-bool uconn_Cuts::HadronsCuts(int i) {
+bool Pass2_Cuts::HadronsCuts(int i) {
   bool cut = true;
-  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) cut &= DC_fiducial_cut_theta_phi(i);
-  cut &= Hadron_Delta_vz_cut(i);
-  cut &= Hadron_Chi2pid_cut(i);
+  // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) cut &= DC_fiducial_cut_theta_phi(i);
+  // cut &= Hadron_Delta_vz_cut(i);
+  // cut &= Hadron_Chi2pid_cut(i);
   return cut;
 }
-//
-//
-// // bool uconn_Cuts::CC_nphe_cut(double nphe) {
-// //         double nphe_min = 2;
-// //         return nphe > nphe_min;
-// // }
-//
-//
-bool uconn_Cuts::CC_nphe_cut() {
+
+bool Pass2_Cuts::CC_nphe_cut() {
   float nphe_min = 2;
   return (_data->cc_nphe_tot(0) > nphe_min);
 }
-//
-// bool uconn_Cuts::EC_outer_vs_EC_inner_cut(double pcal_energy) {
-//         double edep_tight = 0.06, edep_medium = 0.07, edep_loose = 0.09;
-//         return pcal_energy > edep_medium;
-// }
-bool uconn_Cuts::PCAL_Minimum_Energy_cut() {
+
+bool Pass2_Cuts::PCAL_Minimum_Energy_cut() {
   double edep_tight = 0.06, edep_medium = 0.07, edep_loose = 0.09;
   return (_data->ec_pcal_energy(0) > edep_medium);
 }
 /////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
+bool Pass2_Cuts::EC_outer_vs_EC_inner_cut() {
   short isector = (_data->ec_pcal_sec(0) - 1);
 
   double param_a_exp[9][6] = {
@@ -325,7 +314,7 @@ bool uconn_Cuts::EC_outer_vs_EC_inner_cut() {
 /////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-bool uconn_Cuts::EC_sampling_fraction_cut() {
+bool Pass2_Cuts::EC_sampling_fraction_cut() {
   int isec = (_data->ec_pcal_sec(0) - 1);
   double upper_lim_total = 0;
   double lower_lim_total = 0;
@@ -395,13 +384,13 @@ bool uconn_Cuts::EC_sampling_fraction_cut() {
 
   bool pass_band = _data->ec_tot_energy(0) / _data->p(0) <= upper_lim_total &&
                    _data->ec_tot_energy(0) / _data->p(0) >= lower_lim_total;
-  bool pass_triangle = false;
+  bool pass_triangle = true;
 
-  if (_data->p(0) < 4.5) {
-    pass_triangle = true;
-  } else {
-    pass_triangle = _data->ec_ecin_energy(0) / _data->p(0) > (0.2 - _data->ec_pcal_energy(0) / _data->p(0));
-  }
+  // if (_data->p(0) < 4.5) {
+  //   pass_triangle = true;
+  // } else {
+  //   pass_triangle = _data->ec_ecin_energy(0) / _data->p(0) > (0.2 - _data->ec_pcal_energy(0) / _data->p(0));
+  // }
 
   if (pass_band && pass_triangle)
     return true;
@@ -411,7 +400,7 @@ bool uconn_Cuts::EC_sampling_fraction_cut() {
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-bool uconn_Cuts::EC_hit_position_fiducial_cut_homogeneous() {  //// these are not updated because there is some question
+bool Pass2_Cuts::EC_hit_position_fiducial_cut_homogeneous() {  //// these are not updated because there is some question
                                                                /// on houw to update
 
   // Cut using the natural directions of the scintillator bars/ fibers:
@@ -445,7 +434,7 @@ bool uconn_Cuts::EC_hit_position_fiducial_cut_homogeneous() {  //// these are no
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-bool uconn_Cuts::PCAL_fiducial_cut_HX_HY() {
+bool Pass2_Cuts::PCAL_fiducial_cut_HX_HY() {
   double minparams_pcal_in[6][2] = {{-0.52452, 20.33242}, {-0.51548, 18.38758}, {-0.49609, 19.04455},
                                     {-0.51318, 22.13909}, {-0.50361, 20.48697}, {-0.51821, 19.48394}};
 
@@ -470,7 +459,7 @@ bool uconn_Cuts::PCAL_fiducial_cut_HX_HY() {
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-bool uconn_Cuts::DC_fiducial_cut_XY() {
+bool Pass2_Cuts::DC_fiducial_cut_XY() {
   // bool _dc_fid_cut = true;
   // bool isinbending = true;
   // new cut parameters for the linear cut based on x and y coordinates (inbending field):
@@ -596,7 +585,7 @@ bool uconn_Cuts::DC_fiducial_cut_XY() {
   // 1][1] * X; return (Y > calc_min) && (Y < calc_max);
 }
 
-bool uconn_Cuts::DC_z_vertex_cut() {
+bool Pass2_Cuts::DC_z_vertex_cut() {
   int pcal_sector = _data->ec_pcal_sec(0);
   float partvz = _data->vz(0);
 
@@ -623,14 +612,14 @@ bool uconn_Cuts::DC_z_vertex_cut() {
 // /**
 //  * DC fiducial cut for hadrons
 //  * @param dc_sector sector of hits in DC
-//  * @param region specify fiducial uconn_Cuts for which region to use
+//  * @param region specify fiducial Pass2_Cuts for which region to use
 //  * @param trajx x for region 1 or 2 or 3 from REC::Traj
 //  * @param trajy y for region 1 or 2 or 3 from REC::Traj
 //  * @param trajz z for region 1 or 2 or 3 from REC::Traj
 //  * @param partpid pid assigned to particle candidate
 //  * @param isinbending True if magnetic field is inbending
 //  */
-bool uconn_Cuts::DC_fiducial_cut_theta_phi(int i) {
+bool Pass2_Cuts::DC_fiducial_cut_theta_phi(int i) {  ///////////////// use this and vs above xy cuts and compare.
   // new cut parameters for the polynomial cut based on the local theta and phi coordinates (inbending field):
   // replace it in the function: bool DC_fiducial_cut_theta_phi(int j, int region)
   // (optimized for pi+ and pi-, not optimized for Kaons yet)
@@ -995,7 +984,7 @@ bool uconn_Cuts::DC_fiducial_cut_theta_phi(int i) {
  * @param pid hadron PID code
  * @param dvz difference between Vz of hadron candidate and electron
  */
-bool uconn_Cuts::Hadron_Delta_vz_cut(int i) {
+bool Pass2_Cuts::Hadron_Delta_vz_cut(int i) {
   int pid = _data->pid(i);
   // if(pid==PROTON){
   float dvz = (_data->vz(i) - _data->vz(0));
@@ -1026,7 +1015,7 @@ bool uconn_Cuts::Hadron_Delta_vz_cut(int i) {
  * @param chi2pid chi2pid value
  * @param pid hadron PID code
  */
-bool uconn_Cuts::Hadron_Chi2pid_cut(int i) {
+bool Pass2_Cuts::Hadron_Chi2pid_cut(int i) {
   bool isstrict = false;
   float chi2pid = _data->chi2pid(i);
   float p = _data->p(i);
@@ -1074,4 +1063,4 @@ bool uconn_Cuts::Hadron_Chi2pid_cut(int i) {
 
 //}
 
-///////////////////// uconn_Cuts ///////////////////////
+///////////////////// Pass2_Cuts ///////////////////////

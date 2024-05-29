@@ -41,6 +41,23 @@ struct csv_data {
   float elec_dc_r3_x;
   float elec_dc_r3_y;
 
+  int status_had;
+  float had_dvz;
+  float had_chi2pid;
+  float had_dc_r1_x;
+  float had_dc_r1_y;
+  float had_dc_r2_x;
+  float had_dc_r2_y;
+  float had_dc_r3_x;
+  float had_dc_r3_y;
+
+  float had_dc_r1_theta;
+  float had_dc_r1_phi;
+  float had_dc_r2_theta;
+  float had_dc_r2_phi;
+  float had_dc_r3_theta;
+  float had_dc_r3_phi;
+
   float elec_mom_mc;
   float elec_energy_mc;
   float elec_theta_mc;
@@ -161,10 +178,13 @@ struct csv_data {
 
   // Static functions can be called without making a new struct
   static std::string header() {
-    return "sec_elec,w_rec,q2_rec,elec_mom,elec_theta,elec_phi,elec_htcc_nphe,elec_vz,elec_chi2pid,"
-           "elec_pcal_lu,elec_pcal_lv,elec_pcal_lw,elec_pcal_hx,elec_pcal_hy,elec_sf,elec_pcal_sf,elec_ecin_sf,dc_r1_x,"
-           "dc_r1_y,dc_r2_x,dc_r2_y,"
-           "dc_r3_x,dc_r3_y,weight";
+    // return "sec_elec,w_rec,q2_rec,elec_mom,elec_theta,elec_phi,elec_htcc_nphe,elec_vz,elec_chi2pid,"
+    //        "elec_pcal_lu,elec_pcal_lv,elec_pcal_lw,elec_pcal_hx,elec_pcal_hy,elec_sf,elec_pcal_sf,elec_ecin_sf,dc_r1_x,"
+    //        "dc_r1_y,dc_r2_x,dc_r2_y,"
+    //        "dc_r3_x,dc_r3_y,weight";
+
+    return "status_prot,sec_prot,prot_dvz,prot_chi2pid,dc_r1_x,dc_r1_y,dc_r2_x,dc_r2_y,dc_r3_x,"
+           "dc_r3_y,dc_r1_theta,dc_r1_phi,dc_r2_theta,dc_r2_phi,dc_r3_theta,dc_r3_phi,weight";
 
     // prot_mom_miss,prot_theta_miss,"
     //        "prot_phi_"
@@ -190,50 +210,72 @@ struct csv_data {
     ////.......................................
     os << std::setprecision(1);
 
-    os << data.electron_sector << ",";
+    os << data.status_had << ",";
+
+    // os << data.electron_sector << ",";
     // os << data.pim_sec << ",";
     // os << data.pip_sec << ",";
-    // os << data.prot_sec << ",";
+    os << data.prot_sec << ",";
 
     os << std::setprecision(7);
 
-    os << data.w << ",";
-    os << data.q2 << ",";
-    // // // // os << data.w_after << ",";
-
-    // // os << data.w_had << ",";
-    // // // // // os << data.w_diff << ",";
-    // // os << data.w_had_corr << ",";
-    // // // // // os << data.w_diff_corr << ",";
-
+    // os << data.w << ",";
+    // os << data.q2 << ",";
     // // // // // os << data.w_after << ",";
-    os << data.elec_mom << ",";
-    // // os << data.elec_energy << ",";
-    os << data.elec_theta << ",";
-    os << data.elec_phi << ",";
-    os << data.elec_htcc_nphe << ",";
-    os << data.elec_vz << ",";
-    os << data.elec_chi2pid << ",";
-    os << data.elec_pcal_lu << ",";
-    os << data.elec_pcal_lv << ",";
-    os << data.elec_pcal_lw << ",";
-    os << data.elec_pcal_hx << ",";
-    os << data.elec_pcal_hy << ",";
-    os << data.elec_sf << ",";
-    os << data.elec_pcal_sf << ",";
-    os << data.elec_ecin_sf << ",";
-    os << data.elec_dc_r1_x << ",";
-    os << data.elec_dc_r1_y << ",";
-    os << data.elec_dc_r2_x << ",";
-    os << data.elec_dc_r2_y << ",";
-    os << data.elec_dc_r3_x << ",";
-    os << data.elec_dc_r3_y << ",";
 
-    // // os << data.w_mc << ",";
-    // // os << data.q2_mc << ",";
-    // // os << data.elec_mom_mc << ",";
-    // // os << data.elec_energy_mc << ",";
-    // // os << data.elec_theta_mc << ",";
+    // // // os << data.w_had << ",";
+    // // // // // // os << data.w_diff << ",";
+    // // // os << data.w_had_corr << ",";
+    // // // // // // os << data.w_diff_corr << ",";
+
+    // // // // // // os << data.w_after << ",";
+    // os << data.elec_mom << ",";
+    // // // os << data.elec_energy << ",";
+    // os << data.elec_theta << ",";
+    // os << data.elec_phi << ",";
+    // os << data.elec_htcc_nphe << ",";
+    // os << data.elec_vz << ",";
+    // os << data.elec_chi2pid << ",";
+    // os << data.elec_pcal_lu << ",";
+    // os << data.elec_pcal_lv << ",";
+    // os << data.elec_pcal_lw << ",";
+    // os << data.elec_pcal_hx << ",";
+    // os << data.elec_pcal_hy << ",";
+    // os << data.elec_sf << ",";
+    // os << data.elec_pcal_sf << ",";
+    // os << data.elec_ecin_sf << ",";
+    // os << data.elec_dc_r1_x << ",";
+    // os << data.elec_dc_r1_y << ",";
+    // os << data.elec_dc_r2_x << ",";
+    // os << data.elec_dc_r2_y << ",";
+    // os << data.elec_dc_r3_x << ",";
+    // os << data.elec_dc_r3_y << ",";
+
+    //////////////////// Proton //////////////
+    // os << data.prot_mom_exclusive << ",";
+    // os << data.prot_theta_exclusive << ",";
+    // os << data.prot_phi_exclusive << ",";
+    os << data.had_dvz << ",";
+    os << data.had_chi2pid << ",";
+    os << data.had_dc_r1_x << ",";
+    os << data.had_dc_r1_y << ",";
+    os << data.had_dc_r2_x << ",";
+    os << data.had_dc_r2_y << ",";
+    os << data.had_dc_r3_x << ",";
+    os << data.had_dc_r3_y << ",";
+
+    os << data.had_dc_r1_theta << ",";
+    os << data.had_dc_r1_phi << ",";
+    os << data.had_dc_r2_theta << ",";
+    os << data.had_dc_r2_phi << ",";
+    os << data.had_dc_r3_theta << ",";
+    os << data.had_dc_r3_phi << ",";
+
+    // // // os << data.w_mc << ",";
+    // // // os << data.q2_mc << ",";
+    // // // os << data.elec_mom_mc << ",";
+    // // // os << data.elec_energy_mc << ",";
+    // // // os << data.elec_theta_mc << ",";
 
     // // // os << data.corr_elec_mom << ",";
     // os << data.scalar_product << ",";

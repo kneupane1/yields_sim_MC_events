@@ -35,10 +35,10 @@ class rgf_Cuts : public Cuts {
   rgf_Cuts(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt) : Cuts(data, dt){};
 };
 
-class uconn_Cuts : public Cuts {
+class Pass2_Cuts : public Cuts {
  public:
-  uconn_Cuts(const std::shared_ptr<Branches12>& data) : Cuts(data) {}
-  uconn_Cuts(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt) : Cuts(data, dt){};
+  Pass2_Cuts(const std::shared_ptr<Branches12>& data) : Cuts(data) {}
+  Pass2_Cuts(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt) : Cuts(data, dt){};
   bool ElectronCuts();
 
   // bool CC_nphe_cut(double nphe);
