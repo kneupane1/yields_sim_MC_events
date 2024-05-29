@@ -142,6 +142,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
+        output.status_had = statusProt;
 
         // output.electron_sector = event->sec();
         // output.pim_sec = event->pimSec();
