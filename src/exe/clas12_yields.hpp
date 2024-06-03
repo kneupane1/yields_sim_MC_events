@@ -142,7 +142,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
-        output.status_had = statusProt;
+        output.status_had = statusPip;
 
         // output.electron_sector = event->sec();
         // output.pim_sec = event->pimSec();
@@ -181,15 +181,15 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.elec_dc_r3_y = event->Elec_dc_r3_y();
 
         ///////////////////////////// For hadrons
-        output.prot_mom_exclusive = event->prot_momentum_measured();
-        output.prot_momT_exclusive = event->prot_momentumT_measured();
-        output.prot_theta_exclusive = event->prot_theta_lab_measured();
-        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
-        output.prot_phi_cen = event->prot_Phi_lab_mes_centeral();
+        output.pip_mom_exclusive = event->pip_momentum_measured();
+        output.pip_momT_exclusive = event->pip_momentumT_measured();
+        output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
 
         // output.elec_vz = event->Elec_vz();
-        output.had_dvz = (event->Prot_vz() - event->Elec_vz());
-        output.had_chi2pid = event->Prot_chi2pid();
+        output.had_dvz = (event->Pip_vz() - event->Elec_vz());
+        output.had_chi2pid = event->Pip_chi2pid();
         // output.had_dt = event->Prot_deltat(dt);
 
         // output.had_dc_r1_x = event->Part_dc_r1_x();

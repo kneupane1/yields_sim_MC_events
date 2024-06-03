@@ -1057,31 +1057,47 @@ float Reaction::pip_Phi_lab() {
     return NAN;
 }
 float Reaction::pip_momentum_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
+  if (_hasPip)
     return _pip->P();
   else
     return NAN;
 }
 
 float Reaction::pip_theta_lab_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
+  if (_hasPip)
     return _pip->Theta() * 180.0 / PI;
   else
     return NAN;
 }
 
 float Reaction::pip_Phi_lab_measured() {
-  if (TwoPion_exclusive()) {
-    if (_pip->Phi() > 0)
-      return _pip->Phi() * 180 / PI;
-    else if (_pip->Phi() < 0)
-      return (_pip->Phi() + 2 * PI) * 180 / PI;
-    else
-      return NAN;
+  // if (TwoPion_exclusive()) {
+  if (_hasPip) {
+    // if (_pip->Phi() > 0)
+    return _pip->Phi() * 180 / PI;
+    // else if (_pip->Phi() < 0)
+    //   return (_pip->Phi() + 2 * PI) * 180 / PI;
+    // else
+    //   return NAN;
   } else
     return NAN;
 }
 
+float Reaction::pip_Phi_lab_mes_centeral() {
+  if (_hasPip) {
+    return ((-asin(0.15 / _pip->P()) - (PI / 2)) * 180 / PI);
+  } else
+    return NAN;
+}
+float Reaction::pip_momentumT_measured() {
+  // if (TwoPion_exclusive())
+  if (_hasPip)
+    return _pip->Perp();
+  else
+    return NAN;
+}
 float Reaction::pip_momentum_corrected() {
   if (TwoPion_exclusive())
     return _mom_corr_pip->P();

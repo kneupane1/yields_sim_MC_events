@@ -520,6 +520,8 @@ class Reaction {
   float pip_theta_lab();
   float pip_Phi_lab();
   float pip_momentum_measured();
+  float pip_momentumT_measured();
+  float pip_Phi_lab_mes_centeral();
   float pip_theta_lab_measured();
   float pip_Phi_lab_measured();
 
@@ -529,9 +531,9 @@ class Reaction {
   float prot_Phi_lab();
   float prot_momentum_measured();
   float prot_momentumT_measured();
+  float prot_Phi_lab_mes_centeral();
   float prot_theta_lab_measured();
   float prot_Phi_lab_measured();
-  float prot_Phi_lab_mes_centeral();
 
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }

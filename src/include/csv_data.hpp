@@ -112,6 +112,8 @@ struct csv_data {
   float pip_mom_exclusive;
   float pip_theta_exclusive;
   float pip_phi_exclusive;
+  float pip_momT_exclusive;
+  float pip_phi_cen;
 
   float prot_mom_mProt;
   float prot_theta_mProt;
@@ -187,7 +189,7 @@ struct csv_data {
     //        "dc_r1_y,dc_r2_x,dc_r2_y,"
     //        "dc_r3_x,dc_r3_y,weight";
 
-    return "status_prot,prot_mom,prot_momT,prot_theta,prot_phi,prot_phi_cen,prot_dvz,prot_chi2pid,weight";
+    return "status_pip,pip_mom,pip_momT,pip_theta,pip_phi,pip_phi_cen,pip_dvz,pip_chi2pid,weight";
     // ,dc_r1_x,dc_"
     //        "r1_y,dc_r2_x,dc_r2_y,dc_r3_x,dc_r3_y,dc_r1_theta,dc_r1_phi,dc_r2_theta,dc_r2_phi,dc_r3_theta,dc_r3_phi,"
     //        "weight";
@@ -257,13 +259,18 @@ struct csv_data {
     // os << data.elec_dc_r3_x << ",";
     // os << data.elec_dc_r3_y << ",";
 
-    //////////////////// Proton //////////////
-    os << data.prot_mom_exclusive << ",";
-    os << data.prot_momT_exclusive << ",";
-    os << data.prot_theta_exclusive << ",";
+    // //////////////////// Proton //////////////
+    // os << data.prot_mom_exclusive << ",";
+    // os << data.prot_momT_exclusive << ",";
+    // os << data.prot_theta_exclusive << ",";
+    // os << data.prot_phi_exclusive << ",";
+    // os << data.prot_phi_cen << ",";
+    //////////////////// Pip //////////////
+    os << data.pip_mom_exclusive << ",";
+    os << data.pip_momT_exclusive << ",";
+    os << data.pip_theta_exclusive << ",";
     os << data.prot_phi_exclusive << ",";
-    os << data.prot_phi_cen << ",";
-
+    os << data.pip_phi_cen << ",";
     os << data.had_dvz << ",";
     os << data.had_chi2pid << ",";
     // os << data.had_dt << ",";
