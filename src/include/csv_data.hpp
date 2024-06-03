@@ -269,7 +269,7 @@ struct csv_data {
     os << data.pip_mom_exclusive << ",";
     os << data.pip_momT_exclusive << ",";
     os << data.pip_theta_exclusive << ",";
-    os << data.prot_phi_exclusive << ",";
+    os << data.pip_phi_exclusive << ",";
     os << data.pip_phi_cen << ",";
     os << data.had_dvz << ",";
     os << data.had_chi2pid << ",";

@@ -138,7 +138,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_exclusive()) {
     {
       // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
-      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0) {
+      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPip >= 4000) {
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
