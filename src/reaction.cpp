@@ -391,7 +391,7 @@ float Reaction::Pim_chi2pid() { return _pim_chi2pid; };
 void Reaction::Rotate_dc_x_y(int i) {
   //  pid = 0; //use for electron
   int pid = i;  // use for hadrons
-  if (pid == 2212) {
+  {
     short dc_sector = (_data->dc_sec(pid) - 1);
     _x1 = _data->dc_r1_x(pid);
     _y1 = _data->dc_r1_y(pid);

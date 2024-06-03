@@ -189,10 +189,8 @@ struct csv_data {
     //        "dc_r1_y,dc_r2_x,dc_r2_y,"
     //        "dc_r3_x,dc_r3_y,weight";
 
-    return "status_pip,pip_mom,pip_momT,pip_theta,pip_phi,pip_phi_cen,pip_dvz,pip_chi2pid,weight";
-    // ,dc_r1_x,dc_"
-    //        "r1_y,dc_r2_x,dc_r2_y,dc_r3_x,dc_r3_y,dc_r1_theta,dc_r1_phi,dc_r2_theta,dc_r2_phi,dc_r3_theta,dc_r3_phi,"
-    //        "weight";
+    return "status_pip,sec_pip,pip_dvz,pip_chi2pid,dc_r1_x,dc_r1_y,dc_r2_x,dc_r2_y,dc_r3_x,dc_r3_y,dc_r1_theta,"
+           "dc_r1_phi,dc_r2_theta,dc_r2_phi,dc_r3_theta,dc_r3_phi,weight";
 
     // prot_mom_miss,prot_theta_miss,"
     //        "prot_phi_"
@@ -222,7 +220,7 @@ struct csv_data {
 
     // os << data.electron_sector << ",";
     // os << data.pim_sec << ",";
-    // os << data.pip_sec << ",";
+    os << data.pip_sec << ",";
     // os << data.prot_sec << ",";
 
     os << std::setprecision(7);
@@ -266,28 +264,28 @@ struct csv_data {
     // os << data.prot_phi_exclusive << ",";
     // os << data.prot_phi_cen << ",";
     //////////////////// Pip //////////////
-    os << data.pip_mom_exclusive << ",";
-    os << data.pip_momT_exclusive << ",";
-    os << data.pip_theta_exclusive << ",";
-    os << data.pip_phi_exclusive << ",";
-    os << data.pip_phi_cen << ",";
+    // os << data.pip_mom_exclusive << ",";
+    // os << data.pip_momT_exclusive << ",";
+    // os << data.pip_theta_exclusive << ",";
+    // os << data.pip_phi_exclusive << ",";
+    // os << data.pip_phi_cen << ",";
     os << data.had_dvz << ",";
     os << data.had_chi2pid << ",";
     // os << data.had_dt << ",";
 
-    // os << data.had_dc_r1_x << ",";
-    // os << data.had_dc_r1_y << ",";
-    // os << data.had_dc_r2_x << ",";
-    // os << data.had_dc_r2_y << ",";
-    // os << data.had_dc_r3_x << ",";
-    // os << data.had_dc_r3_y << ",";
+    os << data.had_dc_r1_x << ",";
+    os << data.had_dc_r1_y << ",";
+    os << data.had_dc_r2_x << ",";
+    os << data.had_dc_r2_y << ",";
+    os << data.had_dc_r3_x << ",";
+    os << data.had_dc_r3_y << ",";
 
-    // os << data.had_dc_r1_theta << ",";
-    // os << data.had_dc_r1_phi << ",";
-    // os << data.had_dc_r2_theta << ",";
-    // os << data.had_dc_r2_phi << ",";
-    // os << data.had_dc_r3_theta << ",";
-    // os << data.had_dc_r3_phi << ",";
+    os << data.had_dc_r1_theta << ",";
+    os << data.had_dc_r1_phi << ",";
+    os << data.had_dc_r2_theta << ",";
+    os << data.had_dc_r2_phi << ",";
+    os << data.had_dc_r3_theta << ",";
+    os << data.had_dc_r3_phi << ",";
 
     // // // os << data.w_mc << ",";
     // // // os << data.q2_mc << ",";

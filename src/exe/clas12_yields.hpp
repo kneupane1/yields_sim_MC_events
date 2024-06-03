@@ -103,8 +103,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           event->SetProton(part);
           statusProt = abs(data->status(part));
           sectorProt = data->dc_sec(part);
-          event->Rotate_dc_x_y(part);
-          event->DC_had_theta_phi_calc(part);
 
           // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
         }
@@ -116,6 +114,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           statusPip = abs(data->status(part));
           sectorPip = data->dc_sec(part);
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
+          event->Rotate_dc_x_y(part);
+          event->DC_had_theta_phi_calc(part);
         }
       } else if (cuts->IsPim(part)) {
         // if (cuts->HadronsCuts(part))
@@ -138,7 +138,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_exclusive()) {
     {
       // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
-      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPip >= 4000) {
+      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPip > 2000 &&
+          statusPip < 4000) {
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
@@ -146,7 +147,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
         // output.electron_sector = event->sec();
         // output.pim_sec = event->pimSec();
-        // output.pip_sec = event->pipSec();
+        output.pip_sec = event->pipSec();
         // output.prot_sec = event->protSec();
 
         // // output.w = event->W();
@@ -181,30 +182,30 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.elec_dc_r3_y = event->Elec_dc_r3_y();
 
         ///////////////////////////// For hadrons
-        output.pip_mom_exclusive = event->pip_momentum_measured();
-        output.pip_momT_exclusive = event->pip_momentumT_measured();
-        output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-        output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
+        // output.pip_mom_exclusive = event->pip_momentum_measured();
+        // output.pip_momT_exclusive = event->pip_momentumT_measured();
+        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        // output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
 
         // output.elec_vz = event->Elec_vz();
         output.had_dvz = (event->Pip_vz() - event->Elec_vz());
         output.had_chi2pid = event->Pip_chi2pid();
         // output.had_dt = event->Prot_deltat(dt);
 
-        // output.had_dc_r1_x = event->Part_dc_r1_x();
-        // output.had_dc_r1_y = event->Part_dc_r1_y();
-        // output.had_dc_r2_x = event->Part_dc_r2_x();
-        // output.had_dc_r2_y = event->Part_dc_r2_y();
-        // output.had_dc_r3_x = event->Part_dc_r3_x();
-        // output.had_dc_r3_y = event->Part_dc_r3_y();
+        output.had_dc_r1_x = event->Part_dc_r1_x();
+        output.had_dc_r1_y = event->Part_dc_r1_y();
+        output.had_dc_r2_x = event->Part_dc_r2_x();
+        output.had_dc_r2_y = event->Part_dc_r2_y();
+        output.had_dc_r3_x = event->Part_dc_r3_x();
+        output.had_dc_r3_y = event->Part_dc_r3_y();
 
-        // output.had_dc_r1_theta = event->Part_dc_r1_theta();
-        // output.had_dc_r1_phi = event->Part_dc_r1_phi();
-        // output.had_dc_r2_theta = event->Part_dc_r2_theta();
-        // output.had_dc_r2_phi = event->Part_dc_r2_phi();
-        // output.had_dc_r3_theta = event->Part_dc_r3_theta();
-        // output.had_dc_r3_phi = event->Part_dc_r3_phi();
+        output.had_dc_r1_theta = event->Part_dc_r1_theta();
+        output.had_dc_r1_phi = event->Part_dc_r1_phi();
+        output.had_dc_r2_theta = event->Part_dc_r2_theta();
+        output.had_dc_r2_phi = event->Part_dc_r2_phi();
+        output.had_dc_r3_theta = event->Part_dc_r3_theta();
+        output.had_dc_r3_phi = event->Part_dc_r3_phi();
 
         // // // output.corr_elec_mom = event->Corr_elec_mom();
         // // output.scalar_product = event->scalar_triple_product();
