@@ -391,32 +391,33 @@ float Reaction::Pim_chi2pid() { return _pim_chi2pid; };
 void Reaction::Rotate_dc_x_y(int i) {
   //  pid = 0; //use for electron
   int pid = i;  // use for hadrons
-  short dc_sector = (_data->dc_sec(pid) - 1);
-  _x1 = _data->dc_r1_x(pid);
-  _y1 = _data->dc_r1_y(pid);
-  // std::cout << "  r1 x " << _x1 << std::endl;
-  float _x1_new = _x1 * cos(DEG2RAD * (-60 * (dc_sector))) - _y1 * sin(DEG2RAD * (-60 * (dc_sector)));
-  _y1 = _x1 * sin(DEG2RAD * (-60 * (dc_sector))) + _y1 * cos(DEG2RAD * (-60 * (dc_sector)));
+  if (pid == 2212) {
+    short dc_sector = (_data->dc_sec(pid) - 1);
+    _x1 = _data->dc_r1_x(pid);
+    _y1 = _data->dc_r1_y(pid);
+    // std::cout << "  r1 x " << _x1 << std::endl;
+    float _x1_new = _x1 * cos(DEG2RAD * (-60 * (dc_sector))) - _y1 * sin(DEG2RAD * (-60 * (dc_sector)));
+    _y1 = _x1 * sin(DEG2RAD * (-60 * (dc_sector))) + _y1 * cos(DEG2RAD * (-60 * (dc_sector)));
 
-  _x1 = _x1_new;
-  // std::cout << "  r1 x  new " << _x1 << std::endl;
+    _x1 = _x1_new;
+    // std::cout << "  r1 x  new " << _x1 << std::endl;
 
-  _x2 = _data->dc_r2_x(pid);
-  _y2 = _data->dc_r2_y(pid);
+    _x2 = _data->dc_r2_x(pid);
+    _y2 = _data->dc_r2_y(pid);
 
-  float _x2_new = _x2 * cos(DEG2RAD * (-60 * (dc_sector))) - _y2 * sin(DEG2RAD * (-60 * (dc_sector)));
-  _y2 = _x2 * sin(DEG2RAD * (-60 * (dc_sector))) + _y2 * cos(DEG2RAD * (-60 * (dc_sector)));
+    float _x2_new = _x2 * cos(DEG2RAD * (-60 * (dc_sector))) - _y2 * sin(DEG2RAD * (-60 * (dc_sector)));
+    _y2 = _x2 * sin(DEG2RAD * (-60 * (dc_sector))) + _y2 * cos(DEG2RAD * (-60 * (dc_sector)));
 
-  _x2 = _x2_new;
+    _x2 = _x2_new;
 
-  _x3 = _data->dc_r3_x(pid);
-  _y3 = _data->dc_r3_y(pid);
+    _x3 = _data->dc_r3_x(pid);
+    _y3 = _data->dc_r3_y(pid);
 
-  float _x3_new = _x3 * cos(DEG2RAD * (-60 * (dc_sector))) - _y3 * sin(DEG2RAD * (-60 * (dc_sector)));
-  _y3 = _x3 * sin(DEG2RAD * (-60 * (dc_sector))) + _y3 * cos(DEG2RAD * (-60 * (dc_sector)));
+    float _x3_new = _x3 * cos(DEG2RAD * (-60 * (dc_sector))) - _y3 * sin(DEG2RAD * (-60 * (dc_sector)));
+    _y3 = _x3 * sin(DEG2RAD * (-60 * (dc_sector))) + _y3 * cos(DEG2RAD * (-60 * (dc_sector)));
 
-  _x3 = _x3_new;
-
+    _x3 = _x3_new;
+  }
   // /// for ec hx, hy
   // short ec_sector = (_data->ec_pcal_sec(0) - 1);
   // _pcal_hx = _data->ec_pcal_hx(0);
@@ -1148,31 +1149,52 @@ float Reaction::prot_Phi_lab() {
     return NAN;
 }
 float Reaction::prot_momentum_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
+  if (_hasP)
     return _prot->P();
   else
     return NAN;
 }
-
+float Reaction::prot_momentumT_measured() {
+  // if (TwoPion_exclusive())
+  if (_hasP)
+    return _prot->Perp();
+  else
+    return NAN;
+}
 float Reaction::prot_theta_lab_measured() {
-  if (TwoPion_exclusive())
+  // if (TwoPion_exclusive())
+  if (_hasP)
     return _prot->Theta() * 180.0 / PI;
   else
     return NAN;
 }
 
 float Reaction::prot_Phi_lab_measured() {
-  if (TwoPion_exclusive()) {
-    if (_prot->Phi() > 0)
-      return _prot->Phi() * 180 / PI;
-    else if (_prot->Phi() < 0)
-      return (_prot->Phi() + 2 * PI) * 180 / PI;
-    else
-      return NAN;
+  // if (TwoPion_exclusive()) {
+  if (_hasP) {
+    // if (_prot->Phi() > 0)
+    return _prot->Phi() * 180 / PI;
+    //   else if (_prot->Phi() < 0)
+    //     return (_prot->Phi() + 2 * PI) * 180 / PI;
+    //   else
+    //     return NAN;
+  } else
+    return NAN;
+}
+float Reaction::prot_Phi_lab_mes_centeral() {
+  if (_hasP) {
+    return ((-asin(0.15 / _prot->P()) - (PI / 2)) * 180 / PI);
   } else
     return NAN;
 }
 
+float Reaction::Prot_deltat(const std::shared_ptr<Delta_T>& dt) {
+  // if (_hasP) {
+  return dt->dt_P();
+  // } else
+  //   return NAN;
+}
 float Reaction::prot_momentum_corrected() {
   if (TwoPion_exclusive())
     return _mom_corr_prot->P();

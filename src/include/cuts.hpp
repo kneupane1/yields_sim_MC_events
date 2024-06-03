@@ -55,6 +55,7 @@ class Pass2_Cuts : public Cuts {
   bool DC_fiducial_cut_theta_phi(int i);
   bool Hadron_Delta_vz_cut(int i);
   bool Hadron_Chi2pid_cut(int i);
+  bool CD_fiducial_Prot(double phi, double theta, double mom);
 
   // Function to get the momentum range index based on the value of p
 

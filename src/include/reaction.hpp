@@ -7,8 +7,10 @@
 #include "TLorentzVector.h"
 #include "branches.hpp"
 #include "constants.hpp"
+#include "deltat.hpp"
 #include "mom_corr.hpp"
 #include "physics.hpp"
+
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
@@ -458,6 +460,8 @@ class Reaction {
   //// hadron pid cuts
   float Prot_vz();
   float Prot_chi2pid();
+  float Prot_deltat(const std::shared_ptr<Delta_T> &dt);
+
   float Pip_vz();
   float Pip_chi2pid();
   float Pim_vz();
@@ -524,8 +528,10 @@ class Reaction {
   float prot_theta_lab();
   float prot_Phi_lab();
   float prot_momentum_measured();
+  float prot_momentumT_measured();
   float prot_theta_lab_measured();
   float prot_Phi_lab_measured();
+  float prot_Phi_lab_mes_centeral();
 
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }
