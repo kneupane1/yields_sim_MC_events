@@ -170,7 +170,7 @@ bool Cuts::IsProton(int i) {
   //      abs(_dt->dt_ctof_P(i)) < (dt_cut_fd[0][0] * pow(_data->p(i), 5) + dt_cut_fd[0][1] * pow(_data->p(i), 4) +
   //                                dt_cut_fd[0][2] * pow(_data->p(i), 3) + dt_cut_fd[0][3] * pow(_data->p(i), 2) +
   //                                dt_cut_fd[0][4] * pow(_data->p(i), 1) + dt_cut_fd[0][4]));
-  _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
+  _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000);
   // // min/max mom cuts
   // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
   //   _proton &= (_data->p(i) > 0.4);

@@ -99,11 +99,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
       // Check particle ID's and fill the reaction class
       if (cuts->IsProton(part)) {
-        if (cuts->HadronsCuts(part)) {
+        // if (cuts->HadronsCuts(part))
+        {
           event->SetProton(part);
           statusProt = abs(data->status(part));
           sectorProt = data->dc_sec(part);
-
+          event->Rotate_dc_x_y(part);
+          event->DC_had_theta_phi_calc(part);
           // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
         }
 
@@ -114,8 +116,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           statusPip = abs(data->status(part));
           sectorPip = data->dc_sec(part);
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
-          event->Rotate_dc_x_y(part);
-          event->DC_had_theta_phi_calc(part);
         }
       } else if (cuts->IsPim(part)) {
         // if (cuts->HadronsCuts(part))
@@ -138,17 +138,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_exclusive()) {
     {
       // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
-      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPip > 2000 &&
-          statusPip < 4000) {
+      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusProt > 2000 &&
+          statusProt < 4000) {
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
-        output.status_had = statusPip;
+        output.status_had = statusProt;
 
         // output.electron_sector = event->sec();
         // output.pim_sec = event->pimSec();
-        output.pip_sec = event->pipSec();
-        // output.prot_sec = event->protSec();
+        // output.pip_sec = event->pipSec();
+        output.prot_sec = event->protSec();
 
         // // output.w = event->W();
         // // output.q2 = event->Q2();
@@ -189,8 +189,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
 
         // output.elec_vz = event->Elec_vz();
-        output.had_dvz = (event->Pip_vz() - event->Elec_vz());
-        output.had_chi2pid = event->Pip_chi2pid();
+        output.had_dvz = (event->Prot_vz() - event->Elec_vz());
+        output.had_chi2pid = event->Prot_chi2pid();
         // output.had_dt = event->Prot_deltat(dt);
 
         output.had_dc_r1_x = event->Part_dc_r1_x();
