@@ -189,7 +189,7 @@ struct csv_data {
     //        "dc_r1_y,dc_r2_x,dc_r2_y,"
     //        "dc_r3_x,dc_r3_y,weight";
 
-    return "status_prot,sec_prot,prot_dvz,prot_chi2pid,dc_r1_x,dc_r1_y,dc_r2_x,dc_r2_y,dc_r3_x,dc_r3_y,dc_r1_theta,"
+    return "status_pim,sec_pim,pim_dvz,pim_chi2pid,dc_r1_x,dc_r1_y,dc_r2_x,dc_r2_y,dc_r3_x,dc_r3_y,dc_r1_theta,"
            "dc_r1_phi,dc_r2_theta,dc_r2_phi,dc_r3_theta,dc_r3_phi,weight";
 
     // prot_mom_miss,prot_theta_miss,"
@@ -219,9 +219,9 @@ struct csv_data {
     os << data.status_had << ",";
 
     // os << data.electron_sector << ",";
-    // os << data.pim_sec << ",";
+    os << data.pim_sec << ",";
     // os << data.pip_sec << ",";
-    os << data.prot_sec << ",";
+    // os << data.prot_sec << ",";
 
     os << std::setprecision(7);
 

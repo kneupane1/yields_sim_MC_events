@@ -187,25 +187,26 @@ bool Cuts::IsProton(int i) {
 bool Cuts::IsPim(int i) {
   if (_data->gpart() <= i) return false;
   bool _pim = true;
-  //   _pim &= (_data->charge(i) == NEGATIVE);
+  _pim &= (_data->charge(i) == NEGATIVE);
   _pim &= (_data->pid(i) == PIM);
-  // _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
-  _pim &=
-      (abs(_dt->dt_Pi(i)) < (dt_cut_cd[2][0] * pow(_data->p(i), 2) + dt_cut_cd[2][1] * _data->p(i) + dt_cut_cd[2][2]) ||
-       abs(_dt->dt_ctof_Pi(i)) < (dt_cut_fd[2][0] * pow(_data->p(i), 5) + dt_cut_fd[2][1] * pow(_data->p(i), 4) +
-                                  dt_cut_fd[2][2] * pow(_data->p(i), 3) + dt_cut_fd[2][3] * pow(_data->p(i), 2) +
-                                  dt_cut_fd[2][4] * pow(_data->p(i), 1) + dt_cut_fd[2][4]));
+  // // _pim &= (abs(_dt->dt_Pi(i)) < 0.5 || abs(_dt->dt_ctof_Pi(i)) < 0.5);
+  // _pim &=
+  //     (abs(_dt->dt_Pi(i)) < (dt_cut_cd[2][0] * pow(_data->p(i), 2) + dt_cut_cd[2][1] * _data->p(i) + dt_cut_cd[2][2])
+  //     ||
+  //      abs(_dt->dt_ctof_Pi(i)) < (dt_cut_fd[2][0] * pow(_data->p(i), 5) + dt_cut_fd[2][1] * pow(_data->p(i), 4) +
+  //                                 dt_cut_fd[2][2] * pow(_data->p(i), 3) + dt_cut_fd[2][3] * pow(_data->p(i), 2) +
+  //                                 dt_cut_fd[2][4] * pow(_data->p(i), 1) + dt_cut_fd[2][4]));
 
-  _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
-  // min / max mom cuts
-  if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-    _pim &= (_data->p(i) > 0.5);
-    // _pim &= (_data->p(i) < 4.5);
-  } else if (abs(_data->status(i)) >= 4000) {
-    _pim &= (_data->p(i) > 0.2);
-    // _pim &= (_data->p(i) < 1.9);
-  }
-  // _pim &= (_data->p(i) > 0.2);
+  _pim &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000);
+  // // min / max mom cuts
+  // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
+  //   _pim &= (_data->p(i) > 0.5);
+  //   // _pim &= (_data->p(i) < 4.5);
+  // } else if (abs(_data->status(i)) >= 4000) {
+  //   _pim &= (_data->p(i) > 0.2);
+  //   // _pim &= (_data->p(i) < 1.9);
+  // }
+  // // _pim &= (_data->p(i) > 0.2);
 
   return _pim;
 }
