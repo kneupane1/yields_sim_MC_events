@@ -389,8 +389,8 @@ float Reaction::Pip_chi2pid() { return _pip_chi2pid; };
 float Reaction::Pim_chi2pid() { return _pim_chi2pid; };
 
 void Reaction::Rotate_dc_x_y(int i) {
-  //  pid = 0; //use for electron
-  int pid = i;  // use for hadrons
+  int pid = 0;  // use for electron
+  // int pid = i;  // use for hadrons
   {
     short dc_sector = (_data->dc_sec(pid) - 1);
     _x1 = _data->dc_r1_x(pid);
@@ -418,13 +418,13 @@ void Reaction::Rotate_dc_x_y(int i) {
 
     _x3 = _x3_new;
   }
-  // /// for ec hx, hy
-  // short ec_sector = (_data->ec_pcal_sec(0) - 1);
-  // _pcal_hx = _data->ec_pcal_hx(0);
-  // _pcal_hy = _data->ec_pcal_hy(0);
-  // float _pcal_hx_new = _pcal_hx * cos(DEG2RAD * (-60 * (ec_sector))) - _pcal_hy * sin(DEG2RAD * (-60 * (ec_sector)));
-  // _pcal_hy = _pcal_hx * sin(DEG2RAD * (-60 * (ec_sector))) + _pcal_hy * cos(DEG2RAD * (-60 * (ec_sector)));
-  // _pcal_hx = _pcal_hx_new;
+  /// for ec hx, hy
+  short ec_sector = (_data->ec_pcal_sec(0) - 1);
+  _pcal_hx = _data->ec_pcal_hx(0);
+  _pcal_hy = _data->ec_pcal_hy(0);
+  float _pcal_hx_new = _pcal_hx * cos(DEG2RAD * (-60 * (ec_sector))) - _pcal_hy * sin(DEG2RAD * (-60 * (ec_sector)));
+  _pcal_hy = _pcal_hx * sin(DEG2RAD * (-60 * (ec_sector))) + _pcal_hy * cos(DEG2RAD * (-60 * (ec_sector)));
+  _pcal_hx = _pcal_hx_new;
 }
 float Reaction::Part_dc_r1_x() { return _x1; }
 float Reaction::Part_dc_r1_y() { return _y1; }
@@ -432,14 +432,14 @@ float Reaction::Part_dc_r2_x() { return _x2; }
 float Reaction::Part_dc_r2_y() { return _y2; }
 float Reaction::Part_dc_r3_x() { return _x3; }
 float Reaction::Part_dc_r3_y() { return _y3; }
-// float Reaction::Elec_pcal_hx() {
-//   if (_pcal_hx != _pcal_hx) Rotate_dc_x_y();
-//   return _pcal_hx;
-// }
-// float Reaction::Elec_pcal_hy() {
-//   if (_pcal_hy != _pcal_hy) Rotate_dc_x_y();
-//   return _pcal_hy;
-// }
+float Reaction::Elec_pcal_hx() {
+  // if (_pcal_hx != _pcal_hx) Rotate_dc_x_y();
+  return _pcal_hx;
+}
+float Reaction::Elec_pcal_hy() {
+  // if (_pcal_hy != _pcal_hy) Rotate_dc_x_y();
+  return _pcal_hy;
+}
 
 void Reaction::DC_had_theta_phi_calc(int i) {  ///////////////// use this and vs above xy cuts and compare.
   // new cut parameters for the polynomial cut based on the local theta and phi coordinates (inbending field):

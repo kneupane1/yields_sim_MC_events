@@ -92,6 +92,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
     // event->SetMomCorrElec();
+    event->Rotate_dc_x_y(0);
+    event->DC_had_theta_phi_calc(0);
 
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -104,7 +106,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           event->SetProton(part);
           statusProt = abs(data->status(part));
           sectorProt = data->dc_sec(part);
-
+          // event->Rotate_dc_x_y(part);
+          // event->DC_had_theta_phi_calc(part);
           // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
         }
 
@@ -122,9 +125,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
           event->SetPim(part);
           statusPim = abs(data->status(part));
           sectorPim = data->dc_sec(part);
-
-          event->Rotate_dc_x_y(part);
-          event->DC_had_theta_phi_calc(part);
           // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
         }
       } else {
@@ -145,10 +145,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
-        output.status_had = statusPim;
+        // output.status_had = statusPim;
 
-        // output.electron_sector = event->sec();
-        output.pim_sec = event->pimSec();
+        output.electron_sector = event->sec();
+        // output.pim_sec = event->pimSec();
         // output.pip_sec = event->pipSec();
         // output.prot_sec = event->protSec();
 
@@ -159,7 +159,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // output.w_had_corr = event->w_hadron_corr();
         // // // // output.w_diff_corr = event->w_difference_corr();
 
-        // output.elec_mom = event->elec_mom();
+        output.elec_mom = event->elec_mom();
         // // output.elec_energy = event->elec_En();
         // output.elec_theta = event->Theta_Elec();
         // output.elec_phi = event->Phi_Elec();
@@ -171,17 +171,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.elec_pcal_lu = event->Elec_pcal_lu();
         // output.elec_pcal_lv = event->Elec_pcal_lv();
         // output.elec_pcal_lw = event->Elec_pcal_lw();
-        // output.elec_pcal_hx = event->Elec_pcal_hx();
-        // output.elec_pcal_hy = event->Elec_pcal_hy();
-        // output.elec_sf = event->Elec_sf();
-        // output.elec_pcal_sf = event->Elec_pcal_sf();
-        // output.elec_ecin_sf = event->Elec_ecin_sf();
-        // output.elec_dc_r1_x = event->Elec_dc_r1_x();
-        // output.elec_dc_r1_y = event->Elec_dc_r1_y();
-        // output.elec_dc_r2_x = event->Elec_dc_r2_x();
-        // output.elec_dc_r2_y = event->Elec_dc_r2_y();
-        // output.elec_dc_r3_x = event->Elec_dc_r3_x();
-        // output.elec_dc_r3_y = event->Elec_dc_r3_y();
+        output.elec_pcal_hx = event->Elec_pcal_hx();
+        output.elec_pcal_hy = event->Elec_pcal_hy();
+        output.elec_sf = event->Elec_sf();
+        output.elec_pcal_sf = event->Elec_pcal_sf();
+        output.elec_ecin_sf = event->Elec_ecin_sf();
 
         ///////////////////////////// For hadrons
         // output.pip_mom_exclusive = event->pip_momentum_measured();
@@ -190,10 +184,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
         // output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
 
-        // output.elec_vz = event->Elec_vz();
-        output.had_dvz = (event->Pim_vz() - event->Elec_vz());
-        output.had_chi2pid = event->Pim_chi2pid();
-        // output.had_dt = event->Prot_deltat(dt);
+        // // output.elec_vz = event->Elec_vz();
+        // output.had_dvz = (event->Pim_vz() - event->Elec_vz());
+        // output.had_chi2pid = event->Pim_chi2pid();
+        // // output.had_dt = event->Prot_deltat(dt);
 
         output.had_dc_r1_x = event->Part_dc_r1_x();
         output.had_dc_r1_y = event->Part_dc_r1_y();
@@ -202,12 +196,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.had_dc_r3_x = event->Part_dc_r3_x();
         output.had_dc_r3_y = event->Part_dc_r3_y();
 
-        output.had_dc_r1_theta = event->Part_dc_r1_theta();
-        output.had_dc_r1_phi = event->Part_dc_r1_phi();
-        output.had_dc_r2_theta = event->Part_dc_r2_theta();
-        output.had_dc_r2_phi = event->Part_dc_r2_phi();
-        output.had_dc_r3_theta = event->Part_dc_r3_theta();
-        output.had_dc_r3_phi = event->Part_dc_r3_phi();
+        // output.had_dc_r1_theta = event->Part_dc_r1_theta();
+        // output.had_dc_r1_phi = event->Part_dc_r1_phi();
+        // output.had_dc_r2_theta = event->Part_dc_r2_theta();
+        // output.had_dc_r2_phi = event->Part_dc_r2_phi();
+        // output.had_dc_r3_theta = event->Part_dc_r3_theta();
+        // output.had_dc_r3_phi = event->Part_dc_r3_phi();
 
         // // // output.corr_elec_mom = event->Corr_elec_mom();
         // // output.scalar_product = event->scalar_triple_product();
