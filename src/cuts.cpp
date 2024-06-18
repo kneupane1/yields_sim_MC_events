@@ -143,7 +143,7 @@ bool Cuts::IsPip(int i) {
   //                                 dt_cut_fd[1][2] * pow(_data->p(i), 3) + dt_cut_fd[1][3] * pow(_data->p(i), 2) +
   //                                 dt_cut_fd[1][4] * pow(_data->p(i), 1) + dt_cut_fd[1][4]));
   // // _pip &= !(abs(_dt->dt_P(i)) < 0.5 || abs(_dt->dt_ctof_P(i)) < 0.2);
-  _pip &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000);
+  _pip &= (4000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
 
   // // // min/max mom cuts
   // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
@@ -170,7 +170,7 @@ bool Cuts::IsProton(int i) {
   //      abs(_dt->dt_ctof_P(i)) < (dt_cut_fd[0][0] * pow(_data->p(i), 5) + dt_cut_fd[0][1] * pow(_data->p(i), 4) +
   //                                dt_cut_fd[0][2] * pow(_data->p(i), 3) + dt_cut_fd[0][3] * pow(_data->p(i), 2) +
   //                                dt_cut_fd[0][4] * pow(_data->p(i), 1) + dt_cut_fd[0][4]));
-  _proton &= (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000);
+  _proton &= (4000 <= abs(_data->status(i)) && abs(_data->status(i)) < 6000);
   // // min/max mom cuts
   // if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
   //   _proton &= (_data->p(i) > 0.4);

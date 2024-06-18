@@ -140,14 +140,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_exclusive()) {
     {
       // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
-      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPim > 2000 &&
-          statusPim < 4000) {
+      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPip > 4000) {
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
-        // output.status_had = statusPim;
+        output.status_had = statusPip;
 
-        output.electron_sector = event->sec();
+        // output.electron_sector = event->sec();
         // output.pim_sec = event->pimSec();
         // output.pip_sec = event->pipSec();
         // output.prot_sec = event->protSec();
@@ -159,42 +158,42 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // output.w_had_corr = event->w_hadron_corr();
         // // // // output.w_diff_corr = event->w_difference_corr();
 
-        output.elec_mom = event->elec_mom();
-        // // output.elec_energy = event->elec_En();
-        // output.elec_theta = event->Theta_Elec();
-        // output.elec_phi = event->Phi_Elec();
-        // output.elec_phi = event->Phi_Elec();
-        // output.elec_phi = event->Phi_Elec();
-        // output.elec_htcc_nphe = event->Elec_htcc_nphe();
-        // output.elec_vz = event->Elec_vz();
-        // output.elec_chi2pid = event->Elec_chi2pid();
-        // output.elec_pcal_lu = event->Elec_pcal_lu();
-        // output.elec_pcal_lv = event->Elec_pcal_lv();
-        // output.elec_pcal_lw = event->Elec_pcal_lw();
-        output.elec_pcal_hx = event->Elec_pcal_hx();
-        output.elec_pcal_hy = event->Elec_pcal_hy();
-        output.elec_sf = event->Elec_sf();
-        output.elec_pcal_sf = event->Elec_pcal_sf();
-        output.elec_ecin_sf = event->Elec_ecin_sf();
+        // // output.elec_mom = event->elec_mom();
+        // // // output.elec_energy = event->elec_En();
+        // // output.elec_theta = event->Theta_Elec();
+        // // output.elec_phi = event->Phi_Elec();
+        // // output.elec_phi = event->Phi_Elec();
+        // // output.elec_phi = event->Phi_Elec();
+        // // output.elec_htcc_nphe = event->Elec_htcc_nphe();
+        // // output.elec_vz = event->Elec_vz();
+        // // output.elec_chi2pid = event->Elec_chi2pid();
+        // // output.elec_pcal_lu = event->Elec_pcal_lu();
+        // // output.elec_pcal_lv = event->Elec_pcal_lv();
+        // // output.elec_pcal_lw = event->Elec_pcal_lw();
+        // output.elec_pcal_hx = event->Elec_pcal_hx();
+        // output.elec_pcal_hy = event->Elec_pcal_hy();
+        // output.elec_sf = event->Elec_sf();
+        // output.elec_pcal_sf = event->Elec_pcal_sf();
+        // output.elec_ecin_sf = event->Elec_ecin_sf();
 
         ///////////////////////////// For hadrons
-        // output.pip_mom_exclusive = event->pip_momentum_measured();
-        // output.pip_momT_exclusive = event->pip_momentumT_measured();
-        // output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-        // output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
+        output.pip_mom_exclusive = event->pip_momentum_measured();
+        output.pip_momT_exclusive = event->pip_momentumT_measured();
+        output.pip_theta_exclusive = event->pip_theta_lab_measured();
+        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+        output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
 
         // // output.elec_vz = event->Elec_vz();
-        // output.had_dvz = (event->Pim_vz() - event->Elec_vz());
-        // output.had_chi2pid = event->Pim_chi2pid();
-        // // output.had_dt = event->Prot_deltat(dt);
+        output.had_dvz = (event->Pip_vz() - event->Elec_vz());
+        output.had_chi2pid = event->Pip_chi2pid();
+        // output.had_dt = event->Prot_deltat(dt);
 
-        output.had_dc_r1_x = event->Part_dc_r1_x();
-        output.had_dc_r1_y = event->Part_dc_r1_y();
-        output.had_dc_r2_x = event->Part_dc_r2_x();
-        output.had_dc_r2_y = event->Part_dc_r2_y();
-        output.had_dc_r3_x = event->Part_dc_r3_x();
-        output.had_dc_r3_y = event->Part_dc_r3_y();
+        // output.had_dc_r1_x = event->Part_dc_r1_x();
+        // output.had_dc_r1_y = event->Part_dc_r1_y();
+        // output.had_dc_r2_x = event->Part_dc_r2_x();
+        // output.had_dc_r2_y = event->Part_dc_r2_y();
+        // output.had_dc_r3_x = event->Part_dc_r3_x();
+        // output.had_dc_r3_y = event->Part_dc_r3_y();
 
         // output.had_dc_r1_theta = event->Part_dc_r1_theta();
         // output.had_dc_r1_phi = event->Part_dc_r1_phi();
