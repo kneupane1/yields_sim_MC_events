@@ -92,8 +92,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // Make a reaction class from the data given
     auto event = std::make_shared<Reaction>(data, beam_energy);
     // event->SetMomCorrElec();
-    event->Rotate_dc_x_y(0);
-    event->DC_had_theta_phi_calc(0);
+    // event->Rotate_dc_x_y(0);
+    // event->DC_had_theta_phi_calc(0);
 
     // // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
@@ -140,11 +140,11 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // if (event->TwoPion_exclusive()) {
     {
       // if (event->W() > 1.25 && event->W() < 2.55 && event->Q2() > 1.5 && event->Q2() < 10.5) {  // &&
-      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusPip > 4000) {
+      if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() > 1.95 && event->Q2() <= 9.0 && statusProt > 4000) {
         csv_data output;
 
         // // // // //// using exclusive topology ...................................
-        output.status_had = statusPip;
+        output.status_had = statusProt;
 
         // output.electron_sector = event->sec();
         // output.pim_sec = event->pimSec();
@@ -177,15 +177,15 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.elec_ecin_sf = event->Elec_ecin_sf();
 
         ///////////////////////////// For hadrons
-        output.pip_mom_exclusive = event->pip_momentum_measured();
-        output.pip_momT_exclusive = event->pip_momentumT_measured();
-        output.pip_theta_exclusive = event->pip_theta_lab_measured();
-        output.pip_phi_exclusive = event->pip_Phi_lab_measured();
-        output.pip_phi_cen = event->pip_Phi_lab_mes_centeral();
+        output.prot_mom_exclusive = event->prot_momentum_measured();
+        output.prot_momT_exclusive = event->prot_momentumT_measured();
+        output.prot_theta_exclusive = event->prot_theta_lab_measured();
+        output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+        output.prot_phi_cen = event->prot_Phi_lab_mes_centeral();
 
         // // output.elec_vz = event->Elec_vz();
-        output.had_dvz = (event->Pip_vz() - event->Elec_vz());
-        output.had_chi2pid = event->Pip_chi2pid();
+        output.had_dvz = (event->Prot_vz() - event->Elec_vz());
+        output.had_chi2pid = event->Prot_chi2pid();
         // output.had_dt = event->Prot_deltat(dt);
 
         // output.had_dc_r1_x = event->Part_dc_r1_x();
