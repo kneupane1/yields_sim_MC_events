@@ -9,6 +9,7 @@
 #include "constants.hpp"
 #include "mom_corr.hpp"
 #include "physics.hpp"
+
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
@@ -67,6 +68,14 @@ class Reaction {
   bool _hasOther = false;
   bool _hasNeutron = false;
 
+  bool _is_FD_Prot = false;
+  bool _is_CD_Prot = false;
+
+  bool _is_FD_Pip = false;
+  bool _is_CD_Pip = false;
+
+  bool _is_FD_Pim = false;
+  bool _is_CD_Pim = false;
   bool _is_FD = false;
   bool _is_CD = false;
   bool _is_lower_band = false;

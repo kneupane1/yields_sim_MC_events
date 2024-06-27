@@ -143,7 +143,7 @@ bool Cuts::IsPip(int i) {
 
   // // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-    _pip &= (_data->p(i) > 0.5);
+    // _pip &= (_data->p(i) > 0.5);
     // _pip &= (_data->p(i) < 4.6);
     _pip &= (_dt->dt_Pi(i) < (dt_cut_fd_up[1][0] * pow(_data->p(i), 5) + dt_cut_fd_up[1][1] * pow(_data->p(i), 4) +
                               dt_cut_fd_up[1][2] * pow(_data->p(i), 3) + dt_cut_fd_up[1][3] * pow(_data->p(i), 2) +
@@ -152,7 +152,7 @@ bool Cuts::IsPip(int i) {
                               dt_cut_fd_down[1][2] * pow(_data->p(i), 3) + dt_cut_fd_down[1][3] * pow(_data->p(i), 2) +
                               dt_cut_fd_down[1][4] * pow(_data->p(i), 1) + dt_cut_fd_down[1][5]));
   } else if (abs(_data->status(i)) >= 4000) {
-    _pip &= (_data->p(i) > 0.2);
+    // _pip &= (_data->p(i) > 0.2);
     // _pip &= (_data->p(i) < 1.7);
     _pip &= (_dt->dt_Pi(i) <
              (dt_cut_cd_up[1][0] * pow(_data->p(i), 2) + dt_cut_cd_up[1][1] * _data->p(i) + dt_cut_cd_up[1][2]));
