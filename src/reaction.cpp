@@ -68,10 +68,10 @@ void Reaction::SetProton(int i) {
 
   _prot_theta_uncorr = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
 
-  // if (_Energy_loss_uncorr_prot->Phi() > 0)
-  //   _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
-  // else if (_Energy_loss_uncorr_prot->Phi() < 0)
-  //   _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
+  if (_Energy_loss_uncorr_prot->Phi() > 0)
+    _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
+  else if (_Energy_loss_uncorr_prot->Phi() < 0)
+    _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
 
   // _thetaDC_r1_Prot = RAD2DEG * (acos(_data->dc_r1_z(i) / sqrt(pow(_data->dc_r1_x(i), 2) + pow(_data->dc_r1_y(i),
   // 2) +
@@ -95,16 +95,15 @@ void Reaction::SetProton(int i) {
     // _prot_phi_tmt = mom_corr::CD_prot_Eph_corr(_prot_mom_uncorr, _prot_theta_uncorr, _prot_phi_uncorr);
   }
   if (_is_FD_Prot) {
-    // _prot_mom_tmt = _prot_mom_uncorr;
-    // // these are Andrey's corrections
     if (_prot_theta_uncorr < 27) {
-      // _prot_theta_tmt = _prot_theta_uncorr;
-      // _prot_phi_tmt = _prot_phi_uncorr;
-      _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+      // _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+      _prot_mom_tmt = _prot_mom_uncorr + (0.00035299) * pow(_prot_mom_uncorr, 4) +
+                      (-0.00412088) * pow(_prot_mom_uncorr, 3) + (0.01719236) * pow(_prot_mom_uncorr, 2) +
+                      (-0.03038889) * _prot_mom_uncorr + 0.02060121;
     } else {
-      // _prot_theta_tmt = _prot_theta_uncorr;
-      // _prot_phi_tmt = _prot_phi_uncorr;
-      _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+      // _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+      _prot_mom_tmt =
+          _prot_mom_uncorr + (-0.00064545) * pow(_prot_mom_uncorr, 2) + 0.00165001 * _prot_mom_uncorr + 0.00014044;
     }
   }
 
@@ -139,13 +138,25 @@ void Reaction::SetPip(int i) {
 
   // // // _is_lower_band = mom_corr::is_lower_band(_pip_mom_uncorr, _thetaDC_r1_Pip, _pip_status);
 
+  // if (_is_CD_Pip) {
+  //   _pip_mom_tmt = _pip_mom_uncorr;
+  //   _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipCD(_pip_mom_uncorr, _pip_theta_uncorr);
+  // }
+  // if (_is_FD_Pip) {
+  //   // _pip_mom_tmt = _pip_mom_uncorr;
+  //   _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
+  // }
   if (_is_CD_Pip) {
     _pip_mom_tmt = _pip_mom_uncorr;
-    _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipCD(_pip_mom_uncorr, _pip_theta_uncorr);
   }
   if (_is_FD_Pip) {
-    // _pip_mom_tmt = _pip_mom_uncorr;
-    _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
+    // _pim_mom_tmt = _pim_mom_uncorr;
+    if (_pip_theta_uncorr < 27) {
+      _pip_mom_tmt = _pip_mom_uncorr + 0.00027175 * _pip_mom_uncorr + 0.00319337;
+
+    } else {
+      _pip_mom_tmt = _pip_mom_uncorr + -0.00040651 * _pip_mom_uncorr + 0.00745805;
+    }
   }
   _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
   _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
@@ -185,10 +196,9 @@ void Reaction::SetPim(int i) {
       _pim_mom_tmt = _pim_mom_uncorr + 0.00044836 * _pim_mom_uncorr + 0.00325965;
 
     } else {
-      _pim_mom_tmt = _pim_mom_uncorr + -0.00208368 * _pim_mom_uncorr + 0.00908514;
+      _pim_mom_tmt = _pim_mom_uncorr + -0.00167661 * _pim_mom_uncorr + 0.00865998;
     }
   }
-
   _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
   _py_prime_pim_E = _data->py(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
   _pz_prime_pim_E = _data->pz(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
