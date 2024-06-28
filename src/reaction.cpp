@@ -94,17 +94,24 @@ void Reaction::SetProton(int i) {
     // _prot_theta_tmt = mom_corr::CD_prot_Eth_corr(_prot_mom_uncorr, _prot_theta_uncorr);
     // _prot_phi_tmt = mom_corr::CD_prot_Eph_corr(_prot_mom_uncorr, _prot_theta_uncorr, _prot_phi_uncorr);
   }
+
   if (_is_FD_Prot) {
     if (_prot_theta_uncorr < 27) {
       // _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
-      _prot_mom_tmt = _prot_mom_uncorr + (0.0009709) * pow(_prot_mom_uncorr, 4) +
-                      (-0.00973633) * pow(_prot_mom_uncorr, 3) + (0.03467531) * pow(_prot_mom_uncorr, 2) +
-                      (-0.05235686) * _prot_mom_uncorr + 0.03284018;
+      if (_prot_mom_tmt < 2.4)
+        _prot_mom_tmt = _prot_mom_uncorr + (0.000971) * pow(_prot_mom_uncorr, 4) +
+                        (-0.009736) * pow(_prot_mom_uncorr, 3) + (0.034675) * pow(_prot_mom_uncorr, 2) +
+                        (-0.052357) * _prot_mom_uncorr + 0.032840;
+      else
+        _prot_mom_tmt = _prot_mom_uncorr + 0.004530;
     } else {
       // _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
-      _prot_mom_tmt = _prot_mom_uncorr + (0.00236941) * pow(_prot_mom_uncorr, 4) +
-                      (-0.02352278) * pow(_prot_mom_uncorr, 3) + (0.08278951) * pow(_prot_mom_uncorr, 2) +
-                      (-0.1249965) * _prot_mom_uncorr + 0.07765946;
+      if (_prot_mom_tmt < 2.4)
+        _prot_mom_tmt = _prot_mom_uncorr + (0.002369) * pow(_prot_mom_uncorr, 4) +
+                        (-0.023523) * pow(_prot_mom_uncorr, 3) + (0.082790) * pow(_prot_mom_uncorr, 2) +
+                        (-0.124996) * _prot_mom_uncorr + 0.077659;
+      else
+        _prot_mom_tmt = _prot_mom_uncorr + 0.007968;
     }
   }
 
@@ -153,10 +160,9 @@ void Reaction::SetPip(int i) {
   if (_is_FD_Pip) {
     // _pim_mom_tmt = _pim_mom_uncorr;
     if (_pip_theta_uncorr < 27) {
-      _pip_mom_tmt = _pip_mom_uncorr + 0.00027175 * _pip_mom_uncorr + 0.00319337;
-
+      _pip_mom_tmt = _pip_mom_uncorr + 0.0002468543 * _pip_mom_uncorr + 0.00324120;
     } else {
-      _pip_mom_tmt = _pip_mom_uncorr + -0.00040651 * _pip_mom_uncorr + 0.00745805;
+      _pip_mom_tmt = _pip_mom_uncorr + -0.0004140691 * _pip_mom_uncorr + 0.007524105;
     }
   }
   _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
@@ -194,10 +200,13 @@ void Reaction::SetPim(int i) {
   if (_is_FD_Pim) {
     // _pim_mom_tmt = _pim_mom_uncorr;
     if (_pim_theta_uncorr < 27) {
-      _pim_mom_tmt = _pim_mom_uncorr + 0.00044836 * _pim_mom_uncorr + 0.00325965;
-
+      _pim_mom_tmt = _pim_mom_uncorr + 0.00046571 * _pim_mom_uncorr + 0.00322164;
     } else {
-      _pim_mom_tmt = _pim_mom_uncorr + -0.00167661 * _pim_mom_uncorr + 0.00865998;
+      if (_pim_mom_uncorr < 1.7)
+        _pim_mom_tmt = _pim_mom_uncorr + (-0.0024313) * pow(_pim_mom_uncorr, 3) +
+                       (0.0094416) * pow(_pim_mom_uncorr, 2) + (-0.01257967) * pow(_pim_mom_uncorr, 1) + 0.0122432;
+      else
+        _pim_mom_tmt = _pim_mom_uncorr + 0.006199071;
     }
   }
   _px_prime_pim_E = _data->px(i) * ((_pim_mom_tmt) / (_pim_mom_uncorr));
