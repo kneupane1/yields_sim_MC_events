@@ -151,21 +151,21 @@ void Reaction::SetProton(int i) {
 
   if (_is_FD_Prot) {
     if (_prot_theta_uncorr < 27) {
-      // _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
-      if (_prot_mom_tmt < 2.4)
-        _prot_mom_tmt = _prot_mom_uncorr + (0.000971) * pow(_prot_mom_uncorr, 4) +
-                        (-0.009736) * pow(_prot_mom_uncorr, 3) + (0.034675) * pow(_prot_mom_uncorr, 2) +
-                        (-0.052357) * _prot_mom_uncorr + 0.032840;
-      else
-        _prot_mom_tmt = _prot_mom_uncorr + 0.004530;
+      _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+      // if (_prot_mom_tmt < 2.4)
+      //   _prot_mom_tmt = _prot_mom_uncorr + (0.000971) * pow(_prot_mom_uncorr, 4) +
+      //                   (-0.009736) * pow(_prot_mom_uncorr, 3) + (0.034675) * pow(_prot_mom_uncorr, 2) +
+      //                   (-0.052357) * _prot_mom_uncorr + 0.032840;
+      // else
+      //   _prot_mom_tmt = _prot_mom_uncorr + 0.004530;
     } else {
-      // _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
-      if (_prot_mom_tmt < 2.4)
-        _prot_mom_tmt = _prot_mom_uncorr + (0.002369) * pow(_prot_mom_uncorr, 4) +
-                        (-0.023523) * pow(_prot_mom_uncorr, 3) + (0.082790) * pow(_prot_mom_uncorr, 2) +
-                        (-0.124996) * _prot_mom_uncorr + 0.077659;
-      else
-        _prot_mom_tmt = _prot_mom_uncorr + 0.007968;
+      _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+      // if (_prot_mom_tmt < 2.4)
+      //   _prot_mom_tmt = _prot_mom_uncorr + (0.002369) * pow(_prot_mom_uncorr, 4) +
+      //                   (-0.023523) * pow(_prot_mom_uncorr, 3) + (0.082790) * pow(_prot_mom_uncorr, 2) +
+      //                   (-0.124996) * _prot_mom_uncorr + 0.077659;
+      // else
+      //   _prot_mom_tmt = _prot_mom_uncorr + 0.007968;
     }
   }
 
