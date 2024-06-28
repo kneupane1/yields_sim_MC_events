@@ -143,7 +143,7 @@ bool Cuts::IsPip(int i) {
 
   // // min/max mom cuts
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
-    _pip &= (_data->p(i) > 0.5);
+    // _pip &= (_data->p(i) > 0.5);
     // _pip &= (_data->p(i) < 4.6);
     _pip &= (_dt->dt_Pi(i) < (dt_cut_fd_up[1][0] * pow(_data->p(i), 5) + dt_cut_fd_up[1][1] * pow(_data->p(i), 4) +
                               dt_cut_fd_up[1][2] * pow(_data->p(i), 3) + dt_cut_fd_up[1][3] * pow(_data->p(i), 2) +
@@ -246,7 +246,7 @@ bool Pass2_Cuts::ElectronCuts() {
   // cut &= (_data->vz(0) > -(2.78 + 3 * 2.16) && _data->vz(0) < (-2.78 + 3 * 2.16)); // 3 sigma cut
   cut &= (2000 <= abs(_data->status(0)) && abs(_data->status(0)) < 4000);
   // cut &= (abs(_data->chi2pid(0)) < 3); ////////////// check it....... along with simulations
-  cut &= CC_nphe_cut();
+  // cut &= CC_nphe_cut();
   cut &= PCAL_minimum_energy();
   cut &= PCAL_fiducial_cut_HX_HY();
   cut &= EC_sampling_fraction_cut();

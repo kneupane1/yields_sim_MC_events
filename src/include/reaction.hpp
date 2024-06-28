@@ -432,7 +432,7 @@ class Reaction {
   float elec_px();
   float elec_py();
   float elec_pz();
-  inline float elec_mom() { return _elec_mom; }
+  inline float elec_mom() { return _P_elec; }
   inline float elec_En() { return _elec_E; }
   inline float Theta_Elec() { return _theta_e; }
   inline float Phi_Elec() { return _phi_e; }
