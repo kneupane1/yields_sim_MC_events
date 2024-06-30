@@ -240,16 +240,27 @@ void Reaction::SetPip(int i) {
   //   // _pip_mom_tmt = _pip_mom_uncorr;
   //   _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
   // }
+  ///// our version of elsoo pip
+  // if (_is_CD_Pip) {
+  //   _pip_mom_tmt = _pip_mom_uncorr;
+  // }
+  // if (_is_FD_Pip) {
+  //   // _pim_mom_tmt = _pim_mom_uncorr;
+  //   if (_pip_theta_uncorr < 27) {
+  //     _pip_mom_tmt = _pip_mom_uncorr + 0.0002468543 * _pip_mom_uncorr + 0.00324120;
+  //   } else {
+  //     _pip_mom_tmt = _pip_mom_uncorr + -0.0004140691 * _pip_mom_uncorr + 0.007524105;
+  //   }
+  // }
+
+  // eloss used by stefan
   if (_is_CD_Pip) {
-    _pip_mom_tmt = _pip_mom_uncorr;
+    // _pip_mom_tmt = _pip_mom_uncorr;
+    _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipCD(_pip_mom_uncorr, _pip_theta_uncorr);
   }
   if (_is_FD_Pip) {
-    // _pim_mom_tmt = _pim_mom_uncorr;
-    if (_pip_theta_uncorr < 27) {
-      _pip_mom_tmt = _pip_mom_uncorr + 0.0002468543 * _pip_mom_uncorr + 0.00324120;
-    } else {
-      _pip_mom_tmt = _pip_mom_uncorr + -0.0004140691 * _pip_mom_uncorr + 0.007524105;
-    }
+    // _pip_mom_tmt = _pip_mom_uncorr;
+    _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
   }
   _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
   _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));

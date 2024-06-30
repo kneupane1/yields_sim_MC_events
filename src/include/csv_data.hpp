@@ -168,8 +168,9 @@ struct csv_data {
     //        "mPip,mm2_mPim,mm2_"
     //        "exclusive_at_zero,energy_x_mu,weight";
 
-    return "stp,prot_mom_mes,prot_theta_mes,"
-           "pip_mom_mes,pip_theta_mes,pim_mom_mes,pim_theta_mes,mm2_"
+    return "pim_sec,pip_sec,prot_sec,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
+           "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_"
+           "theta_mes,prot_phi_mes,pip_mom_mes,pip_theta_mes,pip_phi_mes,pim_mom_mes,pim_theta_mes,pim_phi_mes,mm2_"
            "mProt,mm2_mPip,mm2_mPim,mm2_"
            "exclusive_at_zero,energy_x_mu,"
            "status_Pim,"
@@ -188,14 +189,14 @@ struct csv_data {
     // // For excl case
 
     // //  // os << data.electron_sector << ",";
-    // //  os << data.pim_sec << ",";
-    // //  os << data.pip_sec << ",";
-    // //  os << data.prot_sec << ",";
+    os << data.pim_sec << ",";
+    os << data.pip_sec << ",";
+    os << data.prot_sec << ",";
 
     os << std::setprecision(7);
 
-    // os << data.w << ",";
-    // os << data.q2 << ",";
+    os << data.w << ",";
+    os << data.q2 << ",";
     // // //  // // // os << data.w_after << ",";
 
     // // //  // os << data.w_had << ",";
@@ -237,33 +238,33 @@ struct csv_data {
     // os << data.gen_pim_phi << ",";
 
     // // //  // // // Missing
-    // os << data.prot_mom_mProt << ",";
-    // os << data.prot_theta_mProt << ",";
-    // os << data.prot_phi_mProt << ",";
+    os << data.prot_mom_mProt << ",";
+    os << data.prot_theta_mProt << ",";
+    os << data.prot_phi_mProt << ",";
 
-    // os << data.pip_mom_mPip << ",";
-    // os << data.pip_theta_mPip << ",";
-    // os << data.pip_phi_mPip << ",";
+    os << data.pip_mom_mPip << ",";
+    os << data.pip_theta_mPip << ",";
+    os << data.pip_phi_mPip << ",";
 
-    // os << data.pim_mom_mPim << ",";
-    // os << data.pim_theta_mPim << ",";
-    // os << data.pim_phi_mPim << ",";
+    os << data.pim_mom_mPim << ",";
+    os << data.pim_theta_mPim << ",";
+    os << data.pim_phi_mPim << ",";
 
     // // //  // // // measured
 
     os << data.prot_mom_exclusive << ",";
     os << data.prot_theta_exclusive << ",";
-    // os << data.prot_phi_exclusive << ",";
+    os << data.prot_phi_exclusive << ",";
     // os << data.prot_dcr1theta_exclusive << ",";
 
     os << data.pip_mom_exclusive << ",";
     os << data.pip_theta_exclusive << ",";
-    // os << data.pip_phi_exclusive << ",";
+    os << data.pip_phi_exclusive << ",";
     // os << data.pip_dcr1theta_exclusive << ",";
 
     os << data.pim_mom_exclusive << ",";
     os << data.pim_theta_exclusive << ",";
-    // os << data.pim_phi_exclusive << ",";
+    os << data.pim_phi_exclusive << ",";
     // os << data.pim_dcr1theta_exclusive << ",";
 
     os << data.mm2_mProt << ",";
