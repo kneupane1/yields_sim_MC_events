@@ -62,8 +62,7 @@ void Reaction::SetMomCorrElec() {
 
   // New electron momentum corrections
   fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-  _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                          MASS_E);  // pass2
+  _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe, MASS_E);  // pass2
   _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
                  MASS_E);  //////////////////// added for checks only //////////////
 
@@ -76,12 +75,12 @@ void Reaction::SetMomCorrElec() {
   // _E_elec = _mom_corr_elec->E();
   _theta_e = _mom_corr_elec->Theta() * 180 / PI;
 }
-double Reaction::Corr_elec_mom() {
-  if (_P_elec != _P_elec) SetMomCorrElec();
-  // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
+// double Reaction::Corr_elec_mom() {
+//   if (_P_elec != _P_elec) SetMomCorrElec();
+//   // std::cout << " elec mom corrected " << _elec_mom_corrected << std::endl;
 
-  return _P_elec;
-}
+//   return _P_elec;
+// }
 
 void Reaction::SetProton(int i) {
   _numProt++;
@@ -187,16 +186,25 @@ void Reaction::SetPip(int i) {
   _is_CD_Pip = objMomCorr->is_CD(_pip_status);
   // _is_lower_band = objMomCorr->is_lower_band(_pip_mom_uncorr, _thetaDC_r1_Pip, _pip_status);
 
+  // if (_is_CD_Pip) {
+  //   _pip_mom_tmt = _pip_mom_uncorr;
+  // }
+  // if (_is_FD_Pip) {
+  //   // _pim_mom_tmt = _pim_mom_uncorr;
+  //   if (_pip_theta_uncorr < 27) {
+  //     _pip_mom_tmt = _pip_mom_uncorr + 0.0002468543 * _pip_mom_uncorr + 0.00324120;
+  //   } else {
+  //     _pip_mom_tmt = _pip_mom_uncorr + -0.0004140691 * _pip_mom_uncorr + 0.007524105;
+  //   }
+  // }
+
   if (_is_CD_Pip) {
     _pip_mom_tmt = _pip_mom_uncorr;
+    _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipCD(_pip_mom_uncorr, _pip_theta_uncorr);
   }
   if (_is_FD_Pip) {
-    // _pim_mom_tmt = _pim_mom_uncorr;
-    if (_pip_theta_uncorr < 27) {
-      _pip_mom_tmt = _pip_mom_uncorr + 0.0002468543 * _pip_mom_uncorr + 0.00324120;
-    } else {
-      _pip_mom_tmt = _pip_mom_uncorr + -0.0004140691 * _pip_mom_uncorr + 0.007524105;
-    }
+    // _pip_mom_tmt = _pip_mom_uncorr;
+    _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
   }
   _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
   _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
