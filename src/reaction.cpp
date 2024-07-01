@@ -98,14 +98,14 @@ void Reaction::SetElec() {
   _W = physics::W_calc(*_beam, *_elec);
   _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-  _elec_mom = _elec->P();
-  _elec_E = _elec->E();
-  _theta_e = _elec->Theta() * 180 / PI;
+  // _elec_mom = _elec->P();
+  // _elec_E = _elec->E();
+  // _theta_e = _elec->Theta() * 180 / PI;
 
-  if (_elec->Phi() > 0)
-    _phi_elec = _elec->Phi() * 180 / PI;
-  else if (_elec->Phi() < 0)
-    _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
+  // if (_elec->Phi() > 0)
+  //   _phi_elec = _elec->Phi() * 180 / PI;
+  // else if (_elec->Phi() < 0)
+  //   _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
 }
 
 void Reaction::SetProton(int i) {
