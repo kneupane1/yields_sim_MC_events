@@ -134,8 +134,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     //     event->TwoPion_exclusive()) {
-    // if (event->TwoPion_missingPim()) {
-    if (event->TwoPion_missingPip()) {
+    if (event->TwoPion_missingPim()) {
+      // if (event->TwoPion_missingPip()) {
       // if (event->TwoPion_missingProt()) {
       // if (event->TwoPion_exclusive()) {
       // {
@@ -232,13 +232,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.prot_theta_mProt = event->prot_theta_lab();
         // output.prot_phi_mProt = event->prot_Phi_lab();
 
-        output.pip_mom_mPip = event->pip_momentum();
-        output.pip_theta_mPip = event->pip_theta_lab();
-        output.pip_phi_mPip = event->pip_Phi_lab();
+        // output.pip_mom_mPip = event->pip_momentum();
+        // output.pip_theta_mPip = event->pip_theta_lab();
+        // output.pip_phi_mPip = event->pip_Phi_lab();
 
-        // output.pim_mom_mPim = event->pim_momentum();
-        // output.pim_theta_mPim = event->pim_theta_lab();
-        // output.pim_phi_mPim = event->pim_Phi_lab();
+        output.pim_mom_mPim = event->pim_momentum();
+        output.pim_theta_mPim = event->pim_theta_lab();
+        output.pim_phi_mPim = event->pim_Phi_lab();
 
         // // // // // // recon mes
         // // // // output.prot_mom_exclusive = event->prot_momentum_corrected();
@@ -279,9 +279,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.mm2_mProt = event->MM2_mProt();
         // output.mm2_mProt_corr = event->MM2_mProt_corr();
         // // output.mm2_mPip = event->MM2_mPip();
-        output.mm2_mPip_corr = event->MM2_mPip_corr();
+        // output.mm2_mPip_corr = event->MM2_mPip_corr();
         // // output.mm2_mPim = event->MM2_mPim();
-        // output.mm2_mPim_corr = event->MM2_mPim_corr();
+        output.mm2_mPim_corr = event->MM2_mPim_corr();
 
         // output.mm2_exclusive_at_zero = event->MM2_exclusive();
         // output.energy_x_mu = event->Energy_excl();
