@@ -41,20 +41,22 @@ auto objMomCorr = std::make_shared<mom_corr>();
 
 void Reaction::SetElec() {
   _hasE = true;
-  // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-  // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
+  /*
+  _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+  *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
-  // _W = physics::W_calc(*_beam, *_elec);
-  // _Q2 = physics::Q2_calc(*_beam, *_elec);
+  // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  _W = physics::W_calc(*_beam, *_elec);
+  _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-  // _elec_mom = _elec->P();
-  // // _E_elec = _elec->E();
-  // _theta_e = _elec->Theta() * 180 / PI;
-  // if (_elec->Phi() > 0)
-  //   _phi_e = _elec->Phi() * 180 / PI;
-  // else if (_elec->Phi() < 0)
-  //   _phi_e = (_elec->Phi() + 2 * PI) * 180 / PI;
+  _elec_mom = _elec->P();
+  // _E_elec = _elec->E();
+  _theta_e = _elec->Theta() * 180 / PI;
+  if (_elec->Phi() > 0)
+    _phi_e = _elec->Phi() * 180 / PI;
+  else if (_elec->Phi() < 0)
+    _phi_e = (_elec->Phi() + 2 * PI) * 180 / PI;
+    */
 }
 
 void Reaction::SetMomCorrElec() {
@@ -997,12 +999,12 @@ float Reaction::pip_theta_lab_measured() {
 float Reaction::pip_Phi_lab_measured() {
   if (TwoPion_exclusive()) {
     // if (_hasPip) {
-    // if (_pip->Phi() > 0)
-    return _pip->Phi() * 180 / PI;
-    // else if (_pip->Phi() < 0)
-    //   return (_pip->Phi() + 2 * PI) * 180 / PI;
-    // else
-    //   return NAN;
+    if (_pip->Phi() > 0)
+      return _pip->Phi() * 180 / PI;
+    else if (_pip->Phi() < 0)
+      return (_pip->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
   } else
     return NAN;
 }
@@ -1111,12 +1113,12 @@ float Reaction::prot_theta_lab_measured() {
 float Reaction::prot_Phi_lab_measured() {
   if (TwoPion_exclusive()) {
     // if (_hasP) {
-    // if (_prot->Phi() > 0)
-    return _prot->Phi() * 180 / PI;
-    //   else if (_prot->Phi() < 0)
-    //     return (_prot->Phi() + 2 * PI) * 180 / PI;
-    //   else
-    //     return NAN;
+    if (_prot->Phi() > 0)
+      return _prot->Phi() * 180 / PI;
+    else if (_prot->Phi() < 0)
+      return (_prot->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
   } else
     return NAN;
 }
