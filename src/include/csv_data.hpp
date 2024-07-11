@@ -164,7 +164,7 @@ struct csv_data {
     // return "pip_mom_miss_cm,pip_theta_miss_cm,pip_phi_miss_cm,mm2_mProt,mm2_mPip,mm2_mPim,mm2_"
     //        "exclusive_at_zero,energy_x_mu,weight";
     // Prot
-    return "w_rec,q2_rec,prot_mom_miss,prot_theta_miss,prot_phi_miss,mm2_mProt,weight";
+    return "prot_mom_miss,prot_theta_miss,prot_phi_miss,mm2_mProt,weight";
 
     // return "pim_sec,pip_sec,prot_sec,w_rec,q2_rec,stp,prot_mom_miss,prot_theta_miss,prot_phi_miss,pip_mom_miss,pip_"
     //        "theta_miss,pip_phi_miss,pim_mom_miss,pim_theta_miss,pim_phi_miss,prot_mom_mes,prot_"
@@ -193,8 +193,8 @@ struct csv_data {
 
     os << std::setprecision(7);
 
-    os << data.w << ",";
-    os << data.q2 << ",";
+    // os << data.w << ",";
+    // os << data.q2 << ",";
     // // //  // // // os << data.w_after << ",";
 
     // // //  // os << data.w_had << ",";
