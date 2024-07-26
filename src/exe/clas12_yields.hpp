@@ -91,7 +91,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<QA::QADB>& _qa,
     auto cuts = std::make_shared<Pass2_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
 
-    if (!_qa->Golden(data->run(), data->event())) continue;
+    if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
 
     if (!cuts->ElectronCuts()) continue;
 
