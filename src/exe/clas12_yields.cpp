@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
   if (argc >= 2) {
     // First argument is the output file
     outfilename = argv[1];
-    // All other files are split evently by the under of threads
+    // All other files are split evenly by the number of threads
     for (int i = 2; i < argc; i++) infilenames[i % NUM_THREADS].push_back(argv[i]);
   } else {
     return 1;
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
   auto _qa = std::make_shared<QA::QADB>();
 
   // Capture _qa by reference in the lambda
-  auto run_files = [&csv_output_file, &_qa](std::vector<std::string> inputs, auto&& thread_id) mutable {
+  auto run_files = [&csv_output_file, &_qa](std::vector<std::string> inputs, auto&& thread_id) mutable -> size_t {
     // Called once for each thread
     // Make a new chain to process for this thread
     auto chain = std::make_shared<TChain>("clas12");
@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     for (auto in : inputs) chain->Add(in.c_str());
 
     // Run the function over each thread
-    return run<Pass2_Cuts>(std::move(chain), csv_output_file, _qa, thread_id);
+    return run<Pass2_Cuts>(std::move(chain), _qa, csv_output_file, thread_id);
   };
 
   // Make a set of threads (Futures are special threads which return a value)
@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
   for (size_t i = 0; i < NUM_THREADS; i++) {
     // Set the thread to run a task A-Syncroisly
     // The function we run is the first argument (run_files)
-    // The functions areruments are all the remaining arguments
+    // The functions arguments are all the remaining arguments
     threads[i] = std::async(run_files, infilenames.at(i), i);
   }
 
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     // Get the information from the thread in this case how many events each thread actually computed
     events += threads[i].get();
   }
-  std::cout << qa->GetAccumulatedCharge() << std::endl;
+  std::cout << _qa->GetAccumulatedCharge() << std::endl;
 
   // Timer and Hz calculator functions that print at the end
   std::cout.imbue(std::locale(""));  // Puts commas in
