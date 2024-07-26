@@ -137,6 +137,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<QA::QADB>& _qa,
         event->SetOther(part);
       }
     }
+    _qa->AccumulateCharge();
 
     // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     //     event->TwoPion_exclusive()) {

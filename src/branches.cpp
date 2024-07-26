@@ -482,6 +482,11 @@ void Branches12::initMC() {
 }
 
 int Branches12::gpart() { return _pid->size(); }
+
+// Add these getter methods
+int Branches12::getRun() { return _run; }
+int Branches12::getEvent() { return _event; }
+
 int Branches12::pid(int i) {
   if (i >= _pid->size())
     return -9999;
