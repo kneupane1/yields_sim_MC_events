@@ -359,7 +359,7 @@ struct csv_data {
     // // os << data.mm2_mProt_corr << ",";
 
     // os << data.mm2_mPip << ",";
-    // os << data.mm2_mPip_corr << ",";
+    // // os << data.mm2_mPip_corr << ",";
 
     os << data.mm2_mPim << ",";
     // // os << data.mm2_mPim_corr << ",";
@@ -370,7 +370,7 @@ struct csv_data {
     // // os << data.mm2_x_mu_corr << ",";
     // // os << data.energy_x_mu_corr << ",";
     // // os << data.mom_x_mu_corr << ",";
-    os << std::setprecision(1);
+    // os << std::setprecision(1);
 
     // os << data.status_Pim << ",";
     // os << data.status_Pip << ",";
@@ -386,7 +386,7 @@ struct csv_data {
     // // os << data.min_alphaPim << ",";
 
     // // os << data.min_deltap << ",";
-    os << std::setprecision(1);
+    os << std::setprecision(7);
 
     os << data.weight_exclusive << ",";
 

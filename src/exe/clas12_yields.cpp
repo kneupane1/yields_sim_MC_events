@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
   auto _qa = std::make_shared<QA::QADB>();
 
   // Capture _qa by reference in the lambda
-  auto run_files = [&csv_output_file, &_qa](std::vector<std::string> inputs, auto&& thread_id) mutable -> size_t {
+  auto run_files = [&csv_output_file, &_qa](std::vector<std::string> inputs, auto&& thread_id) {
     // Called once for each thread
     // Make a new chain to process for this thread
     auto chain = std::make_shared<TChain>("clas12");
