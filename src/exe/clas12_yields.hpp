@@ -153,10 +153,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt() ||
     // // event->TwoPion_exclusive()) {
-    // if (event->TwoPion_missingPim()) {
-    // if (event->TwoPion_missingPip()) {
-    // if (event->TwoPion_missingProt()) {
-    if (event->TwoPion_exclusive()) {
+    if (event->TwoPion_missingPim()) {
+      // if (event->TwoPion_missingPip()) {
+      // if (event->TwoPion_missingProt()) {
+      // if (event->TwoPion_exclusive()) {
       // // twoPion_excl++;
       // // if (event->Inclusive()) {
       // {
@@ -226,9 +226,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // output.pip_theta_mPip = event->pip_theta_lab();
         // output.pip_phi_mPip = event->pip_Phi_lab();
 
-        // output.pim_mom_mPim = event->pim_momentum();
-        // output.pim_theta_mPim = event->pim_theta_lab();
-        // output.pim_phi_mPim = event->pim_Phi_lab();
+        output.pim_mom_mPim = event->pim_momentum();
+        output.pim_theta_mPim = event->pim_theta_lab();
+        output.pim_phi_mPim = event->pim_Phi_lab();
 
         // // output.pim_mom_mPim_cm = event->pim_momentum_cm();
         // // output.pim_theta_mPim_cm = event->pim_theta_cm();
@@ -255,15 +255,15 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // // // output.pim_theta_corr = event->pim_theta_corrected();
         // // // // output.pim_phi_corr = event->pim_Phi_corrected();
 
-        output.mm2_mProt = event->MM2_mProt();
+        // output.mm2_mProt = event->MM2_mProt();
         // // output.mm2_mProt_corr = event->MM2_mProt_corr();
-        output.mm2_mPip = event->MM2_mPip();
+        // output.mm2_mPip = event->MM2_mPip();
         // // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
         output.mm2_mPim = event->MM2_mPim();
         // // // output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-        output.mm2_exclusive_at_zero = event->MM2_exclusive();
-        output.energy_x_mu = event->Energy_excl();
+        // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+        // output.energy_x_mu = event->Energy_excl();
 
         // output.status_Pim = statusPim;
         // output.status_Pip = statusPip;
