@@ -16,8 +16,8 @@
 /////////////////////////////////////////
 template <class CutType>
 
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
-           const std::shared_ptr<QA::QADB> &_qa, int thread_id) {
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, const std::shared_ptr<QA::QADB>& _qa,
+           int thread_id) {
   // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
