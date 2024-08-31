@@ -667,6 +667,10 @@ class Reaction {
   inline short pipSec() { return _sectorPip; }
   inline short protSec() { return _sectorProt; }
 
+  inline short pimStatus() { return _pim_status; }
+  inline short pipStatus() { return _pip_status; }
+  inline short protStatus() { return _prot_status; }
+
   inline int det() { return abs(_data->status(0) / 1000); }
 
   inline bool Inclusive() {

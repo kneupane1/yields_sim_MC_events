@@ -60,10 +60,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     if (thread_id == 0 && current_event % 1000 == 0)
       std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
-    int statusPim = -9999;
-    int statusPip = -9999;
-    int statusProt = -9999;
-
     /////////////////////////////// Generated sim only //////////////////////////////////////
     /*
         if (data->mc_npart() < 1) continue;
@@ -116,38 +112,26 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // Check particle ID's and fill the reaction class
 
       if (cuts->IsPip(part)) {
-        // if (cuts->HadronsCuts(part))
         {
           numPip++;
 
           event->SetPip(part);
-          statusPip = abs(data->status(part));
-          // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
       }
 
       else if (cuts->IsProton(part)) {
-        // if (cuts->HadronsCuts(part))
         {
           numProt++;
 
           event->SetProton(part);
-
-          statusProt = abs(data->status(part));
-          // if (statusProt < 4000 && statusProt > 2000) sectorProt = data->dc_sec(part);
         }
       } else if (cuts->IsPim(part)) {
-        // if (cuts->HadronsCuts(part))
         {
           numPim++;
 
           event->SetPim(part);
-          statusPim = abs(data->status(part));
-          // if (statusPim < 4000 && statusPim > 2000) sectorPim = data->dc_sec(part);
         }
       } else {
-        // std::cout << " chi2pid at part " << data->chi2pid(part) << std::endl;
-
         event->SetOther(part);
       }
     }
@@ -315,8 +299,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 // output.energy_x_mu = event->Energy_excl();
 
                 // output.status_Pim = statusPim;
-                // output.status_Pip = statusPip;
-                // output.status_Prot = statusProt;
+                output.status_Pip = event->pipStatus();
+                output.status_Prot = event->protStatus();
+
                 // // output.inv_ppip = event->inv_Ppip();
                 // // output.inv_ppim = event->inv_Ppim();
                 // // output.inv_pip_pim = event->inv_Pippim();
