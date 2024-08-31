@@ -146,6 +146,9 @@ class Reaction {
   int _sectorPip = -1;
   int _sectorProt = -1;
 
+  float _beta_prot;
+  float _beta_pip;
+
   float _inv_Ppip = NAN;
   float _inv_Ppim = NAN;
   float _inv_pip_pim = NAN;
@@ -672,6 +675,9 @@ class Reaction {
   inline short pimStatus() { return _pim_status; }
   inline short pipStatus() { return _pip_status; }
   inline short protStatus() { return _prot_status; }
+
+  inline short betaProt() { return _beta_prot; }
+  inline short betaProt() { return _beta_pip; }
 
   inline int det() { return abs(_data->status(0) / 1000); }
 

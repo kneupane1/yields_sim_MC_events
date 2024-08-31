@@ -135,6 +135,7 @@ void Reaction::SetProton(int i) {
   _hasP = true;
   _sectorProt = _data->dc_sec(i);
   _prot_status = abs(_data->status(i));
+  _beta_prot = _data->beta(i);
 
   _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
   // _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
@@ -251,6 +252,8 @@ void Reaction::SetPip(int i) {
   _hasPip = true;
   _pip_status = abs(_data->status(i));
   _sectorPip = _data->dc_sec(i);
+  _beta_pip = _data->beta(i);
+
   auto pip = std::make_unique<TLorentzVector>();
   auto mom_corr_pip = std::make_unique<TLorentzVector>();
 
