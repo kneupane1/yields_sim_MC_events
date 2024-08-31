@@ -676,8 +676,8 @@ class Reaction {
   inline short pipStatus() { return _pip_status; }
   inline short protStatus() { return _prot_status; }
 
-  inline short betaProt() { return _beta_prot; }
-  inline short betaProt() { return _beta_pip; }
+  inline float betaProt() { return _beta_prot; }
+  inline float betaProt() { return _beta_pip; }
 
   inline int det() { return abs(_data->status(0) / 1000); }
 
