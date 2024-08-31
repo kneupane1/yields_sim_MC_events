@@ -1,8 +1,3 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #ifndef BRANCHES_H
 #define BRANCHES_H
@@ -507,6 +502,8 @@ class Branches12 {
   void init();
   void initMC();
   int gpart();
+  int getRun();
+  int getEvent();
   int pid(int i);
   float p(int i);
   float p2(int i);

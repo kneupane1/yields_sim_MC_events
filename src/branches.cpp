@@ -1,8 +1,3 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #include "branches.hpp"
 
@@ -229,6 +224,7 @@ void Branches12::init() {
 
   _tree->SetBranchAddress("run", &_run, &b_run);
   _tree->SetBranchAddress("event", &_event, &b_event);
+
   // _tree->SetBranchAddress("unixtime", &_unixtime, &b_unixtime);
   // _tree->SetBranchAddress("trigger", &_trigger, &b_trigger);
   // _tree->SetBranchAddress("timestamp", &_timestamp, &b_timestamp);
@@ -361,7 +357,7 @@ void Branches12::init() {
   // _tree->SetBranchAddress("cc_ltcc_y", &_cc_ltcc_y, &b_cc_ltcc_y);
   // _tree->SetBranchAddress("cc_ltcc_z", &_cc_ltcc_z, &b_cc_ltcc_z);
   // _tree->SetBranchAddress("cc_htcc_sec", &_cc_htcc_sec, &b_cc_htcc_sec);
-  // _tree->SetBranchAddress("cc_htcc_nphe", &_cc_htcc_nphe, &b_cc_htcc_nphe);
+  _tree->SetBranchAddress("cc_htcc_nphe", &_cc_htcc_nphe, &b_cc_htcc_nphe);
   // _tree->SetBranchAddress("cc_htcc_time", &_cc_htcc_time, &b_cc_htcc_time);
   // _tree->SetBranchAddress("cc_htcc_path", &_cc_htcc_path, &b_cc_htcc_path);
   // _tree->SetBranchAddress("cc_htcc_theta", &_cc_htcc_theta, &b_cc_htcc_theta);
@@ -480,6 +476,9 @@ void Branches12::initMC() {
   _tree->SetBranchAddress("mc_vz", &_mc_vz);
   _tree->SetBranchAddress("mc_vt", &_mc_vt);
 }
+// Add these getter methods
+int Branches12::getRun() { return _run; }
+int Branches12::getEvent() { return _event; }
 
 int Branches12::gpart() { return _pid->size(); }
 int Branches12::pid(int i) {
