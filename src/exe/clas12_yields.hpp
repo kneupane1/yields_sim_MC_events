@@ -85,7 +85,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
             numPip_mc++;
 
             mc_event->SetMCPip(part);
-          } else if (data->mc_pid(part) == PROTON) {
+          }  if (data->mc_pid(part) == PROTON) {
             numProt_mc++;
 
             mc_event->SetMCProton(part);
@@ -128,13 +128,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         }
       }
 
-      else if (cuts->IsProton(part)) {
+      if (cuts->IsProton(part)) {
         {
           numProt++;
 
           event->SetProton(part);
         }
-      } else if (cuts->IsPim(part)) {
+      }
+      if (cuts->IsPim(part)) {
         {
           numPim++;
 
