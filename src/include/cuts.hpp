@@ -23,30 +23,29 @@ class Cuts {
   bool IsPim(int i);
 };
 
-class rga_Cuts : public Cuts {
- public:
-  rga_Cuts(const std::shared_ptr<Branches12> &data) : Cuts(data) {}
-  rga_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt){};
-};
+// class rga_Cuts : public Cuts
+// {
+// public:
+//     rga_Cuts(const std::shared_ptr<Branches12> &data) : Cuts(data)
+//     {
+//     }
+//     rga_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt){};
+// };
 
-class rgf_Cuts : public Cuts {
+class Pass2_Cuts : public Cuts {
  public:
-  rgf_Cuts(const std::shared_ptr<Branches12> &data) : Cuts(data) {}
-  rgf_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt){};
-};
-
-class uconn_Cuts : public Cuts {
- public:
-  uconn_Cuts(const std::shared_ptr<Branches12> &data) : Cuts(data) {}
-  uconn_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt){};
+  Pass2_Cuts(const std::shared_ptr<Branches12> &data) : Cuts(data) {}
+  Pass2_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt){};
   bool ElectronCuts();
-
+  bool IsPip(int i);
+  bool IsProton(int i);
+  bool IsPim(int i);
   // bool CC_nphe_cut(double nphe);
   bool CC_nphe_cut();
   bool PCAL_minimum_energy();
   bool EC_sampling_fraction_cut();
   bool EC_hit_position_fiducial_cut_homogeneous();
-  bool DC_fiducial_cut_XY(int i);
+  bool DC_fiducial_cut_XY(int i, int pid);
   bool DC_z_vertex_cut();
   bool EC_inner_vs_EC_outer();
   bool PCAL_fiducial_cut_HX_HY();

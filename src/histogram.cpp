@@ -43,8 +43,8 @@ Histogram::Histogram(const std::string& output_file) {
   EC_sampling_fraction =
       std::make_shared<TH2D>("EC_sampling_fraction", "EC_sampling_fraction", bins, p_min, p_max, bins, zero, 1.0);
   makeHists_sector();
-  makeHists_deltat();
-  makeHists_MomVsBeta();
+  // makeHists_deltat();
+  // makeHists_MomVsBeta();
 }
 
 Histogram::~Histogram() { this->Write(); }
@@ -367,212 +367,214 @@ void Histogram::makeHists_sector() {
   }
 }
 
-void Histogram::makeHists_deltat() {
-  for (short sec = 0; sec < num_sectors; sec++) {
-    delta_t_pip[sec] = std::make_shared<TH2D>(Form("delta_t_pip_%d", sec), Form("#Deltat #pi^{+} Sector %d", sec), bins,
-                                              0, 6.0, bins, -0.6, 0.6);
-  }
+// void Histogram::makeHists_deltat() {
+//   for (short sec = 0; sec < num_sectors; sec++) {
+//     delta_t_pip[sec] = std::make_shared<TH2D>(Form("delta_t_pip_%d", sec), Form("#Deltat #pi^{+} Sector %d", sec),
+//     bins,
+//                                               0, 6.0, bins, -0.6, 0.6);
+//   }
 
-  std::string tof = "";
-  for (short p = 0; p < particle_num; p++) {
-    for (short c = 0; c < charge_num; c++) {
-      for (short i = 0; i < with_id_num; i++) {
-        tof = "ftof";
-        delta_t_hist[p][c][i][0] =
-            std::make_shared<TH2D>(Form("delta_t_%s_%s_%s_%s", tof.c_str(), particle_name[p].c_str(),
-                                        charge_name[c].c_str(), id_name[i].c_str()),
-                                   Form("#Deltat %s %s %s %s", tof.c_str(), particle_name[p].c_str(),
-                                        charge_name[c].c_str(), id_name[i].c_str()),
-                                   bins, p_min, p_max, bins, Dt_min, Dt_max);
+//   std::string tof = "";
+//   for (short p = 0; p < particle_num; p++) {
+//     for (short c = 0; c < charge_num; c++) {
+//       for (short i = 0; i < with_id_num; i++) {
+//         tof = "ftof";
+//         delta_t_hist[p][c][i][0] =
+//             std::make_shared<TH2D>(Form("delta_t_%s_%s_%s_%s", tof.c_str(), particle_name[p].c_str(),
+//                                         charge_name[c].c_str(), id_name[i].c_str()),
+//                                    Form("#Deltat %s %s %s %s", tof.c_str(), particle_name[p].c_str(),
+//                                         charge_name[c].c_str(), id_name[i].c_str()),
+//                                    bins, p_min, p_max, bins, Dt_min, Dt_max);
 
-        tof = "ctof";
-        delta_t_hist[p][c][i][1] =
-            std::make_shared<TH2D>(Form("delta_t_%s_%s_%s_%s", tof.c_str(), particle_name[p].c_str(),
-                                        charge_name[c].c_str(), id_name[i].c_str()),
-                                   Form("#Deltat %s %s %s %s", tof.c_str(), particle_name[p].c_str(),
-                                        charge_name[c].c_str(), id_name[i].c_str()),
-                                   bins, 0, 3.0, bins, -6.0, 6.0);
-      }
-    }
-  }
-}
+//         tof = "ctof";
+//         delta_t_hist[p][c][i][1] =
+//             std::make_shared<TH2D>(Form("delta_t_%s_%s_%s_%s", tof.c_str(), particle_name[p].c_str(),
+//                                         charge_name[c].c_str(), id_name[i].c_str()),
+//                                    Form("#Deltat %s %s %s %s", tof.c_str(), particle_name[p].c_str(),
+//                                         charge_name[c].c_str(), id_name[i].c_str()),
+//                                    bins, 0, 3.0, bins, -6.0, 6.0);
+//       }
+//     }
+//   }
+// }
 
-void Histogram::Fill_deltat_pi(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt, int part) {
-  auto _cuts = std::make_unique<Cuts>(data, dt);
-  int charge = data->charge(part);
-  bool fc = dt->ctof();
-  int pid = data->pid(part);
-  float mom = data->p(part);
-  float time = NAN;
-  if (fc)
-    time = dt->dt_ctof_Pi();
-  else
-    time = dt->dt_Pi();
+// void Histogram::Fill_deltat_pi(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt, int part)
+// {
+//   auto _cuts = std::make_unique<Cuts>(data, dt);
+//   int charge = data->charge(part);
+//   bool fc = dt->ctof();
+//   int pid = data->pid(part);
+//   float mom = data->p(part);
+//   float time = NAN;
+//   if (fc)
+//     time = dt->dt_ctof_Pi();
+//   else
+//     time = dt->dt_Pi();
 
-  if (charge == 1) {
-    delta_t_hist[1][0][0][fc]->Fill(mom, time);
-    if (_cuts->IsPip(part)) {
-      delta_t_hist[1][0][1][fc]->Fill(mom, time);
-      if (data->dc_sec(part) >= 1 && data->dc_sec(part) <= 6) delta_t_pip[data->dc_sec(part) - 1]->Fill(mom, time);
-    } else
-      delta_t_hist[1][0][2][fc]->Fill(mom, time);
-  } else if (charge == -1) {
-    delta_t_hist[1][1][0][fc]->Fill(mom, time);
-    if (_cuts->IsPim(part))
-      delta_t_hist[1][1][1][fc]->Fill(mom, time);
-    else
-      delta_t_hist[1][1][2][fc]->Fill(mom, time);
-  }
-}
+//   if (charge == 1) {
+//     delta_t_hist[1][0][0][fc]->Fill(mom, time);
+//     if (_cuts->IsPip(part)) {
+//       delta_t_hist[1][0][1][fc]->Fill(mom, time);
+//       if (data->dc_sec(part) >= 1 && data->dc_sec(part) <= 6) delta_t_pip[data->dc_sec(part) - 1]->Fill(mom, time);
+//     } else
+//       delta_t_hist[1][0][2][fc]->Fill(mom, time);
+//   } else if (charge == -1) {
+//     delta_t_hist[1][1][0][fc]->Fill(mom, time);
+//     if (_cuts->IsPim(part))
+//       delta_t_hist[1][1][1][fc]->Fill(mom, time);
+//     else
+//       delta_t_hist[1][1][2][fc]->Fill(mom, time);
+//   }
+// }
 
-void Histogram::Fill_deltat_prot(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt,
-                                 int part) {
-  auto _cuts = std::make_unique<Cuts>(data, dt);
-  int charge = data->charge(part);
-  bool fc = dt->ctof();
-  int pid = data->pid(part);
-  float mom = data->p(part);
-  float time = NAN;
+// void Histogram::Fill_deltat_prot(const std::shared_ptr<Branches12>& data, const std::shared_ptr<Delta_T>& dt,
+//                                  int part) {
+//   auto _cuts = std::make_unique<Cuts>(data, dt);
+//   int charge = data->charge(part);
+//   bool fc = dt->ctof();
+//   int pid = data->pid(part);
+//   float mom = data->p(part);
+//   float time = NAN;
 
-  if (fc)
-    time = dt->dt_ctof_P();
-  else
-    time = dt->dt_P();
+//   if (fc)
+//     time = dt->dt_ctof_P();
+//   else
+//     time = dt->dt_P();
 
-  if (charge == 1) {
-    delta_t_hist[2][0][0][fc]->Fill(mom, time);
-    if (_cuts->IsProton(part))
-      delta_t_hist[2][0][1][fc]->Fill(mom, time);
-    else
-      delta_t_hist[2][0][2][fc]->Fill(mom, time);
+//   if (charge == 1) {
+//     delta_t_hist[2][0][0][fc]->Fill(mom, time);
+//     if (_cuts->IsProton(part))
+//       delta_t_hist[2][0][1][fc]->Fill(mom, time);
+//     else
+//       delta_t_hist[2][0][2][fc]->Fill(mom, time);
 
-    delta_t_hist[2][1][0][fc]->Fill(mom, time);
-    if (pid == PROTON)
-      delta_t_hist[2][1][1][fc]->Fill(mom, time);
-    else
-      delta_t_hist[2][1][2][fc]->Fill(mom, time);
-  }
-}
+//     delta_t_hist[2][1][0][fc]->Fill(mom, time);
+//     if (pid == PROTON)
+//       delta_t_hist[2][1][1][fc]->Fill(mom, time);
+//     else
+//       delta_t_hist[2][1][2][fc]->Fill(mom, time);
+//   }
+// }
 
-void Histogram::Write_deltat() {
-  TDirectory* ftof_folder = RootOutputFile->mkdir("ftof");
-  ftof_folder->cd();
-  for (short sec = 0; sec < num_sectors; sec++) {
-    delta_t_pip[sec]->SetXTitle("Momentum (GeV)");
-    delta_t_pip[sec]->SetYTitle("#Deltat");
-    delta_t_pip[sec]->SetOption("COLZ1");
-    delta_t_pip[sec]->Write();
-  }
+// void Histogram::Write_deltat() {
+//   TDirectory* ftof_folder = RootOutputFile->mkdir("ftof");
+//   ftof_folder->cd();
+//   for (short sec = 0; sec < num_sectors; sec++) {
+//     delta_t_pip[sec]->SetXTitle("Momentum (GeV)");
+//     delta_t_pip[sec]->SetYTitle("#Deltat");
+//     delta_t_pip[sec]->SetOption("COLZ1");
+//     delta_t_pip[sec]->Write();
+//   }
 
-  for (short p = 0; p < particle_num; p++) {
-    for (short c = 0; c < charge_num; c++) {
-      for (short i = 0; i < with_id_num; i++) {
-        delta_t_hist[p][c][i][0]->SetXTitle("Momentum (GeV)");
-        delta_t_hist[p][c][i][0]->SetYTitle("#Deltat");
-        delta_t_hist[p][c][i][0]->SetOption("COLZ1");
-        if (delta_t_hist[p][c][i][0]->GetEntries() > 1) delta_t_hist[p][c][i][0]->Write();
-      }
-    }
-  }
-  TDirectory* ctof_folder = RootOutputFile->mkdir("ctof");
-  ctof_folder->cd();
-  for (short p = 0; p < particle_num; p++) {
-    for (short c = 0; c < charge_num; c++) {
-      for (short i = 0; i < with_id_num; i++) {
-        delta_t_hist[p][c][i][1]->SetXTitle("Momentum (GeV)");
-        delta_t_hist[p][c][i][1]->SetYTitle("#Deltat");
-        delta_t_hist[p][c][i][1]->SetOption("COLZ1");
-        if (delta_t_hist[p][c][i][1]->GetEntries() > 1) delta_t_hist[p][c][i][1]->Write();
-      }
-    }
-  }
-}
+//   for (short p = 0; p < particle_num; p++) {
+//     for (short c = 0; c < charge_num; c++) {
+//       for (short i = 0; i < with_id_num; i++) {
+//         delta_t_hist[p][c][i][0]->SetXTitle("Momentum (GeV)");
+//         delta_t_hist[p][c][i][0]->SetYTitle("#Deltat");
+//         delta_t_hist[p][c][i][0]->SetOption("COLZ1");
+//         if (delta_t_hist[p][c][i][0]->GetEntries() > 1) delta_t_hist[p][c][i][0]->Write();
+//       }
+//     }
+//   }
+//   TDirectory* ctof_folder = RootOutputFile->mkdir("ctof");
+//   ctof_folder->cd();
+//   for (short p = 0; p < particle_num; p++) {
+//     for (short c = 0; c < charge_num; c++) {
+//       for (short i = 0; i < with_id_num; i++) {
+//         delta_t_hist[p][c][i][1]->SetXTitle("Momentum (GeV)");
+//         delta_t_hist[p][c][i][1]->SetYTitle("#Deltat");
+//         delta_t_hist[p][c][i][1]->SetOption("COLZ1");
+//         if (delta_t_hist[p][c][i][1]->GetEntries() > 1) delta_t_hist[p][c][i][1]->Write();
+//       }
+//     }
+//   }
+// }
 
-void Histogram::makeHists_MomVsBeta() {
-  for (short p = 0; p < particle_num; p++) {
-    for (short c = 0; c < charge_num; c++) {
-      for (short i = 0; i < with_id_num; i++) {
-        momvsbeta_hist[p][c][i] = std::make_shared<TH2D>(
-            Form("mom_vs_beta_%s_%s_%s", particle_name[p].c_str(), charge_name[c].c_str(), id_name[i].c_str()),
-            Form("Momentum vs #beta %s %s %s", particle_name[p].c_str(), charge_name[c].c_str(), id_name[i].c_str()),
-            bins, p_min, p_max, bins, zero, 1.2);
-      }
-    }
-  }
-}
+// void Histogram::makeHists_MomVsBeta() {
+//   for (short p = 0; p < particle_num; p++) {
+//     for (short c = 0; c < charge_num; c++) {
+//       for (short i = 0; i < with_id_num; i++) {
+//         momvsbeta_hist[p][c][i] = std::make_shared<TH2D>(
+//             Form("mom_vs_beta_%s_%s_%s", particle_name[p].c_str(), charge_name[c].c_str(), id_name[i].c_str()),
+//             Form("Momentum vs #beta %s %s %s", particle_name[p].c_str(), charge_name[c].c_str(), id_name[i].c_str()),
+//             bins, p_min, p_max, bins, zero, 1.2);
+//       }
+//     }
+//   }
+// }
 
-void Histogram::Fill_MomVsBeta(const std::shared_ptr<Branches12>& data, int part) {
-  int good_ID = 0;
-  float beta = data->beta(part);
-  float mom = data->p(part);
-  int charge = data->charge(part);
-  int pid = data->pid(part);
-  if (beta != 0) {
-    momentum->Fill(mom);
-    for (short p = 0; p < particle_num; p++) {
-      switch (p) {
-        case 0:
-          good_ID = ELECTRON;
-          break;
-        case 1:
-          good_ID = PIP;
-          break;
-        case 2:
-          good_ID = PROTON;
-          break;
-        case 3:
-          good_ID = KP;
-          break;
-      }
+// void Histogram::Fill_MomVsBeta(const std::shared_ptr<Branches12>& data, int part) {
+//   int good_ID = 0;
+//   float beta = data->beta(part);
+//   float mom = data->p(part);
+//   int charge = data->charge(part);
+//   int pid = data->pid(part);
+//   if (beta != 0) {
+//     momentum->Fill(mom);
+//     for (short p = 0; p < particle_num; p++) {
+//       switch (p) {
+//         case 0:
+//           good_ID = ELECTRON;
+//           break;
+//         case 1:
+//           good_ID = PIP;
+//           break;
+//         case 2:
+//           good_ID = PROTON;
+//           break;
+//         case 3:
+//           good_ID = KP;
+//           break;
+//       }
 
-      momvsbeta_hist[p][0][0]->Fill(mom, beta);
-      if (good_ID == abs(pid)) {
-        momvsbeta_hist[p][0][1]->Fill(mom, beta);
-      } else {
-        momvsbeta_hist[p][0][2]->Fill(mom, beta);
-      }
+//       momvsbeta_hist[p][0][0]->Fill(mom, beta);
+//       if (good_ID == abs(pid)) {
+//         momvsbeta_hist[p][0][1]->Fill(mom, beta);
+//       } else {
+//         momvsbeta_hist[p][0][2]->Fill(mom, beta);
+//       }
 
-      if (charge == -1) {
-        momvsbeta_hist[p][2][0]->Fill(mom, beta);
-        if (-good_ID == pid) {
-          momvsbeta_hist[p][2][1]->Fill(mom, beta);
-        } else {
-          momvsbeta_hist[p][2][2]->Fill(mom, beta);
-        }
-      } else if (charge == 1) {
-        momvsbeta_hist[p][1][0]->Fill(mom, beta);
-        if (good_ID == pid) {
-          momvsbeta_hist[p][1][1]->Fill(mom, beta);
-        } else {
-          momvsbeta_hist[p][1][2]->Fill(mom, beta);
-        }
-      }
-    }
-  }
-}
+//       if (charge == -1) {
+//         momvsbeta_hist[p][2][0]->Fill(mom, beta);
+//         if (-good_ID == pid) {
+//           momvsbeta_hist[p][2][1]->Fill(mom, beta);
+//         } else {
+//           momvsbeta_hist[p][2][2]->Fill(mom, beta);
+//         }
+//       } else if (charge == 1) {
+//         momvsbeta_hist[p][1][0]->Fill(mom, beta);
+//         if (good_ID == pid) {
+//           momvsbeta_hist[p][1][1]->Fill(mom, beta);
+//         } else {
+//           momvsbeta_hist[p][1][2]->Fill(mom, beta);
+//         }
+//       }
+//     }
+//   }
+// }
 
-void Histogram::Write_MomVsBeta() {
-  momentum->SetXTitle("Momentum (GeV)");
-  momentum->Write();
-  for (short p = 0; p < particle_num; p++) {
-    for (short c = 0; c < charge_num; c++) {
-      for (short i = 0; i < with_id_num; i++) {
-        momvsbeta_hist[p][c][i]->SetXTitle("Momentum (GeV)");
-        momvsbeta_hist[p][c][i]->SetYTitle("#beta");
-        momvsbeta_hist[p][c][i]->SetOption("COLZ1");
-        momvsbeta_hist[p][c][i]->Write();
-      }
-    }
-  }
-}
+// void Histogram::Write_MomVsBeta() {
+//   momentum->SetXTitle("Momentum (GeV)");
+//   momentum->Write();
+//   for (short p = 0; p < particle_num; p++) {
+//     for (short c = 0; c < charge_num; c++) {
+//       for (short i = 0; i < with_id_num; i++) {
+//         momvsbeta_hist[p][c][i]->SetXTitle("Momentum (GeV)");
+//         momvsbeta_hist[p][c][i]->SetYTitle("#beta");
+//         momvsbeta_hist[p][c][i]->SetOption("COLZ1");
+//         momvsbeta_hist[p][c][i]->Write();
+//       }
+//     }
+//   }
+// }
 
-void Histogram::Fill_EC(const std::shared_ptr<Branches12>& data) {
-  EC_sampling_fraction->Fill(data->p(0), data->ec_tot_energy(0) / data->p(0));
-}
+// void Histogram::Fill_EC(const std::shared_ptr<Branches12>& data) {
+//   EC_sampling_fraction->Fill(data->p(0), data->ec_tot_energy(0) / data->p(0));
+// }
 
-void Histogram::Write_EC() {
-  EC_sampling_fraction->SetXTitle("Momentum (GeV)");
-  EC_sampling_fraction->SetYTitle("Sampling Fraction");
-  EC_sampling_fraction->SetOption("COLZ1");
-  EC_sampling_fraction->Write();
-}
+// void Histogram::Write_EC() {
+//   EC_sampling_fraction->SetXTitle("Momentum (GeV)");
+//   EC_sampling_fraction->SetYTitle("Sampling Fraction");
+//   EC_sampling_fraction->SetOption("COLZ1");
+//   EC_sampling_fraction->Write();
+// }

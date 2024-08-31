@@ -1,11 +1,8 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
 
 #ifndef CONSTANTS_H_GUARD
 #define CONSTANTS_H_GUARD
+#include <TROOT.h>
+#include <map>
 #include <unordered_map>
 #include "TMath.h"
 
