@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
 
   //// this is for QADB
 
-  auto run_files = [&hists](auto&& inputs, auto&& thread_id) mutable {
+  auto run_files = [&csv_output_file](std::vector<std::string> inputs, auto&& thread_id) mutable {
     // Called once for each thread
     // Make a new chain to process for this thread
     auto chain = std::make_shared<TChain>("clas12");
