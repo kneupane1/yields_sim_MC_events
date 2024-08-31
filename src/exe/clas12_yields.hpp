@@ -3,6 +3,7 @@
 #define MAIN_H_GUARD
 
 #include <iostream>
+#include "QADB.h"
 #include "TFile.h"
 #include "TH1.h"
 #include "branches.hpp"
@@ -12,8 +13,12 @@
 #include "reaction.hpp"
 #include "syncfile.hpp"
 
+/////////////////////////////////////////
 template <class CutType>
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
+
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<Histogram> &_hists,
+           const std::shared_ptr<QA::QADB> &_qa, int thread_id) {
+  // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
@@ -50,6 +55,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   int numPip_mc = 0;
   int numProt_mc = 0;
   int numPim_mc = 0;
+
   // For each event
   for (size_t current_event = 0; current_event < num_of_events; current_event++) {
     // for (size_t current_event = 0; current_event < 350; current_event++) {
@@ -97,6 +103,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<Pass2_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
+
+    if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
+
     if (!cuts->ElectronCuts()) continue;
     // std::cout << " chi2pid at 0 " << data->chi2pid(0) << std::endl;
     event->SetMomCorrElec();

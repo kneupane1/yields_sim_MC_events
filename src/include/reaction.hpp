@@ -374,6 +374,8 @@ class Reaction {
   // 9.  mmsq cuts
   // 10. sf cuts
   // 11. event->SetMomCorrElec();
+  // for QADB , cmakefile.txt, clas12_yields.hpp and clas12_yields.cpp need to change and need to run
+  // source /home/kneupane/Desktop/clas12-qadb/environ.sh
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
