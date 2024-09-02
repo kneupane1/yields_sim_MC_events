@@ -30,36 +30,37 @@ int main(int argc, char** argv) {
   auto csv_output_file = std::make_shared<SyncFile>(outfilename);
   csv_output_file->write(csv_data::header());
 
-  if (_mc) {
-    auto run_files = [&csv_output_file](std::vector<std::string> inputs, auto&& thread_id) mutable {
-      // Called once for each thread
-      // Make a new chain to process for this thread
-      auto chain = std::make_shared<TChain>("clas12");
+  // if (_mc) {
+  auto run_files = [&csv_output_file](std::vector<std::string> inputs, auto&& thread_id) mutable {
+    // Called once for each thread
+    // Make a new chain to process for this thread
+    auto chain = std::make_shared<TChain>("clas12");
 
-      // Add every file to the chain
-      for (auto in : inputs) chain->Add(in.c_str());
+    // Add every file to the chain
+    for (auto in : inputs) chain->Add(in.c_str());
 
-      // Run the function over each thread
-      // return run(chain, csv_output_file, thread_id);
-      return run<Pass2_Cuts>(std::move(chain), csv_output_file, thread_id);
-    }
-  }; else {
-    //// this is for QADB
-
-    auto run_files = [&csv_output_file](std::vector<std::string> inputs, auto&& thread_id) mutable {
-      // Called once for each thread
-      // Make a new chain to process for this thread
-      auto chain = std::make_shared<TChain>("clas12");
-      auto qa = std::make_shared<QA::QADB>();
-
-      // Add every file to the chain
-      for (auto in : inputs) chain->Add(in.c_str());
-
-      // Run the function over each thread
-      return run<Pass2_Cuts>(std::move(chain), csv_output_file, qa, thread_id);
-    }
+    // Run the function over each thread
+    // return run(chain, csv_output_file, thread_id);
+    return run<Pass2_Cuts>(std::move(chain), csv_output_file, thread_id);
+    // }
   };
+  // else {
+  //// this is for QADB
+  /*
+      auto run_files = [&csv_output_file](std::vector<std::string> inputs, auto&& thread_id) mutable {
+        // Called once for each thread
+        // Make a new chain to process for this thread
+        auto chain = std::make_shared<TChain>("clas12");
+        auto qa = std::make_shared<QA::QADB>();
 
+        // Add every file to the chain
+        for (auto in : inputs) chain->Add(in.c_str());
+
+        // Run the function over each thread
+        return run<Pass2_Cuts>(std::move(chain), csv_output_file, qa, thread_id);
+      // }
+    };
+  */
   // Make a set of threads (Futures are special threads which return a value)
   std::future<size_t> threads[NUM_THREADS];
 

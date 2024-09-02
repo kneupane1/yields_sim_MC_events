@@ -71,7 +71,7 @@ class Reaction {
 
   bool _is_boosted = false;
 
-  bool _mc = false;
+  bool _mc = true;
 
   bool _hasE = false;
   bool _hasP = false;
