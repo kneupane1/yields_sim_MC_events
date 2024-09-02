@@ -362,8 +362,10 @@ class Reaction {
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
-    // return _data->mc_weight();
-    return 1.0;
+    if (_mc)
+      return _data->mc_weight();
+    else
+      return 1.0;
   }
   // Check lists when you swich from mc to exp or vice-versa
   // 1. inline weight function above
@@ -677,7 +679,7 @@ class Reaction {
   inline short protStatus() { return _prot_status; }
 
   inline float betaProt() { return _beta_prot; }
-  inline float betaProt() { return _beta_pip; }
+  inline float betaPip() { return _beta_pip; }
 
   inline int det() { return abs(_data->status(0) / 1000); }
 
