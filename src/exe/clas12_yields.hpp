@@ -15,9 +15,9 @@
 
 /////////////////////////////////////////
 template <class CutType>
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
-  // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync,
-  //                   const std::shared_ptr<QA::QADB>& _qa, int thread_id) {
+// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, const std::shared_ptr<QA::QADB>& _qa,
+           int thread_id) {
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
@@ -34,9 +34,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // Make a data object which all the branches can be accessed from
   // for sim data use it
-  auto data = std::make_shared<Branches12>(_chain, true);
+  // auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  // auto data = std::make_shared<Branches12>(_chain);
+  auto data = std::make_shared<Branches12>(_chain);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -65,50 +65,49 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     if (thread_id == 0 && current_event % 1000 == 0)
       std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
-    /////////////////////////////// Generated sim only //////////////////////////////////////
-    // if (_mc) {
-    if (data->mc_npart() < 1) continue;
-    // numElec_mc++;
+    // /////////////////////////////// Generated sim only //////////////////////////////////////
+    // // if (_mc) {
+    // if (data->mc_npart() < 1) continue;
+    // // numElec_mc++;
 
-    // If we pass electron cuts the event is processed
-    total++;
+    // // If we pass electron cuts the event is processed
+    // total++;
 
-    // Make a reaction class from the data given
-    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-    if (mc_event->weight() > 0.0) continue;
+    // // Make a reaction class from the data given
+    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // if (mc_event->weight() <= 0.0) continue;
 
-    for (int part = 1; part < data->mc_npart(); part++) {
-      // Check particle ID's and fill the reaction class
+    // for (int part = 1; part < data->mc_npart(); part++) {
+    //   // Check particle ID's and fill the reaction class
 
-      if (data->mc_pid(part) == PIP) {
-        numPip_mc++;
+    //   if (data->mc_pid(part) == PIP) {
+    //     numPip_mc++;
 
-        mc_event->SetMCPip(part);
-      }
-      if (data->mc_pid(part) == PROTON) {
-        numProt_mc++;
+    //     mc_event->SetMCPip(part);
+    //   }
+    //   if (data->mc_pid(part) == PROTON) {
+    //     numProt_mc++;
 
-        mc_event->SetMCProton(part);
-      } else if (data->mc_pid(part) == PIM) {
-        numPim_mc++;
+    //     mc_event->SetMCProton(part);
+    //   } else if (data->mc_pid(part) == PIM) {
+    //     numPim_mc++;
 
-        mc_event->SetMCPim(part);
-        // } else {
-        //   mc_event->SetMCOther(part);
-      }
-    }
+    //     mc_event->SetMCPim(part);
+    //     // } else {
+    //     //   mc_event->SetMCOther(part);
+    //   }
     // }
+    // // }
     /////////////////////////////// Reconstruction only //////////////////////////////////////
     auto event = std::make_shared<Reaction>(data, beam_energy);
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<Pass2_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
-    // if (!_mc)
-    // if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
+    if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
 
     if (!cuts->ElectronCuts()) continue;
     // std::cout << " chi2pid at 0 " << data->chi2pid(0) << std::endl;
-    // event->SetMomCorrElec();
+    event->SetMomCorrElec();
 
     numElec++;
     // if (!isnan(data->ec_ecout_time(0))) std::cout << " for elec time  " << data->ec_ecout_time(0) << std::endl;

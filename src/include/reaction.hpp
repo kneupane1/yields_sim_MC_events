@@ -71,7 +71,9 @@ class Reaction {
 
   bool _is_boosted = false;
 
-  bool _mc = true;
+  //////////////// modify this for exp and sim:
+  // bool _mc = true;
+  bool _mc = false;
 
   bool _hasE = false;
   bool _hasP = false;
@@ -373,8 +375,9 @@ class Reaction {
   // for elec included only for exp data
   // 4. clas12_yields: auto data = std::make_shared<Branches12>(_chain, true);  turn off true for data
   // 5. from if (data->mc_npart() < 1) to all particle set up im mc events.
-  // 6. all mc bank related (generated) output parameters will not work in exp data
-  // 7. smearing part
+
+  // 6. smearing and all mc bank related (generated) output parameters will not work in exp data
+  // 7.  bool _mc = true;
   // 8. deltat cuts
   // 9.  mmsq cuts
   // 10. sf cuts
