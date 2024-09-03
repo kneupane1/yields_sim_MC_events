@@ -14,8 +14,12 @@
 #include "syncfile.hpp"
 using namespace std;
 
+#include "QADB.h"
+
 template <class CutType>
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, const std::shared_ptr<QA::QADB>& _qa,
+           int thread_id) {
+  // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
@@ -88,6 +92,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // // If we pass electron cuts the event is processed
     total++;
+    if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
 
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<uconn_Cuts>(data);
@@ -104,7 +109,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
       // Check particle ID's and fill the reaction class
       if (cuts->IsProton(part)) {
-        if (cuts->HadronsCuts(part)) {
+        // if (cuts->HadronsCuts(part))
+        {
           event->SetProton(part);
           statusProt = abs(data->status(part));
           sectorProt = data->dc_sec(part);
@@ -112,14 +118,16 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         }
 
       } else if (cuts->IsPip(part)) {
-        if (cuts->HadronsCuts(part)) {
+        // if (cuts->HadronsCuts(part))
+        {
           event->SetPip(part);
           statusPip = abs(data->status(part));
           sectorPip = data->dc_sec(part);
           // if (statusPip<4000 && statusPip> 2000) sectorPip = data->dc_sec(part);
         }
       } else if (cuts->IsPim(part)) {
-        if (cuts->HadronsCuts(part)) {
+        // if (cuts->HadronsCuts(part))
+        {
           event->SetPim(part);
           statusPim = abs(data->status(part));
           sectorPim = data->dc_sec(part);
@@ -141,7 +149,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         output.q2 = event->Q2();
         // mPim .......................................
         output.pim_mom_mPim = event->pim_momentum();
-        mc_event->pim_momentum();
+        // mc_event->pim_momentum();
         output.pim_theta_mPim = event->pim_theta_lab();
         output.pim_phi_mPim = event->pim_Phi_lab();
         output.mm2_mPim = event->MM2();
