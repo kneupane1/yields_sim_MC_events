@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 
                               // Run the function over each thread
                               // return run(chain, csv_output_file, thread_id);
-                              return run<uconn_Cuts>(std::move(chain), csv_output_file, thread_id);
+                              return run<Pass2_Cuts>(std::move(chain), csv_output_file, thread_id);
 
 
                       };

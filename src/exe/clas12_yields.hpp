@@ -24,9 +24,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   size_t num_of_events = (int)_chain->GetEntries();
 
   float beam_energy = 10.6;
-  if (std::is_same<CutType, rga_Cuts>::value) {
-    beam_energy = 10.6;
-  } else if (std::is_same<CutType, uconn_Cuts>::value) {
+
+  if (std::is_same<CutType, Pass2_Cuts>::value) {
     beam_energy = 10.6;
     // } else if (std::is_same<CutType, rgf_Cuts>::value) {
     //         beam_energy = rgf_E0;
@@ -95,7 +94,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
 
     auto dt = std::make_shared<Delta_T>(data);
-    auto cuts = std::make_shared<uconn_Cuts>(data);
+    auto cuts = std::make_shared<Pass2_Cuts>(data);
     // auto cuts = std::make_shared<rga_Cuts>(data);
     if (!cuts->ElectronCuts()) continue;
 

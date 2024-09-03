@@ -480,6 +480,9 @@ void Branches12::initMC() {
   _tree->SetBranchAddress("mc_vz", &_mc_vz);
   _tree->SetBranchAddress("mc_vt", &_mc_vt);
 }
+// Add these getter methods
+int Branches12::getRun() { return _run; }
+int Branches12::getEvent() { return _event; }
 
 int Branches12::gpart() { return _pid->size(); }
 int Branches12::pid(int i) {
