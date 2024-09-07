@@ -14,6 +14,7 @@
 // #include "eff_corr.hpp"
 #include "mom_corr.hpp"
 #include "physics.hpp"
+
 class Reaction {
  protected:
   std::shared_ptr<Branches12> _data;
@@ -72,8 +73,8 @@ class Reaction {
   bool _is_boosted = false;
 
   //////////////// modify this for exp and sim:
-  // bool _mc = true;
-  bool _mc = false;
+  bool _mc = true;
+  // bool _mc = false;
 
   bool _hasE = false;
   bool _hasP = false;
@@ -736,9 +737,14 @@ class MCReaction : public Reaction {
 
   std::unique_ptr<TLorentzVector> _elec_mc;
   std::unique_ptr<TLorentzVector> _gamma_mc;
+  std::unique_ptr<TLorentzVector> _target_mc;
+
   std::vector<std::unique_ptr<TLorentzVector>> _prot_mc;
   std::vector<std::unique_ptr<TLorentzVector>> _pip_mc;
   std::vector<std::unique_ptr<TLorentzVector>> _pim_mc;
+
+  // std::unique_ptr<TLorentzVector> _prot_mc;
+  // std::unique_ptr<TLorentzVector> _pip_mc;
 
   std::vector<int> _prot_mc_indices;
   std::vector<int> _pip_mc_indices;
@@ -770,8 +776,8 @@ class MCReaction : public Reaction {
 
   bool _is_boosted_mc = false;
 
-  float _MM_mc = NAN;
-  float _MM2_mc = NAN;
+  float _MM_mPim_mc = NAN;
+  float _MM2_mPim_mc = NAN;
   float _MM2_exclusive_mc = NAN;
 
   float _alpha_ppip_pipim_mc = NAN;
@@ -801,6 +807,11 @@ class MCReaction : public Reaction {
   const std::vector<int> &GetProtonMcIndices() const { return _prot_mc_indices; }
   const std::vector<int> &GetPipMcIndices() const { return _pip_mc_indices; }
   const std::vector<int> &GetPimMcIndices() const { return _pim_mc_indices; }
+
+  void CalcMissMassPimMC(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc);
+  // void CalcMissMassPimMC();
+  float MM_mPim_MC();
+  float MM2_mPim_MC();
 
   void boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector &pim_mc);
 
