@@ -143,9 +143,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
       if (cuts->IsPip(part)) {
         // Get the generated pip (π⁺) indices
-        const std::vector<int>& mc_pip_indices = mc_event->GetPipMcIndices();
+        // const std::vector<int>& mc_pip_indices = mc_event->GetPipMcIndices();
         // if (mc_pip_indices.size() != 1) std::cout << "Number of gen pip : " << mc_pip_indices.size() << std::endl;
-        int mc_pip = mc_pip_indices[0];  // Access the first (and only) pip index
+        // int mc_pip = mc_pip_indices[0];  // Access the first (and only) pip index
         // Pip_pid_mc = data->mc_pid(mc_pip);
         Pip_pid_rec = data->pid(part);
         // for (int mc_pip : mc_pip_indices) {
@@ -159,8 +159,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
       if (cuts->IsProton(part)) {
         // // Get the generated proton indices
-        const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
-        int mc_proton = mc_proton_indices[0];  // Access the first (and only) proton index
+        // const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
+        // int mc_proton = mc_proton_indices[0];  // Access the first (and only) proton index
         // Prot_pid_mc = data->mc_pid(mc_proton);
         Prot_pid_rec = data->pid(part);
         // for (int mc_proton : mc_proton_indices) {
@@ -174,8 +174,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       if (cuts->IsPim(part)) {
         // event->SetPim(part);
         // // Get the generated pim (π⁻) indices
-        const std::vector<int>& mc_pim_indices = mc_event->GetPimMcIndices();
-        int mc_pim = mc_pim_indices[0];  // Access the first (and only) pim index
+        // const std::vector<int>& mc_pim_indices = mc_event->GetPimMcIndices();
+        // int mc_pim = mc_pim_indices[0];  // Access the first (and only) pim index
         // Pim_pid_mc = data->mc_pid(mc_pim);
         Pim_pid_rec = data->pid(part);
         // for (int mc_pim : mc_pim_indices) {
