@@ -146,7 +146,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         const std::vector<int>& mc_pip_indices = mc_event->GetPipMcIndices();
         // if (mc_pip_indices.size() != 1) std::cout << "Number of gen pip : " << mc_pip_indices.size() << std::endl;
         int mc_pip = mc_pip_indices[0];  // Access the first (and only) pip index
-        Pip_pid_mc = data->mc_pid(mc_pip);
+        // Pip_pid_mc = data->mc_pid(mc_pip);
         Pip_pid_rec = data->pid(part);
         // for (int mc_pip : mc_pip_indices) {
         // if (data->mc_pid(mc_pip) != data->pid(part)) {
@@ -161,7 +161,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // Get the generated proton indices
         const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
         int mc_proton = mc_proton_indices[0];  // Access the first (and only) proton index
-        Prot_pid_mc = data->mc_pid(mc_proton);
+        // Prot_pid_mc = data->mc_pid(mc_proton);
         Prot_pid_rec = data->pid(part);
         // for (int mc_proton : mc_proton_indices) {
         //   if (data->mc_pid(mc_proton) != data->pid(part)) {
@@ -176,7 +176,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // // Get the generated pim (π⁻) indices
         const std::vector<int>& mc_pim_indices = mc_event->GetPimMcIndices();
         int mc_pim = mc_pim_indices[0];  // Access the first (and only) pim index
-        Pim_pid_mc = data->mc_pid(mc_pim);
+        // Pim_pid_mc = data->mc_pid(mc_pim);
         Pim_pid_rec = data->pid(part);
         // for (int mc_pim : mc_pim_indices) {
         //   if (data->mc_pid(mc_pim) != data->pid(part)) {
@@ -386,7 +386,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 output.mm2_exclusive_at_zero = event->MM2_exclusive();
                 output.energy_x_mu = event->Energy_excl();
 
-                output.status_Pim = statusPim;
+                output.status_Pim = event->pimStatus();
                 output.status_Pip = event->pipStatus();
                 output.status_Prot = event->protStatus();
 
