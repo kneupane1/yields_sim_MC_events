@@ -480,17 +480,17 @@ void Reaction::SetOther(int i) {
   }
 }
 
-/////////////////// new added ////////////////
-void Reaction::CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip) {
-  auto mm_mpim = std::make_unique<TLorentzVector>();
+// /////////////////// new added ////////////////
+// void Reaction::CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip) {
+//   auto mm_mpim = std::make_unique<TLorentzVector>();
 
-  *mm_mpim += (*_gamma + *_target);
-  *mm_mpim -= prot;
-  *mm_mpim -= pip;
+//   *mm_mpim += (*_gamma + *_target);
+//   *mm_mpim -= prot;
+//   *mm_mpim -= pip;
 
-  _MM_mPim = mm_mpim->M();
-  _MM2_mPim = mm_mpim->M2();
-}
+//   _MM_mPim = mm_mpim->M();
+//   _MM2_mPim = mm_mpim->M2();
+// }
 
 void Reaction::CalcMissMassExcl(const TLorentzVector &prot, const TLorentzVector &pip, const TLorentzVector &pim)
 //     void Reaction::CalcMissMass()

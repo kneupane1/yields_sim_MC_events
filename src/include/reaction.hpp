@@ -73,8 +73,8 @@ class Reaction {
   bool _is_boosted = false;
 
   //////////////// modify this for exp and sim:
-  bool _mc = true;
-  // bool _mc = false;
+  // bool _mc = true;
+  bool _mc = false;
 
   bool _hasE = false;
   bool _hasP = false;

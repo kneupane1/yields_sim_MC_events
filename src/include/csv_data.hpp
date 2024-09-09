@@ -151,15 +151,14 @@ struct csv_data {
   float inv_ppip;
   float inv_ppim;
   float inv_pip_pim;
-  int prot_pid_mc, prot_pid_rec, pip_pid_mc, pip_pid_rec;
+  int prot_pid_mc, prot_pid_rec, pip_pid_mc, pip_pid_rec, pim_pid_rec;
 
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     // return "w_mc,q2_mc,mm2_mPim_mc,weight";
 
-    return "prot_pid_rec,pip_pid_rec,w_rec,q2_rec,prot_mom_mes,prot_theta_mes,prot_phi_mes,pip_"
-           "mom_mes,pip_theta_mes,pip_phi_mes,mm2_mPim,mm2_mPim_mc,status_Pip,status_Prot,beta_pip,beta_prot,weight";
+    return "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec,q2_rec,mm2_mPim,mm2_mPim_mc,status_Pip,status_Prot,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -170,6 +169,7 @@ struct csv_data {
     os << data.prot_pid_rec << ",";
     // os << data.pip_pid_mc << ",";
     os << data.pip_pid_rec << ",";
+    os << data.pim_pid_rec << ",";
 
     // // For excl case
 
@@ -228,13 +228,13 @@ struct csv_data {
     // os << data.gen_pim_phi << ",";
 
     // // //  // // // Missing
-    os << data.prot_mom_mProt << ",";
-    os << data.prot_theta_mProt << ",";
-    os << data.prot_phi_mProt << ",";
+    // os << data.prot_mom_mProt << ",";
+    // os << data.prot_theta_mProt << ",";
+    // os << data.prot_phi_mProt << ",";
 
-    os << data.pip_mom_mPip << ",";
-    os << data.pip_theta_mPip << ",";
-    os << data.pip_phi_mPip << ",";
+    // os << data.pip_mom_mPip << ",";
+    // os << data.pip_theta_mPip << ",";
+    // os << data.pip_phi_mPip << ",";
 
     // os << data.pim_mom_mPim << ",";
     // os << data.pim_theta_mPim << ",";
@@ -257,22 +257,22 @@ struct csv_data {
     // os << data.pim_phi_exclusive << ",";
     // // os << data.pim_dcr1theta_exclusive << ",";
 
-    // os << data.mm2_mProt << ",";
-    // os << data.mm2_mPip << ",";
+    os << data.mm2_mProt << ",";
+    os << data.mm2_mPip << ",";
     os << data.mm2_mPim << ",";
-    os << data.mm2_mPim_mc << ",";
+    // os << data.mm2_mPim_mc << ",";
 
-    // os << data.mm2_exclusive_at_zero << ",";
-    // os << data.energy_x_mu << ",";
+    os << data.mm2_exclusive_at_zero << ",";
+    os << data.energy_x_mu << ",";
 
     // os << std::setprecision(1);
 
-    // os << data.status_Pim << ",";
+    os << data.status_Pim << ",";
     os << data.status_Pip << ",";
     os << data.status_Prot << ",";
 
-    os << data.beta_Pip << ",";
-    os << data.beta_Prot << ",";
+    // os << data.beta_Pip << ",";
+    // os << data.beta_Prot << ",";
     // os << std::setprecision(7);
     // os << data.inv_ppip << ",";
     // os << data.inv_ppim << ",";
