@@ -158,8 +158,8 @@ struct csv_data {
     // Make a string for the header of the csv file mPim case
     // return "w_mc,q2_mc,mm2_mPim_mc,weight";
 
-    return "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,status_Pip,status_Prot,"
-           "weight";
+    return "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_"
+           "x_mu,status_Pim,status_Pip,ststus_Prot,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
