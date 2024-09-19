@@ -11,6 +11,8 @@ struct csv_data {
   short prot_sec;
   float w;
   float q2;
+  float w_before;
+  float q2_before;
   float w_mc;
   float q2_mc;
   float weight_mc;
@@ -158,8 +160,8 @@ struct csv_data {
     // Make a string for the header of the csv file mPim case
     // return "w_mc,q2_mc,mm2_mPim_mc,weight";
 
-    return "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_"
-           "x_mu,status_Pim,status_Pip,ststus_Prot,weight";
+    return "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec_before,q2_rec_before,w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,"
+           "mm2_exclusive_at_zero,energy_x_mu,status_Pim,status_Pip,ststus_Prot,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
@@ -188,6 +190,9 @@ struct csv_data {
     // os << data.weight_mc << ",";
 
     /////////////////////////////////////////
+
+    os << data.w_before << ",";
+    os << data.q2_before << ",";
 
     os << data.w << ",";
     os << data.q2 << ",";

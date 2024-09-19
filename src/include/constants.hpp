@@ -6,6 +6,12 @@
 #include <unordered_map>
 #include "TMath.h"
 
+////////////////////////////////////////////
+static const bool _mc = true;
+// static const bool _mc = false;
+
+///////////////////////////////////////////
+
 static const int MAX_PARTS = 100;
 static const int N_SIGMA = 3;
 static const float PI = TMath::Pi();

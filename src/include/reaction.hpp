@@ -72,9 +72,9 @@ class Reaction {
 
   bool _is_boosted = false;
 
-  //////////////// modify this for exp and sim:
-  // bool _mc = true;
-  bool _mc = false;
+  // //////////////// modify this for exp and sim:
+  // // bool _mc = true;
+  // bool _mc = false;
 
   bool _hasE = false;
   bool _hasP = false;
@@ -119,7 +119,8 @@ class Reaction {
   float _elec_E = NAN;
   float _theta_e = NAN;
 
-  float _W_after = NAN;
+  float _W_before = NAN;
+  float _Q2_before = NAN;
 
   float _P_elec = NAN;
 
@@ -669,7 +670,8 @@ class Reaction {
   inline float W() { return _W; }
   inline float Q2() { return _Q2; }
 
-  inline float W_after() { return _W_after; }
+  inline float W_before() { return _W_before; }
+  inline float Q2_before() { return _Q2_before; }
 
   float_t scalar_triple_product();
 

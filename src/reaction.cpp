@@ -19,7 +19,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12> &data, float beam_energy) {
   _pip = std::vector<std::unique_ptr<TLorentzVector>>();
   _pim = std::vector<std::unique_ptr<TLorentzVector>>();
 
-  _mom_corr_elec = std::make_unique<TLorentzVector>();
+  // _mom_corr_elec = std::make_unique<TLorentzVector>();
   _mom_corr_prot = std::vector<std::unique_ptr<TLorentzVector>>();
   _mom_corr_pip = std::vector<std::unique_ptr<TLorentzVector>>();
   _mom_corr_pim = std::vector<std::unique_ptr<TLorentzVector>>();
@@ -47,13 +47,19 @@ auto objMomCorr = std::make_shared<mom_corr>();
 
 void Reaction::SetElec() {
   _hasE = true;
+  _sectorElec = _data->dc_sec(0);
+  _elec_status = abs(_data->status(0));
+
+  _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
+  _W_before = physics::W_calc(*_beam, *_elecUnSmear);
+  _Q2_before = physics::Q2_calc(*_beam, *_elecUnSmear);
+
   // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
   // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
   // // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   // _W = physics::W_calc(*_beam, *_elec);
   // _Q2 = physics::Q2_calc(*_beam, *_elec);
-
   // _elec_mom = _elec->P();
   // _elec_E = _elec->E();
   // _theta_e = _elec->Theta() * 180 / PI;
@@ -61,11 +67,6 @@ void Reaction::SetElec() {
   // ///////////////////////////// Smearing /////////////////////////////////
   //////////////////////////////// Smearing //////////////////////////////
   if (_mc) {
-    _sectorElec = _data->dc_sec(0);
-    _elec_status = abs(_data->status(0));
-
-    _elecUnSmear->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
-
     double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
         phiSmear;
 
@@ -108,30 +109,46 @@ void Reaction::SetElec() {
     //   _phi_elec = _elec->Phi() * 180 / PI;
     // else if (_elec->Phi() < 0)
     //   _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
-  }
-}
-
-// // ///////////////////////////// MOM CORR /////////////////////////////////
-// //////////////////////////////// MOM CORR //////////////////////////////
-
-void Reaction::SetMomCorrElec() {  // New electron momentum corrections
-  if (!_mc) {
+  } else {
     fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
-    _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
-                            MASS_E);  // this is new electron mom corrections aug 2022
+    // _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+    //                         MASS_E);  // this is new electron mom corrections aug 2022
     _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
                    MASS_E);  // elec and mom corr elec are SAME !!!!!
 
-    *_gamma += *_beam - *_mom_corr_elec;
-    // _W_after = physics::W_calc(*_beam, *_mom_corr_elec);
-    _W = physics::W_calc(*_beam, *_mom_corr_elec);
-    _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+    *_gamma += *_beam - *_elec;
+    // _W_before = physics::W_calc(*_beam, *_elec);
+    _W = physics::W_calc(*_beam, *_elec);
+    _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-    _P_elec = _mom_corr_elec->P();
-    _elec_E = _mom_corr_elec->E();
-    _theta_e = _mom_corr_elec->Theta() * 180 / PI;
+    _P_elec = _elec->P();
+    _elec_E = _elec->E();
+    _theta_e = _elec->Theta() * 180 / PI;
+    // }
   }
 }
+
+// // // ///////////////////////////// MOM CORR /////////////////////////////////
+// // //////////////////////////////// MOM CORR //////////////////////////////
+
+// void Reaction::SetMomCorrElec() {  // New electron momentum corrections
+//   if (!_mc) {
+//     fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
+//     _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+//                             MASS_E);  // this is new electron mom corrections aug 2022
+//     _elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
+//                    MASS_E);  // elec and mom corr elec are SAME !!!!!
+
+//     *_gamma += *_beam - *_mom_corr_elec;
+//     // _W_before = physics::W_calc(*_beam, *_mom_corr_elec);
+//     _W = physics::W_calc(*_beam, *_mom_corr_elec);
+//     _Q2 = physics::Q2_calc(*_beam, *_mom_corr_elec);
+
+//     _P_elec = _mom_corr_elec->P();
+//     _elec_E = _mom_corr_elec->E();
+//     _theta_e = _mom_corr_elec->Theta() * 180 / PI;
+//   }
+// }
 
 void Reaction::SetProton(int i) {
   _numProt++;
@@ -1004,16 +1021,18 @@ float MCReaction::MM2_mPim_MC() { return _MM2_mPim_mc; }
 // }
 // ////////////////////////////////  BOOST TO CM SYSTEM ///////////////////////////////
 
-// void MCReaction::boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector &pim_mc)
+// void MCReaction::boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector
+// &pim_mc)
 // {
 //   _is_boosted_mc = true;
 
 //   // Boost all particles to the center of mass frame
 //   _boosted_gamma_mc =
 //       std::make_unique<TLorentzVector>(boost_cms::boostToCMS(*_gamma_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
-//   _boosted_prot_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(prot_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
-//   _boosted_pip_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pip_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
-//   _boosted_pim_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pim_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
+//   _boosted_prot_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(prot_mc, *_gamma_mc, *_elec_mc,
+//   _Q2_mc)); _boosted_pip_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pip_mc, *_gamma_mc, *_elec_mc,
+//   _Q2_mc)); _boosted_pim_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pim_mc, *_gamma_mc, *_elec_mc,
+//   _Q2_mc));
 // }
 // // // // Calculate invariant masse
 // float MCReaction::MCinv_Ppip() { return boost_cms::calculateInvariantMass(*_boosted_prot_mc, *_boosted_pip_mc); }

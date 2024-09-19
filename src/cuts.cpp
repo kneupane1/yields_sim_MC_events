@@ -11,27 +11,64 @@ Cuts::Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_
 
 Cuts::~Cuts() {}
 
-/////////////////////// exp data dt cuts ////////////// prot, pip, pim /////////////////
-double dt_cut_fd_up[3][6] = {{-0.0055, 0.10236, -0.7266, 2.447, -3.926, 2.893},
-                             {-0.003983, 0.0719, -0.4958, 1.634, -2.598, 2.059},
-                             {-0.002695, 0.0391, -0.2146, 0.56, -0.7153, 0.743}};
-double dt_cut_fd_down[3][6] = {{0.005783, -0.1055, 0.7295, -2.377, 3.672, -2.697},
-                               {0.005386, -0.0987, 0.6816, -2.203, 3.326, -2.277},
-                               {0.00419, -0.06027, 0.3281, -0.8403, 1.025, -0.8545}};
-double dt_cut_cd_up[3][3] = {{0.06, -0.3303, 0.7656}, {0.01909, 0.00434, 0.428}, {-0.005173, 0.09735, 0.3801}};
-double dt_cut_cd_down[3][3] = {{-0.04974, 0.286, -0.73}, {-0.03662, 0.1555, -0.4675}, {-0.02998, 0.1083, -0.4429}};
+// auto RxnClas = std::make_shared<Reaction>(_data, beam_energy);
 
-// /////////////////////////// sim data dt cuts ////////////// prot, pip, pim /////////////////
+// // // /////////////////////////// exp data dt cuts ////////////// prot, pip, pim /////////////////
+// double dt_cut_fd_up[3][6] = {{-0.0055, 0.10236, -0.7266, 2.447, -3.926, 2.893},
+//                              {-0.003983, 0.0719, -0.4958, 1.634, -2.598, 2.059},
+//                              {-0.002695, 0.0391, -0.2146, 0.56, -0.7153, 0.743}};
+// double dt_cut_fd_down[3][6] = {{0.005783, -0.1055, 0.7295, -2.377, 3.672, -2.697},
+//                                {0.005386, -0.0987, 0.6816, -2.203, 3.326, -2.277},
+//                                {0.00419, -0.06027, 0.3281, -0.8403, 1.025, -0.8545}};
+// double dt_cut_cd_up[3][3] = {{0.06, -0.3303, 0.7656},
+//                              {0.01909, 0.00434, 0.428},
+//                              {-0.005173, 0.09735, 0.3801}};
+// double dt_cut_cd_down[3][3] = {{-0.04974, 0.286, -0.73},
+//                                {-0.03662, 0.1555, -0.4675},
+//                                {-0.02998, 0.1083, -0.4429}};
+
+// // /////////////////////////// both data dt cuts ////////////// {exp,sim}-> prot, pip, pim /////////////////
+
+double dt_cut_fd_up[2][3][6] = {{{-0.0055, 0.10236, -0.7266, 2.447, -3.926, 2.893},
+                                 {-0.003983, 0.0719, -0.4958, 1.634, -2.598, 2.059},
+                                 {-0.002695, 0.0391, -0.2146, 0.56, -0.7153, 0.743}},
+                                {{-0.003056, 0.05838, -0.429, 1.513, -2.592, 2.297},
+                                 {-0.0013075, 0.02531, -0.1893, 0.6865, -1.227, 1.377},
+                                 {-0.0009727, 0.0131, -0.0642, 0.1498, -0.2065, 0.6343}}};
+
+double dt_cut_fd_down[2][3][6] = {{{0.005783, -0.1055, 0.7295, -2.377, 3.672, -2.697},
+                                   {0.005386, -0.0987, 0.6816, -2.203, 3.326, -2.277},
+                                   {0.00419, -0.06027, 0.3281, -0.8403, 1.025, -0.8545}},
+                                  {{0.004017, -0.07574, 0.5454, -1.866, 3.047, -2.426},
+                                   {0.002022, -0.0358, 0.2452, -0.823, 1.369, -1.379},
+                                   {0.002928, -0.04208, 0.2229, -0.5396, 0.6313, -0.7734}}};
+
+double dt_cut_cd_up[2][3][3] = {{{0.06, -0.3303, 0.7656}, {0.01909, 0.00434, 0.428}, {-0.005173, 0.09735, 0.3801}},
+                                {{0.05585, -0.2876, 0.714}, {0.0458, -0.1715, 0.5796}, {0.014305, -0.04828, 0.5063}}};
+
+double dt_cut_cd_down[2][3][3] = {{{-0.04974, 0.286, -0.73}, {-0.03662, 0.1555, -0.4675}, {-0.02998, 0.1083, -0.4429}},
+                                  {{-0.02893, 0.1836, -0.649}, {-0.0731, 0.303, -0.58745}, {-0.03882, 0.1859, -0.519}}};
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 // double dt_cut_fd_up[3][6] = {{-0.003056, 0.05838, -0.429, 1.513, -2.592, 2.297},
 //                              {-0.0013075, 0.02531, -0.1893, 0.6865, -1.227, 1.377},
 //                              {-0.0009727, 0.0131, -0.0642, 0.1498, -0.2065, 0.6343}};
 // double dt_cut_fd_down[3][6] = {{0.004017, -0.07574, 0.5454, -1.866, 3.047, -2.426},
 //                                {0.002022, -0.0358, 0.2452, -0.823, 1.369, -1.379},
 //                                {0.002928, -0.04208, 0.2229, -0.5396, 0.6313, -0.7734}};
-// double dt_cut_cd_up[3][3] = {{0.05585, -0.2876, 0.714}, {0.0458, -0.1715, 0.5796}, {0.014305, -0.04828, 0.5063}};
-// double dt_cut_cd_down[3][3] = {{-0.02893, 0.1836, -0.649}, {-0.0731, 0.303, -0.58745}, {-0.03882, 0.1859, -0.519}};
+// double dt_cut_cd_up[3][3] = {{0.05585, -0.2876, 0.714},
+//                              {0.0458, -0.1715, 0.5796},
+//                              {0.014305, -0.04828, 0.5063}};
+// double dt_cut_cd_down[3][3] = {{-0.02893, 0.1836, -0.649},
+//                                {-0.0731, 0.303, -0.58745},
+//                                {-0.03882, 0.1859, -0.519}};
 
 bool Pass2_Cuts::IsPip(int i) {
+  int is_mc = 0;
+  if (_mc) {
+    is_mc = 1;
+  }
   if (_data->gpart() <= i) return false;
   bool _pip = true;
   _pip &= (_data->charge(i) == POSITIVE);
@@ -43,21 +80,23 @@ bool Pass2_Cuts::IsPip(int i) {
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
     _pip &= (_data->p(i) > 0.5);
     // _pip &= (_data->p(i) < 4.6);
-    _pip &= (_dt->dt_Pi(i) < (dt_cut_fd_up[1][0] * pow(_data->p(i), 5) + dt_cut_fd_up[1][1] * pow(_data->p(i), 4) +
-                              dt_cut_fd_up[1][2] * pow(_data->p(i), 3) + dt_cut_fd_up[1][3] * pow(_data->p(i), 2) +
-                              dt_cut_fd_up[1][4] * pow(_data->p(i), 1) + dt_cut_fd_up[1][5]));
-    _pip &= (_dt->dt_Pi(i) > (dt_cut_fd_down[1][0] * pow(_data->p(i), 5) + dt_cut_fd_down[1][1] * pow(_data->p(i), 4) +
-                              dt_cut_fd_down[1][2] * pow(_data->p(i), 3) + dt_cut_fd_down[1][3] * pow(_data->p(i), 2) +
-                              dt_cut_fd_down[1][4] * pow(_data->p(i), 1) + dt_cut_fd_down[1][5]));
+    _pip &= (_dt->dt_Pi(i) <
+             (dt_cut_fd_up[is_mc][1][0] * pow(_data->p(i), 5) + dt_cut_fd_up[is_mc][1][1] * pow(_data->p(i), 4) +
+              dt_cut_fd_up[is_mc][1][2] * pow(_data->p(i), 3) + dt_cut_fd_up[is_mc][1][3] * pow(_data->p(i), 2) +
+              dt_cut_fd_up[is_mc][1][4] * pow(_data->p(i), 1) + dt_cut_fd_up[is_mc][1][5]));
+    _pip &= (_dt->dt_Pi(i) >
+             (dt_cut_fd_down[is_mc][1][0] * pow(_data->p(i), 5) + dt_cut_fd_down[is_mc][1][1] * pow(_data->p(i), 4) +
+              dt_cut_fd_down[is_mc][1][2] * pow(_data->p(i), 3) + dt_cut_fd_down[is_mc][1][3] * pow(_data->p(i), 2) +
+              dt_cut_fd_down[is_mc][1][4] * pow(_data->p(i), 1) + dt_cut_fd_down[is_mc][1][5]));
 
     _pip &= DC_fiducial_cut_XY(i, 2);
   } else if (abs(_data->status(i)) >= 4000) {
     _pip &= (_data->p(i) > 0.2);
     // _pip &= (_data->p(i) < 1.7);
-    _pip &= (_dt->dt_Pi(i) <
-             (dt_cut_cd_up[1][0] * pow(_data->p(i), 2) + dt_cut_cd_up[1][1] * _data->p(i) + dt_cut_cd_up[1][2]));
-    _pip &= (_dt->dt_Pi(i) >
-             (dt_cut_cd_down[1][0] * pow(_data->p(i), 2) + dt_cut_cd_down[1][1] * _data->p(i) + dt_cut_cd_down[1][2]));
+    _pip &= (_dt->dt_Pi(i) < (dt_cut_cd_up[is_mc][1][0] * pow(_data->p(i), 2) +
+                              dt_cut_cd_up[is_mc][1][1] * _data->p(i) + dt_cut_cd_up[is_mc][1][2]));
+    _pip &= (_dt->dt_Pi(i) > (dt_cut_cd_down[is_mc][1][0] * pow(_data->p(i), 2) +
+                              dt_cut_cd_down[is_mc][1][1] * _data->p(i) + dt_cut_cd_down[is_mc][1][2]));
     _pip &= CD_fiducial_had(i);
   }
   // _pip &= (_data->p(i) > 0.2);
@@ -66,6 +105,10 @@ bool Pass2_Cuts::IsPip(int i) {
   return _pip;
 }
 bool Pass2_Cuts::IsProton(int i) {
+  int is_mc = 0;
+  if (_mc) {
+    is_mc = 1;
+  }
   if (_data->gpart() <= i) return false;
   bool _proton = true;
   _proton &= (_data->charge(i) == POSITIVE);
@@ -77,23 +120,24 @@ bool Pass2_Cuts::IsProton(int i) {
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
     _proton &= (_data->p(i) > 0.4);
     // _proton &= (_data->p(i) < 4.5);
-    _proton &= (_dt->dt_P(i) < (dt_cut_fd_up[0][0] * pow(_data->p(i), 5) + dt_cut_fd_up[0][1] * pow(_data->p(i), 4) +
-                                dt_cut_fd_up[0][2] * pow(_data->p(i), 3) + dt_cut_fd_up[0][3] * pow(_data->p(i), 2) +
-                                dt_cut_fd_up[0][4] * pow(_data->p(i), 1) + dt_cut_fd_up[0][5]));
+    _proton &= (_dt->dt_P(i) <
+                (dt_cut_fd_up[is_mc][0][0] * pow(_data->p(i), 5) + dt_cut_fd_up[is_mc][0][1] * pow(_data->p(i), 4) +
+                 dt_cut_fd_up[is_mc][0][2] * pow(_data->p(i), 3) + dt_cut_fd_up[is_mc][0][3] * pow(_data->p(i), 2) +
+                 dt_cut_fd_up[is_mc][0][4] * pow(_data->p(i), 1) + dt_cut_fd_up[is_mc][0][5]));
 
-    _proton &=
-        (_dt->dt_P(i) > (dt_cut_fd_down[0][0] * pow(_data->p(i), 5) + dt_cut_fd_down[0][1] * pow(_data->p(i), 4) +
-                         dt_cut_fd_down[0][2] * pow(_data->p(i), 3) + dt_cut_fd_down[0][3] * pow(_data->p(i), 2) +
-                         dt_cut_fd_down[0][4] * pow(_data->p(i), 1) + dt_cut_fd_down[0][5]));
+    _proton &= (_dt->dt_P(i) >
+                (dt_cut_fd_down[is_mc][0][0] * pow(_data->p(i), 5) + dt_cut_fd_down[is_mc][0][1] * pow(_data->p(i), 4) +
+                 dt_cut_fd_down[is_mc][0][2] * pow(_data->p(i), 3) + dt_cut_fd_down[is_mc][0][3] * pow(_data->p(i), 2) +
+                 dt_cut_fd_down[is_mc][0][4] * pow(_data->p(i), 1) + dt_cut_fd_down[is_mc][0][5]));
 
     _proton &= DC_fiducial_cut_XY(i, 1);
   } else if (abs(_data->status(i)) >= 4000) {
     _proton &= (_data->p(i) > 0.2);  /// this 0.4 look harse when we do missing Pim channel
     // _proton &= (_data->p(i) < 2.0);
-    _proton &= (_dt->dt_P(i) <
-                (dt_cut_cd_up[0][0] * pow(_data->p(i), 2) + dt_cut_cd_up[0][1] * _data->p(i) + dt_cut_cd_up[0][2]));
-    _proton &= (_dt->dt_P(i) > (dt_cut_cd_down[0][0] * pow(_data->p(i), 2) + dt_cut_cd_down[0][1] * _data->p(i) +
-                                dt_cut_cd_down[0][2]));
+    _proton &= (_dt->dt_P(i) < (dt_cut_cd_up[is_mc][0][0] * pow(_data->p(i), 2) +
+                                dt_cut_cd_up[is_mc][0][1] * _data->p(i) + dt_cut_cd_up[is_mc][0][2]));
+    _proton &= (_dt->dt_P(i) > (dt_cut_cd_down[is_mc][0][0] * pow(_data->p(i), 2) +
+                                dt_cut_cd_down[is_mc][0][1] * _data->p(i) + dt_cut_cd_down[is_mc][0][2]));
     _proton &= CD_fiducial_had(i);
   }
 
@@ -105,6 +149,10 @@ bool Pass2_Cuts::IsProton(int i) {
 }
 
 bool Pass2_Cuts::IsPim(int i) {
+  int is_mc = 0;
+  if (_mc) {
+    is_mc = 1;
+  }
   if (_data->gpart() <= i) return false;
   bool _pim = true;
   _pim &= (_data->charge(i) == NEGATIVE);
@@ -115,20 +163,22 @@ bool Pass2_Cuts::IsPim(int i) {
   if (2000 <= abs(_data->status(i)) && abs(_data->status(i)) < 4000) {
     _pim &= (_data->p(i) > 0.4);
     // _pim &= (_data->p(i) < 4.5);
-    _pim &= (_dt->dt_Pi(i) < (dt_cut_fd_up[2][0] * pow(_data->p(i), 5) + dt_cut_fd_up[2][1] * pow(_data->p(i), 4) +
-                              dt_cut_fd_up[2][2] * pow(_data->p(i), 3) + dt_cut_fd_up[2][3] * pow(_data->p(i), 2) +
-                              dt_cut_fd_up[2][4] * pow(_data->p(i), 1) + dt_cut_fd_up[2][5]));
+    _pim &= (_dt->dt_Pi(i) <
+             (dt_cut_fd_up[is_mc][2][0] * pow(_data->p(i), 5) + dt_cut_fd_up[is_mc][2][1] * pow(_data->p(i), 4) +
+              dt_cut_fd_up[is_mc][2][2] * pow(_data->p(i), 3) + dt_cut_fd_up[is_mc][2][3] * pow(_data->p(i), 2) +
+              dt_cut_fd_up[is_mc][2][4] * pow(_data->p(i), 1) + dt_cut_fd_up[is_mc][2][5]));
 
-    _pim &= (_dt->dt_Pi(i) > (dt_cut_fd_down[2][0] * pow(_data->p(i), 5) + dt_cut_fd_down[2][1] * pow(_data->p(i), 4) +
-                              dt_cut_fd_down[2][2] * pow(_data->p(i), 3) + dt_cut_fd_down[2][3] * pow(_data->p(i), 2) +
-                              dt_cut_fd_down[2][4] * pow(_data->p(i), 1) + dt_cut_fd_down[2][5]));
+    _pim &= (_dt->dt_Pi(i) >
+             (dt_cut_fd_down[is_mc][2][0] * pow(_data->p(i), 5) + dt_cut_fd_down[is_mc][2][1] * pow(_data->p(i), 4) +
+              dt_cut_fd_down[is_mc][2][2] * pow(_data->p(i), 3) + dt_cut_fd_down[is_mc][2][3] * pow(_data->p(i), 2) +
+              dt_cut_fd_down[is_mc][2][4] * pow(_data->p(i), 1) + dt_cut_fd_down[is_mc][2][5]));
   } else if (abs(_data->status(i)) >= 4000) {
     _pim &= (_data->p(i) > 0.2);
     // _pim &= (_data->p(i) < 1.9);
-    _pim &= (_dt->dt_Pi(i) <
-             (dt_cut_cd_up[2][0] * pow(_data->p(i), 2) + dt_cut_cd_up[2][1] * _data->p(i) + dt_cut_cd_up[2][2]));
-    _pim &= (_dt->dt_Pi(i) >
-             (dt_cut_cd_down[2][0] * pow(_data->p(i), 2) + dt_cut_cd_down[2][1] * _data->p(i) + dt_cut_cd_down[2][2]));
+    _pim &= (_dt->dt_Pi(i) < (dt_cut_cd_up[is_mc][2][0] * pow(_data->p(i), 2) +
+                              dt_cut_cd_up[is_mc][2][1] * _data->p(i) + dt_cut_cd_up[is_mc][2][2]));
+    _pim &= (_dt->dt_Pi(i) > (dt_cut_cd_down[is_mc][2][0] * pow(_data->p(i), 2) +
+                              dt_cut_cd_down[is_mc][2][1] * _data->p(i) + dt_cut_cd_down[is_mc][2][2]));
   }
   // _pim &= (_data->p(i) > 0.2);
 
@@ -195,30 +245,56 @@ bool Pass2_Cuts::EC_sampling_fraction_cut() {
   int isec = (_data->ec_pcal_sec(0) - 1);
   double upper_lim_total = 0;
   double lower_lim_total = 0;
+  int is_mc = 0;
+  if (_mc) {
+    is_mc = 1;
+  }
+  // //// // // // // ////////////////////////////exp 3.5 sigma cuts ////////////////////////
+  // double mean_minus_3_5_sigma[6][3] = {{-0.0001186, 0.0001892, 0.1942}, {-0.000856, 0.01084, 0.1637}, {-0.001184,
+  // 0.014046, 0.1593}, {-0.001268, 0.01918, 0.1287}, {-0.0002744, 0.003532, 0.1844}, {-0.001039, 0.012505, 0.1593}};
+  // double mean_plus_3_5_sigma[6][3] = {{-0.0004027, 0.001746, 0.2903}, {-9.36e-05, -0.000999, 0.2979}, {-0.0003238,
+  // 0.00101, 0.2957}, {-4.303e-05, -0.0004702, 0.2954}, {-0.0001818, 0.003223, 0.2742}, {-0.0002906, 0.0015335,
+  // 0.2883}};
 
-  // // // ////////////////////////////exp 3.5 sigma cuts ////////////////////////
-  double mean_minus_3_5_sigma[6][3] = {{-0.0001186, 0.0001892, 0.1942}, {-0.000856, 0.01084, 0.1637},
-                                       {-0.001184, 0.014046, 0.1593},   {-0.001268, 0.01918, 0.1287},
-                                       {-0.0002744, 0.003532, 0.1844},  {-0.001039, 0.012505, 0.1593}};
-  double mean_plus_3_5_sigma[6][3] = {{-0.0004027, 0.001746, 0.2903}, {-9.36e-05, -0.000999, 0.2979},
-                                      {-0.0003238, 0.00101, 0.2957},  {-4.303e-05, -0.0004702, 0.2954},
-                                      {-0.0001818, 0.003223, 0.2742}, {-0.0002906, 0.0015335, 0.2883}};
+  // // // ////////////////////////////simulations 3.5 sigma cuts ////////////////////////
+  // double mean_minus_3_5_sigma[6][3] = {{-0.00058, 0.00687, 0.19312}, {-0.00088, 0.01022, 0.18360}, {-0.00089,
+  // 0.00941, 0.18832}, {-0.00066, 0.00888, 0.18466}, {-0.00066, 0.00798, 0.18884}, {-0.00055, 0.00685, 0.19319}};
+  // double mean_plus_3_5_sigma[6][3] = {{-0.00002, -0.00078, 0.29991}, {0.00023, -0.00396, 0.31026}, {0.00010,
+  // -0.00156, 0.30077}, {0.00017, -0.00400, 0.31052}, {0.00018, -0.00342, 0.30823}, {0.00012, -0.00297, 0.30706}};
 
-  // // // // ////////////////////////////simulations 3.5 sigma cuts ////////////////////////
-  // double mean_minus_3_5_sigma[6][3] = {{-0.00058, 0.00687, 0.19312}, {-0.00088, 0.01022, 0.18360},
-  //                                      {-0.00089, 0.00941, 0.18832}, {-0.00066, 0.00888, 0.18466},
-  //                                      {-0.00066, 0.00798, 0.18884}, {-0.00055, 0.00685, 0.19319}};
-  // double mean_plus_3_5_sigma[6][3] = {{-0.00002, -0.00078, 0.29991}, {0.00023, -0.00396, 0.31026},
-  //                                     {0.00010, -0.00156, 0.30077},  {0.00017, -0.00400, 0.31052},
-  //                                     {0.00018, -0.00342, 0.30823},  {0.00012, -0.00297, 0.30706}};
+  ///// Both  ////////
+  double mean_minus_3_5_sigma[2][6][3] = {{{-0.0001186, 0.0001892, 0.1942},
+                                           {-0.000856, 0.01084, 0.1637},
+                                           {-0.001184, 0.014046, 0.1593},
+                                           {-0.001268, 0.01918, 0.1287},
+                                           {-0.0002744, 0.003532, 0.1844},
+                                           {-0.001039, 0.012505, 0.1593}},
+                                          {{-0.00058, 0.00687, 0.19312},
+                                           {-0.00088, 0.01022, 0.18360},
+                                           {-0.00089, 0.00941, 0.18832},
+                                           {-0.00066, 0.00888, 0.18466},
+                                           {-0.00066, 0.00798, 0.18884},
+                                           {-0.00055, 0.00685, 0.19319}}};
+  double mean_plus_3_5_sigma[2][6][3] = {{{-0.0004027, 0.001746, 0.2903},
+                                          {-9.36e-05, -0.000999, 0.2979},
+                                          {-0.0003238, 0.00101, 0.2957},
+                                          {-4.303e-05, -0.0004702, 0.2954},
+                                          {-0.0001818, 0.003223, 0.2742},
+                                          {-0.0002906, 0.0015335, 0.2883}},
+                                         {{-0.00002, -0.00078, 0.29991},
+                                          {0.00023, -0.00396, 0.31026},
+                                          {0.00010, -0.00156, 0.30077},
+                                          {0.00017, -0.00400, 0.31052},
+                                          {0.00018, -0.00342, 0.30823},
+                                          {0.00012, -0.00297, 0.30706}}};
 
   for (Int_t k = 0; k < 6; k++) {
     if (isec == k) {
-      upper_lim_total = mean_plus_3_5_sigma[k][0] * pow(_data->p(0), 2) + (mean_plus_3_5_sigma[k][1]) * _data->p(0) +
-                        mean_plus_3_5_sigma[k][2];
+      upper_lim_total = mean_plus_3_5_sigma[is_mc][k][0] * pow(_data->p(0), 2) +
+                        (mean_plus_3_5_sigma[is_mc][k][1]) * _data->p(0) + mean_plus_3_5_sigma[is_mc][k][2];
 
-      lower_lim_total = mean_minus_3_5_sigma[k][0] * pow(_data->p(0), 2) + (mean_minus_3_5_sigma[k][1]) * _data->p(0) +
-                        mean_minus_3_5_sigma[k][2];
+      lower_lim_total = mean_minus_3_5_sigma[is_mc][k][0] * pow(_data->p(0), 2) +
+                        (mean_minus_3_5_sigma[is_mc][k][1]) * _data->p(0) + mean_minus_3_5_sigma[is_mc][k][2];
     }
   }
   bool pass_band = _data->ec_tot_energy(0) / _data->p(0) <= upper_lim_total &&

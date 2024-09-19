@@ -3,7 +3,7 @@
 #define MAIN_H_GUARD
 
 #include <iostream>
-#include "QADB.h"
+// #include "QADB.h"
 #include "TFile.h"
 #include "TH1.h"
 #include "branches.hpp"
@@ -15,9 +15,10 @@
 
 /////////////////////////////////////////
 template <class CutType>
-// size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, const std::shared_ptr<QA::QADB>& _qa,
-           int thread_id) {
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
+  // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, const std::shared_ptr<QA::QADB>&
+  // _qa,
+  //            int thread_id) {
   // Get the number of events in this thread
   size_t num_of_events = (int)_chain->GetEntries();
 
@@ -36,7 +37,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   // for sim data use it
   // auto data = std::make_shared<Branches12>(_chain, true);
   // for exp data use it
-  auto data = std::make_shared<Branches12>(_chain);
+  auto data = std::make_shared<Branches12>(_chain, _mc);
 
   // Total number of events "Processed"
   size_t total = 0;
@@ -71,41 +72,41 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
     // /////////////////////////////// Generated sim only //////////////////////////////////////
-    // // if (_mc) {
-    // if (data->mc_npart() < 1) continue;
-    // // numElec_mc++;
+    // if (_mc) {
+    if (data->mc_npart() < 1) continue;
+    // numElec_mc++;
 
-    // // If we pass electron cuts the event is processed
-    // total++;
-    // // std::cout << " event " << current_event << std::endl;
+    // If we pass electron cuts the event is processed
+    total++;
+    // std::cout << " event " << current_event << std::endl;
 
-    // // Make a reaction class from the data given
-    // auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-    // // if (mc_event->weight() <= 0.0) continue;
-    // // std::cout << " event " << current_event;
+    // Make a reaction class from the data given
+    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+    // if (mc_event->weight() <= 0.0) continue;
+    // std::cout << " event " << current_event;
 
-    // for (int part = 1; part < data->mc_npart(); part++) {
-    //   // Check particle ID's and fill the reaction class
+    for (int part = 1; part < data->mc_npart(); part++) {
+      // Check particle ID's and fill the reaction class
 
-    //   if (data->mc_pid(part) == PIP) {
-    //     numPip_mc++;
+      if (data->mc_pid(part) == PIP) {
+        numPip_mc++;
 
-    //     mc_event->SetMCPip(part);
-    //   }
-    //   if (data->mc_pid(part) == PROTON) {
-    //     numProt_mc++;
+        mc_event->SetMCPip(part);
+      }
+      if (data->mc_pid(part) == PROTON) {
+        numProt_mc++;
 
-    //     mc_event->SetMCProton(part);
-    //     // std::cout << mc_event->GetMcProtons().size() << std::endl;
+        mc_event->SetMCProton(part);
+        // std::cout << mc_event->GetMcProtons().size() << std::endl;
 
-    //   } else if (data->mc_pid(part) == PIM) {
-    //     numPim_mc++;
+      } else if (data->mc_pid(part) == PIM) {
+        numPim_mc++;
 
-    //     mc_event->SetMCPim(part);
-    //     // } else {
-    //     //   mc_event->SetMCOther(part);
-    //   }
-    // }
+        mc_event->SetMCPim(part);
+        // } else {
+        //   mc_event->SetMCOther(part);
+      }
+    }
     // // std::cout << mc_event->GetMcProtons().size() << std::endl;
     // // // Retrieve the number of protons and pions in the event
     // size_t num_protons_mc = mc_event->GetMcProtons().size();
@@ -126,12 +127,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     auto event = std::make_shared<Reaction>(data, beam_energy);
     auto dt = std::make_shared<Delta_T>(data);
     auto cuts = std::make_shared<Pass2_Cuts>(data);
-    // auto cuts = std::make_shared<rga_Cuts>(data);
-    if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
+    // // auto cuts = std::make_shared<rga_Cuts>(data);
+    // if (!_qa->Golden(data->getRun(), data->getEvent())) continue;
 
     if (!cuts->ElectronCuts()) continue;
     // std::cout << " chi2pid at 0 " << data->chi2pid(0) << std::endl;
-    event->SetMomCorrElec();
+    // event->SetMomCorrElec();
 
     numElec++;
 
@@ -158,10 +159,10 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       }
 
       if (cuts->IsProton(part)) {
-        // // Get the generated proton indices
-        // const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
-        // int mc_proton = mc_proton_indices[0];  // Access the first (and only) proton index
-        // Prot_pid_mc = data->mc_pid(mc_proton);
+        // Get the generated proton indices
+        const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
+        int mc_proton = mc_proton_indices[0];  // Access the first (and only) proton index
+        Prot_pid_mc = data->mc_pid(mc_proton);
         Prot_pid_rec = data->pid(part);
         // for (int mc_proton : mc_proton_indices) {
         //   if (data->mc_pid(mc_proton) != data->pid(part)) {
@@ -294,6 +295,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 output.pip_pid_rec = Pip_pid_rec;
                 output.pim_pid_rec = Pim_pid_rec;
 
+                output.w_before = event->W_before();
+                output.q2_before = event->Q2_before();
                 output.w = event->W();
                 output.q2 = event->Q2();
                 // // // output.w_had = event->w_hadron();
