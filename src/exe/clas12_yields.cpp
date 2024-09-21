@@ -29,15 +29,12 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  // Make your histograms object as a shared pointer that all the threads will have
+  // Make your object as a shared pointer that all the threads will have
   auto csv_output_file = std::make_shared<SyncFile>(outfilename);
   csv_output_file->write(csv_data::header());
 
-  // Declare _qa here
-  auto _qa = std::make_shared<QA::QADB>();
-
-  // Capture _qa by reference in the lambda
-  auto run_files = [&csv_output_file, &_qa](std::vector<std::string> inputs, auto&& thread_id) {
+  // auto run_files = [&csv_output_file](auto&& inputs, auto&& thread_id) mutable {
+  auto run_files = [&csv_output_file](std::vector<std::string> inputs, auto&& thread_id) mutable {
     // Called once for each thread
     // Make a new chain to process for this thread
     auto chain = std::make_shared<TChain>("clas12");
@@ -46,8 +43,25 @@ int main(int argc, char** argv) {
     for (auto in : inputs) chain->Add(in.c_str());
 
     // Run the function over each thread
-    return run<Pass2_Cuts>(std::move(chain), _qa, csv_output_file, thread_id);
+    // return run(chain, csv_output_file, thread_id);
+    return run<uconn_Cuts>(std::move(chain), csv_output_file, thread_id);
   };
+  //// this is for QADB
+  // // Declare _qa here
+  // auto _qa = std::make_shared<QA::QADB>();
+
+  // // Capture _qa by reference in the lambda
+  // auto run_files = [&csv_output_file, &_qa](std::vector<std::string> inputs, auto&& thread_id) {
+  //   // Called once for each thread
+  //   // Make a new chain to process for this thread
+  //   auto chain = std::make_shared<TChain>("clas12");
+
+  //   // Add every file to the chain
+  //   for (auto in : inputs) chain->Add(in.c_str());
+
+  //   // Run the function over each thread
+  //   return run<Pass2_Cuts>(std::move(chain), _qa, csv_output_file, thread_id);
+  // };
 
   // Make a set of threads (Futures are special threads which return a value)
   std::future<size_t> threads[NUM_THREADS];
@@ -70,7 +84,7 @@ int main(int argc, char** argv) {
     // Get the information from the thread in this case how many events each thread actually computed
     events += threads[i].get();
   }
-  std::cout << _qa->GetAccumulatedCharge() << std::endl;
+  // std::cout << _qa->GetAccumulatedCharge() << std::endl;
 
   // Timer and Hz calculator functions that print at the end
   std::cout.imbue(std::locale(""));  // Puts commas in
