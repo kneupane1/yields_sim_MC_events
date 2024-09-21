@@ -848,6 +848,18 @@ class MCReaction : public Reaction {
   float pip_mom_mc_gen();
   float prot_mom_mc_gen();
 
+  float pim_momX_mc_gen();
+  float pip_momX_mc_gen();
+  float prot_momX_mc_gen();
+
+  float pim_momY_mc_gen();
+  float pip_momY_mc_gen();
+  float prot_momY_mc_gen();
+
+  float pim_momZ_mc_gen();
+  float pip_momZ_mc_gen();
+  float prot_momZ_mc_gen();
+
   float pim_theta_mc_gen();
   float pip_theta_mc_gen();
   float prot_theta_mc_gen();

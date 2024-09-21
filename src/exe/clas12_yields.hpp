@@ -61,9 +61,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   int Pip_pid_rec = -9999;
   int Prot_pid_rec = -9999;
   int Pim_pid_rec = -9999;
+  double dp_prot1 = NAN;
+  double dp_pip1 = NAN;
+  double dp_prot2 = NAN;
+  double dp_pip2 = NAN;
+  double dp_prot3 = NAN;
+  double dp_pip3 = NAN;
+  double dp_pim1 = NAN;
+  double dp_pim2 = NAN;
+  double dp_pim3 = NAN;
+
   // For each event
   for (size_t current_event = 0; current_event < num_of_events; current_event++) {
-    // for (size_t current_event = 0; current_event < 100; current_event++) {
+    // for (size_t current_event = 0; current_event < 20; current_event++) {
     // Get current event
     _chain->GetEntry(current_event);
 
@@ -73,7 +83,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
     // /////////////////////////////// Generated sim only //////////////////////////////////////
     // if (_mc) {
-    if (data->mc_npart() < 1) continue;
+    if (data->mc_npart() < 1 || data->mc_weight() <= 0) continue;
     // numElec_mc++;
 
     // If we pass electron cuts the event is processed
@@ -140,47 +150,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     for (int part = 1; part < data->gpart(); part++) {
       dt->dt_calc(part);
 
-      // Check particle ID's and fill the reaction class
+      //////// Here we wnat to calculate DP for prot and pip:
+      // if (data->charge(part) > 0)
 
+      // Check particle ID's and fill the reaction class
       if (cuts->IsPip(part)) {
-        // Get the generated pip (π⁺) indices
-        // const std::vector<int>& mc_pip_indices = mc_event->GetPipMcIndices();
-        // if (mc_pip_indices.size() != 1) std::cout << "Number of gen pip : " << mc_pip_indices.size() << std::endl;
-        // int mc_pip = mc_pip_indices[0];  // Access the first (and only) pip index
-        // Pip_pid_mc = data->mc_pid(mc_pip);
-        Pip_pid_rec = data->pid(part);
-        // for (int mc_pip : mc_pip_indices) {
-        // if (data->mc_pid(mc_pip) != data->pid(part)) {
         numPip++;
         event->SetPip(part);
-        // break;
-        //   }
-        // }
       }
 
       if (cuts->IsProton(part)) {
-        // Get the generated proton indices
-        const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
-        int mc_proton = mc_proton_indices[0];  // Access the first (and only) proton index
-        Prot_pid_mc = data->mc_pid(mc_proton);
-        Prot_pid_rec = data->pid(part);
-        // for (int mc_proton : mc_proton_indices) {
-        //   if (data->mc_pid(mc_proton) != data->pid(part)) {
         numProt++;
         event->SetProton(part);
-        // break;  // Stop once a match is found
-        // }
-        // }
       }
       if (cuts->IsPim(part)) {
-        // event->SetPim(part);
-        // // Get the generated pim (π⁻) indices
-        // const std::vector<int>& mc_pim_indices = mc_event->GetPimMcIndices();
-        // int mc_pim = mc_pim_indices[0];  // Access the first (and only) pim index
-        // Pim_pid_mc = data->mc_pid(mc_pim);
-        Pim_pid_rec = data->pid(part);
-        // for (int mc_pim : mc_pim_indices) {
-        //   if (data->mc_pid(mc_pim) != data->pid(part)) {
         numPim++;
         event->SetPim(part);
         //     break;
@@ -289,14 +272,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 // output.pip_sec = event->pipSec();
                 // output.prot_sec = event->protSec();
 
-                // output.prot_pid_mc = Prot_pid_mc;
-                output.prot_pid_rec = Prot_pid_rec;
-                // output.pip_pid_mc = Pip_pid_mc;
-                output.pip_pid_rec = Pip_pid_rec;
-                output.pim_pid_rec = Pim_pid_rec;
+                // // output.prot_pid_mc = Prot_pid_mc;
+                // output.prot_pid_rec = Prot_pid_rec;
+                // // output.pip_pid_mc = Pip_pid_mc;
+                // output.pip_pid_rec = Pip_pid_rec;
+                // output.pim_pid_rec = Pim_pid_rec;
 
-                output.w_before = event->W_before();
-                output.q2_before = event->Q2_before();
+                // output.w_before = event->W_before();
+                // output.q2_before = event->Q2_before();
                 output.w = event->W();
                 output.q2 = event->Q2();
                 // // // output.w_had = event->w_hadron();
@@ -338,8 +321,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
                 // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
-                // // // // // // // // // // missing
-                // auto proton_vector = event->GetProtonIndices()[i];
+                // // // // // // // // // // // missing
+                // // auto proton_vector = event->GetProtonIndices()[i];
                 // output.prot_mom_mProt = event->prot_momentum(*event->GetProtons()[i]);
                 // output.prot_theta_mProt = event->prot_theta_lab(*event->GetProtons()[i]);
                 // output.prot_phi_mProt = event->prot_Phi_lab(*event->GetProtons()[i]);
@@ -389,12 +372,12 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 output.mm2_exclusive_at_zero = event->MM2_exclusive();
                 output.energy_x_mu = event->Energy_excl();
 
-                output.status_Pim = event->pimStatus();
-                output.status_Pip = event->pipStatus();
-                output.status_Prot = event->protStatus();
+                // output.status_Pim = event->pimStatus();
+                // output.status_Pip = event->pipStatus();
+                // output.status_Prot = event->protStatus();
 
-                // output.beta_Pip = event->betaPip();
-                // output.beta_Prot = event->betaProt();
+                // // output.beta_Pip = event->betaPip();
+                // // output.beta_Prot = event->betaProt();
 
                 // // output.inv_ppip = event->inv_Ppip();
                 // // output.inv_ppim = event->inv_Ppim();
