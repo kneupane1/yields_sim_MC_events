@@ -195,62 +195,62 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt()||
       // event->TwoPion_exclusive()) {
 
-      if (event->TwoPion_exclusive()) {
-        for (size_t i = 0; i < event->GetProtons().size(); ++i) {
-          for (size_t j = 0; j < event->GetPips().size(); ++j) {
-            for (size_t k = 0; k < event->GetPims().size(); ++k) {
-              // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
+      // if (event->TwoPion_exclusive()) {
+      //   for (size_t i = 0; i < event->GetProtons().size(); ++i) {
+      //     for (size_t j = 0; j < event->GetPips().size(); ++j) {
+      //       for (size_t k = 0; k < event->GetPims().size(); ++k) {
+      //         // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
-              //                                 two_pion_Excl_events++;
-              //                                 _hists->Fill_WvsQ2(event);
+      //         //                                 two_pion_Excl_events++;
+      //         //                                 _hists->Fill_WvsQ2(event);
 
-              // // You should have a similar method for π⁻ if applicable
-              // dt->dt_calc(event->GetPimIndices()[k]);
-              // _hists->Fill_deltat_pim_after_cut(data, dt, event->GetPimIndices()[k], event);
-              // _hists->FillHists_pim_pid_with_cuts(data, event, event->GetPimIndices()[k]);
-              //       }
-              //     }
-              //   }
-              // }
+      //         // // You should have a similar method for π⁻ if applicable
+      //         // dt->dt_calc(event->GetPimIndices()[k]);
+      //         // _hists->Fill_deltat_pim_after_cut(data, dt, event->GetPimIndices()[k], event);
+      //         // _hists->FillHists_pim_pid_with_cuts(data, event, event->GetPimIndices()[k]);
+      //         //       }
+      //         //     }
+      //         //   }
+      //         // }
 
-              // if (event->TwoPion_missingPim()) {
-              //   // if (event->TwoPion_missingPip()) {
-              //   // if (event->TwoPion_missingProt()) {
-              //   // if (event->TwoPion_exclusive()) {
-              //   // // twoPion_excl++;
-              //   // // if (event->Inclusive()) {
-              //   // {
-              //   // {
+      if (event->TwoPion_missingPim()) {
+        // if (event->TwoPion_missingPip()) {
+        // if (event->TwoPion_missingProt()) {
+        // if (event->TwoPion_exclusive()) {
+        // // twoPion_excl++;
+        // // if (event->Inclusive()) {
+        // {
+        // {
 
-              //   {  // // Retrieve the number of protons and pions in the event
-              //     size_t num_protons = event->GetProtons().size();
-              //     size_t num_pips = event->GetPips().size();
+        {  // // Retrieve the number of protons and pions in the event
+          size_t num_protons = event->GetProtons().size();
+          size_t num_pips = event->GetPips().size();
 
-              //     // // Calculate the total number of combinations
-              //     // size_t num_combinations = num_protons * num_pips;
+          // // Calculate the total number of combinations
+          // size_t num_combinations = num_protons * num_pips;
 
-              //     // // Get the vector of protons
-              //     // const auto &protons = event->GetProtons();
-              //     // const auto &pip = event->GetPips();
+          // // Get the vector of protons
+          // const auto &protons = event->GetProtons();
+          // const auto &pip = event->GetPips();
 
-              //     for (size_t i = 0; i < num_protons; ++i) {
-              //       for (size_t j = 0; j < num_pips; ++j) {
-              //         // if (event->GetProtonIndices()[i] == event->GetPipIndices()[j]) no_prot_pip++;
+          for (size_t i = 0; i < num_protons; ++i) {
+            for (size_t j = 0; j < num_pips; ++j) {
+              // if (event->GetProtonIndices()[i] == event->GetPipIndices()[j]) no_prot_pip++;
 
-              //         // // // Print//////////////////////////////////////
-              //         // std::cout << "Event " << current_event << ": "
-              //         //           << num_protons << " proton(s), "
-              //         //           << num_pips << " pip(s), "
-              //         //           << num_combinations << " combination(s)." << std::endl;
+              // // // Print//////////////////////////////////////
+              // std::cout << "Event " << current_event << ": "
+              //           << num_protons << " proton(s), "
+              //           << num_pips << " pip(s), "
+              //           << num_combinations << " combination(s)." << std::endl;
 
-              //         // if (both_prot_pip >= 1)
-              //         // Access the i-th proton and j-th pip
+              // if (both_prot_pip >= 1)
+              // Access the i-th proton and j-th pip
 
-              //         // Exclude the case where the same particle is assigned as both proton and pip
+              // Exclude the case where the same particle is assigned as both proton and pip
               if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
-                // event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
+                event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
                 // event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
-                event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
+                // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
                 // // std::cout << "  rec mass mPim " << event->MM_mPim() << std::endl;
                 // {
@@ -360,28 +360,28 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 // // // // output.pim_theta_corr = event->pim_theta_corrected();
                 // // // // output.pim_phi_corr = event->pim_Phi_corrected();
 
-                output.mm2_mProt = event->MM2_mProt();
-                // output.mm2_mProt_corr = event->MM2_mProt_corr();
-                output.mm2_mPip = event->MM2_mPip();
-                // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
+                // output.mm2_mProt = event->MM2_mProt();
+                // // output.mm2_mProt_corr = event->MM2_mProt_corr();
+                // output.mm2_mPip = event->MM2_mPip();
+                // // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
                 output.mm2_mPim = event->MM2_mPim();
                 // output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
 
-                // // // output.mm2_mPim_corr = event->MM2_mPim_corr();
+                // // // // output.mm2_mPim_corr = event->MM2_mPim_corr();
 
-                output.mm2_exclusive_at_zero = event->MM2_exclusive();
-                output.energy_x_mu = event->Energy_excl();
+                // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+                // output.energy_x_mu = event->Energy_excl();
 
-                // output.status_Pim = event->pimStatus();
-                // output.status_Pip = event->pipStatus();
-                // output.status_Prot = event->protStatus();
+                // // output.status_Pim = event->pimStatus();
+                // // output.status_Pip = event->pipStatus();
+                // // output.status_Prot = event->protStatus();
 
-                // // output.beta_Pip = event->betaPip();
-                // // output.beta_Prot = event->betaProt();
+                // // // output.beta_Pip = event->betaPip();
+                // // // output.beta_Prot = event->betaProt();
 
-                // // output.inv_ppip = event->inv_Ppip();
-                // // output.inv_ppim = event->inv_Ppim();
-                // // output.inv_pip_pim = event->inv_Pippim();
+                // // // output.inv_ppip = event->inv_Ppip();
+                // // // output.inv_ppim = event->inv_Ppim();
+                // // // output.inv_pip_pim = event->inv_Pippim();
 
                 output.weight_exclusive = event->weight();
                 _sync->write(output);

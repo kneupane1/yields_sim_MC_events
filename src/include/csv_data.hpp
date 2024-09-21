@@ -158,7 +158,8 @@ struct csv_data {
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    return "w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,weight";
+    // return "w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,weight";
+    return "w_rec,q2_rec,mm2_mPim,weight";
 
     // return
     // "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec_before,q2_rec_before,w_rec,q2_rec,prot_mom_gen,prot_th_gen,prot_"
@@ -265,13 +266,13 @@ struct csv_data {
     // os << data.pim_phi_exclusive << ",";
     // // os << data.pim_dcr1theta_exclusive << ",";
 
-    os << data.mm2_mProt << ",";
-    os << data.mm2_mPip << ",";
+    // os << data.mm2_mProt << ",";
+    // os << data.mm2_mPip << ",";
     os << data.mm2_mPim << ",";
     // os << data.mm2_mPim_mc << ",";
 
-    os << data.mm2_exclusive_at_zero << ",";
-    os << data.energy_x_mu << ",";
+    // os << data.mm2_exclusive_at_zero << ",";
+    // os << data.energy_x_mu << ",";
 
     // // os << std::setprecision(1);
 
