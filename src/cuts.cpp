@@ -200,7 +200,7 @@ bool Pass2_Cuts::ElectronCuts() {
 
   cut &= (_data->gpart() < 20);
   //
-  cut &= (_data->charge(0) == NEGATIVE);
+  // cut &= (_data->charge(0) == NEGATIVE);
   cut &= (_data->pid(0) == ELECTRON);
   cut &= (_data->p(0) > 1.50);
   // cut &= (_data->vz(0) > -(2.78 + 3 * 2.16) && _data->vz(0) < (-2.78 + 3 * 2.16)); // 3 sigma cut

@@ -153,13 +153,16 @@ struct csv_data {
   float inv_ppip;
   float inv_ppim;
   float inv_pip_pim;
+  float alpha_Prot, alpha_Pip, alpha_Pim;
   int prot_pid_mc, prot_pid_rec, pip_pid_mc, pip_pid_rec, pim_pid_rec;
 
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     // return "w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,weight";
-    return "w_rec,q2_rec,mm2_mPim,weight";
+    return "w_rec,q2_rec,prot_mom_mes,prot_th_mes,prot_phi_mes,pip_mom_mes,pip_th_mes,pip_phi_mes,mm2_mPim,"
+           "status_Pip,status_Prot,beta_Pip,beta_Prot,inv_pPip,inv_pPim,inv_pipPim,alpha_prot,alpha_pip,alpha_pim,"
+           "weight";
 
     // return
     // "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec_before,q2_rec_before,w_rec,q2_rec,prot_mom_gen,prot_th_gen,prot_"
@@ -251,14 +254,14 @@ struct csv_data {
 
     // // // //  // // // measured
 
-    // os << data.prot_mom_exclusive << ",";
-    // os << data.prot_theta_exclusive << ",";
-    // os << data.prot_phi_exclusive << ",";
+    os << data.prot_mom_exclusive << ",";
+    os << data.prot_theta_exclusive << ",";
+    os << data.prot_phi_exclusive << ",";
     // // os << data.prot_dcr1theta_exclusive << ",";
 
-    // os << data.pip_mom_exclusive << ",";
-    // os << data.pip_theta_exclusive << ",";
-    // os << data.pip_phi_exclusive << ",";
+    os << data.pip_mom_exclusive << ",";
+    os << data.pip_theta_exclusive << ",";
+    os << data.pip_phi_exclusive << ",";
     // // os << data.pip_dcr1theta_exclusive << ",";
 
     // os << data.pim_mom_exclusive << ",";
@@ -274,18 +277,23 @@ struct csv_data {
     // os << data.mm2_exclusive_at_zero << ",";
     // os << data.energy_x_mu << ",";
 
-    // // os << std::setprecision(1);
+    os << std::setprecision(1);
 
     // os << data.status_Pim << ",";
-    // os << data.status_Pip << ",";
-    // os << data.status_Prot << ",";
+    os << data.status_Pip << ",";
+    os << data.status_Prot << ",";
 
-    // os << data.beta_Pip << ",";
-    // os << data.beta_Prot << ",";
-    // os << std::setprecision(7);
-    // os << data.inv_ppip << ",";
-    // os << data.inv_ppim << ",";
-    // os << data.inv_pip_pim << ",";
+    os << std::setprecision(7);
+
+    os << data.beta_Pip << ",";
+    os << data.beta_Prot << ",";
+    os << data.inv_ppip << ",";
+    os << data.inv_ppim << ",";
+    os << data.inv_pip_pim << ",";
+
+    os << data.alpha_Prot << ",";
+    os << data.alpha_Pip << ",";
+    os << data.alpha_Pim << ",";
 
     // os << std::setprecision(1);
 

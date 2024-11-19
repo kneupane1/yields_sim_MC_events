@@ -1,81 +1,76 @@
 #include "boost_cms.hpp"
 #include "constants.hpp"
-namespace boost_cms
-{
+namespace boost_cms {
 
-    TLorentzVector boostToCMS(const TLorentzVector &particle, const TLorentzVector &gamma, const TLorentzVector &e_prime, float Q2)
-    {
-        // Create a copy of the particle to apply transformations
-        TLorentzVector boosted_particle = particle;
-        TLorentzVector boosted_gamma = gamma;
+TLorentzVector boostToCMS(const TLorentzVector &particle, const TLorentzVector &gamma, const TLorentzVector &e_prime,
+                          float Q2) {
+  // Create a copy of the particle to apply transformations
+  TLorentzVector boosted_particle = particle;
+  TLorentzVector boosted_gamma = gamma;
+  double _beam_en = 10.6041;
+  std::unique_ptr<TLorentzVector> _beam_elec = std::make_unique<TLorentzVector>();
+  _beam_elec->SetPxPyPzE(0.0, 0.0, sqrt(_beam_en * _beam_en - MASS_E * MASS_E), _beam_en);
 
-        // Determine the unit vectors for rotation
-        TVector3 uz = gamma.Vect().Unit();                         // uit vector along virtual photon
-        TVector3 ux = (gamma.Vect().Cross(e_prime.Vect())).Unit(); // unit vector along e cross e'
-        ux.Rotate(3. * PI / 2, uz);                                // rotating ux by 3pi/2 with uz as axis of roration
+  // Determine the unit vectors for rotation
+  TVector3 uz = gamma.Vect().Unit();  // uit vector along virtual photon
+  // TVector3 ux = (gamma.Vect().Cross(e_prime.Vect())).Unit();         // unit vector along e cross e'
+  TVector3 ux = ((_beam_elec->Vect()).Cross(e_prime.Vect())).Unit();  // unit vector along e cross e'
 
-        // Apply rotation
-        TRotation rot;
-        rot.SetZAxis(uz, ux).Invert(); // setting TRotation rot
+  ux.Rotate(3. * PI / 2, uz);  // rotating ux by 3pi/2 with uz as axis of roration
 
-        boosted_gamma.Transform(rot);
+  // Apply rotation
+  TRotation rot;
+  rot.SetZAxis(uz, ux).Invert();  // setting TRotation rot
 
-        boosted_particle.Transform(rot);
+  boosted_gamma.Transform(rot);
 
-        // Calculate beta for the boost
-        // float beta = (sqrt(gamma.E() * gamma.E() + Q2)) / (gamma.E() + MASS_P);
-        float beta = (sqrt(boosted_gamma.E() * boosted_gamma.E() + Q2)) / (boosted_gamma.E() + MASS_P);
+  boosted_particle.Transform(rot);
 
-        // Apply the boost
-        boosted_particle.Boost(0, 0, -beta);
+  // Calculate beta for the boost
+  // float beta = (sqrt(gamma.E() * gamma.E() + Q2)) / (gamma.E() + MASS_P);
+  float beta = (sqrt(boosted_gamma.E() * boosted_gamma.E() + Q2)) / (boosted_gamma.E() + MASS_P);
 
-        return boosted_particle;
-    }
+  // Apply the boost
+  boosted_particle.Boost(0, 0, -beta);
 
-    double calculateInvariantMass(const TLorentzVector &particle1, const TLorentzVector &particle2)
-    {
-        TLorentzVector resonance;
+  return boosted_particle;
+}
 
-        resonance += particle1;
-        resonance += particle2;
+double calculateInvariantMass(const TLorentzVector &particle1, const TLorentzVector &particle2) {
+  TLorentzVector resonance;
 
-        return resonance.M();
-    }
+  resonance += particle1;
+  resonance += particle2;
 
-    double calculateTheta(const TLorentzVector &particle)
-    {
-        return particle.Theta() * (180.0 / PI);
-    }
+  return resonance.M();
+}
 
-    double calculatePhi(const TLorentzVector &particle)
-    {
-        double phi = particle.Phi() * (180.0 / PI);
-        if (phi < 0)
-        {
-            phi += 360.0;
-        }
-        return phi;
-    }
+double calculateTheta(const TLorentzVector &particle) { return particle.Theta() * (180.0 / PI); }
 
-    double calculateAlpha(const TVector3 &vect1, const TVector3 &vect2, const TVector3 &boostedVect)
-    {
+double calculatePhi(const TLorentzVector &particle) {
+  double phi = particle.Phi() * (180.0 / PI);
+  if (phi < 0) {
+    phi += 360.0;
+  }
+  return phi;
+}
 
-        TVector3 V3_anti_z(0, 0, -1);
+double calculateAlpha(const TVector3 &vect1, const TVector3 &vect2, const TVector3 &boostedVect) {
+  TVector3 V3_anti_z(0, 0, -1);
 
-        float a_gamma = sqrt(1.0 / (1 - pow(vect1 * V3_anti_z, 2)));
-        float b_gamma = -(vect1 * V3_anti_z) * a_gamma;
-        TVector3 Vect3_gamma = a_gamma * V3_anti_z + b_gamma * vect1;
+  float a_gamma = sqrt(1.0 / (1 - pow(vect1 * V3_anti_z, 2)));
+  float b_gamma = -(vect1 * V3_anti_z) * a_gamma;
+  TVector3 Vect3_gamma = a_gamma * V3_anti_z + b_gamma * vect1;
 
-        float a_beta = sqrt(1.0 / (1 - pow(vect1 * vect2, 2)));
-        float b_beta = -(vect1 * vect2) * a_beta;
-        TVector3 Vect3_beta = a_beta * vect2 + b_beta * vect1;
+  float a_beta = sqrt(1.0 / (1 - pow(vect1 * vect2, 2)));
+  float b_beta = -(vect1 * vect2) * a_beta;
+  TVector3 Vect3_beta = a_beta * vect2 + b_beta * vect1;
 
-        double alpha = (180.0 / PI) * acos(Vect3_gamma * Vect3_beta);
-        if (Vect3_gamma.Cross(Vect3_beta) * boostedVect < 0)
-        {
-            alpha = 360.0 - alpha;
-        }
+  double alpha = (180.0 / PI) * acos(Vect3_gamma * Vect3_beta);
+  if (Vect3_gamma.Cross(Vect3_beta) * boostedVect < 0) {
+    alpha = 360.0 - alpha;
+  }
 
-        return alpha;
-    }
-} // namespace boost_cms
+  return alpha;
+}
+}  // namespace boost_cms

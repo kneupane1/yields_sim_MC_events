@@ -1081,52 +1081,49 @@ float MCReaction::prot_phi_mc_gen() {
 }
 // ////////////////////////////////  BOOST TO CM SYSTEM ///////////////////////////////
 
-// void MCReaction::boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector
-// &pim_mc)
-// {
-//   _is_boosted_mc = true;
+void MCReaction::boost_mc(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc, const TLorentzVector &pim_mc) {
+  _is_boosted_mc = true;
 
-//   // Boost all particles to the center of mass frame
-//   _boosted_gamma_mc =
-//       std::make_unique<TLorentzVector>(boost_cms::boostToCMS(*_gamma_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
-//   _boosted_prot_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(prot_mc, *_gamma_mc, *_elec_mc,
-//   _Q2_mc)); _boosted_pip_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pip_mc, *_gamma_mc, *_elec_mc,
-//   _Q2_mc)); _boosted_pim_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pim_mc, *_gamma_mc, *_elec_mc,
-//   _Q2_mc));
-// }
-// // // // Calculate invariant masse
-// float MCReaction::MCinv_Ppip() { return boost_cms::calculateInvariantMass(*_boosted_prot_mc, *_boosted_pip_mc); }
-// float MCReaction::MCinv_Ppim() { return boost_cms::calculateInvariantMass(*_boosted_prot_mc, *_boosted_pim_mc); }
-// float MCReaction::MCinv_pip_pim() { return boost_cms::calculateInvariantMass(*_boosted_pip_mc, *_boosted_pim_mc); }
+  // Boost all particles to the center of mass frame
+  _boosted_gamma_mc =
+      std::make_unique<TLorentzVector>(boost_cms::boostToCMS(*_gamma_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
+  _boosted_prot_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(prot_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
+  _boosted_pip_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pip_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
+  _boosted_pim_mc = std::make_unique<TLorentzVector>(boost_cms::boostToCMS(pim_mc, *_gamma_mc, *_elec_mc, _Q2_mc));
+}
+// // // Calculate invariant masse
+float MCReaction::MCinv_Ppip() { return boost_cms::calculateInvariantMass(*_boosted_prot_mc, *_boosted_pip_mc); }
+float MCReaction::MCinv_Ppim() { return boost_cms::calculateInvariantMass(*_boosted_prot_mc, *_boosted_pim_mc); }
+float MCReaction::MCinv_pip_pim() { return boost_cms::calculateInvariantMass(*_boosted_pip_mc, *_boosted_pim_mc); }
 
-// // //////////////
-// float MCReaction::MCprot_theta_thrown() { return boost_cms::calculateTheta(*_boosted_prot_mc); }
-// float MCReaction::MCpip_theta_thrown() { return boost_cms::calculateTheta(*_boosted_pip_mc); }
-// float MCReaction::MCpim_theta_thrown() { return boost_cms::calculateTheta(*_boosted_pim_mc); }
+// //////////////
+float MCReaction::MCprot_theta_thrown() { return boost_cms::calculateTheta(*_boosted_prot_mc); }
+float MCReaction::MCpip_theta_thrown() { return boost_cms::calculateTheta(*_boosted_pip_mc); }
+float MCReaction::MCpim_theta_thrown() { return boost_cms::calculateTheta(*_boosted_pim_mc); }
 
-// // //////////////
-// float MCReaction::MCgamma_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_gamma_mc); }
+// //////////////
+float MCReaction::MCgamma_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_gamma_mc); }
 
-// float MCReaction::MCprot_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_prot_mc); }
+float MCReaction::MCprot_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_prot_mc); }
 
-// float MCReaction::MCpip_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_pip_mc); }
-// float MCReaction::MCpim_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_pim_mc); }
+float MCReaction::MCpip_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_pip_mc); }
+float MCReaction::MCpim_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_pim_mc); }
 
-// // //////////////
-// float MCReaction::MCalpha_ppip_pipim_thrown() {
-//   return boost_cms::calculateAlpha(_boosted_pim_mc->Vect().Unit(), _boosted_pip_mc->Vect().Unit(),
-//                                    _boosted_pim_mc->Vect());
-// }
+// //////////////
+float MCReaction::MCalpha_ppip_pipim_thrown() {
+  return boost_cms::calculateAlpha(_boosted_pim_mc->Vect().Unit(), _boosted_pip_mc->Vect().Unit(),
+                                   _boosted_pim_mc->Vect());
+}
 
-// float MCReaction::MCalpha_pippim_pipf_thrown() {
-//   return boost_cms::calculateAlpha(_boosted_prot_mc->Vect().Unit(), _boosted_pip_mc->Vect().Unit(),
-//                                    _boosted_prot_mc->Vect());
-// }
+float MCReaction::MCalpha_pippim_pipf_thrown() {
+  return boost_cms::calculateAlpha(_boosted_prot_mc->Vect().Unit(), _boosted_pip_mc->Vect().Unit(),
+                                   _boosted_prot_mc->Vect());
+}
 
-// float MCReaction::MCalpha_ppim_pipip_thrown() {
-//   return boost_cms::calculateAlpha(_boosted_pip_mc->Vect().Unit(), _boosted_pim_mc->Vect().Unit(),
-//                                    _boosted_pip_mc->Vect());
-// }
+float MCReaction::MCalpha_ppim_pipip_thrown() {
+  return boost_cms::calculateAlpha(_boosted_pip_mc->Vect().Unit(), _boosted_pim_mc->Vect().Unit(),
+                                   _boosted_pip_mc->Vect());
+}
 
 ///////////////////////////////////////////////////////////////////////////
 std::string MCReaction::CsvHeader() {

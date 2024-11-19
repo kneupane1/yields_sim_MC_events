@@ -362,7 +362,7 @@ class Reaction {
   };
 
  public:
-  Reaction(){};
+  Reaction() {};
   Reaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   ~Reaction();
   inline float weight() {
@@ -403,9 +403,9 @@ class Reaction {
 
     // Generate new values
     if (part_id == ELECTRON) {
-      phiNew = phi + 0.4 * phiR * gRandom->Gaus(0, 1);
-      thetaNew = theta + 0.4 * thetaR * gRandom->Gaus(0, 1);
-      pNew = p + 0.4 * pR * gRandom->Gaus(0, 1) * p;
+      phiNew = phi + 0.75 * phiR * gRandom->Gaus(0, 1);
+      thetaNew = theta + 0.75 * thetaR * gRandom->Gaus(0, 1);
+      pNew = p + 0.75 * pR * gRandom->Gaus(0, 1) * p;
     } else if (part_id == PROTON) {
       double fact_cd = 0;
       double fact_fd = 0;

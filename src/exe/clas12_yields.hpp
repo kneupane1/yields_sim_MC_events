@@ -84,7 +84,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // /////////////////////////////// Generated sim only //////////////////////////////////////
     // if (_mc) {
     if (data->mc_npart() < 1 || data->mc_weight() <= 0) continue;
-    // numElec_mc++;
+    numElec_mc++;
 
     // If we pass electron cuts the event is processed
     total++;
@@ -249,7 +249,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
               // Exclude the case where the same particle is assigned as both proton and pip
               if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
                 event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
-                // event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
+                event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
                 // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
                 // // std::cout << "  rec mass mPim " << event->MM_mPim() << std::endl;
@@ -341,14 +341,14 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
                 // // // // // recon mes
 
-                // output.prot_mom_exclusive = event->prot_momentum_measured();
-                // output.prot_theta_exclusive = event->prot_theta_lab_measured();
-                // output.prot_phi_exclusive = event->prot_Phi_lab_measured();
+                output.prot_mom_exclusive = event->prot_momentum(*event->GetProtons()[i]);
+                output.prot_theta_exclusive = event->prot_theta_lab(*event->GetProtons()[i]);
+                output.prot_phi_exclusive = event->prot_Phi_lab(*event->GetProtons()[i]);
                 // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
-                // output.pip_mom_exclusive = event->pip_momentum_measured();
-                // output.pip_theta_exclusive = event->pip_theta_lab_measured();
-                // output.pip_phi_exclusive = event->pip_Phi_lab_measured();
+                output.pip_mom_exclusive = event->pip_momentum(*event->GetPips()[j]);
+                output.pip_theta_exclusive = event->pip_theta_lab(*event->GetPips()[j]);
+                output.pip_phi_exclusive = event->pip_Phi_lab(*event->GetPips()[j]);
                 // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
                 // output.pim_mom_exclusive = event->pim_momentum_measured();
@@ -373,16 +373,19 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                 // output.energy_x_mu = event->Energy_excl();
 
                 // // output.status_Pim = event->pimStatus();
-                // // output.status_Pip = event->pipStatus();
-                // // output.status_Prot = event->protStatus();
+                output.status_Pip = event->pipStatus();
+                output.status_Prot = event->protStatus();
 
-                // // // output.beta_Pip = event->betaPip();
-                // // // output.beta_Prot = event->betaProt();
+                output.beta_Pip = event->betaPip();
+                output.beta_Prot = event->betaProt();
 
-                // // // output.inv_ppip = event->inv_Ppip();
-                // // // output.inv_ppim = event->inv_Ppim();
-                // // // output.inv_pip_pim = event->inv_Pippim();
+                output.inv_ppip = event->inv_Ppip();
+                output.inv_ppim = event->inv_Ppim();
+                output.inv_pip_pim = event->inv_pip_pim();
 
+                output.alpha_Prot = event->alpha_pippim_pipf();
+                output.alpha_Pip = event->alpha_ppim_pipip();
+                output.alpha_Pim = event->alpha_ppip_pipim();
                 output.weight_exclusive = event->weight();
                 _sync->write(output);
 
@@ -398,10 +401,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   }
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
   // // Return the total number of events
-  // std::cout << " number of events = " << total << "   exclusive twoPion = " << twoPion_excl <<
-  // std::endl;
-  // // std::cout << " number of mc elec = " << numElec_mc << "  mc  prot = " << numProt_mc << "  mc pip =
-  // " << numPip_mc
+  std::cout << " number of events = " << total << " numElec " << numElec << "  ratio  " << numElec / float(total) * 100
+            << std::endl;
+  std::cout << " number of mc elec = " << numElec_mc << std::endl;
+
+  //  << "  mc  prot = " << numProt_mc
+  //       << "  mc pip =
+  // // " << numPip_mc
   // //           << "  mc pim  = " << numPim_mc << std::endl;
 
   // std::cout << " number of elec = " << numElec << "   prot = " << numProt << "  pip = " << numPip
