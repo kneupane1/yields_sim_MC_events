@@ -67,6 +67,9 @@ class Reaction {
   TVector3 _pip_Vect3;
   TVector3 _pim_Vect3;
 
+  std::unique_ptr<TLorentzVector> _swapped_prot;
+  std::unique_ptr<TLorentzVector> _swapped_pip;
+
   // std::unique_ptr<TLorentzVector> _missingPim;
   std::unique_ptr<TLorentzVector> _boosted_pim_measured;
 
@@ -112,6 +115,7 @@ class Reaction {
   float _excl_Energy = NAN;
   float _MM2_mPip = NAN;
   float _MM2_mProt = NAN;
+  float _MM2_mPim_swapped = NAN;
 
   float _W = NAN;
   float _Q2 = NAN;
@@ -495,6 +499,10 @@ class Reaction {
   void SetPim(int i);
   void SetOther(int i);
   void SetNeutron(int i);
+  void SetSwappedProton(int i);
+  void SetSwappedPip(int i);
+  std::unique_ptr<TLorentzVector> &GetProtonsSwapped() { return _swapped_prot; }
+  std::unique_ptr<TLorentzVector> &GetPipsSwapped() { return _swapped_pip; }
 
   const std::vector<std::unique_ptr<TLorentzVector>> &GetProtons() const { return _prot; }
   const std::vector<std::unique_ptr<TLorentzVector>> &GetPips() const { return _pip; }
@@ -617,11 +625,13 @@ class Reaction {
   void CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip);
   void CalcMissMassExcl(const TLorentzVector &prot, const TLorentzVector &pip, const TLorentzVector &pim);
   float AlphaCalc();
+  void CalcMissMassPimSwapped();
 
   inline float Theta_star() { return _theta_star; }
   inline float Phi_star() { return _phi_star; }
 
   float MM_exclusive();
+  float MM2_mPim_swapped();
 
   // void CalcMissMass();
   float MM_mPim();
@@ -789,7 +799,7 @@ class MCReaction : public Reaction {
  public:
   MCReaction(const std::shared_ptr<Branches12> &data, float beam_energy);
   void SetMCElec();
-  inline float weight() { return _data->mc_weight(); }
+  inline float mc_weight() { return _data->mc_weight(); }
 
   inline float elec_mom_mc() { return _elec_mom_mc; }
   inline float elec_En_mc() { return _elec_E_mc; }

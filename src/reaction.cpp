@@ -40,6 +40,9 @@ Reaction::Reaction(const std::shared_ptr<Branches12> &data, float beam_energy) {
   _protUnSmear = std::make_unique<TLorentzVector>();
   _pipUnSmear = std::make_unique<TLorentzVector>();
   _pimUnSmear = std::make_unique<TLorentzVector>();
+
+  _swapped_prot = std::make_unique<TLorentzVector>();
+  _swapped_pip = std::make_unique<TLorentzVector>();
 }
 
 Reaction::~Reaction() {}
@@ -383,6 +386,14 @@ void Reaction::SetPip(int i) {
   }
 }
 
+void Reaction::SetSwappedProton(int i) {
+  _swapped_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+  // std::cout << "   swapped prot E " << _swapped_prot->E() << std::endl;
+}
+void Reaction::SetSwappedPip(int i) {
+  _swapped_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // std::cout << "   swapped pip E " << _swapped_pip->E() << std::endl;
+}
 void Reaction::SetPim(int i) {
   _numPim++;
   _numNeg++;
@@ -496,7 +507,18 @@ void Reaction::SetOther(int i) {
     _other->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), mass[_data->pid(i)]);
   }
 }
+/////////////////// new added ////////////////
+void Reaction::CalcMissMassPimSwapped() {
+  auto mm_mpim_swapped = std::make_unique<TLorentzVector>();
 
+  *mm_mpim_swapped += (*_gamma + *_target);
+  *mm_mpim_swapped -= *_swapped_prot;
+  *mm_mpim_swapped -= *_swapped_pip;
+  // std::cout << "   swapped prot E " << _swapped_prot->E() << std::endl;
+  // std::cout << "   swapped pip E " << _swapped_pip->E() << std::endl;
+
+  _MM2_mPim_swapped = mm_mpim_swapped->M2();
+}
 // /////////////////// new added ////////////////
 void Reaction::CalcMissMassPim(const TLorentzVector &prot, const TLorentzVector &pip) {
   auto mm_mpim = std::make_unique<TLorentzVector>();
@@ -563,6 +585,10 @@ float Reaction::MM2_mPim() {
   // if (_MM2_mPim != _MM2_mPim)
   //         CalcMissMass(*_prot[0], *_pip[0]); // This is just a default case for first proton/pion pair
   return _MM2_mPim;
+}
+float Reaction::MM2_mPim_swapped() {
+  if (_MM2_mPim_swapped != _MM2_mPim_swapped) CalcMissMassPimSwapped();
+  return _MM2_mPim_swapped;
 }
 float Reaction::MM2_exclusive() {
   // if (_MM2_exclusive != _MM2_exclusive)
@@ -969,23 +995,23 @@ void MCReaction::SetMCPim(int i) {
 }
 
 // /////////////////// new added ////////////////
-// void MCReaction::CalcMissMassPimMC(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc) {
-//   // void MCReaction::CalcMissMassPimMC() {
-//   auto mm_mpim_mc = std::make_unique<TLorentzVector>();
+void MCReaction::CalcMissMassPimMC(const TLorentzVector &prot_mc, const TLorentzVector &pip_mc) {
+  // void MCReaction::CalcMissMassPimMC() {
+  auto mm_mpim_mc = std::make_unique<TLorentzVector>();
 
-//   *mm_mpim_mc += (*_gamma_mc + *_target_mc);
-//   *mm_mpim_mc -= prot_mc;
-//   *mm_mpim_mc -= pip_mc;
-//   // *mm_mpim_mc -= *_prot_mc;
-//   // *mm_mpim_mc -= *_pip_mc;
+  *mm_mpim_mc += (*_gamma_mc + *_target_mc);
+  *mm_mpim_mc -= prot_mc;
+  *mm_mpim_mc -= pip_mc;
+  // *mm_mpim_mc -= *_prot_mc;
+  // *mm_mpim_mc -= *_pip_mc;
 
-//   _MM_mPim_mc = mm_mpim_mc->M();
-//   _MM2_mPim_mc = mm_mpim_mc->M2();
-// }
+  _MM_mPim_mc = mm_mpim_mc->M();
+  _MM2_mPim_mc = mm_mpim_mc->M2();
+}
 
-// float MCReaction::MM_mPim_MC() { return _MM_mPim_mc; }
+float MCReaction::MM_mPim_MC() { return _MM_mPim_mc; }
 
-// float MCReaction::MM2_mPim_MC() { return _MM2_mPim_mc; }
+float MCReaction::MM2_mPim_MC() { return _MM2_mPim_mc; }
 
 float MCReaction::pim_mom_mc_gen() {
   TLorentzVector *pim_mc = _pim_mc[0].get();

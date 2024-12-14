@@ -73,7 +73,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
   // For each event
   for (size_t current_event = 0; current_event < num_of_events; current_event++) {
-    // for (size_t current_event = 0; current_event < 20; current_event++) {
+    // for (size_t current_event = 220857; current_event < 220858; current_event++) {
     // Get current event
     _chain->GetEntry(current_event);
 
@@ -93,18 +93,20 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // Make a reaction class from the data given
     auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
     // if (mc_event->weight() <= 0.0) continue;
-    // std::cout << " event " << current_event;
+    // std::cout << " event " << current_event << std::endl;
 
     for (int part = 1; part < data->mc_npart(); part++) {
       // Check particle ID's and fill the reaction class
 
       if (data->mc_pid(part) == PIP) {
         numPip_mc++;
+        // mc_event->SetMCProton(part);
 
         mc_event->SetMCPip(part);
       }
       if (data->mc_pid(part) == PROTON) {
         numProt_mc++;
+        // mc_event->SetMCPip(part);
 
         mc_event->SetMCProton(part);
         // std::cout << mc_event->GetMcProtons().size() << std::endl;
@@ -117,21 +119,24 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         //   mc_event->SetMCOther(part);
       }
     }
-    // // std::cout << mc_event->GetMcProtons().size() << std::endl;
     // // // Retrieve the number of protons and pions in the event
     // size_t num_protons_mc = mc_event->GetMcProtons().size();
     // size_t num_pips_mc = mc_event->GetMcPips().size();
     // for (size_t i = 0; i < num_protons_mc; ++i) {
     //   for (size_t j = 0; j < num_pips_mc; ++j) {
-    //     // std::cout << mc_event->GetMcProtons().size() << std::endl;
     //     mc_event->CalcMissMassPimMC(*mc_event->GetMcProtons()[i], *mc_event->GetMcPips()[j]);
-    //     // std::cout << "  mc mm2 mPim inside loop " << mc_event->MM2_mPim_MC();
     //   }
     // }
-    // mc_event->CalcMissMassPimMC();
+    // {
+    //   csv_data output;
 
-    // std::cout << "  mc mass " << mc_event->MM_mPim_MC() << std::endl;
-    // std::cout << "  mc mm2 mPim " << mc_event->MM2_mPim_MC() << std::endl;
+    // // // // for generated case
+    // output.w_mc = mc_event->W_mc();
+    // output.q2_mc = mc_event->Q2_mc();
+    // output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
+    // output.weight_mc = mc_event->mc_weight();
+    // _sync->write(output);
+    // }
 
     /////////////////////////////// Reconstruction only //////////////////////////////////////
     auto event = std::make_shared<Reaction>(data, beam_energy);
@@ -145,53 +150,123 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // event->SetMomCorrElec();
 
     numElec++;
+    /*
+        // // For each particle in the event
+        for (int part = 0; part < data->gpart(); part++) {
+          dt->dt_calc(part);
+          // Check particle ID's and fill the reaction class
+          if (cuts->IsPip(part)) {
+            numPip++;
+            event->SetPip(part);
+            // event->SetProton(part);
+          }
+          if (cuts->IsProton(part)) {
+            numProt++;
+            no_of_protons_in_ths_event++;
+            event->SetProton(part);
+            // // event->SetPip(part);
+          }
+          if (cuts->IsPim(part)) {
+            numPim++;
+            event->SetPim(part);
+          } else {
+            event->SetOther(part);
+          }
+        }
+        */
+    // no_of_protons_in_ths_event = 0;
 
-    // // For each particle in the event
+    // ///////////////////////////////////////  For  dp cut method ////////////////////
+    // ///////////////////////////////////////  For  dp cut method ////////////////////
+    // // ///////////////////////////////////////  For  dp cut method ////////////////////
+
+    // // Define vectors to store dp values and indices for protons and pions
+    std::vector<std::pair<int, double>> proton_dps;  // Pair of (index, dp_prot)
+    std::vector<std::pair<int, double>> pip_dps;     // Pair of (index, dp_pip)
+
     for (int part = 1; part < data->gpart(); part++) {
-      dt->dt_calc(part);
+      if (data->charge(part) != 0) {
+        dt->dt_calc(part);
 
-      //////// Here we wnat to calculate DP for prot and pip:
-      // if (data->charge(part) > 0)
+        if (data->charge(part) > 0) {
+          // Check if the particle satisfies proton and/or pion conditions
+          if (cuts->IsProton(part)) {
+            // prot++;
+            double dp_prot = pow(mc_event->prot_momX_mc_gen() - data->px(part), 2) +
+                             pow(mc_event->prot_momY_mc_gen() - data->py(part), 2) +
+                             pow(mc_event->prot_momZ_mc_gen() - data->pz(part), 2);
+            proton_dps.push_back(std::make_pair(part, dp_prot));  // Store index and dp value for proton
 
-      // Check particle ID's and fill the reaction class
-      if (cuts->IsPip(part)) {
-        numPip++;
-        event->SetPip(part);
-      }
+            // event->SetProton(part);                 // for overlapped proton index
+          }
 
-      if (cuts->IsProton(part)) {
-        numProt++;
-        event->SetProton(part);
-      }
-      if (cuts->IsPim(part)) {
-        numPim++;
-        event->SetPim(part);
-        //     break;
-        //   }
-        // }
-      } else {
-        event->SetOther(part);
+          if (cuts->IsPip(part)) {
+            // pip++;
+            double dp_pip = pow(mc_event->pip_momX_mc_gen() - data->px(part), 2) +
+                            pow(mc_event->pip_momY_mc_gen() - data->py(part), 2) +
+                            pow(mc_event->pip_momZ_mc_gen() - data->pz(part), 2);
+            pip_dps.push_back(std::make_pair(part, dp_pip));  // Store index and dp value for proton
+
+            // event->SetPip(part);                // for overlapped pip index
+          }
+        }
+
+        else {
+          if (cuts->IsPim(part))
+
+          {
+            event->SetPim(part);
+
+            // pim++;
+          }
+        }
       }
     }
-    // const std::vector<int>& mc_proton_indices = mc_event->GetProtonMcIndices();
-    // for (int mc_proton : mc_proton_indices) {
-    //   if (mc_proton != 1) std::cout << "    _prot_mc_indices  " << mc_proton << std::endl;
-    // }
-    // const std::vector<int>& mc_pip_indices = mc_event->GetPipMcIndices();
-    // for (int mc_pip : mc_pip_indices) {
-    //   // if (mc_pip != 1)
-    //   std::cout << "    _pip_mc_indices  " << mc_pip << std::endl;
+
+    // // // Now, find the pair of proton and pip with the minimum dp_prot + dp_pip
+    double min_dp_sum = std::numeric_limits<double>::max();
+    int best_proton_index = -1;
+    int best_pip_index = -1;
+    std::vector<std::pair<int, int>> non_minimum_pairs;  // Stores all non-minimum proton-pip pairs
+
+    // Loop over all combinations of protons and pions to find the minimum dp_prot + dp_pip
+    for (size_t i = 0; i < proton_dps.size(); i++) {
+      int prot_index = proton_dps[i].first;
+      double dp_prot = proton_dps[i].second;
+
+      for (size_t j = 0; j < pip_dps.size(); j++) {
+        int pip_index = pip_dps[j].first;
+        double dp_pip = pip_dps[j].second;
+
+        double dp_sum = dp_prot + dp_pip;
+        if (dp_sum < min_dp_sum) {
+          min_dp_sum = dp_sum;
+          best_proton_index = prot_index;
+          best_pip_index = pip_index;
+        }
+      }
+    }
+
+    // // Set the proton and pip with the minimum dp_sum for further processing
+    if (best_proton_index != -1 && best_pip_index != -1) {
+      event->SetProton(best_proton_index);
+      event->SetPip(best_pip_index);
+    }
+
+    // // Overlapped loop over all combinations of protons and pions
+    // for (size_t i = 0; i < proton_dps.size(); i++) {
+    //   int prot_index = proton_dps[i].first;
+    //   event->SetProton(prot_index);  // for overlapped proton index
     // }
 
-    // const std::vector<int>& mc_pim_indices = mc_event->GetPimMcIndices();
-    // for (int mc_pim : mc_pim_indices) {
-    //   // if (mc_pim != 1)
-    //   std::cout << "    _pim_mc_indices  " << mc_pim << std::endl;
-    //   std::cout << "    mc pid  " << data->mc_pid(mc_pim) << std::endl;
-    //   std::cout << "    rec pid  " << data->pid(mc_pim) << std::endl;
+    // for (size_t j = 0; j < pip_dps.size(); j++) {
+    //   int pip_index = pip_dps[j].first;
+    //   event->SetPip(pip_index);  // for overlapped pip index
     // }
 
-    if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() > 0.0) {
+    // if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() >
+    // 0.0)
+    {
       // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt()||
       // event->TwoPion_exclusive()) {
 
@@ -225,173 +300,224 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         {  // // Retrieve the number of protons and pions in the event
           size_t num_protons = event->GetProtons().size();
           size_t num_pips = event->GetPips().size();
+          int num_combinations = 0;
+          // std::cout << "    prot size   :  " << num_protons << std::endl;
+          // std::cout << "    pip size   :  " << num_pips << std::endl;
 
-          // // Calculate the total number of combinations
-          // size_t num_combinations = num_protons * num_pips;
-
-          // // Get the vector of protons
-          // const auto &protons = event->GetProtons();
-          // const auto &pip = event->GetPips();
+          // First loop: count valid combinations
+          for (size_t i = 0; i < num_protons; ++i) {
+            for (size_t j = 0; j < num_pips; ++j) {
+              if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
+                num_combinations++;
+              }
+            }
+          }
 
           for (size_t i = 0; i < num_protons; ++i) {
             for (size_t j = 0; j < num_pips; ++j) {
               // if (event->GetProtonIndices()[i] == event->GetPipIndices()[j]) no_prot_pip++;
 
-              // // // Print//////////////////////////////////////
-              // std::cout << "Event " << current_event << ": "
-              //           << num_protons << " proton(s), "
-              //           << num_pips << " pip(s), "
-              //           << num_combinations << " combination(s)." << std::endl;
-
-              // if (both_prot_pip >= 1)
-              // Access the i-th proton and j-th pip
-
               // Exclude the case where the same particle is assigned as both proton and pip
               if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
-                event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
-                event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
-                // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
+                // // // std::cout << "    num_combinations   :  " << num_combinations << std::endl;
+                // // // if (num_combinations >= 2)
+                // if ((best_proton_index != event->GetProtonIndices()[i]) ||
+                //     (best_pip_index != event->GetPipIndices()[j]))
+                {
+                  ////////////////////////////////////
+                  int proton_part_idx = event->GetProtonIndices()[i];
+                  int pip_part_idx = event->GetPipIndices()[j];
 
-                // // std::cout << "  rec mass mPim " << event->MM_mPim() << std::endl;
-                // {
-                //   csv_data output;
+                  double dp_Sum = proton_dps[i].second + pip_dps[j].second;
 
-                //   // // // for generated case
-                //   output.w_mc = mc_event->W_mc();
-                //   output.q2_mc = mc_event->Q2_mc();
-                //   output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
-                //   output.weight_mc = mc_event->weight();
-                //   _sync->write(output);
-                // }
-                csv_data output;
+                  {
+                    event->SetSwappedProton(pip_part_idx);
+                    event->SetSwappedPip(proton_part_idx);
+                    // Extract velocity components with energy normalization
+                    double v_original_x_Prot = event->GetProtons()[i]->Px() / event->GetProtons()[i]->E();
+                    double v_original_y_Prot = event->GetProtons()[i]->Py() / event->GetProtons()[i]->E();
+                    double v_original_z_Prot = event->GetProtons()[i]->Pz() / event->GetProtons()[i]->E();
+                    double v_swapped_x_Prot = event->GetProtonsSwapped()->Px() / event->GetProtonsSwapped()->E();
+                    double v_swapped_y_Prot = event->GetProtonsSwapped()->Py() / event->GetProtonsSwapped()->E();
+                    double v_swapped_z_Prot = event->GetProtonsSwapped()->Pz() / event->GetProtonsSwapped()->E();
 
-                // // // // // //// using exclusive topology ...................................
+                    // Calculate delta_V^2
+                    double dv2_Prot = pow(v_swapped_x_Prot - v_original_x_Prot, 2) +
+                                      pow(v_swapped_y_Prot - v_original_y_Prot, 2) +
+                                      pow(v_swapped_z_Prot - v_original_z_Prot, 2);
+                    // std::cout << "Delta V^2: " << dv2 << std::endl;
 
-                // // // // // // output.electron_sector = event->sec();
-                // output.pim_sec = event->pimSec();
-                // output.pip_sec = event->pipSec();
-                // output.prot_sec = event->protSec();
+                    // // Extract velocity components with energy normalization
+                    // double v_original_x_Pip = event->GetPips()[j]->Px() / event->GetPips()[j]->E();
+                    // double v_original_y_Pip = event->GetPips()[j]->Py() / event->GetPips()[j]->E();
+                    // double v_original_z_Pip = event->GetPips()[j]->Pz() / event->GetPips()[j]->E();
+                    // double v_swapped_x_Pip = event->GetPipsSwapped()->Px() / event->GetPipsSwapped()->E();
+                    // double v_swapped_y_Pip = event->GetPipsSwapped()->Py() / event->GetPipsSwapped()->E();
+                    // double v_swapped_z_Pip = event->GetPipsSwapped()->Pz() / event->GetPipsSwapped()->E();
 
-                // // output.prot_pid_mc = Prot_pid_mc;
-                // output.prot_pid_rec = Prot_pid_rec;
-                // // output.pip_pid_mc = Pip_pid_mc;
-                // output.pip_pid_rec = Pip_pid_rec;
-                // output.pim_pid_rec = Pim_pid_rec;
+                    // // Calculate delta_V^2
+                    // double dv2_Pip = pow(v_swapped_x_Pip - v_original_x_Pip, 2) +
+                    //                  pow(v_swapped_y_Pip - v_original_y_Pip, 2) +
+                    //                  pow(v_swapped_z_Pip - v_original_z_Pip, 2);
 
-                // output.w_before = event->W_before();
-                // output.q2_before = event->Q2_before();
-                output.w = event->W();
-                output.q2 = event->Q2();
-                // // // output.w_had = event->w_hadron();
-                // // // // output.w_diff = event->w_difference();
-                // // // output.w_had_corr = event->w_hadron_corr();
-                // // // // output.w_diff_corr = event->w_difference_corr();
+                    event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
+                    event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
+                    // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
 
-                // // // output.elec_mom = event->elec_mom();
-                // // // output.elec_energy = event->elec_En();
-                // // // output.elec_theta = event->Theta_Elec();
-                // // // output.corr_elec_mom = event->Corr_elec_mom();
+                    event->CalcMissMassPimSwapped();
+                    ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
+                    ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
+                    ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
+                    // if (num_combinations == 2)
+                    // if (event->MM2_mPim() < -0.1)
+                    // if (dv2_Prot >= 0.0005 && dv2_Prot < 0.001)
+                    // if (event->MM2_mPim() > -0.1 && event->MM2_mPim() < 0.1)
+                    // if (num_combinations > 1) {
 
-                // // // // //   // // for generated case
-                // // // output.w_mc = mc_event->W_mc();
-                // // // output.q2_mc = mc_event->Q2_mc();
+                    //   csv_data output;
 
-                // output.elec_mom_mc = mc_event->elec_mom_mc();
-                // // output.elec_energy_mc = mc_event->elec_En_mc();
-                // output.elec_theta_mc = mc_event->Theta_Elec_mc();
+                    //   // // // for generated case
+                    //   output.w_mc = mc_event->W_mc();
+                    //   output.q2_mc = mc_event->Q2_mc();
+                    //   output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
+                    //   output.weight_mc = mc_event->weight();
+                    //   _sync->write(output);
+                    // }
+                    csv_data output;
 
-                // output.elec_mom_rec = event->elec_mom();
-                // // output.elec_energy_rec = event->elec_En();
-                // output.elec_theta_rec = event->Theta_Elec();
+                    // // // // // //// using exclusive topology ...................................
 
-                // output.scalar_product = event->scalar_triple_product();
+                    // // // // // // output.electron_sector = event->sec();
+                    // output.pim_sec = event->pimSec();
+                    // output.pip_sec = event->pipSec();
+                    // output.prot_sec = event->protSec();
 
-                // //   // output.weight_exclusive = mc_event->weight();
+                    // // output.prot_pid_mc = Prot_pid_mc;
+                    // output.prot_pid_rec = Prot_pid_rec;
+                    // // output.pip_pid_mc = Pip_pid_mc;
+                    // output.pip_pid_rec = Pip_pid_rec;
+                    // output.pim_pid_rec = Pim_pid_rec;
 
-                // // // // for energy loss corrections : gen
-                // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
-                // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
-                // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
+                    // output.w_before = event->W_before();
+                    // output.q2_before = event->Q2_before();
+                    output.w = event->W();
+                    output.q2 = event->Q2();
+                    output.dv2_prot = dv2_Prot;
+                    output.dp_sum = dp_Sum;
 
-                // output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
-                // output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
-                // output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
+                    // // // output.w_had = event->w_hadron();
+                    // // // // output.w_diff = event->w_difference();
+                    // // // output.w_had_corr = event->w_hadron_corr();
+                    // // // // output.w_diff_corr = event->w_difference_corr();
 
-                // output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
-                // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
-                // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
+                    // // // output.elec_mom = event->elec_mom();
+                    // // // output.elec_energy = event->elec_En();
+                    // // // output.elec_theta = event->Theta_Elec();
+                    // // // output.corr_elec_mom = event->Corr_elec_mom();
 
-                // // // // // // // // // // // missing
-                // // auto proton_vector = event->GetProtonIndices()[i];
-                // output.prot_mom_mProt = event->prot_momentum(*event->GetProtons()[i]);
-                // output.prot_theta_mProt = event->prot_theta_lab(*event->GetProtons()[i]);
-                // output.prot_phi_mProt = event->prot_Phi_lab(*event->GetProtons()[i]);
+                    // // // // //   // // for generated case
+                    // // // output.w_mc = mc_event->W_mc();
+                    // // // output.q2_mc = mc_event->Q2_mc();
 
-                // output.pip_mom_mPip = event->pip_momentum(*event->GetPips()[j]);
-                // output.pip_theta_mPip = event->pip_theta_lab(*event->GetPips()[j]);
-                // output.pip_phi_mPip = event->pip_Phi_lab(*event->GetPips()[j]);
+                    // output.elec_mom_mc = mc_event->elec_mom_mc();
+                    // // output.elec_energy_mc = mc_event->elec_En_mc();
+                    // output.elec_theta_mc = mc_event->Theta_Elec_mc();
 
-                // output.pim_mom_mPim = event->pim_momentum();
-                // output.pim_theta_mPim = event->pim_theta_lab();
-                // output.pim_phi_mPim = event->pim_Phi_lab();
+                    // output.elec_mom_rec = event->elec_mom();
+                    // // output.elec_energy_rec = event->elec_En();
+                    // output.elec_theta_rec = event->Theta_Elec();
 
-                // // output.pim_mom_mPim_cm = event->pim_momentum_cm();
-                // // output.pim_theta_mPim_cm = event->pim_theta_cm();
-                // // output.pim_phi_mPim_cm = event->pim_Phi_cm();
+                    // output.scalar_product = event->scalar_triple_product();
 
-                // // // // // recon mes
+                    // //   // output.weight_exclusive = mc_event->weight();
 
-                output.prot_mom_exclusive = event->prot_momentum(*event->GetProtons()[i]);
-                output.prot_theta_exclusive = event->prot_theta_lab(*event->GetProtons()[i]);
-                output.prot_phi_exclusive = event->prot_Phi_lab(*event->GetProtons()[i]);
-                // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
+                    // // // // for energy loss corrections : gen
+                    // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
+                    // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
+                    // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
 
-                output.pip_mom_exclusive = event->pip_momentum(*event->GetPips()[j]);
-                output.pip_theta_exclusive = event->pip_theta_lab(*event->GetPips()[j]);
-                output.pip_phi_exclusive = event->pip_Phi_lab(*event->GetPips()[j]);
-                // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
+                    // output.gen_pip_mom = (mc_event->pip_mom_mc_gen());
+                    // output.gen_pip_theta = (mc_event->pip_theta_mc_gen());
+                    // output.gen_pip_phi = (mc_event->pip_phi_mc_gen());
 
-                // output.pim_mom_exclusive = event->pim_momentum_measured();
-                // output.pim_theta_exclusive = event->pim_theta_lab_measured();
-                // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
-                // // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
+                    // output.gen_pim_mom = (mc_event->pim_mom_mc_gen());
+                    // output.gen_pim_theta = (mc_event->pim_theta_mc_gen());
+                    // output.gen_pim_phi = (mc_event->pim_phi_mc_gen());
 
-                // // // output.pim_mom_corr = event->pim_momentum_corrected();
-                // // // // output.pim_theta_corr = event->pim_theta_corrected();
-                // // // // output.pim_phi_corr = event->pim_Phi_corrected();
+                    // // // // // // // // // // // missing
+                    // // auto proton_vector = event->GetProtonIndices()[i];
+                    // output.prot_mom_mProt = event->prot_momentum(*event->GetProtons()[i]);
+                    // output.prot_theta_mProt = event->prot_theta_lab(*event->GetProtons()[i]);
+                    // output.prot_phi_mProt = event->prot_Phi_lab(*event->GetProtons()[i]);
 
-                // output.mm2_mProt = event->MM2_mProt();
-                // // output.mm2_mProt_corr = event->MM2_mProt_corr();
-                // output.mm2_mPip = event->MM2_mPip();
-                // // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
-                output.mm2_mPim = event->MM2_mPim();
-                // output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
+                    // output.pip_mom_mPip = event->pip_momentum(*event->GetPips()[j]);
+                    // output.pip_theta_mPip = event->pip_theta_lab(*event->GetPips()[j]);
+                    // output.pip_phi_mPip = event->pip_Phi_lab(*event->GetPips()[j]);
 
-                // // // // output.mm2_mPim_corr = event->MM2_mPim_corr();
+                    // output.pim_mom_mPim = event->pim_momentum();
+                    // output.pim_theta_mPim = event->pim_theta_lab();
+                    // output.pim_phi_mPim = event->pim_Phi_lab();
 
-                // output.mm2_exclusive_at_zero = event->MM2_exclusive();
-                // output.energy_x_mu = event->Energy_excl();
+                    // // output.pim_mom_mPim_cm = event->pim_momentum_cm();
+                    // // output.pim_theta_mPim_cm = event->pim_theta_cm();
+                    // // output.pim_phi_mPim_cm = event->pim_Phi_cm();
 
-                // // output.status_Pim = event->pimStatus();
-                output.status_Pip = event->pipStatus();
-                output.status_Prot = event->protStatus();
+                    // // // // // recon mes
 
-                output.beta_Pip = event->betaPip();
-                output.beta_Prot = event->betaProt();
+                    output.prot_mom_exclusive = event->prot_momentum(*event->GetProtons()[i]);
+                    output.prot_theta_exclusive = event->prot_theta_lab(*event->GetProtons()[i]);
+                    output.prot_phi_exclusive = event->prot_Phi_lab(*event->GetProtons()[i]);
+                    // // output.prot_dcr1theta_exclusive = event->thetaDCr1Prot();
 
-                output.inv_ppip = event->inv_Ppip();
-                output.inv_ppim = event->inv_Ppim();
-                output.inv_pip_pim = event->inv_pip_pim();
+                    output.pip_mom_exclusive = event->pip_momentum(*event->GetPips()[j]);
+                    output.pip_theta_exclusive = event->pip_theta_lab(*event->GetPips()[j]);
+                    output.pip_phi_exclusive = event->pip_Phi_lab(*event->GetPips()[j]);
+                    // // output.pip_dcr1theta_exclusive = event->thetaDCr1Pip();
 
-                output.alpha_Prot = event->alpha_pippim_pipf();
-                output.alpha_Pip = event->alpha_ppim_pipip();
-                output.alpha_Pim = event->alpha_ppip_pipim();
-                output.weight_exclusive = event->weight();
-                _sync->write(output);
+                    // output.pim_mom_exclusive = event->pim_momentum_measured();
+                    // output.pim_theta_exclusive = event->pim_theta_lab_measured();
+                    // output.pim_phi_exclusive = event->pim_Phi_lab_measured();
+                    // // output.pim_dcr1theta_exclusive = event->thetaDCr1Pim();
 
-                /// ..........................................
+                    // // // output.pim_mom_corr = event->pim_momentum_corrected();
+                    // // // // output.pim_theta_corr = event->pim_theta_corrected();
+                    // // // // output.pim_phi_corr = event->pim_Phi_corrected();
 
-                // _sync->write(output);
+                    // output.mm2_mProt = event->MM2_mProt();
+                    // // output.mm2_mProt_corr = event->MM2_mProt_corr();
+                    // output.mm2_mPip = event->MM2_mPip();
+                    // // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
+                    output.mm2_mPim = event->MM2_mPim();
+                    // output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
+                    output.mm2_mPim_swapped = event->MM2_mPim_swapped();
+
+                    // // // // output.mm2_mPim_corr = event->MM2_mPim_corr();
+
+                    // output.mm2_exclusive_at_zero = event->MM2_exclusive();
+                    // output.energy_x_mu = event->Energy_excl();
+
+                    // // output.status_Pim = event->pimStatus();
+                    output.status_Pip = event->pipStatus();
+                    output.status_Prot = event->protStatus();
+
+                    output.beta_Pip = event->betaPip();
+                    output.beta_Prot = event->betaProt();
+
+                    output.inv_ppip = event->inv_Ppip();
+                    output.inv_ppim = event->inv_Ppim();
+                    output.inv_pip_pim = event->inv_pip_pim();
+
+                    output.alpha_Prot = event->alpha_pippim_pipf();
+                    output.alpha_Pip = event->alpha_ppim_pipip();
+                    output.alpha_Pim = event->alpha_ppip_pipim();
+                    output.weight_exclusive = event->weight();
+                    _sync->write(output);
+
+                    /// ..........................................
+
+                    // _sync->write(output);
+                  }
+                }
               }
             }
           }

@@ -156,12 +156,15 @@ struct csv_data {
   float alpha_Prot, alpha_Pip, alpha_Pim;
   int prot_pid_mc, prot_pid_rec, pip_pid_mc, pip_pid_rec, pim_pid_rec;
 
+  float dv2_prot, dp_sum, mm2_mPim_swapped;
+
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
-    // return "w_rec,q2_rec,mm2_mProt,mm2_mPip,mm2_mPim,mm2_exclusive_at_zero,energy_x_mu,weight";
-    return "w_rec,q2_rec,prot_mom_mes,prot_th_mes,prot_phi_mes,pip_mom_mes,pip_th_mes,pip_phi_mes,mm2_mPim,"
-           "status_Pip,status_Prot,beta_Pip,beta_Prot,inv_pPip,inv_pPim,inv_pipPim,alpha_prot,alpha_pip,alpha_pim,"
+    // return "w_mc,q2_mc,mm2_mPim,weight";
+    return "w_rec,q2_rec,dv2_prot,dp_sum,prot_mom_mes,prot_th_mes,prot_phi_mes,pip_mom_mes,pip_th_mes,pip_phi_mes,mm2_"
+           "mPim,mm2_mPim_swapped,status_Pip,status_Prot,beta_Pip,beta_Prot,inv_pPip,inv_pPim,inv_pipPim,alpha_prot,"
+           "alpha_pip,alpha_pim,"
            "weight";
 
     // return
@@ -188,13 +191,13 @@ struct csv_data {
     // // os << data.prot_sec << ",";
 
     os << std::setprecision(7);
+    /*
+    os << data.w_mc << ",";
+    os << data.q2_mc << ",";
+    os << data.mm2_mPim_mc << ",";
 
-    // os << data.w_mc << ",";
-    // os << data.q2_mc << ",";
-    // os << data.mm2_mPim_mc << ",";
-
-    // os << data.weight_mc << ",";
-
+    os << data.weight_mc << ",";
+    */
     // /////////////////////////////////////////
 
     // os << data.w_before << ",";
@@ -202,6 +205,9 @@ struct csv_data {
 
     os << data.w << ",";
     os << data.q2 << ",";
+    os << data.dv2_prot << ",";
+    os << data.dp_sum << ",";
+
     // // //  // // // os << data.w_after << ",";
 
     // // //  // os << data.w_had << ",";
@@ -273,6 +279,7 @@ struct csv_data {
     // os << data.mm2_mPip << ",";
     os << data.mm2_mPim << ",";
     // os << data.mm2_mPim_mc << ",";
+    os << data.mm2_mPim_swapped << ",";
 
     // os << data.mm2_exclusive_at_zero << ",";
     // os << data.energy_x_mu << ",";
