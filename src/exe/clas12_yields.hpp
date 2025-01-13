@@ -13,9 +13,74 @@
 #include "reaction.hpp"
 #include "syncfile.hpp"
 
+// Include ROOT headers if not already included
+#include "TCanvas.h"
+#include "TH1D.h"
+TH1D *h_dp_prot = new TH1D("h_dp_prot", "#Delta P Proton; #Delta p (GeV/c); Counts", 500, -1, 1.0);
+TH1D *h_dtheta_prot = new TH1D("h_dtheta_prot", "#Delta#theta Proton; #Delta #theta (deg); Counts", 500, -100, 25);
+TH1D *h_dphi_prot = new TH1D("h_dphi_prot", "#Delta#phi Proton; #Delta #phi (deg); Counts", 500, -100, 100);
+
+TH1D *h_dp_pip = new TH1D("h_dp_pip", "#Delta P Pip; #Delta p (GeV/c); Counts", 500, -1, 1.0);
+TH1D *h_dtheta_pip = new TH1D("h_dtheta_pip", "#Delta#theta Pip; #Delta #theta (deg); Counts", 500, -100, 25);
+TH1D *h_dphi_pip = new TH1D("h_dphi_pip", "#Delta#phi Pip; #Delta #phi (deg); Counts", 500, -100, 100);
+
+// TFile *outputFile = new TFile("track_differences_exp_with_id_inclusive.root", "RECREATE");
+
+void DrawAndSaveHistograms() {
+  // Create a canvas
+  TCanvas *c1 = new TCanvas("c1", "Momentum and Angle Differences", 1200, 1200);
+  c1->Divide(2, 3);  // Divide canvas into 3 pads (3 columns, 1 row)
+
+  // Draw momentum difference histogram (h_dp)
+  c1->cd(1);  // Move to the first pad
+  gPad->SetGrid();
+  h_dp_prot->SetLineColor(kBlue);
+  h_dp_prot->Draw();
+  h_dp_prot->SetTitle("#Delta P Proton; #Delta P (GeV); Counts");
+
+  // Draw theta difference histogram (h_dtheta)
+  c1->cd(3);  // Move to the second pad
+  gPad->SetGrid();
+  h_dtheta_prot->SetLineColor(kRed);
+  h_dtheta_prot->Draw();
+  h_dtheta_prot->SetTitle("#Delta#theta Proton; #Delta#theta (deg); Counts");
+
+  // Draw phi difference histogram (h_dphi)
+  c1->cd(5);  // Move to the third pad
+  gPad->SetGrid();
+  h_dphi_prot->SetLineColor(kGreen + 2);
+  h_dphi_prot->Draw();
+  h_dphi_prot->SetTitle("#Delta#phi Proton; #Delta#phi (deg); Counts");
+  // Draw momentum difference histogram (h_dp)
+  c1->cd(2);  // Move to the first pad
+  gPad->SetGrid();
+  h_dp_pip->SetLineColor(kBlue);
+  h_dp_pip->Draw();
+  h_dp_pip->SetTitle("#Delta P Pip; #Delta P (GeV); Counts");
+
+  // Draw theta difference histogram (h_dtheta)
+  c1->cd(4);  // Move to the second pad
+  gPad->SetGrid();
+  h_dtheta_pip->SetLineColor(kRed);
+  h_dtheta_pip->Draw();
+  h_dtheta_pip->SetTitle("#Delta#theta Pip; #Delta#theta (deg); Counts");
+
+  // Draw phi difference histogram (h_dphi)
+  c1->cd(6);  // Move to the third pad
+  gPad->SetGrid();
+  h_dphi_pip->SetLineColor(kGreen + 2);
+  h_dphi_pip->Draw();
+  h_dphi_pip->SetTitle("#Delta#phi Pip; #Delta#phi (deg); Counts");
+
+  // Save the canvas as PNG
+  c1->SaveAs("track_differences_test.png");
+
+  // Optionally, show the canvas interactively
+  c1->Draw();
+}
 /////////////////////////////////////////
 template <class CutType>
-size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, int thread_id) {
+size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile> &_sync, int thread_id) {
   // size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _sync, const std::shared_ptr<QA::QADB>&
   // _qa,
   //            int thread_id) {
@@ -71,9 +136,17 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
   double dp_pim2 = NAN;
   double dp_pim3 = NAN;
 
+  bool proton_cut = false;
+  bool pip_cut = false;
+  double dp_Prot = NAN;
+  double dtheta_Prot = NAN;
+  double dphi_Prot = NAN;
+  double dp_Pip = NAN;
+  double dtheta_Pip = NAN;
+  double dphi_Pip = NAN;
   // For each event
   for (size_t current_event = 0; current_event < num_of_events; current_event++) {
-    // for (size_t current_event = 220857; current_event < 220858; current_event++) {
+    // for (size_t current_event = 53635; current_event < 53636; current_event++) {
     // Get current event
     _chain->GetEntry(current_event);
 
@@ -82,43 +155,45 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       std::cout << "\t" << (100 * current_event / num_of_events) << " %\r" << std::flush;
 
     // /////////////////////////////// Generated sim only //////////////////////////////////////
-    // if (_mc) {
-    if (data->mc_npart() < 1 || data->mc_weight() <= 0) continue;
-    numElec_mc++;
+    if (_mc) {
+      if (data->mc_npart() < 1 || data->mc_weight() <= 0) continue;
+      numElec_mc++;
 
-    // If we pass electron cuts the event is processed
-    total++;
-    // std::cout << " event " << current_event << std::endl;
+      // If we pass electron cuts the event is processed
+      total++;
+      // std::cout << " event " << current_event << std::endl;
 
-    // Make a reaction class from the data given
-    auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
-    // if (mc_event->weight() <= 0.0) continue;
-    // std::cout << " event " << current_event << std::endl;
+      // Make a reaction class from the data given
+      auto mc_event = std::make_shared<MCReaction>(data, beam_energy);
+      // if (mc_event->weight() <= 0.0) continue;
+      // std::cout << " event " << current_event << std::endl;
 
-    for (int part = 1; part < data->mc_npart(); part++) {
-      // Check particle ID's and fill the reaction class
+      for (int part = 1; part < data->mc_npart(); part++) {
+        // Check particle ID's and fill the reaction class
 
-      if (data->mc_pid(part) == PIP) {
-        numPip_mc++;
-        // mc_event->SetMCProton(part);
+        if (data->mc_pid(part) == PIP) {
+          numPip_mc++;
+          // mc_event->SetMCProton(part);
 
-        mc_event->SetMCPip(part);
-      }
-      if (data->mc_pid(part) == PROTON) {
-        numProt_mc++;
-        // mc_event->SetMCPip(part);
+          mc_event->SetMCPip(part);
+        }
+        if (data->mc_pid(part) == PROTON) {
+          numProt_mc++;
+          // mc_event->SetMCPip(part);
 
-        mc_event->SetMCProton(part);
-        // std::cout << mc_event->GetMcProtons().size() << std::endl;
+          mc_event->SetMCProton(part);
+          // std::cout << mc_event->GetMcProtons().size() << std::endl;
 
-      } else if (data->mc_pid(part) == PIM) {
-        numPim_mc++;
+        } else if (data->mc_pid(part) == PIM) {
+          numPim_mc++;
 
-        mc_event->SetMCPim(part);
-        // } else {
-        //   mc_event->SetMCOther(part);
+          mc_event->SetMCPim(part);
+          // } else {
+          //   mc_event->SetMCOther(part);
+        }
       }
     }
+
     // // // Retrieve the number of protons and pions in the event
     // size_t num_protons_mc = mc_event->GetMcProtons().size();
     // size_t num_pips_mc = mc_event->GetMcPips().size();
@@ -150,123 +225,124 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
     // event->SetMomCorrElec();
 
     numElec++;
-    /*
-        // // For each particle in the event
-        for (int part = 0; part < data->gpart(); part++) {
-          dt->dt_calc(part);
-          // Check particle ID's and fill the reaction class
-          if (cuts->IsPip(part)) {
-            numPip++;
-            event->SetPip(part);
-            // event->SetProton(part);
-          }
-          if (cuts->IsProton(part)) {
-            numProt++;
-            no_of_protons_in_ths_event++;
-            event->SetProton(part);
-            // // event->SetPip(part);
-          }
-          if (cuts->IsPim(part)) {
-            numPim++;
-            event->SetPim(part);
-          } else {
-            event->SetOther(part);
-          }
-        }
-        */
+
+    // // For each particle in the event
+    for (int part = 0; part < data->gpart(); part++) {
+      dt->dt_calc(part);
+
+      // Check particle ID's and fill the reaction class
+      if (cuts->IsPip(part)) {
+        numPip++;
+        event->SetPip(part);
+        // event->SetProton(part);
+      }
+      if (cuts->IsProton(part)) {
+        numProt++;
+        event->SetProton(part);
+        // // event->SetPip(part);
+      }
+      if (cuts->IsPim(part)) {
+        numPim++;
+        event->SetPim(part);
+      } else {
+        event->SetOther(part);
+      }
+    }
+
     // no_of_protons_in_ths_event = 0;
 
     // ///////////////////////////////////////  For  dp cut method ////////////////////
     // ///////////////////////////////////////  For  dp cut method ////////////////////
-    // // ///////////////////////////////////////  For  dp cut method ////////////////////
+    // // // ///////////////////////////////////////  For  dp cut method ////////////////////
 
-    // // Define vectors to store dp values and indices for protons and pions
-    std::vector<std::pair<int, double>> proton_dps;  // Pair of (index, dp_prot)
-    std::vector<std::pair<int, double>> pip_dps;     // Pair of (index, dp_pip)
+    /* // // Define vectors to store dp values and indices for protons and pions
+     std::vector<std::pair<int, double>> proton_dps;  // Pair of (index, dp_prot)
+     std::vector<std::pair<int, double>> pip_dps;     // Pair of (index, dp_pip)
 
-    for (int part = 1; part < data->gpart(); part++) {
-      if (data->charge(part) != 0) {
-        dt->dt_calc(part);
+     for (int part = 0; part < data->gpart(); part++) {
+       // std::cout << "  current event  " << current_event << " part at " << part << " is  " << data->pid(part)
+       //           << std::endl;
+       if (data->charge(part) != 0) {
+         dt->dt_calc(part);
 
-        if (data->charge(part) > 0) {
-          // Check if the particle satisfies proton and/or pion conditions
-          if (cuts->IsProton(part)) {
-            // prot++;
-            double dp_prot = pow(mc_event->prot_momX_mc_gen() - data->px(part), 2) +
-                             pow(mc_event->prot_momY_mc_gen() - data->py(part), 2) +
-                             pow(mc_event->prot_momZ_mc_gen() - data->pz(part), 2);
-            proton_dps.push_back(std::make_pair(part, dp_prot));  // Store index and dp value for proton
+         if (data->charge(part) > 0) {
+           // Check if the particle satisfies proton and/or pion conditions
+           if (cuts->IsProton(part)) {
+             // prot++;
+             double dp_prot = pow(mc_event->prot_momX_mc_gen() - data->px(part), 2) +
+                              pow(mc_event->prot_momY_mc_gen() - data->py(part), 2) +
+                              pow(mc_event->prot_momZ_mc_gen() - data->pz(part), 2);
+             proton_dps.push_back(std::make_pair(part, dp_prot));  // Store index and dp value for proton
 
-            // event->SetProton(part);                 // for overlapped proton index
-          }
+             // event->SetProton(part);                 // for overlapped proton index
+           }
 
-          if (cuts->IsPip(part)) {
-            // pip++;
-            double dp_pip = pow(mc_event->pip_momX_mc_gen() - data->px(part), 2) +
-                            pow(mc_event->pip_momY_mc_gen() - data->py(part), 2) +
-                            pow(mc_event->pip_momZ_mc_gen() - data->pz(part), 2);
-            pip_dps.push_back(std::make_pair(part, dp_pip));  // Store index and dp value for proton
+           if (cuts->IsPip(part)) {
+             // pip++;
+             double dp_pip = pow(mc_event->pip_momX_mc_gen() - data->px(part), 2) +
+                             pow(mc_event->pip_momY_mc_gen() - data->py(part), 2) +
+                             pow(mc_event->pip_momZ_mc_gen() - data->pz(part), 2);
+             pip_dps.push_back(std::make_pair(part, dp_pip));  // Store index and dp value for proton
 
-            // event->SetPip(part);                // for overlapped pip index
-          }
-        }
+             // event->SetPip(part);                // for overlapped pip index
+           }
+         }
 
-        else {
-          if (cuts->IsPim(part))
+         else {
+           if (cuts->IsPim(part))
 
-          {
-            event->SetPim(part);
+           {
+             event->SetPim(part);
 
-            // pim++;
-          }
-        }
-      }
-    }
+             // pim++;
+           }
+         }
+       }
+     }
 
-    // // // Now, find the pair of proton and pip with the minimum dp_prot + dp_pip
-    double min_dp_sum = std::numeric_limits<double>::max();
-    int best_proton_index = -1;
-    int best_pip_index = -1;
-    std::vector<std::pair<int, int>> non_minimum_pairs;  // Stores all non-minimum proton-pip pairs
+     // // // Now, find the pair of proton and pip with the minimum dp_prot + dp_pip
+     double min_dp_sum = std::numeric_limits<double>::max();
+     int best_proton_index = -1;
+     int best_pip_index = -1;
+     std::vector<std::pair<int, int>> non_minimum_pairs;  // Stores all non-minimum proton-pip pairs
 
-    // Loop over all combinations of protons and pions to find the minimum dp_prot + dp_pip
-    for (size_t i = 0; i < proton_dps.size(); i++) {
-      int prot_index = proton_dps[i].first;
-      double dp_prot = proton_dps[i].second;
+     // Loop over all combinations of protons and pions to find the minimum dp_prot + dp_pip
+     for (size_t i = 0; i < proton_dps.size(); i++) {
+       int prot_index = proton_dps[i].first;
+       double dp_prot = proton_dps[i].second;
 
-      for (size_t j = 0; j < pip_dps.size(); j++) {
-        int pip_index = pip_dps[j].first;
-        double dp_pip = pip_dps[j].second;
+       for (size_t j = 0; j < pip_dps.size(); j++) {
+         int pip_index = pip_dps[j].first;
+         double dp_pip = pip_dps[j].second;
 
-        double dp_sum = dp_prot + dp_pip;
-        if (dp_sum < min_dp_sum) {
-          min_dp_sum = dp_sum;
-          best_proton_index = prot_index;
-          best_pip_index = pip_index;
-        }
-      }
-    }
+         double dp_sum = dp_prot + dp_pip;
+         if (dp_sum < min_dp_sum) {
+           min_dp_sum = dp_sum;
+           best_proton_index = prot_index;
+           best_pip_index = pip_index;
+         }
+       }
+     }
 
-    // // Set the proton and pip with the minimum dp_sum for further processing
-    if (best_proton_index != -1 && best_pip_index != -1) {
-      event->SetProton(best_proton_index);
-      event->SetPip(best_pip_index);
-    }
+     // // // Set the proton and pip with the minimum dp_sum for further processing
+     // if (best_proton_index != -1 && best_pip_index != -1) {
+     //   event->SetProton(best_proton_index);
+     //   event->SetPip(best_pip_index);
+     // }
 
-    // // Overlapped loop over all combinations of protons and pions
-    // for (size_t i = 0; i < proton_dps.size(); i++) {
-    //   int prot_index = proton_dps[i].first;
-    //   event->SetProton(prot_index);  // for overlapped proton index
-    // }
+     // Overlapped loop over all combinations of protons and pions
+     for (size_t i = 0; i < proton_dps.size(); i++) {
+       int prot_index = proton_dps[i].first;
+       event->SetProton(prot_index);  // for overlapped proton index
+     }
 
-    // for (size_t j = 0; j < pip_dps.size(); j++) {
-    //   int pip_index = pip_dps[j].first;
-    //   event->SetPip(pip_index);  // for overlapped pip index
-    // }
+     for (size_t j = 0; j < pip_dps.size(); j++) {
+       int pip_index = pip_dps[j].first;
+       event->SetPip(pip_index);  // for overlapped pip index
+     }
 
-    // if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() >
-    // 0.0)
-    {
+     */
+    if (event->W() > 1.35 && event->W() <= 2.15 && event->Q2() <= 9.0 && event->Q2() >= 1.95 && event->weight() > 0.0) {
       // if (event->TwoPion_missingPim() || event->TwoPion_missingPip() || event->TwoPion_missingProt()||
       // event->TwoPion_exclusive()) {
 
@@ -274,7 +350,8 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       //   for (size_t i = 0; i < event->GetProtons().size(); ++i) {
       //     for (size_t j = 0; j < event->GetPips().size(); ++j) {
       //       for (size_t k = 0; k < event->GetPims().size(); ++k) {
-      //         // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
+      //         // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j],
+      //  *event->GetPims()[k]);
 
       //         //                                 two_pion_Excl_events++;
       //         //                                 _hists->Fill_WvsQ2(event);
@@ -297,40 +374,206 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
         // {
         // {
 
-        {  // // Retrieve the number of protons and pions in the event
-          size_t num_protons = event->GetProtons().size();
-          size_t num_pips = event->GetPips().size();
-          int num_combinations = 0;
-          // std::cout << "    prot size   :  " << num_protons << std::endl;
-          // std::cout << "    pip size   :  " << num_pips << std::endl;
+        //{  // // Retrieve the number of protons and pions in the event
+        size_t num_protons = event->GetProtons().size();
+        size_t num_pips = event->GetPips().size();
+        int num_combinations = 0;
+        // std::cout << "    prot size   :  " << num_protons << std::endl;
+        // std::cout << "    pip size   :  " << num_pips << std::endl;
 
-          // First loop: count valid combinations
-          for (size_t i = 0; i < num_protons; ++i) {
-            for (size_t j = 0; j < num_pips; ++j) {
-              if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
-                num_combinations++;
+        // First loop: count valid combinations
+        for (size_t i = 0; i < num_protons; ++i) {
+          for (size_t j = 0; j < num_pips; ++j) {
+            // if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
+            {
+              num_combinations++;
+
+              // std::cout << "  current event  " << current_event << "  num_combinations  " << num_combinations
+              //           << "    num protons   :  " << num_protons << "  index is " << event->GetProtonIndices()[i]
+              //           << "    num pip   :  " << num_pips << "  index is " << event->GetPipIndices()[j] <<
+              //           std::endl;
+            }
+          }
+        }
+        ///////////////////////////////////////////////////
+
+        bool proton_cut = false;
+        bool pip_cut = false;
+        double dp_Prot = NAN;
+        double dtheta_Prot = NAN;
+        double dphi_Prot = NAN;
+        double dp_Pip = NAN;
+        double dtheta_Pip = NAN;
+        double dphi_Pip = NAN;
+
+        // Loop over particles to check proton and pip
+        for (int part1 = 0; part1 < data->gpart(); part1++) {
+          // std::cout << "  current event  " << current_event << "  no of parts = " << data->gpart()
+          //           << " part at " << part1 << " is  " << data->pid(part1) << std::endl;
+          dt->dt_calc(part1);
+
+          // Proton Block
+          if (cuts->IsProton(part1)) {
+            bool isFD1 = ((data->status(part1) > 2000) && (data->status(part1) < 4000));
+            bool isCD1 = (data->status(part1) > 4000);
+            // if (isFD1)
+            //   std::cout << "   part1 " << part1 << "  is in FD with status " << data->status(part1) << "   with id "
+            //             << data->pid(part1) << std::endl;
+            // if (isCD1)
+            //   std::cout << "   part1 " << part1 << "  is in CD with status " << data->status(part1) << "   with id "
+            //             << data->pid(part1) << std::endl;
+
+            if (isFD1 || isCD1) {  // Ensure part1 is in FD or CD
+              TLorentzVector track1;
+
+              track1.SetXYZM(data->px(part1), data->py(part1), data->pz(part1), MASS_P);
+
+              for (int part2 = part1 + 1; part2 < data->gpart(); part2++) {
+                if (cuts->IsProton(part2)) {
+                  bool isFD2 = ((data->status(part2) > 2000) && (data->status(part2) < 4000));
+                  bool isCD2 = (data->status(part2) > 4000);
+
+                  // if (isFD2)
+                  //   std::cout << "   part2  " << part2 << "  is in FD with status " << data->status(part2)
+                  //             << "   with id " << data->pid(part2) << std::endl;
+                  // if (isCD2)
+                  //   std::cout << "   part2 " << part2 << "  is in CD with status " << data->status(part2)
+                  //             << "   with id " << data->pid(part2) << std::endl;
+
+                  if ((isFD1 && isCD2) || (isCD1 && isFD2)) {
+                    TLorentzVector track2;
+                    track2.SetXYZM(data->px(part2), data->py(part2), data->pz(part2), MASS_P);
+
+                    TLorentzVector trackFD = isFD1 ? track1 : track2;
+                    TLorentzVector trackCD = isCD1 ? track1 : track2;
+
+                    dp_Prot = (trackFD.P() - trackCD.P());
+                    dtheta_Prot = (trackFD.Theta() - trackCD.Theta()) * 180 / PI;
+                    dphi_Prot = (trackFD.Phi() - trackCD.Phi()) * 180 / PI;
+                    // h_dp_prot->Fill(dp_Prot, event->weight());
+                    // h_dtheta_prot->Fill(dtheta_Prot, event->weight());
+                    // h_dphi_prot->Fill(dphi_Prot, event->weight());
+                    // Apply proton cuts
+                    if (dp_Prot > -0.6 && dp_Prot < 0.2 && dtheta_Prot > -7 && dphi_Prot > -20 && dphi_Prot < 5) {
+                      proton_cut = true;
+                      //  // } else {  // Fill histograms
+                      // h_dp_prot->Fill(dp_Prot, event->weight());
+                      // h_dtheta_prot->Fill(dtheta_Prot, event->weight());
+                      // h_dphi_prot->Fill(dphi_Prot, event->weight());
+                    }
+                  }
+                }
               }
             }
           }
 
-          for (size_t i = 0; i < num_protons; ++i) {
-            for (size_t j = 0; j < num_pips; ++j) {
-              // if (event->GetProtonIndices()[i] == event->GetPipIndices()[j]) no_prot_pip++;
+          ///////////////////////////
+          // Pip Block
+          if (cuts->IsPip(part1)) {
+            bool isFD1 = ((data->status(part1) > 2000) && (data->status(part1) < 4000));
+            bool isCD1 = (data->status(part1) > 4000);
 
-              // Exclude the case where the same particle is assigned as both proton and pip
-              if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
-                // // // std::cout << "    num_combinations   :  " << num_combinations << std::endl;
-                // // // if (num_combinations >= 2)
-                // if ((best_proton_index != event->GetProtonIndices()[i]) ||
-                //     (best_pip_index != event->GetPipIndices()[j]))
+            if (isFD1 || isCD1) {  // Ensure part1 is in FD or CD
+              TLorentzVector track1;
+              track1.SetXYZM(data->px(part1), data->py(part1), data->pz(part1), MASS_PIP);
+
+              for (int part2 = part1 + 1; part2 < data->gpart(); part2++) {
+                if (cuts->IsPip(part2)) {
+                  bool isFD2 = ((data->status(part2) > 2000) && (data->status(part2) < 4000));
+                  bool isCD2 = (data->status(part2) > 4000);
+
+                  if ((isFD1 && isCD2) || (isCD1 && isFD2)) {
+                    TLorentzVector track2;
+                    track2.SetXYZM(data->px(part2), data->py(part2), data->pz(part2), MASS_PIP);
+
+                    TLorentzVector trackFD = isFD1 ? track1 : track2;
+                    TLorentzVector trackCD = isCD1 ? track1 : track2;
+
+                    dp_Pip = (trackFD.P() - trackCD.P());
+                    dtheta_Pip = (trackFD.Theta() - trackCD.Theta()) * 180 / PI;
+                    dphi_Pip = (trackFD.Phi() - trackCD.Phi()) * 180 / PI;
+                    // h_dp_pip->Fill(dp_Pip, event->weight());
+                    // h_dtheta_pip->Fill(dtheta_Pip, event->weight());
+                    // h_dphi_pip->Fill(dphi_Pip, event->weight());
+                    // Apply pip cuts
+                    if (dp_Pip > -0.4 && dp_Pip < 0.2 && dtheta_Pip > -10 && dtheta_Pip < 10 && dphi_Pip > -20 &&
+                        dphi_Pip < 5) {
+                      pip_cut = true;
+                      // // } else {  // Fill histograms
+                      // h_dp_pip->Fill(dp_Pip, event->weight());
+                      // h_dtheta_pip->Fill(dtheta_Pip, event->weight());
+                      // h_dphi_pip->Fill(dphi_Pip, event->weight());
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        for (size_t i = 0; i < num_protons; ++i) {
+          // if (num_protons > 1)
+          // std::cout << "  current event  " << current_event << "    num protons   :  " << num_protons
+          // << "  index is " << event->GetProtonIndices()[i] << std::endl;
+
+          for (size_t j = 0; j < num_pips; ++j) {
+            // // if (event->GetProtonIndices()[i] == event->GetPipIndices()[j]) no_prot_pip++;
+            // std::cout << "  current event  " << current_event << "    num pip   :  " << num_pips << "  index is "
+            //           << event->GetPipIndices()[j] << std::endl;
+            // Exclude the case where the same particle is assigned as both proton and pip
+            // if (event->GetProtonIndices()[i] != event->GetPipIndices()[j])
+
+            // std::cout << "    num_combinations before :  " << num_combinations << std::endl;
+            if (num_combinations >= 1) {
+              // // if ((num_protons > 1) || (num_pips > 1))
+              // std::cout << "  current event  " << current_event << "    num protons   :  " << num_protons
+              //           << "  index is " << event->GetProtonIndices()[i] << "    num pip   :  " << num_pips
+              //           << "  pip index  " << event->GetPipIndices()[j] << std::endl;
+              // // if ((num_pips > 1) || (num_pips > 1)) {
+              // std::cout << "  current event  " << current_event
+              //           << "    num_combinations after  :  " << num_combinations << std::endl;
+              // //   }
+
+              // if ((best_proton_index != event->GetProtonIndices()[i]) &&
+              //     (best_pip_index != event->GetPipIndices()[j]))
+              {
+                // ////////////////////////////////////////////////////////////////////////
+                if (((proton_cut == false) && (pip_cut == false)))
+                /////
                 {
-                  ////////////////////////////////////
-                  int proton_part_idx = event->GetProtonIndices()[i];
-                  int pip_part_idx = event->GetPipIndices()[j];
+                  if (event->GetProtonIndices()[i] != event->GetPipIndices()[j]) {
+                    /////////////
 
-                  double dp_Sum = proton_dps[i].second + pip_dps[j].second;
+                    event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
 
-                  {
+                    ////////////////////////////////////
+                    int proton_part_idx = event->GetProtonIndices()[i];
+                    int pip_part_idx = event->GetPipIndices()[j];
+
+                    // double dp2_Sum = proton_dps[i].second + pip_dps[j].second;
+
+                    // if ((num_protons > 1) || (num_pips > 1))
+                    // std::cout << "  .... part1 " << event->GetProtonIndices()[i] << "  is in
+                    // FD with status "
+                    //           << data->status(event->GetProtonIndices()[i]) << "   with id "
+                    //           << data->pid(event->GetProtonIndices()[i]) << std::endl;
+
+                    // std::cout << "  current event  " << current_event << "    num protons   : " << num_protons
+                    //           << "  index is " << event->GetProtonIndices()[i] << "  prot cdfd cut " << proton_cut
+                    //           << "  pip cdfd cut " << pip_cut << std::endl;
+                    // // if ((num_pips > 1) || (num_pips > 1)) {
+                    // std::cout << "  current event  " << current_event
+                    //           << "  num_combinations after  :  " << num_combinations <<
+                    //           std::endl;
+                    // //   }
+                    // // // ///
+                    h_dp_prot->Fill(dp_Prot, event->weight());
+                    h_dtheta_prot->Fill(dtheta_Prot, event->weight());
+                    h_dphi_prot->Fill(dphi_Prot, event->weight());
+                    h_dp_pip->Fill(dp_Pip, event->weight());
+                    h_dtheta_pip->Fill(dtheta_Pip, event->weight());
+                    h_dphi_pip->Fill(dphi_Pip, event->weight());
+
                     event->SetSwappedProton(pip_part_idx);
                     event->SetSwappedPip(proton_part_idx);
                     // Extract velocity components with energy normalization
@@ -348,21 +591,22 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     // std::cout << "Delta V^2: " << dv2 << std::endl;
 
                     // // Extract velocity components with energy normalization
-                    // double v_original_x_Pip = event->GetPips()[j]->Px() / event->GetPips()[j]->E();
-                    // double v_original_y_Pip = event->GetPips()[j]->Py() / event->GetPips()[j]->E();
-                    // double v_original_z_Pip = event->GetPips()[j]->Pz() / event->GetPips()[j]->E();
-                    // double v_swapped_x_Pip = event->GetPipsSwapped()->Px() / event->GetPipsSwapped()->E();
-                    // double v_swapped_y_Pip = event->GetPipsSwapped()->Py() / event->GetPipsSwapped()->E();
-                    // double v_swapped_z_Pip = event->GetPipsSwapped()->Pz() / event->GetPipsSwapped()->E();
+                    double v_original_x_Pip = event->GetPips()[j]->Px() / event->GetPips()[j]->E();
+                    double v_original_y_Pip = event->GetPips()[j]->Py() / event->GetPips()[j]->E();
+                    double v_original_z_Pip = event->GetPips()[j]->Pz() / event->GetPips()[j]->E();
+                    double v_swapped_x_Pip = event->GetPipsSwapped()->Px() / event->GetPipsSwapped()->E();
+                    double v_swapped_y_Pip = event->GetPipsSwapped()->Py() / event->GetPipsSwapped()->E();
+                    double v_swapped_z_Pip = event->GetPipsSwapped()->Pz() / event->GetPipsSwapped()->E();
 
                     // // Calculate delta_V^2
                     // double dv2_Pip = pow(v_swapped_x_Pip - v_original_x_Pip, 2) +
                     //                  pow(v_swapped_y_Pip - v_original_y_Pip, 2) +
                     //                  pow(v_swapped_z_Pip - v_original_z_Pip, 2);
 
-                    event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
+                    // event->CalcMissMassPim(*event->GetProtons()[i], *event->GetPips()[j]);
                     event->boost(*event->GetProtons()[i], *event->GetPips()[j]);
-                    // event->CalcMissMassExcl(*event->GetProtons()[i], *event->GetPips()[j], *event->GetPims()[k]);
+                    // event->CalcMissMassExcl(*event->GetProtons()[i],
+                    // *event->GetPips()[j],*event->GetPims()[k]);
 
                     event->CalcMissMassPimSwapped();
                     ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
@@ -370,6 +614,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     ////////////  CONTROL OVER HAOW MANY FILLING PER EVENT /////////
                     // if (num_combinations == 2)
                     // if (event->MM2_mPim() < -0.1)
+                    // {
                     // if (dv2_Prot >= 0.0005 && dv2_Prot < 0.001)
                     // if (event->MM2_mPim() > -0.1 && event->MM2_mPim() < 0.1)
                     // if (num_combinations > 1) {
@@ -385,12 +630,13 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     // }
                     csv_data output;
 
-                    // // // // // //// using exclusive topology ...................................
+                    // // // // // //// using exclusive topology
+                    // ...................................
 
-                    // // // // // // output.electron_sector = event->sec();
+                    output.electron_sector = event->sec();
                     // output.pim_sec = event->pimSec();
-                    // output.pip_sec = event->pipSec();
-                    // output.prot_sec = event->protSec();
+                    output.pip_sec = event->pipSec();
+                    output.prot_sec = event->protSec();
 
                     // // output.prot_pid_mc = Prot_pid_mc;
                     // output.prot_pid_rec = Prot_pid_rec;
@@ -403,16 +649,18 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     output.w = event->W();
                     output.q2 = event->Q2();
                     output.dv2_prot = dv2_Prot;
-                    output.dp_sum = dp_Sum;
+                    // output.dp2_sum = dp2_Sum;
 
                     // // // output.w_had = event->w_hadron();
                     // // // // output.w_diff = event->w_difference();
                     // // // output.w_had_corr = event->w_hadron_corr();
                     // // // // output.w_diff_corr = event->w_difference_corr();
 
-                    // // // output.elec_mom = event->elec_mom();
+                    output.elec_mom = event->elec_mom();
                     // // // output.elec_energy = event->elec_En();
-                    // // // output.elec_theta = event->Theta_Elec();
+                    output.elec_theta = event->Theta_Elec();
+                    output.elec_phi = event->Phi_elec();
+
                     // // // output.corr_elec_mom = event->Corr_elec_mom();
 
                     // // // // //   // // for generated case
@@ -431,7 +679,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
 
                     // //   // output.weight_exclusive = mc_event->weight();
 
-                    // // // // for energy loss corrections : gen
+                    // // // // // for energy loss corrections : gen
                     // output.gen_prot_mom = (mc_event->prot_mom_mc_gen());
                     // output.gen_prot_theta = (mc_event->prot_theta_mc_gen());
                     // output.gen_prot_phi = (mc_event->prot_phi_mc_gen());
@@ -454,9 +702,9 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     // output.pip_theta_mPip = event->pip_theta_lab(*event->GetPips()[j]);
                     // output.pip_phi_mPip = event->pip_Phi_lab(*event->GetPips()[j]);
 
-                    // output.pim_mom_mPim = event->pim_momentum();
-                    // output.pim_theta_mPim = event->pim_theta_lab();
-                    // output.pim_phi_mPim = event->pim_Phi_lab();
+                    output.pim_mom_mPim = event->pim_momentum(*event->GetProtons()[i], *event->GetPips()[j]);
+                    output.pim_theta_mPim = event->pim_theta_lab(*event->GetProtons()[i], *event->GetPips()[j]);
+                    output.pim_phi_mPim = event->pim_Phi_lab(*event->GetProtons()[i], *event->GetPips()[j]);
 
                     // // output.pim_mom_mPim_cm = event->pim_momentum_cm();
                     // // output.pim_theta_mPim_cm = event->pim_theta_cm();
@@ -489,7 +737,7 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     // // // // output.mm2_mPip_corr = event->MM2_mPip_corr();
                     output.mm2_mPim = event->MM2_mPim();
                     // output.mm2_mPim_mc = mc_event->MM2_mPim_MC();
-                    output.mm2_mPim_swapped = event->MM2_mPim_swapped();
+                    // output.mm2_mPim_swapped = event->MM2_mPim_swapped();
 
                     // // // // output.mm2_mPim_corr = event->MM2_mPim_corr();
 
@@ -512,10 +760,6 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
                     output.alpha_Pim = event->alpha_ppip_pipim();
                     output.weight_exclusive = event->weight();
                     _sync->write(output);
-
-                    /// ..........................................
-
-                    // _sync->write(output);
                   }
                 }
               }
@@ -525,20 +769,29 @@ size_t run(std::shared_ptr<TChain> _chain, const std::shared_ptr<SyncFile>& _syn
       }
     }
   }
+  // }
+  // }
+  // }
+  // }
+  // }
+  // }
+
   std::cout << "Percent = " << 100.0 * total / num_of_events << std::endl;
-  // // Return the total number of events
-  std::cout << " number of events = " << total << " numElec " << numElec << "  ratio  " << numElec / float(total) * 100
-            << std::endl;
-  std::cout << " number of mc elec = " << numElec_mc << std::endl;
+  // // // Return the total number of events
+  // std::cout << " number of events = " << total << " numElec " << numElec << "  ratio  " << numElec /
+  // float(total) * 100
+  //           << std::endl;
+  // std::cout << " number of mc elec = " << numElec_mc << std::endl;
 
-  //  << "  mc  prot = " << numProt_mc
-  //       << "  mc pip =
-  // // " << numPip_mc
-  // //           << "  mc pim  = " << numPim_mc << std::endl;
+  // DrawAndSaveHistograms();
+  // // outputFile->cd();  // Switch to the file directory
 
-  // std::cout << " number of elec = " << numElec << "   prot = " << numProt << "  pip = " << numPip
-  //           << "  pim  = " << numPim << std::endl;
+  // // h_dp->Write();
+  // // h_dtheta->Write();
+  // // h_dphi->Write();
+  // // outputFile->Close();
 
   return num_of_events;
 }
+
 #endif

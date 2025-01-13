@@ -60,7 +60,7 @@ void Reaction::SetElec() {
   // _elec->SetXYZM(_data->px(0), _data->py(0), _data->pz(0), MASS_E);
   // *_gamma += *_beam - *_elec;  // be careful you are commenting this only to include the momentum correction
 
-  // // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
+  // // // // // // // // Can calculate W and Q2 here (useful for simulations as sim do not have elec mom corrections)
   // _W = physics::W_calc(*_beam, *_elec);
   // _Q2 = physics::Q2_calc(*_beam, *_elec);
   // _elec_mom = _elec->P();
@@ -104,14 +104,15 @@ void Reaction::SetElec() {
     _W = physics::W_calc(*_beam, *_elec);
     _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-    // _elec_mom = _elec->P();
-    // _elec_E = _elec->E();
-    // _theta_e = _elec->Theta() * 180 / PI;
+    _elec_mom = _elec->P();
 
-    // if (_elec->Phi() > 0)
-    //   _phi_elec = _elec->Phi() * 180 / PI;
-    // else if (_elec->Phi() < 0)
-    //   _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
+    _elec_E = _elec->E();
+    _theta_e = _elec->Theta() * 180 / PI;
+
+    if (_elec->Phi() > 0)
+      _phi_elec = _elec->Phi() * 180 / PI;
+    else if (_elec->Phi() < 0)
+      _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
   } else {
     fe = objMomCorr->dppC(_data->px(0), _data->py(0), _data->pz(0), _data->dc_sec(0), 0) + 1;
     // _mom_corr_elec->SetXYZM(_data->px(0) * fe, _data->py(0) * fe, _data->pz(0) * fe,
@@ -124,9 +125,18 @@ void Reaction::SetElec() {
     _W = physics::W_calc(*_beam, *_elec);
     _Q2 = physics::Q2_calc(*_beam, *_elec);
 
-    _P_elec = _elec->P();
+    _elec_mom = _elec->P();
     _elec_E = _elec->E();
     _theta_e = _elec->Theta() * 180 / PI;
+
+    // _elec_mom = _elec->P();
+    // _elec_E = _elec->E();
+    // _theta_e = _elec->Theta() * 180 / PI;
+
+    // if (_elec->Phi() > 0)
+    //   _phi_elec = _elec->Phi() * 180 / PI;
+    // else if (_elec->Phi() < 0)
+    //   _phi_elec = (_elec->Phi() + 2 * PI) * 180 / PI;
     // }
   }
 }
@@ -166,6 +176,7 @@ void Reaction::SetProton(int i) {
 
   auto proton = std::make_unique<TLorentzVector>();
   auto mom_corr_proton = std::make_unique<TLorentzVector>();
+  // proton->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
 
   _prot_mom_uncorr = _Energy_loss_uncorr_prot->P();
 
@@ -192,23 +203,25 @@ void Reaction::SetProton(int i) {
   }
 
   if (_is_FD_Prot) {
-    if (_prot_theta_uncorr < 27) {
-      _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
-      // if (_prot_mom_tmt < 2.4)
-      //   _prot_mom_tmt = _prot_mom_uncorr + (0.000971) * pow(_prot_mom_uncorr, 4) +
-      //                   (-0.009736) * pow(_prot_mom_uncorr, 3) + (0.034675) * pow(_prot_mom_uncorr, 2) +
-      //                   (-0.052357) * _prot_mom_uncorr + 0.032840;
-      // else
-      //   _prot_mom_tmt = _prot_mom_uncorr + 0.004530;
-    } else {
-      _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
-      // if (_prot_mom_tmt < 2.4)
-      //   _prot_mom_tmt = _prot_mom_uncorr + (0.002369) * pow(_prot_mom_uncorr, 4) +
-      //                   (-0.023523) * pow(_prot_mom_uncorr, 3) + (0.082790) * pow(_prot_mom_uncorr, 2) +
-      //                   (-0.124996) * _prot_mom_uncorr + 0.077659;
-      // else
-      //   _prot_mom_tmt = _prot_mom_uncorr + 0.007968;
-    }
+    _prot_mom_tmt = _prot_mom_uncorr;
+
+    // if (_prot_theta_uncorr < 27) {
+    //   _prot_mom_tmt = _prot_mom_uncorr + exp(-2.739 - 3.932 * _prot_theta_uncorr) + 0.002907;
+    //   // if (_prot_mom_tmt < 2.4)
+    //   //   _prot_mom_tmt = _prot_mom_uncorr + (0.000971) * pow(_prot_mom_uncorr, 4) +
+    //   //                   (-0.009736) * pow(_prot_mom_uncorr, 3) + (0.034675) * pow(_prot_mom_uncorr, 2) +
+    //   //                   (-0.052357) * _prot_mom_uncorr + 0.032840;
+    //   // else
+    //   //   _prot_mom_tmt = _prot_mom_uncorr + 0.004530;
+    // } else {
+    //   _prot_mom_tmt = _prot_mom_uncorr + exp(-1.2 - 4.228 * _prot_mom_uncorr) + 0.007502;
+    //   // if (_prot_mom_tmt < 2.4)
+    //   //   _prot_mom_tmt = _prot_mom_uncorr + (0.002369) * pow(_prot_mom_uncorr, 4) +
+    //   //                   (-0.023523) * pow(_prot_mom_uncorr, 3) + (0.082790) * pow(_prot_mom_uncorr, 2) +
+    //   //                   (-0.124996) * _prot_mom_uncorr + 0.077659;
+    //   // else
+    //   //   _prot_mom_tmt = _prot_mom_uncorr + 0.007968;
+    // }
   }
 
   _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
@@ -282,8 +295,9 @@ void Reaction::SetPip(int i) {
   auto mom_corr_pip = std::make_unique<TLorentzVector>();
 
   _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // // // _mom_corr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  // // // // _mom_corr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  //// _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+  ///// pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
 
   _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
   _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
@@ -305,7 +319,7 @@ void Reaction::SetPip(int i) {
   //   // _pip_mom_tmt = _pip_mom_uncorr;
   //   _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
   // }
-  ///// our version of elsoo pip
+  ///// our version of elose pip
   // if (_is_CD_Pip) {
   //   _pip_mom_tmt = _pip_mom_uncorr;
   // }
@@ -387,12 +401,155 @@ void Reaction::SetPip(int i) {
 }
 
 void Reaction::SetSwappedProton(int i) {
-  _swapped_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
-  // std::cout << "   swapped prot E " << _swapped_prot->E() << std::endl;
+  ////_swapped_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);  // smeared
+
+  _Energy_loss_uncorr_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+  // _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+
+  _prot_mom_uncorr = _Energy_loss_uncorr_prot->P();
+
+  _prot_theta_uncorr = _Energy_loss_uncorr_prot->Theta() * 180 / PI;
+
+  if (_Energy_loss_uncorr_prot->Phi() > 0)
+    _prot_phi_uncorr = _Energy_loss_uncorr_prot->Phi() * 180 / PI;
+  else if (_Energy_loss_uncorr_prot->Phi() < 0)
+    _prot_phi_uncorr = (_Energy_loss_uncorr_prot->Phi() + 2 * PI) * 180 / PI;
+
+  _is_FD_Prot = objMomCorr->is_FD(_prot_status);
+  _is_CD_Prot = objMomCorr->is_CD(_prot_status);
+
+  // _is_lower_band = mom_corr::is_lower_band(_prot_mom_uncorr, _thetaDC_r1_Prot, _prot_status);
+
+  if (_is_CD_Prot) {
+    _prot_mom_tmt = _prot_mom_uncorr;
+  }
+
+  if (_is_FD_Prot) {
+    _prot_mom_tmt = _prot_mom_uncorr;
+  }
+
+  _px_prime_prot_E = _data->px(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  _py_prime_prot_E = _data->py(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+  _pz_prime_prot_E = _data->pz(i) * ((_prot_mom_tmt) / (_prot_mom_uncorr));
+
+  /// // _prot->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss corrected
+
+  ////////////////////////// Mom CORR /////////////////////////////////
+  if (!_mc) {
+    // // Below shows how the corrections are to be applied using the ROOT momentum 4-vector using the above code:
+    if (_is_FD_Prot) {
+      // fpro = 1.0;
+      fpro = objMomCorr->dppC(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, _data->dc_sec(i), 3) + 1;
+    } else {
+      fpro = 1.0;
+    }
+    _swapped_prot->SetXYZM(_px_prime_prot_E * fpro, _py_prime_prot_E * fpro, _pz_prime_prot_E * fpro, MASS_P);
+    // Store the index
+  }
+  /////////////////// SMEARING PART ////////////////////////////////////////////////////////////////////////////
+  if (_mc) {
+    _protUnSmear->SetXYZM(_px_prime_prot_E, _py_prime_prot_E, _pz_prime_prot_E, MASS_P);  // energy loss corrected
+
+    //////////////////////////////////////////////////////////////
+    double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+        phiSmear;
+
+    pUnSmear = _protUnSmear->P();
+
+    thetaUnSmear = _protUnSmear->Theta() * 180 / PI;
+
+    if (_protUnSmear->Phi() > 0)
+      phiUnSmear = _protUnSmear->Phi() * 180 / PI;
+    else if (_protUnSmear->Phi() < 0)
+      phiUnSmear = (_protUnSmear->Phi() + 2 * PI) * 180 / PI;
+
+    // Generate new values
+
+    Reaction::SmearingFunc(PROTON, _prot_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+
+    _pxPrimeSmear = _protUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                    sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+    _pyPrimeSmear = _protUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                    sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+    _pzPrimeSmear =
+        _protUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+
+    // _protSmear->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_P);  // smeared
+
+    _swapped_prot->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_P);  // smeared
+    // _swapped_prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
+    // std::cout << "   swapped prot E " << _swapped_prot->E() << std::endl;
+  }
 }
 void Reaction::SetSwappedPip(int i) {
-  _swapped_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
-  // std::cout << "   swapped pip E " << _swapped_pip->E() << std::endl;
+  ///// _swapped_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+
+  _Energy_loss_uncorr_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+
+  _pip_mom_uncorr = _Energy_loss_uncorr_pip->P();
+  _pip_theta_uncorr = _Energy_loss_uncorr_pip->Theta() * 180 / PI;
+
+  _is_FD_Pip = objMomCorr->is_FD(_pip_status);
+  _is_CD_Pip = objMomCorr->is_CD(_pip_status);
+
+  // eloss used by stefan
+  if (_is_CD_Pip) {
+    _pip_mom_tmt = _pip_mom_uncorr;
+    // _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipCD(_pip_mom_uncorr, _pip_theta_uncorr);
+  }
+  if (_is_FD_Pip) {
+    _pip_mom_tmt = _pip_mom_uncorr;
+    // _pip_mom_tmt = _pip_mom_uncorr + objMomCorr->elossPipFD(_pip_mom_uncorr, _pip_theta_uncorr);
+  }
+  _px_prime_pip_E = _data->px(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _py_prime_pip_E = _data->py(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  _pz_prime_pip_E = _data->pz(i) * ((_pip_mom_tmt) / (_pip_mom_uncorr));
+  //// _pip->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);  // energy loss corrected
+
+  ////////////////////////// Mom CORR /////////////////////////////////
+  if (!_mc) {
+    if (_is_FD_Pip) {
+      // fpip = 1.0;
+      fpip = objMomCorr->dppC(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, _data->dc_sec(i), 1) + 1;
+    } else {
+      fpip = 1.0;
+    }
+
+    /////// vector method for many pip
+    _swapped_pip->SetXYZM(_px_prime_pip_E * fpip, _py_prime_pip_E * fpip, _pz_prime_pip_E * fpip, MASS_PIP);
+  }  // Store the index
+
+  // /////////////////////////////////     SMEARING PART  /////////////////////////////
+  if (_mc) {
+    _pipUnSmear->SetXYZM(_px_prime_pip_E, _py_prime_pip_E, _pz_prime_pip_E, MASS_PIP);  // energy loss corrected
+
+    double _pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear,
+        phiSmear;
+
+    pUnSmear = _pipUnSmear->P();
+
+    thetaUnSmear = _pipUnSmear->Theta() * 180 / PI;
+
+    if (_pipUnSmear->Phi() > 0)
+      phiUnSmear = _pipUnSmear->Phi() * 180 / PI;
+    else if (_pipUnSmear->Phi() < 0)
+      phiUnSmear = (_pipUnSmear->Phi() + 2 * PI) * 180 / PI;
+
+    // Generate new values
+    Reaction::SmearingFunc(PIP, _pip_status, pUnSmear, thetaUnSmear, phiUnSmear, pSmear, thetaSmear, phiSmear);
+
+    _pxPrimeSmear = _pipUnSmear->Px() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                    sin(DEG2RAD * thetaUnSmear) * cos(DEG2RAD * phiSmear) / cos(DEG2RAD * phiUnSmear);
+    _pyPrimeSmear = _pipUnSmear->Py() * ((pSmear) / (pUnSmear)) * sin(DEG2RAD * thetaSmear) /
+                    sin(DEG2RAD * thetaUnSmear) * sin(DEG2RAD * phiSmear) / sin(DEG2RAD * phiUnSmear);
+    _pzPrimeSmear =
+        _pipUnSmear->Pz() * ((pSmear) / (pUnSmear)) * cos(DEG2RAD * thetaSmear) / cos(DEG2RAD * thetaUnSmear);
+
+    _swapped_pip->SetXYZM(_pxPrimeSmear, _pyPrimeSmear, _pzPrimeSmear, MASS_PIP);  // smeared
+
+    // _swapped_pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+    // std::cout << "   swapped pip E " << _swapped_pip->E() << std::endl;
+  }
 }
 void Reaction::SetPim(int i) {
   _numPim++;
@@ -406,6 +563,7 @@ void Reaction::SetPim(int i) {
 
   _Energy_loss_uncorr_pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
   // _pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
+  // pim->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIM);
 
   _pim_mom_uncorr = _Energy_loss_uncorr_pim->P();
   _pim_theta_uncorr = _Energy_loss_uncorr_pim->Theta() * 180 / PI;
@@ -667,39 +825,39 @@ float Reaction::pim_E_measured(const TLorentzVector &pim) {
     return NAN;
 }
 
-// float Reaction::elec_momentum() {
-//   if (TwoPion_missingPim())
-//     return _elec->P();
-//   else
-//     return NAN;
-// }
-// float Reaction::theta_elec() {  /// lab theta mattrai hunchha electron ko case ma
-//   // if (TwoPion_missingPim())
-//   if (_elec->Theta() > -500)
-//     return _elec->Theta() * 180.0 / PI;
-//   else
-//     return NAN;
-// }
-// float Reaction::Phi_elec() {  /// lab theta mattrai hunchha electron ko case ma
-//   // if (TwoPion_missingPim()) {
-//   //         if ((_elec->Phi() * 180.0 / PI) > -150)
-//   //                 return _elec->Phi() * 180.0 / PI;
-//   //         else
-//   //                 return ((_elec->Phi() * 180.0 / PI) + 360);
-//   // }
-//   // else
-//   //         return NAN;
+float Reaction::elec_momentum() {
+  // if (TwoPion_missingPim())
+  return _elec->P();
+  // else
+  //   return NAN;
+}
+float Reaction::theta_elec() {
+  // if (TwoPion_missingPim())
+  if (_elec->Theta() > -500)
+    return _elec->Theta() * 180.0 / PI;
+  else
+    return NAN;
+}
+float Reaction::Phi_elec() {
+  // if (TwoPion_missingPim()) {
+  //         if ((_elec->Phi() * 180.0 / PI) > -150)
+  //                 return _elec->Phi() * 180.0 / PI;
+  //         else
+  //                 return ((_elec->Phi() * 180.0 / PI) + 360);
+  // }
+  // else
+  //         return NAN;
 
-//   if (_elec->Phi() > -500) {
-//     if (_elec->Phi() > 0)
-//       return _elec->Phi() * 180 / PI;
-//     else if (_elec->Phi() < 0)
-//       return (_elec->Phi() + 2 * PI) * 180 / PI;
-//     else
-//       return NAN;
-//   } else
-//     return NAN;
-// }
+  if (_elec->Phi() > -500) {
+    if (_elec->Phi() > 0)
+      return _elec->Phi() * 180 / PI;
+    else if (_elec->Phi() < 0)
+      return (_elec->Phi() + 2 * PI) * 180 / PI;
+    else
+      return NAN;
+  } else
+    return NAN;
+}
 float Reaction::prot_theta_lab(const TLorentzVector &prot) {
   // if (TwoPion_missingPim())
   if (_hasP)

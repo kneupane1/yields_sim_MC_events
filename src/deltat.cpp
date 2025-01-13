@@ -73,7 +73,7 @@ void Delta_T::dt_calc(int i) {
     _sc_r = _data->sc_ftof_2_path(i);
   }
 
-  if (!std::isnan(_data->sc_ctof_time(i))) {
+  else if (!std::isnan(_data->sc_ctof_time(i))) {
     _ctof_t = _data->sc_ctof_time(i);
     _ctof_r = _data->sc_ctof_path(i);
   }

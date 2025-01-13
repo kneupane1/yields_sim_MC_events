@@ -126,7 +126,7 @@ class Reaction {
   float _W_before = NAN;
   float _Q2_before = NAN;
 
-  float _P_elec = NAN;
+  float _phi_elec = NAN;
 
   float _theta_star = NAN;
   float _phi_star = NAN;
@@ -407,9 +407,9 @@ class Reaction {
 
     // Generate new values
     if (part_id == ELECTRON) {
-      phiNew = phi + 0.75 * phiR * gRandom->Gaus(0, 1);
-      thetaNew = theta + 0.75 * thetaR * gRandom->Gaus(0, 1);
-      pNew = p + 0.75 * pR * gRandom->Gaus(0, 1) * p;
+      phiNew = phi + 0.4 * phiR * gRandom->Gaus(0, 1);
+      thetaNew = theta + 0.4 * thetaR * gRandom->Gaus(0, 1);
+      pNew = p + 0.4 * pR * gRandom->Gaus(0, 1) * p;
     } else if (part_id == PROTON) {
       double fact_cd = 0;
       double fact_fd = 0;
@@ -570,12 +570,12 @@ class Reaction {
   float prot_Phi_corrected();
 
   // // missingPim
-  // float pim_momentum();
-  // float pim_theta_lab();
-  // float pim_Phi_lab();
-  // float pim_momentum_measured();
-  // float pim_theta_lab_measured();
-  // float pim_Phi_lab_measured();
+  // float pim_momentum(const TLorentzVector &prot, const TLorentzVector &pip);
+  // float pim_theta_lab(const TLorentzVector &prot, const TLorentzVector &pip);
+  // float pim_Phi_lab(const TLorentzVector &prot, const TLorentzVector &pip);
+  // float pim_momentum_measured(const TLorentzVector &prot);
+  // float pim_theta_lab_measured(const TLorentzVector &prot);
+  // float pim_Phi_lab_measured(const TLorentzVector &prot);
 
   // float pim_theta_cm();
   // float pim_Phi_cm();
@@ -600,6 +600,10 @@ class Reaction {
   // float prot_theta_lab_measured();
   // float prot_Phi_lab_measured();
   ///////////// related to lab system before boost ////////////
+  float elec_momentum();
+  float theta_elec();
+  float Phi_elec();
+
   float prot_momentum(const TLorentzVector &prot);
   float prot_theta_lab(const TLorentzVector &prot);
   float prot_Phi_lab(const TLorentzVector &prot);

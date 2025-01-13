@@ -32,6 +32,7 @@ struct csv_data {
   float elec_mom_rec;
   float elec_energy_rec;
   float elec_theta_rec;
+  float elec_phi;
 
   float prot_mom_mc;
   float prot_theta_mc;
@@ -156,26 +157,36 @@ struct csv_data {
   float alpha_Prot, alpha_Pip, alpha_Pim;
   int prot_pid_mc, prot_pid_rec, pip_pid_mc, pip_pid_rec, pim_pid_rec;
 
-  float dv2_prot, dp_sum, mm2_mPim_swapped;
+  float dv2_prot, dp2_sum, mm2_mPim_swapped;
 
   // Static functions can be called without making a new struct
   static std::string header() {
     // Make a string for the header of the csv file mPim case
     // return "w_mc,q2_mc,mm2_mPim,weight";
-    return "w_rec,q2_rec,dv2_prot,dp_sum,prot_mom_mes,prot_th_mes,prot_phi_mes,pip_mom_mes,pip_th_mes,pip_phi_mes,mm2_"
-           "mPim,mm2_mPim_swapped,status_Pip,status_Prot,beta_Pip,beta_Prot,inv_pPip,inv_pPim,inv_pipPim,alpha_prot,"
-           "alpha_pip,alpha_pim,"
-           "weight";
-
     // return
-    // "prot_pid_rec,pip_pid_rec,pim_pid_rec,w_rec_before,q2_rec_before,w_rec,q2_rec,prot_mom_gen,prot_th_gen,prot_"
-    //        "phi_gen,prot_mom_mes,prot_th_mes,prot_phi_mes,mm2_mProt,mm2_mPip,mm2_mPim,"
-    //        "mm2_exclusive_at_zero,energy_x_mu,status_Pim,status_Pip,ststus_Prot,weight";
+    // "w_rec,q2_rec,dv2_prot,dp_sum,prot_mom_gen,prot_th_gen,prot_phi_gen,pip_mom_gen,pip_th_gen,pip_phi_gen,pim_"
+    //        "mom_gen,pim_th_gen,pim_phi_gen,pim_mom_miss,pim_th_miss,pim_phi_miss,prot_mom_mes,prot_th_mes,prot_phi_mes,"
+    //        "pip_mom_mes,pip_th_mes,pip_phi_mes,"
+    //        "mm2_mPim,mm2_mPim_swapped,status_Pip,status_Prot,beta_Pip,beta_Prot,"
+    //        "inv_pPip,inv_pPim,inv_"
+    //        "pipPim,alpha_prot,alpha_pip,alpha_pim,weight";
+
+    return "elec_sec,prot_sec,pip_sec,w_rec,q2_rec,dv2_prot,elec_mom_mes,elec_th_mes,elec_phi_mes,pim_mom_miss,pim_th_"
+           "miss,pim_phi_miss,prot_mom_mes,prot_th_mes,prot_phi_mes,pip_mom_mes,pip_th_mes,pip_phi_mes,"
+           "mm2_mPim,status_Pip,status_Prot,beta_Pip,beta_Prot,"
+           "inv_pPip,inv_pPim,inv_"
+           "pipPim,alpha_prot,alpha_pip,alpha_pim,weight";
+
+    // return "w_rec,q2_rec,dv2_prot,pim_mom_miss,pim_th_miss,pim_phi_miss,prot_mom_mes,prot_th_mes,prot_phi_mes,"
+    //        "pip_mom_mes,pip_th_mes,pip_phi_mes,"
+    //        "mm2_mPim,mm2_mPim_swapped,status_Pip,status_Prot,beta_Pip,//beta_Prot,"
+    //        "inv_pPip,inv_pPim,inv_"
+    //        "pipPim,alpha_prot,alpha_pip,alpha_pim,weight";
   }
 
   friend std ::ostream &operator<<(std::ostream &os, const csv_data &data) {
     ////.......................................
-    // os << std::setprecision(1);
+    os << std::setprecision(1);
 
     // // os << data.prot_pid_mc << ",";
     // os << data.prot_pid_rec << ",";
@@ -185,10 +196,10 @@ struct csv_data {
 
     // // // For excl case
 
-    // // // //  // os << data.electron_sector << ",";
-    // // os << data.pim_sec << ",";
-    // // os << data.pip_sec << ",";
-    // // os << data.prot_sec << ",";
+    os << data.electron_sector << ",";
+    // os << data.pim_sec << ",";
+    os << data.pip_sec << ",";
+    os << data.prot_sec << ",";
 
     os << std::setprecision(7);
     /*
@@ -206,7 +217,7 @@ struct csv_data {
     os << data.w << ",";
     os << data.q2 << ",";
     os << data.dv2_prot << ",";
-    os << data.dp_sum << ",";
+    // os << data.dp2_sum << ",";
 
     // // //  // // // os << data.w_after << ",";
 
@@ -224,7 +235,10 @@ struct csv_data {
     // // os << data.elec_energy_mc << ",";
     // os << data.elec_theta_mc << ",";
 
-    // os << data.elec_mom_rec << ",";
+    os << data.elec_mom << ",";
+    os << data.elec_theta << ",";
+    os << data.elec_phi << ",";
+
     // // os << data.elec_energy_rec << ",";
     // os << data.elec_theta_rec << ",";
 
@@ -237,13 +251,13 @@ struct csv_data {
     // os << data.gen_prot_theta << ",";
     // os << data.gen_prot_phi << ",";
 
-    // // os << data.gen_pip_mom << ",";
-    // // os << data.gen_pip_theta << ",";
-    // // os << data.gen_pip_phi << ",";
+    // os << data.gen_pip_mom << ",";
+    // os << data.gen_pip_theta << ",";
+    // os << data.gen_pip_phi << ",";
 
-    // // os << data.gen_pim_mom << ",";
-    // // os << data.gen_pim_theta << ",";
-    // // os << data.gen_pim_phi << ",";
+    // os << data.gen_pim_mom << ",";
+    // os << data.gen_pim_theta << ",";
+    // os << data.gen_pim_phi << ",";
 
     // // // //  // // // Missing
     // os << data.prot_mom_mProt << ",";
@@ -254,9 +268,9 @@ struct csv_data {
     // os << data.pip_theta_mPip << ",";
     // os << data.pip_phi_mPip << ",";
 
-    // os << data.pim_mom_mPim << ",";
-    // os << data.pim_theta_mPim << ",";
-    // os << data.pim_phi_mPim << ",";
+    os << data.pim_mom_mPim << ",";
+    os << data.pim_theta_mPim << ",";
+    os << data.pim_phi_mPim << ",";
 
     // // // //  // // // measured
 
@@ -279,7 +293,7 @@ struct csv_data {
     // os << data.mm2_mPip << ",";
     os << data.mm2_mPim << ",";
     // os << data.mm2_mPim_mc << ",";
-    os << data.mm2_mPim_swapped << ",";
+    // os << data.mm2_mPim_swapped << ",";
 
     // os << data.mm2_exclusive_at_zero << ",";
     // os << data.energy_x_mu << ",";
