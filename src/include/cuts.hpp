@@ -35,7 +35,7 @@ class Cuts {
 class Pass2_Cuts : public Cuts {
  public:
   Pass2_Cuts(const std::shared_ptr<Branches12> &data) : Cuts(data) {}
-  Pass2_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt){};
+  Pass2_Cuts(const std::shared_ptr<Branches12> &data, const std::shared_ptr<Delta_T> &dt) : Cuts(data, dt) {};
   bool ElectronCuts();
   bool IsPip(int i);
   bool IsProton(int i);
@@ -48,7 +48,8 @@ class Pass2_Cuts : public Cuts {
   bool DC_fiducial_cut_XY(int i, int pid);
   bool DC_z_vertex_cut();
   bool EC_inner_vs_EC_outer();
-  bool PCAL_fiducial_cut_HX_HY();
+  bool PCAL_fiducial_cut_X_Y();
+  bool PCAL_Ineff_cut_X_Y();
 
   bool HadronsCuts(int i);
   bool DC_fiducial_cut_theta_phi(int i);
