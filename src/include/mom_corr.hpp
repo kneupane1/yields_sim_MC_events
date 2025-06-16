@@ -10,9 +10,11 @@ class mom_corr {
  private:
   //   float alpha_prot_mom_corr_FD[4];
   //   float alpha_prot_mom_corr_FD[4] = {0.5, 0.6, 0.5, 0.5};
+  float alpha_CD[3][3] = {{1, 1, 1}, {1, 1, 1}, {1, 1.0, 1}};
+  float alpha_FD[3] = {1, 1, 1};
 
  public:
-  mom_corr(){};
+  mom_corr() {};
   ~mom_corr();
 
   bool is_FD(int prot_status);
@@ -75,14 +77,14 @@ class mom_corr {
   double elossPipCD(double pion_p, double pip_theta);
 
   // 4-vector method dp corrections:
-  float CD_prot_Hmom_corr(float mom_, float phi_, float alpha_prot);
-  float FD_prot_Hmom_corr(float mom_, float dc_sec, float alpha_prot);
+  float CD_prot_Hmom_corr(float mom_, float phi_);
+  float FD_prot_Hmom_corr(float mom_, float dc_sec);
 
-  float CD_pip_Hmom_corr(float mom_, float phi_, float alpha_pip);
-  float FD_pip_Hmom_corr(float mom_, float dc_sec, float alpha_pip);
+  float CD_pip_Hmom_corr(float mom_, float phi_);
+  float FD_pip_Hmom_corr(float mom_, float dc_sec);
 
-  float CD_pim_Hmom_corr(float mom_, float phi_, float alpha_pim);
-  float FD_pim_Hmom_corr(float mom_, float dc_sec, float alpha_pim);
+  float CD_pim_Hmom_corr(float mom_, float phi_);
+  float FD_pim_Hmom_corr(float mom_, float dc_sec);
 
   //// mes - missing dp corrections
 

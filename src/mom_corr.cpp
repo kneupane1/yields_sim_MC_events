@@ -539,3 +539,115 @@ double mom_corr::elossPipCD(double pion_p, double pip_theta) {
 
   return dp_pion_cd;
 }
+
+//// Our dp mom corrections USING pass2 data
+double CDProt[3][3] = {{0.006386, 0.00122, -0.04572}, {0.011795, -0.02394, -0.01157}, {0.002148, -0.002533, -0.014534}};
+
+float mom_corr::CD_prot_Hmom_corr(float mom_, float phi_) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - (alpha_CD[0][0] * (CDProt[0][0] * pow(mom_, 2) + CDProt[0][1] * pow(mom_, 1) + CDProt[0][2]));
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - (alpha_CD[0][1] * (CDProt[1][0] * pow(mom_, 2) + CDProt[1][1] * pow(mom_, 1) + CDProt[1][2]));
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - (alpha_CD[0][2] * (CDProt[2][0] * pow(mom_, 2) + CDProt[2][1] * pow(mom_, 1) + CDProt[2][2]));
+  } else
+    return NAN;
+}
+
+float FDProt[6][2] = {{0.02086, -0.05795},  {0.02266, -0.04367}, {0.01221, -0.02475},
+                      {0.012794, -0.03397}, {0.01819, -0.04025}, {0.00882, -0.03973}};
+
+float mom_corr::FD_prot_Hmom_corr(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_FD[0] * (FDProt[0][0] * pow(mom_, 1) + FDProt[0][1]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_FD[0] * (FDProt[1][0] * pow(mom_, 1) + FDProt[1][1]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_FD[0] * (FDProt[2][0] * pow(mom_, 1) + FDProt[2][1]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_FD[0] * (FDProt[3][0] * pow(mom_, 1) + FDProt[3][1]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_FD[0] * (FDProt[4][0] * pow(mom_, 1) + FDProt[4][1]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_FD[0] * (FDProt[5][0] * pow(mom_, 1) + FDProt[5][1]);
+  } else
+    return NAN;
+}
+
+///// pip
+double CDPip[3][4] = {{0.04364, -0.0612, -0.001775}, {0.02333, -0.03705, 0.001743}, {0.0001144, 0.009926, -0.01627}};
+
+float mom_corr::CD_pip_Hmom_corr(float mom_, float phi_) {
+  if (phi_ > 270 || phi_ <= 30) {
+    return mom_ - alpha_CD[1][0] * (CDPip[0][0] * pow(mom_, 2) + CDPip[0][1] * pow(mom_, 1) + CDPip[0][2]);
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ - alpha_CD[1][1] * (CDPip[1][0] * pow(mom_, 2) + CDPip[1][1] * pow(mom_, 1) + CDPip[1][2]);
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ - alpha_CD[1][2] * (CDPip[2][0] * pow(mom_, 2) + CDPip[2][1] * pow(mom_, 1) + CDPip[2][2]);
+  } else
+    return NAN;
+}
+
+float FDPip[6][3] = {{0.001547, 0.01054, -0.03177},    {-0.006725, 0.03934, -0.0363}, {-0.00738, 0.03766, -0.03226},
+                     {-0.0009484, 0.00803, -0.007244}, {-0.00301, 0.0178, -0.02011},  {0.002329, -0.003761, -0.01123}};
+
+float mom_corr::FD_pip_Hmom_corr(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    return mom_ - alpha_FD[1] * (FDPip[0][0] * pow(mom_, 2) + FDPip[0][1] * mom_ + FDPip[0][2]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_FD[1] * (FDPip[1][0] * pow(mom_, 2) + FDPip[1][1] * mom_ + FDPip[1][2]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_FD[1] * (FDPip[2][0] * pow(mom_, 2) + FDPip[2][1] * mom_ + FDPip[2][2]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_FD[1] * (FDPip[3][0] * pow(mom_, 2) + FDPip[3][1] * mom_ + FDPip[3][2]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_FD[1] * (FDPip[4][0] * pow(mom_, 2) + FDPip[4][1] * mom_ + FDPip[4][2]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_FD[1] * (FDPip[5][0] * pow(mom_, 2) + FDPip[5][1] * mom_ + FDPip[5][2]);
+  } else
+    return NAN;
+}
+///// pim
+double CDPim[3][3] = {{0.02408, -0.02676, 0.003197}, {0.006775, 0.0002553, 0.003998}, {0.01688, -0.04636, 0.012726}};
+
+float mom_corr::CD_pim_Hmom_corr(float mom_, float phi_) {
+  if (phi_ > 270 || phi_ <= 30) {
+    // if (mom_ > 1.5 && mom_ < 1.6)
+    // std::cout << "  pim mom cd  " << mom_ << "   dp val  "
+    //           << alpha_CD[2][0] *
+    //                  (CDPim[0][0] * pow(mom_, 2) + CDPim[0][1] * pow(mom_, 1) + CDPim[0][2] * pow(mom_, 1))
+    //           << std::endl;
+    return mom_ -
+           alpha_CD[2][0] * (CDPim[0][0] * pow(mom_, 2) + CDPim[0][1] * pow(mom_, 1) + CDPim[0][2] * pow(mom_, 1));
+
+  } else if (phi_ > 30 && phi_ <= 150) {
+    return mom_ -
+           alpha_CD[2][1] * (CDPim[1][0] * pow(mom_, 2) + CDPim[1][1] * pow(mom_, 1) + CDPim[1][2] * pow(mom_, 1));
+  } else if (phi_ > 150 && phi_ <= 270) {
+    return mom_ -
+           alpha_CD[2][2] * (CDPim[2][0] * pow(mom_, 2) + CDPim[2][1] * pow(mom_, 1) + CDPim[2][2] * pow(mom_, 1));
+  } else
+    return NAN;
+}
+
+float FDPim[6][3] = {{0.00857, -0.02242, -0.007652}, {0.002808, 0.00238, -0.02382},  {-0.000836, 0.0139, -0.03366},
+                     {-0.001736, 0.01741, -0.04303}, {0.007187, -0.004913, -0.0368}, {0.0067, -0.0194, -0.02003}};
+
+float mom_corr::FD_pim_Hmom_corr(float mom_, float dc_sec) {
+  if (dc_sec == 1) {
+    // std::cout << "  pim mom cd  " << mom_ << "   dp val  "
+    //           << alpha_FD[2] * (FDPim[0][0] * pow(mom_, 2) + FDPim[0][1] * mom_ + FDPim[0][2]) << std::endl;
+    return mom_ - alpha_FD[2] * (FDPim[0][0] * pow(mom_, 2) + FDPim[0][1] * mom_ + FDPim[0][2]);
+  } else if (dc_sec == 2) {
+    return mom_ - alpha_FD[2] * (FDPim[1][0] * pow(mom_, 2) + FDPim[1][1] * mom_ + FDPim[1][2]);
+  } else if (dc_sec == 3) {
+    return mom_ - alpha_FD[2] * (FDPim[2][0] * pow(mom_, 2) + FDPim[2][1] * mom_ + FDPim[2][2]);
+  } else if (dc_sec == 4) {
+    return mom_ - alpha_FD[2] * (FDPim[3][0] * pow(mom_, 2) + FDPim[3][1] * mom_ + FDPim[3][2]);
+  } else if (dc_sec == 5) {
+    return mom_ - alpha_FD[2] * (FDPim[4][0] * pow(mom_, 2) + FDPim[4][1] * mom_ + FDPim[4][2]);
+  } else if (dc_sec == 6) {
+    return mom_ - alpha_FD[2] * (FDPim[5][0] * pow(mom_, 2) + FDPim[5][1] * mom_ + FDPim[5][2]);
+  } else
+    return NAN;
+}
