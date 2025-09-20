@@ -1401,17 +1401,17 @@ float MCReaction::MCprot_Phi_thrown() { return boost_cms::calculatePhi(*_boosted
 float MCReaction::MCpip_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_pip_mc); }
 float MCReaction::MCpim_Phi_thrown() { return boost_cms::calculatePhi(*_boosted_pim_mc); }
 
-// //////////////
+// //////////////  // 1 this one is used for α[π−]
 float MCReaction::MCalpha_ppip_pipim_thrown() {
   return boost_cms::calculateAlpha(_boosted_pim_mc->Vect().Unit(), _boosted_pip_mc->Vect().Unit(),
                                    _boosted_pim_mc->Vect());
 }
-
+// 2 this one is used for α[p']
 float MCReaction::MCalpha_pippim_pipf_thrown() {
   return boost_cms::calculateAlpha(_boosted_prot_mc->Vect().Unit(), _boosted_pip_mc->Vect().Unit(),
                                    _boosted_prot_mc->Vect());
 }
-
+// 3 this one is used for α[π+]
 float MCReaction::MCalpha_ppim_pipip_thrown() {
   return boost_cms::calculateAlpha(_boosted_pip_mc->Vect().Unit(), _boosted_pim_mc->Vect().Unit(),
                                    _boosted_pip_mc->Vect());
